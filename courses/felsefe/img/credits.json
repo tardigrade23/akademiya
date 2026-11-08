@@ -1,0 +1,92 @@
+{
+ "afina-mektebi": {
+  "title": "\"The School of Athens\" by Raffaello Sanzio da Urbino.jpg",
+  "artist": "Raphael",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg"
+ },
+ "sokrat": {
+  "title": "Socrates Louvre.jpg",
+  "artist": "Copy of Lysippos (?)",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Socrates_Louvre.jpg"
+ },
+ "platon": {
+  "title": "Plato Silanion Musei Capitolini MC1377.jpg",
+  "artist": "Marie-Lan Nguyen",
+  "license": "CC BY 2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:Plato_Silanion_Musei_Capitolini_MC1377.jpg"
+ },
+ "aristotel": {
+  "title": "Aristotle Altemps Inv8575.jpg",
+  "artist": "After Lysippos",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Aristotle_Altemps_Inv8575.jpg"
+ },
+ "dekart": {
+  "title": "Frans Hals - Portret van René Descartes.jpg",
+  "artist": "After Frans Hals",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Frans_Hals_-_Portret_van_Ren%C3%A9_Descartes.jpg"
+ },
+ "kant": {
+  "title": "Immanuel Kant (painted portrait).jpg",
+  "artist": "unbekannt, möglicherweise Elisabeth von Stägemann (Schule von Anton Graff)",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Immanuel_Kant_(painted_portrait).jpg"
+ },
+ "yum": {
+  "title": "Painting of David Hume.jpg",
+  "artist": "Allan Ramsay",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Painting_of_David_Hume.jpg"
+ },
+ "lokk": {
+  "title": "John Locke.jpg",
+  "artist": "Godfrey Kneller",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:John_Locke.jpg"
+ },
+ "bentam": {
+  "title": "Jeremy Bentham by Henry William Pickersgill detail.jpg",
+  "artist": "Henry William Pickersgill",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Jeremy_Bentham_by_Henry_William_Pickersgill_detail.jpg"
+ },
+ "mill": {
+  "title": "John Stuart Mill by London Stereoscopic Company, c1870.jpg",
+  "artist": "London Stereoscopic Company",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:John_Stuart_Mill_by_London_Stereoscopic_Company,_c1870.jpg"
+ },
+ "russo": {
+  "title": "Jean-Jacques Rousseau (painted portrait).jpg",
+  "artist": "Maurice Quentin de La Tour",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Jean-Jacques_Rousseau_(painted_portrait).jpg"
+ },
+ "leviafan": {
+  "title": "Leviathan by Thomas Hobbes.jpg",
+  "artist": "Abraham Bosse",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Leviathan_frontispiece_cropped_British_Library.jpg"
+ },
+ "sizif": {
+  "title": "Punishment sisyph.jpg",
+  "artist": "Titian",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Punishment_sisyph.jpg"
+ },
+ "mark-avreli": {
+  "title": "Marcus Aurelius Glyptothek Munich.jpg",
+  "artist": "",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Marcus_Aurelius_Glyptothek_Munich.jpg"
+ },
+ "kyerkeqor": {
+  "title": "Kierkegaard.jpg",
+  "artist": "Neils Christian Kierkegaard",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Kierkegaard.jpg"
+ }
+}
