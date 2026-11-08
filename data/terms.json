@@ -528,5 +528,95 @@
 "t": "Sİ idarəetməsi",
 "en": "AI governance",
 "c": "caio"
+},
+{
+"t": "dinşünaslıq",
+"en": "religious studies",
+"c": "dinler"
+},
+{
+"t": "animizm",
+"en": "animism",
+"c": "dinler"
+},
+{
+"t": "şamanizm",
+"en": "shamanism",
+"c": "dinler"
+},
+{
+"t": "totemizm",
+"en": "totemism",
+"c": "dinler"
+},
+{
+"t": "təktanrılıq",
+"en": "monotheism",
+"c": "dinler"
+},
+{
+"t": "kosmoqoniya",
+"en": "cosmogony",
+"c": "dinler"
+},
+{
+"t": "metodoloji aqnostisizm",
+"en": "methodological agnosticism",
+"c": "dinler"
+},
+{
+"t": "profan",
+"en": "profane",
+"c": "dinler"
+},
+{
+"t": "asketizm",
+"en": "asceticism",
+"c": "dinler"
+},
+{
+"t": "qızıl qayda",
+"en": "golden rule",
+"c": "dinler"
+},
+{
+"t": "ontoloji arqument",
+"en": "ontological argument",
+"c": "dinler"
+},
+{
+"t": "şər problemi",
+"en": "problem of evil",
+"c": "dinler"
+},
+{
+"t": "azad iradə",
+"en": "free will",
+"c": "dinler"
+},
+{
+"t": "sübut yükü",
+"en": "burden of proof",
+"c": "dinler"
+},
+{
+"t": "sekulyarlaşma",
+"en": "secularization",
+"c": "dinler"
+},
+{
+"t": "İbrahimi dinlər",
+"en": "Abrahamic religions",
+"c": "dinler"
+},
+{
+"t": "Böyük parçalanma",
+"en": "Great Schism",
+"c": "dinler"
+},
+{
+"t": "Dağüstü vəz",
+"en": "Sermon on the Mount",
+"c": "dinler"
 }
 ]

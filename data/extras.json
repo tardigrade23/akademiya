@@ -729,5 +729,72 @@
     "Bir səhifəlik esse yazılıb"
    ]
   }
+ },
+ "dinler": {
+  "reading": [
+   {
+    "k": "kitab",
+    "t": "Müqəddəs və profan",
+    "a": "Mirça Eliade, 1957",
+    "n": "Dindar insanın zaman və məkanı necə yaşadığı haqqında qısa klassik."
+   },
+   {
+    "k": "kitab",
+    "t": "Min sifətli qəhrəman",
+    "a": "Cozef Kempbell, 1949",
+    "n": "Dünya miflərində qəhrəmanın yolu. “Mif nədir?” dərsinin davamı."
+   },
+   {
+    "k": "kitab",
+    "t": "The World’s Religions",
+    "a": "Huston Smith, 1958 (yenilənmiş 1991)",
+    "n": "Hər ənənəni içəridən, hörmətlə təqdim edən geniş tanınmış icmal."
+   },
+   {
+    "k": "kitab",
+    "t": "Dini təcrübənin müxtəlifliyi",
+    "a": "Uilyam Ceyms, 1902",
+    "n": "Psixologiya baxışı ilə dini təcrübə. İlk dərsdəki tərifin mənbəyi."
+   },
+   {
+    "k": "kitab",
+    "t": "A History of God",
+    "a": "Karen Armstronq, 1993",
+    "n": "Təkallahlı dinlərdə Allah anlayışının 4000 illik tarixi."
+   },
+   {
+    "k": "onlayn",
+    "t": "Philosophy of Religion",
+    "a": "Stanford Encyclopedia of Philosophy",
+    "u": "https://plato.stanford.edu/entries/philosophy-religion/",
+    "n": "“İnanc və ağıl” dərsindəki arqumentlərin akademik icmalı."
+   },
+   {
+    "k": "onlayn",
+    "t": "Religion",
+    "a": "Pew Research Center",
+    "u": "https://www.pewresearch.org/religion/",
+    "n": "Dünyada dinlərin yayılması haqqında ən çox istinad edilən statistik tədqiqatlar."
+   }
+  ],
+  "project": {
+   "t": "Üç ənənənin müqayisəsi",
+   "g": "Bu kursdan üç dini ənənə seçib onları eyni meyarlarla müqayisə edən cədvəl və qısa esse hazırlamaq.",
+   "s": [
+    "Fərqli bölgələrdən üç ənənə seçin (məsələn, biri Hindistan, biri Çin, biri İbrahimi).",
+    "Ninian Smartın 7 ölçüsünə görə cədvəl qurun: təcrübə, mif, təlim, əxlaq, ayin, icma, maddi mədəniyyət.",
+    "Hər ənənədə ölüm və axirət haqqında təsəvvürü bir cümlə ilə yazın.",
+    "Hər birindən bir əsas mətn parçası tapın və mənbəyini (kitab, fəsil) göstərin.",
+    "Bir səhifəlik esse yazın: ən çox nə oxşardır, ən çox nə fərqlidir? Mühakimə etmədən, təsvir edin."
+   ],
+   "d": "7 ölçülü müqayisə cədvəli, 3 mənbəli sitat və bir səhifəlik esse.",
+   "c": [
+    "3 ənənə seçilib",
+    "7 ölçülü cədvəl doldurulub",
+    "Ölüm təsəvvürü müqayisə olunub",
+    "Hər ənənədən mənbəli sitat var",
+    "Neytral üslubda esse yazılıb"
+   ]
+  }
  }
 }

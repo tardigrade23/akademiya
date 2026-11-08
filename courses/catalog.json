@@ -187,6 +187,23 @@
     "10": "Yekun"
    },
    "added": "2026-11-08"
+  },
+  {
+   "id": "dinler",
+   "title": "Dinlər, miflər və insan",
+   "mark": "🕊️",
+   "color": "#7a4b1e",
+   "color2": "#2f6f8f",
+   "ill": "column",
+   "lessons": 15,
+   "description": "Dinşünaslıq baxışı ilə dünyanın dinləri və mifləri: ən qədim inanclardan və Gilqameşdən Buddizmə, Konfutsiyə və İbrahimi dinlərə. Dinin əxlaq, fəlsəfə və elmlə əlaqəsi, Allahın varlığı haqqında klassik arqumentlər və onlara edilən tənqidlər. Neytral, akademik yanaşma.",
+   "parts": {
+    "0": "I hissə · Başlanğıclar",
+    "5": "II hissə · Böyük ənənələr",
+    "12": "III hissə · Din, əxlaq və düşüncə",
+    "14": "Yekun"
+   },
+   "added": "2026-11-08"
   }
  ],
  "paths": [
@@ -198,7 +215,8 @@
    "courses": [
     "mentiq",
     "felsefe",
-    "hikmet"
+    "hikmet",
+    "dinler"
    ]
   },
   {
