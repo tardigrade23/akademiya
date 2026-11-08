@@ -1,0 +1,56 @@
+{
+ "lovelace": {
+  "title": "Ada Lovelace portrait.jpg",
+  "artist": "Alfred Edward Chalon",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Ada_Lovelace_portrait.jpg"
+ },
+ "vt100": {
+  "title": "Terminal-dec-vt100.jpg",
+  "artist": "ClickRick",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Terminal-dec-vt100.jpg"
+ },
+ "bug": {
+  "title": "First Computer Bug, 1945.jpg",
+  "artist": "Courtesy of the Naval Surface Warfare Center, Dahlgren, VA., 1988.",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:First_Computer_Bug,_1947.jpg"
+ },
+ "hamilton": {
+  "title": "Margaret Hamilton - restoration.jpg",
+  "artist": "Adam Cuerden",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg"
+ },
+ "qifil": {
+  "title": "Double Ball Cutaway Padlock (closed).jpg",
+  "artist": "Dennis van Zuijlekom from Ermelo, The Netherlands",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Double_Ball_Cutaway_Padlock_(closed).jpg"
+ },
+ "qarmaq": {
+  "title": "Fish crow in Red Hook (42759).jpg",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Fish_crow_in_Red_Hook_(42759).jpg"
+ },
+ "usb": {
+  "title": "Two USB-C connectors being held.jpg",
+  "artist": "Logant547",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Two_USB-C_connectors_being_held.jpg"
+ },
+ "defter": {
+  "title": "Pen-writing-notes-studying.jpg",
+  "artist": "Tookapic",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Pen-writing-notes-studying.jpg"
+ },
+ "konveyer": {
+  "title": "Alpine Renault (8413756575).jpg",
+  "artist": "Pedro Ribeiro Simões from Lisboa, Portugal",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Alpine_Renault_(8413756575).jpg"
+ }
+}

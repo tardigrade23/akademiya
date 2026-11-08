@@ -1,0 +1,68 @@
+{
+ "boole": {
+  "title": "George Boole color.jpg",
+  "artist": "Unknown authorUnknown author",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:George_Boole_color.jpg"
+ },
+ "turing": {
+  "title": "Alan Turing Aged 16.jpg",
+  "artist": "Possibly Arthur Reginald Chaffin (1893-1954)",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Alan_Turing_Aged_16.jpg"
+ },
+ "godel": {
+  "title": "Kurt gödel colorized.jpg",
+  "artist": "Photocolorization",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Kurt_g%C3%B6del_colorized.jpg"
+ },
+ "bayes": {
+  "title": "Thomas Bayes.gif",
+  "artist": "Unknown authorUnknown author",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Thomas_Bayes.gif"
+ },
+ "zadeh": {
+  "title": "Lotfi A. Zadeh stamp 2021.png",
+  "artist": "Post of Azerbaijan/Azermarka",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Lotfi_A._Zadeh_stamp_2021.png"
+ },
+ "lorenz": {
+  "title": "Lorenz attractor yb.svg",
+  "artist": "Wikimol, Dschwen",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Lorenz_attractor_yb.svg"
+ },
+ "wald": {
+  "title": "Survivorship-bias.svg",
+  "artist": "Martin Grandjean (vector), McGeddon (picture), US Air Force (hit plot concept)",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Survivorship-bias.svg"
+ },
+ "aysberq": {
+  "title": "Iceberg in North Star Bay, Greenland.jpg",
+  "artist": "Jeremy Harbeck",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Iceberg_in_North_Star_Bay,_Greenland.jpg"
+ },
+ "qara-qu": {
+  "title": "Black Swan at Martin Mere.JPG",
+  "artist": "Francis C. Franklin",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Black_Swan_at_Martin_Mere.JPG"
+ },
+ "galton": {
+  "title": "Tabuleiros de Galton (antes e depois).jpg",
+  "artist": "Exhibit made by Estes Objethos Atelier, photo by Rodrigo Tetsuo Argenton",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tabuleiros_de_Galton_(antes_e_depois).jpg"
+ },
+ "kobra": {
+  "title": "Indian Cobra Naja naja by Dr Raju Kasambe DSCN4991 (17).jpg",
+  "artist": "Dr. Raju Kasambe",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Indian_Cobra_Naja_naja_by_Dr_Raju_Kasambe_DSCN4991_(17).jpg"
+ }
+}
