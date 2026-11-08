@@ -31,10 +31,6 @@
   const isObj = v => v && typeof v === 'object' && !Array.isArray(v);
 
   function merge(a, b) {
-    const R = Math.max(a.reset || 0, b.reset || 0), RN = Math.max(a.resetNotes || 0, b.resetNotes || 0);
-    const stale = x => (x.updated || 0) < R ? Object.assign({}, x, { done: {}, extra: {}, last: 0 }) : x;
-    const cleanNotes = x => { if (!RN) return x; const n = {}; for (const [k, v] of Object.entries(x.notes || {})) if (v && (v.ts || 0) >= RN) n[k] = v; return Object.assign({}, x, { notes: n }); };
-    a = cleanNotes(stale(a)); b = cleanNotes(stale(b));
     const newer = (a.updated || 0) >= (b.updated || 0) ? a : b, older = newer === a ? b : a;
     const m = blank();
     m.done = Object.assign({}, b.done || {}, a.done || {});
@@ -48,8 +44,6 @@
     m.days = [...new Set([...(a.days || []), ...(b.days || [])])].sort().slice(-370);
     m.last = newer.last || 0;
     m.updated = Math.max(a.updated || 0, b.updated || 0);
-    if (R) m.reset = R;
-    if (RN) m.resetNotes = RN;
     return m;
   }
 
@@ -888,7 +882,7 @@
         let n = 0;
         for (const [cid, rec] of Object.entries(data.progress)) {
           if (!byId[cid] || !rec) continue;
-          prog[cid] = merge(prog[cid], Object.assign(blank(), rec, { updated: Date.now() })); // fayldan bərpa sıfırlamadan sonra da işləsin
+          prog[cid] = merge(prog[cid], Object.assign(blank(), rec));
           saveLocal(cid); scheduleRemote(cid); n++;
         }
         if (isObj(data.me)) { mergeMe(data.me); n++; }
@@ -911,67 +905,6 @@
     for (const [k, a] of Object.entries(o.hl || {})) { const cur = me.hl[k] || (me.hl[k] = []); a.forEach(h => { if (!cur.some(x => x.id === h.id)) cur.push(h); }); }
     for (const [cid, x] of Object.entries(o.proj || {})) { const cur = me.proj[cid] || (me.proj[cid] = { k: {}, n: '', done: 0 }); Object.assign(cur.k, x.k || {}); if ((x.n || '').length > (cur.n || '').length) cur.n = x.n; if (x.done && (!cur.done || x.done < cur.done)) cur.done = x.done; }
     syncOwn(); saveMe();
-  }
-
-  // ---------- kursu sıfırlamaq ----------
-  function courseFootprint(cid) {
-    const pre = cid + ':';
-    return {
-      cards: Object.keys(me.cards).filter(id => id.startsWith(pre)).length,
-      miss: Object.keys(me.miss).filter(id => id.startsWith(pre)).length,
-      notes: Object.keys(prog[cid].notes).length,
-      hl: Object.entries(me.hl).filter(([k]) => k.startsWith(pre)).reduce((n, [, a]) => n + a.length, 0),
-      marks: me.marks.filter(m => m.c === cid).length,
-      own: Object.values(me.own).filter(o => o.c === cid).length,
-      proj: me.proj[cid] ? Object.keys(me.proj[cid].k || {}).length + (me.proj[cid].n ? 1 : 0) + (me.proj[cid].done ? 1 : 0) : 0,
-    };
-  }
-  function resetDialog(cid) {
-    const old = $('#cardDlg'); if (old) old.remove();
-    const c = byId[cid], f = courseFootprint(cid), dn = doneCount(cid);
-    const opt = (id, label, n, on) => `<label class="rs-o"><input type="checkbox" id="${id}" ${on ? 'checked' : ''} ${n ? '' : 'disabled'}> <span>${label} <span class="fb">(${n})</span></span></label>`;
-    const d = document.createElement('div'); d.id = 'cardDlg'; d.className = 'dlg';
-    d.innerHTML = `<div class="dlg-box card" role="dialog" aria-modal="true" aria-labelledby="rsT"><h3 id="rsT">↺ “${esc(c.title)}” kursunu sıfırla</h3>
-      <p class="fb">Kurs ilk dəfə açılmış kimi olacaq. Nə silinsin?</p>
-      <label class="rs-o"><input type="checkbox" checked disabled> <span>İrəliləyiş: tamamlanmış dərslər, test və laboratoriya nəticələri <span class="fb">(${dn} dərs)</span></span></label>
-      ${opt('rsCards', 'Təkrar kartları, səhvlər və dəqiqlik statistikası', f.cards + f.miss, true)}
-      ${opt('rsNotes', 'Qeydlərim', f.notes, false)}
-      ${opt('rsHl', 'Vurğular və əlfəcinlər', f.hl + f.marks, false)}
-      ${opt('rsOwn', 'Bu kursa bağlı öz kartlarım', f.own, false)}
-      ${opt('rsProj', 'Praktiki layihə (yoxlama siyahısı və qeydlər)', f.proj, false)}
-      <p class="fb">Qazanılmış nişanlar və aktivlik tarixçəsi (ardıcıl günlər) silinmir. Bu əməliyyatı geri qaytarmaq olmur; əvvəlcə ana səhifədən yedək fayl saxlaya bilərsiniz.</p>
-      <div class="row"><button class="btn danger" id="rsGo">Sıfırla</button><button class="btn ghost" id="rsX">Ləğv et</button></div></div>`;
-    document.body.appendChild(d);
-    const close = () => d.remove();
-    d.onclick = e => { if (e.target === d) close(); };
-    d.onkeydown = e => { if (e.key === 'Escape') close(); };
-    $('#rsX').onclick = close;
-    let armed = false;
-    $('#rsGo').onclick = () => {
-      if (!armed) { armed = true; $('#rsGo').textContent = 'Əminəm, sıfırla'; return; }
-      resetCourse(cid, { cards: $('#rsCards').checked, notes: $('#rsNotes').checked, hl: $('#rsHl').checked, own: $('#rsOwn').checked, proj: $('#rsProj').checked });
-      close();
-    };
-    setTimeout(() => $('#rsX').focus(), 30);
-  }
-  function resetCourse(cid, o) {
-    const now = Date.now(), old = prog[cid], pre = cid + ':';
-    prog[cid] = Object.assign(blank(), { days: old.days || [], notes: o.notes ? {} : old.notes, reset: now, resetNotes: o.notes ? now : old.resetNotes || 0 });
-    if (!prog[cid].resetNotes) delete prog[cid].resetNotes;
-    touch(cid);
-    if (o.cards) {
-      Object.keys(me.cards).forEach(id => { if (id.startsWith(pre)) delete me.cards[id]; });
-      Object.keys(me.miss).forEach(id => { if (id.startsWith(pre)) delete me.miss[id]; });
-      delete me.acc[cid];
-    }
-    delete me.perfect[cid];
-    if (o.hl) { Object.keys(me.hl).forEach(k => { if (k.startsWith(pre)) delete me.hl[k]; }); me.marks = me.marks.filter(m => m.c !== cid); }
-    if (o.own) Object.keys(me.own).forEach(id => { if (me.own[id].c === cid) { delete me.own[id]; delete me.cards[id]; delete me.miss[id]; delete CARD[id]; } });
-    if (o.proj) delete me.proj[cid];
-    saveMe();
-    toast('↺ Kurs sıfırlandı');
-    if (mounted === cid) unmount();
-    if (location.hash === `#${cid}-1`) route(); else location.hash = `${cid}-1`;
   }
 
   // ---------- course mounting ----------
@@ -1199,8 +1132,7 @@
       <div class="meter"><i style="width:${pctOf(curCid)}%"></i></div>
       <div class="pct">${doneCount(curCid)} / ${c.lessons} dərs · ${pctOf(curCid)}%</div>
       <nav>${nav}</nav>
-      <div class="side-links">${[['xerite', '🗺️ Kurs xəritəsi'], ['konspekt', '📄 Konspekt'], ['elave', '🛠️ Layihə və əlavə oxu'], ['qeydler', `📝 Qeydlərim (${nNotes})`]].map(([k, n]) => `<a class="notes-link ${notesMode && location.hash === '#' + curCid + '-' + k ? 'on' : ''}" href="#${curCid}-${k}">${n}</a>`).join('')}<button class="notes-link reset-link" id="resetBtn" type="button">↺ Kursu sıfırla</button></div>`;
-    $('#resetBtn').onclick = () => resetDialog(curCid);
+      <div class="side-links">${[['xerite', '🗺️ Kurs xəritəsi'], ['konspekt', '📄 Konspekt'], ['elave', '🛠️ Layihə və əlavə oxu'], ['qeydler', `📝 Qeydlərim (${nNotes})`]].map(([k, n]) => `<a class="notes-link ${notesMode && location.hash === '#' + curCid + '-' + k ? 'on' : ''}" href="#${curCid}-${k}">${n}</a>`).join('')}</div>`;
     $('#side').querySelectorAll('[data-go]').forEach(b => { b.onclick = () => { location.hash = curCid + '-' + b.dataset.go; }; });
     const act = $('#side nav button.active');
     if (act && window.matchMedia('(max-width:860px)').matches) act.scrollIntoView({ block: 'nearest', inline: 'center' });

@@ -50,7 +50,6 @@ akademiya/
 - **Vurğulama**: dərsdə mətni seçəndə aşağıda panel çıxır (3 rəng, “Kart”). **Öz kartlarım** (`#kartlarim`) təkrar sisteminə qoşulur.
 - Hər kursun yan panelində: **Kurs xəritəsi** (`#<kurs>-xerite`, `data/map.json`: `data/links.json`-dakı əl ilə yazılmış əlaqələr + lüğətdən çıxan əlaqələr), **Konspekt** (`#<kurs>-konspekt`: çap/PDF, Markdown), **Layihə və əlavə oxu** (`#<kurs>-elave`, `data/extras.json`).
 - **Əsas fikirlər**: hər dərsin sonunda 3–4 bənd (`data/keys.json`, kurs id → dərs indeksi → bəndlər; yekun imtahanda `null`). Konspektdə də göstərilir. Lüğətdə hər terminin nümunəsi `n` sahəsindədir.
-- **Kursu sıfırla** (yan paneldə): irəliləyiş həmişə, kartlar/qeydlər/vurğular/öz kartlar/layihə seçimlə silinir. `reset` və `resetNotes` vaxt nişanları `merge()`-də köhnə (bulud) nüsxələrin irəliləyişi geri gətirməsinə imkan vermir; fayldan bərpa isə təzə sayılır.
 - Telefonda dərslər arasında sola/sağa sürüşdürərək keçmək olur.
 - Əlavə oxu linkləri: Actions → “Check reading links” (`tools/check_links.py`).
 - Bu vəziyyət `localStorage`-da `akademiya:me` açarında saxlanılır və yedək faylına daxildir.

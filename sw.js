@@ -50,20 +50,19 @@ self.addEventListener('fetch', event => {
 
   if (!req.url.startsWith(self.registration.scope)) return;
 
-  // Şəbəkə cavab vermirsə və ya xəta qaytarırsa (məsələn, GitHub Pages yenilənərkən qısa müddətlik 404),
-  // keşdəki versiya göstərilir. Belə olmasa, tətbiq yerinə GitHub-un 404 səhifəsi açılır.
-  const fromCache = () => caches.match(req, { ignoreSearch: true }).then(hit =>
-    hit || (req.mode === 'navigate' ? caches.match('index.html').then(h => h || caches.match('./')) : undefined));
   event.respondWith(
     fetch(req, { cache: 'no-cache' })
       .then(res => {
         if (res.ok) {
           const copy = res.clone();
           caches.open(APP_CACHE).then(cache => cache.put(req, copy));
-          return res;
         }
-        return fromCache().then(hit => hit || res);
+        return res;
       })
-      .catch(() => fromCache().then(hit => hit || Response.error()))
+      .catch(() =>
+        caches.match(req, { ignoreSearch: true }).then(hit =>
+          hit || (req.mode === 'navigate' ? caches.match('index.html') : Response.error())
+        )
+      )
   );
 });
