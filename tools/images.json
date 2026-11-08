@@ -63,7 +63,7 @@
   "si": {
     "deep-blue": "search:Deep Blue chess computer IBM",
     "alphago": "search:Lee Sedol AlphaGo",
-    "cajal": "search:Cajal drawing neurons cerebellum",
+    "cajal": "File:PurkinjeCell.jpg",
     "perseptron": "search:Mark I Perceptron",
     "mccarthy": "search:John McCarthy computer scientist"
   },
@@ -74,20 +74,19 @@
   },
   "caio": {
     "iclas": "search:business meeting boardroom",
-    "sahmat": "search:chess pieces board strategy",
     "komanda": "search:team workshop sticky notes"
   },
   "kripto": {
     "enigma": "search:Enigma machine Wehrmacht",
     "bletchley": "search:Bletchley Park mansion",
-    "skitala": "search:scytale",
+    "skitala": "File:Skytale.png",
     "sezar": "search:Julius Caesar bust Tusculum",
     "alkindi": "search:al-Kindi manuscript cryptanalysis"
   },
   "kiber": {
-    "wannacry": "search:WannaCry ransomware screenshot",
-    "morris": "search:Morris worm floppy disk",
-    "router": "search:wireless router",
+    "wannacry": "File:Wana Decrypt0r screenshot.png",
+    "morris": "search:Morris Worm source code floppy Computer History Museum",
+    "router": "search:wireless router antennas home",
     "usb": "search:USB flash drive"
   }
 }
