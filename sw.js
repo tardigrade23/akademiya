@@ -21,6 +21,15 @@ self.addEventListener('install', event => {
       const cat = await (await fetch('courses/catalog.json', { cache: 'no-cache' })).json();
       const files = (cat.courses || []).flatMap(c => [`courses/${c.id}/lessons.html`, `courses/${c.id}/course.js`]);
       await cache.addAll(files);
+      // Dərslərdəki şəkillər və onların müəllif qeydləri də oflayn görünsün deyə keşə yüklənir (biri alınmasa, qalanları davam edir).
+      const extra = new Set();
+      for (const c of cat.courses || []) {
+        extra.add(`courses/${c.id}/img/credits.json`);
+        const res = await cache.match(`courses/${c.id}/lessons.html`);
+        const html = res ? await res.text() : '';
+        for (const m of html.matchAll(/<img[^>]+src="(courses\/[^"]+)"/g)) extra.add(m[1]);
+      }
+      await Promise.allSettled([...extra].map(u => cache.add(u)));
     } catch (e) { /* kurslar ilk açılışda keşə düşəcək */ }
     await self.skipWaiting();
   })());

@@ -189,8 +189,8 @@ label.btn{cursor:pointer}
 /* ================= v2: rəngli dizayn ================= */
 :root{
   --c:#0e6b62; --c2:#2d55b3; --on-tag:#ffffff;
-  --ex-blue:#eaf2fe; --ex-blue-b:#3a78d8; --ex-red:#fdeceb; --ex-red-b:#d4524a;
-  --ex-amber:#fdf3de; --ex-amber-b:#c98a12; --ex-green:#e5f6eb; --ex-green-b:#2c9457;
+  --ex-blue:#eaf2fe; --ex-blue-b:#2f68c4; --ex-red:#fdeceb; --ex-red-b:#b83f37;
+  --ex-amber:#fdf3de; --ex-amber-b:#94650a; --ex-green:#e5f6eb; --ex-green-b:#217a45;
   --ex-violet:#f1ecfd; --ex-violet-b:#7656d4;
   --shadow:0 1px 2px rgba(16,24,22,.05),0 6px 18px rgba(16,24,22,.06);
 }
@@ -354,12 +354,12 @@ pre.code{font:13.5px/1.55 var(--mono);background:var(--code);border:1px solid va
 .path h3{margin:0;font:600 1.1rem var(--serif)}
 .path p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
 .steps{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.step{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 5px;border-radius:999px;text-decoration:none;color:var(--ink);font-size:.85rem;
+.steps .step{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 5px;border-radius:999px;text-decoration:none;color:var(--ink);font-size:.85rem;
   background:color-mix(in srgb,var(--c) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
-.step .dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-size:.75rem;font-weight:700}
-.step small{color:var(--muted)}
-.step.done{background:color-mix(in srgb,var(--ok) 14%,var(--panel));border-color:var(--ok)}
-.step.done .dot{background:var(--ok)}
+.steps .step .dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-size:.75rem;font-weight:700}
+.steps .step small{color:var(--muted)}
+.steps .step.done{background:color-mix(in srgb,var(--ok) 14%,var(--panel));border-color:var(--ok)}
+.steps .step.done .dot{background:var(--ok)}
 .steps .arr{color:var(--muted)}
 .path-f{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;font-size:.88rem;color:var(--muted)}
 .pagev{max-width:820px;padding:24px 16px 80px}
@@ -420,8 +420,8 @@ mark{background:color-mix(in srgb,#f0b44c 45%,transparent);color:inherit;border-
 .bm{position:absolute;top:6px;right:6px;width:32px;height:32px;border:0;background:none;color:var(--muted);font-size:1.15rem;cursor:pointer;border-radius:8px;line-height:1}
 .bm:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)}
 .bm.on{color:#e0a020}
-.flash{animation:flash 2s ease}
-@keyframes flash{0%,40%{box-shadow:0 0 0 4px color-mix(in srgb,#f0b44c 70%,transparent)}100%{box-shadow:0 0 0 0 transparent}}
+.ak-flash{animation:ak-flash 2s ease}
+@keyframes ak-flash{0%,40%{box-shadow:0 0 0 4px color-mix(in srgb,#f0b44c 70%,transparent)}100%{box-shadow:0 0 0 0 transparent}}
 .tts{position:relative;margin-top:12px;background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:5px 14px;font:inherit;font-size:.85rem;cursor:pointer}
 .tts:hover{background:rgba(255,255,255,.32)}
 .ask-card textarea{min-height:70px;font-family:var(--sans)}
@@ -457,9 +457,9 @@ mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box
 .hlbar .sw.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--panel) inset}
 .hlbar .hb{border:0;background:none;color:var(--ink);font:inherit;font-size:.88rem;padding:6px 8px;border-radius:999px;cursor:pointer;white-space:nowrap}
 .hlbar .hb:hover{background:var(--code)}
-.dlg{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px}
-.dlg-box{width:min(520px,100%);max-height:calc(100vh - 32px);overflow:auto;margin:0}
-.dlg-box h3{margin-top:0}
+.ak-dlg{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px}
+.ak-dlg-box{width:min(520px,100%);max-height:calc(100vh - 32px);overflow:auto;margin:0}
+.ak-dlg-box h3{margin-top:0}
 .fl{display:block;font-size:.88rem;color:var(--muted);margin-bottom:10px}
 .fl textarea,.fl select{display:block;width:100%;margin-top:4px;font-family:var(--sans);font-size:1rem;color:var(--ink)}
 .fl textarea{min-height:70px}
@@ -532,7 +532,7 @@ mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box
   .mp{padding-left:62px}
 }
 @media print{
-  .topbar,.side,#pager,#notesCard,#askCard,.no-print,.toast,.hlbar,.dlg,.confetti{display:none!important}
+  .topbar,.side,#pager,#notesCard,#askCard,.no-print,.toast,.hlbar,.ak-dlg,.confetti{display:none!important}
   body{background:#fff;color:#000}
   body::before{display:none}
   .course{display:block;padding:0}
@@ -562,3 +562,8 @@ mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box
 .rs-o{display:flex;gap:10px;align-items:flex-start;margin:8px 0;cursor:pointer}
 .rs-o input{margin-top:5px;width:18px;height:18px;flex:0 0 18px}
 .rs-o input:disabled+span{opacity:.75}
+
+/* ilk göstərişdə yerdəyişmə olmasın (CLS): məzmun hazır olana qədər aşağı bloklar görünməz qalır */
+#home:not(.ready)>*:not(.greet){visibility:hidden}
+.course:not(.ready) .reading{visibility:hidden}
+.scroll td.wide,.scroll th.wide{min-width:12em}

@@ -169,7 +169,7 @@ LMS.registerCourse('kripto', function (api) {
     async function render() {
       const ok = [];
       for (let i = 0; i < blocks.length; i++) { const b = blocks[i], real = await H(i, b.prev, b.data); ok.push(real === b.hash && (i === 0 || b.prev === blocks[i - 1].hash) && (i === 0 || ok[i - 1])); }
-      $('chBox').innerHTML = blocks.map((b, i) => `<div class="blk ${ok[i] ? '' : 'bad'}"><b>Blok #${i}</b> ${ok[i] ? '✓' : '✗ qırılıb'}<br>məlumat:<input data-i="${i}" value="${esc(b.data)}"><div class="h">əvvəlki: ${b.prev.slice(0, 16)}…</div><div class="h">hash: ${b.hash.slice(0, 16)}…</div></div>`).join('');
+      $('chBox').innerHTML = blocks.map((b, i) => `<div class="blk ${ok[i] ? '' : 'bad'}"><b>Blok #${i}</b> ${ok[i] ? '✓' : '✗ qırılıb'}<br>məlumat:<input data-i="${i}" aria-label="Blok #${i} məlumatı" value="${esc(b.data)}"><div class="h">əvvəlki: ${b.prev.slice(0, 16)}…</div><div class="h">hash: ${b.hash.slice(0, 16)}…</div></div>`).join('');
       $('chBox').querySelectorAll('input').forEach(inp => inp.onchange = async () => { blocks[+inp.dataset.i].data = inp.value; tampered = true; await render(); });
       const bad = ok.filter(x => !x).length;
       $('chMsg').innerHTML = bad ? `<div class="msg bad">${bad} blok qırıldı! Bir blokdakı dəyişiklik ondan sonrakı bütün blokları etibarsız edir. Dəyişikliyi gizlətmək üçün hücumçu sonrakı bütün blokların hash-ini yenidən hesablamalıdır. Real blokçeyndə bu, böyük hesablama işi (proof-of-work) tələb edir və şəbəkənin çoxluğu fərqli zəncirə sahib olduğu üçün qəbul olunmur.</div>`

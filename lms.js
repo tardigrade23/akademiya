@@ -273,6 +273,7 @@
     }).join('') + `<div class="course-card add"><div class="cover">${art('star')}</div><div class="body"><h3>Yeni kurs</h3>
         <p>Claude ilə yeni sessiyada yaz: “Akademiyama … kursu əlavə et”. Kurs bu rəfdə görünəcək və irəliləyişin ayrıca saxlanılacaq.</p></div></div>`;
     renderToday(); renderPaths();
+    $('#home').classList.add('ready');
     renderAppBox();
   }
 
@@ -286,7 +287,7 @@
         : '<div class="what">Hələ kart yoxdur</div><div class="sub">Dərsləri tamamladıqca və testləri cavablandırdıqca hər dərsdən 3–5 təkrar kartı yaranacaq.</div>'}</div>
       ${due ? '<a class="btn" href="#tekrar">Təkrara başla →</a>' : miss ? '<a class="btn ghost" href="#sehvler">Səhvləri təkrarla</a>' : ''}</div>`;
     const tiles = [['kartlarim', '🃏', 'Kartlarım', Object.keys(me.own).length || ''], ['sehvler', '🩹', 'Səhvlərim', miss], ['elfecinler', '📌', 'Əlfəcinlər', me.marks.length], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : ''], ['axtar', '🔍', 'Axtarış', '']];
-    $('#quickBox').innerHTML = tiles.map(([h, ic, n, c]) => `<a class="qt" href="#${h}"><span class="qi">${ic}</span><span>${n}</span>${c !== '' && c != null ? `<b>${c}</b>` : ''}</a>`).join('');
+    $('#quickBox').innerHTML = tiles.map(([h, ic, n, c]) => `<a class="qt" href="#${h}"><span class="qi">${ic}</span><span>${n}</span>${c ? `<b>${c}</b>` : ''}</a>`).join('');
   }
   function nextDue() {
     const ds = Object.values(me.cards).map(c => c.due).filter(d => d > today()).sort();
@@ -506,8 +507,8 @@
   function cardDialog(pre, editId) {
     const old = $('#cardDlg'); if (old) old.remove();
     const o = editId ? me.own[editId] : (pre || {});
-    const d = document.createElement('div'); d.id = 'cardDlg'; d.className = 'dlg';
-    d.innerHTML = `<div class="dlg-box card" role="dialog" aria-modal="true" aria-labelledby="cdT"><h3 id="cdT">${editId ? '✏️ Kartı dəyiş' : '🃏 Yeni kart'}</h3>
+    const d = document.createElement('div'); d.id = 'cardDlg'; d.className = 'ak-dlg';
+    d.innerHTML = `<div class="ak-dlg-box card" role="dialog" aria-modal="true" aria-labelledby="cdT"><h3 id="cdT">${editId ? '✏️ Kartı dəyiş' : '🃏 Yeni kart'}</h3>
       <label class="fl">Sual və ya termin<textarea id="cdQ" placeholder="Məsələn: Entimem nədir?">${esc(o.q || '')}</textarea></label>
       <label class="fl">Cavab<textarea id="cdA" placeholder="Qısa və aydın cavab">${esc(o.a || '')}</textarea></label>
       <label class="fl">Kurs<select id="cdC"><option value="">Ümumi (kursa bağlı deyil)</option>${catalog.map(c => `<option value="${c.id}" ${o.c === c.id ? 'selected' : ''}>${esc(c.title)}</option>`).join('')}</select></label>
@@ -930,8 +931,8 @@
     const old = $('#cardDlg'); if (old) old.remove();
     const c = byId[cid], f = courseFootprint(cid), dn = doneCount(cid);
     const opt = (id, label, n, on) => `<label class="rs-o"><input type="checkbox" id="${id}" ${on ? 'checked' : ''} ${n ? '' : 'disabled'}> <span>${label} <span class="fb">(${n})</span></span></label>`;
-    const d = document.createElement('div'); d.id = 'cardDlg'; d.className = 'dlg';
-    d.innerHTML = `<div class="dlg-box card" role="dialog" aria-modal="true" aria-labelledby="rsT"><h3 id="rsT">↺ “${esc(c.title)}” kursunu sıfırla</h3>
+    const d = document.createElement('div'); d.id = 'cardDlg'; d.className = 'ak-dlg';
+    d.innerHTML = `<div class="ak-dlg-box card" role="dialog" aria-modal="true" aria-labelledby="rsT"><h3 id="rsT">↺ “${esc(c.title)}” kursunu sıfırla</h3>
       <p class="fb">Kurs ilk dəfə açılmış kimi olacaq. Nə silinsin?</p>
       <label class="rs-o"><input type="checkbox" checked disabled> <span>İrəliləyiş: tamamlanmış dərslər, test və laboratoriya nəticələri <span class="fb">(${dn} dərs)</span></span></label>
       ${opt('rsCards', 'Təkrar kartları, səhvlər və dəqiqlik statistikası', f.cards + f.miss, true)}
@@ -1011,6 +1012,7 @@
     mounting = { cid, p };
     return p.catch(e => {
       console.error(e);
+      $('#courseView').classList.add('ready');
       host.innerHTML = '<div class="card"><h3>Kurs açılmadı</h3><p>Kursun faylları yüklənmədi. Səhifəni yeniləyib yenidən cəhd et.</p></div>';
     }).finally(() => { mounting = null; });
   }
@@ -1056,6 +1058,17 @@
         t.onclick = () => speak(s, t); ht.appendChild(t);
       }
     });
+    // Laboratoriya sahələrinə ekran oxuyucu üçün ad: əlaqəli <label> yoxdursa, yanındakı yazıdan götürülür.
+    host.querySelectorAll('input:not([type=hidden]), select, textarea').forEach(el => {
+      if (el.getAttribute('aria-label') || el.closest('label') || (el.id && host.querySelector(`label[for="${el.id}"]`))) return;
+      let prev = el.previousElementSibling;
+      while (prev && !prev.textContent.trim()) prev = prev.previousElementSibling;
+      if (prev && prev.tagName === 'LABEL' && el.id && !prev.htmlFor) { prev.htmlFor = el.id; return; }
+      const txt = (prev && prev.textContent.trim()) || (el.closest('.card') && (el.closest('.card').querySelector('h3') || {}).textContent) || '';
+      const name = (txt || el.placeholder || el.type).replace(/\s+/g, ' ').trim().slice(0, 80);
+      if (name) el.setAttribute('aria-label', name);
+    });
+    host.querySelectorAll('.scroll td, .scroll th').forEach(td => { if (td.textContent.trim().length > 24) td.classList.add('wide'); });
     host.querySelectorAll('.quiz').forEach(q => { const card = q.closest('.card'); if (card) card.classList.add('quiz-card'); });
     const imgs = [...host.querySelectorAll('figure.pic img')];
     imgs.forEach(img => {
@@ -1284,13 +1297,14 @@
     $('#courseView').setAttribute('style', cvars(byId[r.cid]));
     await mount(r.cid);
     if (mounted !== r.cid || curCid !== r.cid) return;
+    $('#courseView').classList.add('ready');
     if (r.view === 'notes') { $('#askCard').hidden = true; await showAux(r.kind); return; }
     showLesson(r.lesson == null ? prog[r.cid].last : r.lesson);
     setupAsk(current);
     if (pendingMark) {
       const el = document.querySelector(`[data-bm="${pendingMark}"]`);
       pendingMark = null;
-      if (el) { const blk = el.parentElement; setTimeout(() => { blk.scrollIntoView({ behavior: 'smooth', block: 'center' }); blk.classList.add('flash'); setTimeout(() => blk.classList.remove('flash'), 2200); }, 60); }
+      if (el) { const blk = el.parentElement; setTimeout(() => { blk.scrollIntoView({ behavior: 'smooth', block: 'center' }); blk.classList.add('ak-flash'); setTimeout(() => blk.classList.remove('ak-flash'), 2200); }, 60); }
     }
   }
   function refreshChrome() {
@@ -1321,11 +1335,12 @@
       window.__paths = data.paths || [];
     } catch (e) {
       $('#shelf').innerHTML = '<div class="card">Kurs kataloqu yüklənmədi. Səhifəni yenilə.</div>';
+      $('#home').classList.add('ready');
       return;
     }
     catalog.forEach(c => { byId[c.id] = c; loadLocal(c.id); });
-    route();
     connect();
+    await route();
     CARDS = await getJSON('data/cards.json');
     CARD = {}; CARDS.forEach(c => { CARD[c.id] = c; }); syncOwn();
     catalog.forEach(c => Object.keys(prog[c.id].done).forEach(l => activateLesson(c.id, +l)));
