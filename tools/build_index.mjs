@@ -1,6 +1,6 @@
 // Kurslardan təkrar kartları və axtarış indeksi yaradır:
 //   node tools/build_index.mjs
-// Nəticə: data/map.json (kurs xəritəsi), data/cards.json (hər dərsdən 3–5 kart, dərsin testindən) və data/search.json (dərslərin mətni).
+// Nəticə: data/xmap.json (kurslar arası əlaqələr), data/map.json (kurs xəritəsi), data/cards.json (hər dərsdən 3–5 kart, dərsin testindən) və data/search.json (dərslərin mətni).
 // Kurs məzmunu dəyişəndə yenidən işə salın.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -77,6 +77,15 @@ for (const c of catalog) {
     if (b - a > 1 && !seen.has(k)) { seen.add(k); map[c.id].edges.push([a, b, 'termin: ' + v.slice(0, 2).join(', ')]); }
   }
 }
+// Kurslar arası əlaqələr: data/xlinks.json → data/xmap.json (hər dərs üçün hər iki istiqamətdə, başlıqlarla)
+const xmap = {};
+const titleOf = (c, l) => (search.find(x => x.c === c && x.l === l) || {}).t;
+for (const [a, la, b, lb, why] of JSON.parse(fs.readFileSync(path.join(ROOT, 'data/xlinks.json'), 'utf8'))) {
+  if (!titleOf(a, la) || !titleOf(b, lb)) throw new Error(`xlinks: səhv dərs ${a}:${la} ${b}:${lb}`);
+  ((xmap[a] = xmap[a] || {})[la] = xmap[a][la] || []).push([b, lb, titleOf(b, lb), why]);
+  ((xmap[b] = xmap[b] || {})[lb] = xmap[b][lb] || []).push([a, la, titleOf(a, la), why]);
+}
+fs.writeFileSync(path.join(ROOT, 'data/xmap.json'), JSON.stringify(xmap));
 fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'data/map.json'), JSON.stringify(map));
 fs.writeFileSync(path.join(ROOT, 'data/cards.json'), JSON.stringify(cards));

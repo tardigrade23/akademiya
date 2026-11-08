@@ -9,7 +9,7 @@ const APP_CACHE = VERSION + '-app';
 const FONT_CACHE = 'akd-fonts';
 const CORE = [
   './', 'index.html', 'lms.css', 'lms.js', 'illustrations.js', 'manifest.webmanifest', 'courses/catalog.json',
-  'data/cards.json', 'data/search.json', 'data/glossary.json', 'data/extras.json', 'data/map.json', 'data/keys.json',
+  'data/cards.json', 'data/search.json', 'data/glossary.json', 'data/extras.json', 'data/map.json', 'data/keys.json', 'data/xmap.json',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-64.png',
 ];
 
@@ -24,7 +24,6 @@ self.addEventListener('install', event => {
       // Dərslərdəki şəkillər və onların müəllif qeydləri də oflayn görünsün deyə keşə yüklənir (biri alınmasa, qalanları davam edir).
       const extra = new Set();
       for (const c of cat.courses || []) {
-        extra.add(`courses/${c.id}/img/credits.json`);
         const res = await cache.match(`courses/${c.id}/lessons.html`);
         const html = res ? await res.text() : '';
         for (const m of html.matchAll(/<img[^>]+src="(courses\/[^"]+)"/g)) extra.add(m[1]);
@@ -58,6 +57,7 @@ self.addEventListener('fetch', event => {
   }
 
   if (!req.url.startsWith(self.registration.scope)) return;
+  if (url.pathname.includes('/audio/') && url.pathname.endsWith('.mp3')) return; // səs faylları (Range sorğuları) birbaşa şəbəkədən
 
   // Şəbəkə cavab vermirsə və ya xəta qaytarırsa (məsələn, GitHub Pages yenilənərkən qısa müddətlik 404),
   // keşdəki versiya göstərilir. Belə olmasa, tətbiq yerinə GitHub-un 404 səhifəsi açılır.

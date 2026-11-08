@@ -44,11 +44,13 @@ akademiya/
 ## Öyrənmə alətləri
 
 - **Təkrar kartları** (`#tekrar`): hər dərsin testindən 3–5 kart; dərs tamamlananda aktivləşir, aralıqlar 1, 3, 7, 16, 35 gün. Səhv cavab kartı sabaha qaytarır.
-- **Səhvlərim** (`#sehvler`), **Əlfəcinlər** (`#elfecinler`, nümunə/qeyd bloklarındakı ☆), **Lüğət** (`#luget`, `data/glossary.json`), **Axtarış** (`#axtar`, `data/search.json`), **Statistika və nişanlar** (`#statistika`).
+- **Səhvlərim** (`#sehvler`), **Vurğularım** (`#vurgular`; köhnə əlfəcinlər bir dəfəlik vurğuya çevrilir, `#elfecinler` bura yönəlir), **Lüğət** (`#luget`, `data/glossary.json`), **Axtarış** (`#axtar`, `data/search.json`), **Statistika və nişanlar** (`#statistika`).
 - **Öyrənmə yolları**: `courses/catalog.json`-dakı `paths`.
-- **Şrift ölçüsü** (Aa), **səsli oxu** (🔊 Dinlə, brauzerin speechSynthesis-i; az səsi cihazdan asılıdır), **Claude-dan soruş** (yalnız claude.ai versiyasında).
+- **Şrift ölçüsü** (Aa), **səsli oxu**: pleyer `courses/<kurs>/audio/<dərs>.mp3` + `audio/index.json` (abzas vaxtları) faylları ilə işləyir; bunları `.github/workflows/tts.yml` Meta MMS-TTS (Azərbaycan dili, latın) modeli ilə yaradır (`tools/tts/make_audio.py`). Fayl yoxdursa, yalnız cihazda Azərbaycan səsi varsa brauzer səsi işlənir; **Claude-dan soruş** (yalnız claude.ai versiyasında).
 - **Vurğulama**: dərsdə mətni seçəndə aşağıda panel çıxır (3 rəng, “Kart”). **Öz kartlarım** (`#kartlarim`) təkrar sisteminə qoşulur.
 - Hər kursun yan panelində: **Kurs xəritəsi** (`#<kurs>-xerite`, `data/map.json`: `data/links.json`-dakı əl ilə yazılmış əlaqələr + lüğətdən çıxan əlaqələr), **Konspekt** (`#<kurs>-konspekt`: çap/PDF, Markdown), **Layihə və əlavə oxu** (`#<kurs>-elave`, `data/extras.json`).
+- **Kurslar arası əlaqələr**: `data/xlinks.json` (`[kurs, dərs, kurs, dərs, izah]`, 0-dan sayılır) → `node tools/build_index.mjs` → `data/xmap.json`; hər dərsin sonunda “🔗 Digər kurslarla əlaqə”.
+- Şəkillərin lisenziya məlumatı `courses/<kurs>/img/credits.json`-da saxlanılır, tətbiqdə göstərilmir.
 - **Əsas fikirlər**: hər dərsin sonunda 3–4 bənd (`data/keys.json`, kurs id → dərs indeksi → bəndlər; yekun imtahanda `null`). Konspektdə də göstərilir. Lüğətdə hər terminin nümunəsi `n` sahəsindədir.
 - **Kursu sıfırla** (yan paneldə): irəliləyiş həmişə, kartlar/qeydlər/vurğular/öz kartlar/layihə seçimlə silinir. `reset` və `resetNotes` vaxt nişanları `merge()`-də köhnə (bulud) nüsxələrin irəliləyişi geri gətirməsinə imkan vermir; fayldan bərpa isə təzə sayılır.
 - Telefonda dərslər arasında sola/sağa sürüşdürərək keçmək olur.
