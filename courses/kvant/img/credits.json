@@ -1,0 +1,56 @@
+{
+ "solvay": {
+  "title": "Solvay conference 1927.jpg",
+  "artist": "Benjamin Couprie",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Solvay_conference_1927.jpg"
+ },
+ "bohr": {
+  "title": "Niels Bohr.jpg",
+  "artist": "The American Institute of Physics credits the photo [1] to AB Lagrelius &amp; Westphal, which is the Swedish company use",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Niels_Bohr.jpg"
+ },
+ "schrodinger": {
+  "title": "Erwin Schrödinger (1933).jpg",
+  "artist": "Nobel foundation",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Erwin_Schr%C3%B6dinger_(1933).jpg"
+ },
+ "pishik": {
+  "title": "Schrodingers cat.svg",
+  "artist": "Dhatfield",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Schrodingers_cat.svg"
+ },
+ "yariq": {
+  "title": "Double-slit experiment results Tonomura 2.jpg",
+  "artist": "user:Belsazar",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Double-slit_experiment_results_Tonomura_2.jpg"
+ },
+ "ibm-q": {
+  "title": "IBM Q system (Fraunhofer 2).jpg",
+  "artist": "IBM Research",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:IBM_Q_system_(Fraunhofer_2).jpg"
+ },
+ "kriostat": {
+  "title": "Dilution Fridge with Quantum Processors Enclosed 008 8K.png",
+  "artist": "OJB Quantum",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Dilution_Fridge_with_Quantum_Processors_Enclosed_008_8K.png"
+ },
+ "cip": {
+  "title": "Google Sycamore Chip 001.png",
+  "artist": "Google (https://www.youtube.com/channel/UCK8sQmJBp8GCxrOtXWBpyEA)",
+  "license": "CC BY 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Google_Sycamore_Chip_001.png"
+ },
+ "ion": {
+  "title": "Quantum Computing; Ion Trapping (5941055642).jpg",
+  "artist": "National Institute of Standards and Technology",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Quantum_Computing;_Ion_Trapping_(5941055642).jpg"
+ }
+}
