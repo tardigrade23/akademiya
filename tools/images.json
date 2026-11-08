@@ -59,5 +59,35 @@
     "kriostat": "search:dilution refrigerator quantum computer",
     "cip": "search:Google Sycamore quantum processor",
     "ion": "search:ion trap quantum computer chip"
+  },
+  "si": {
+    "deep-blue": "search:Deep Blue chess computer IBM",
+    "alphago": "search:Lee Sedol AlphaGo",
+    "cajal": "search:Cajal drawing neurons cerebellum",
+    "perseptron": "search:Mark I Perceptron",
+    "mccarthy": "search:John McCarthy computer scientist"
+  },
+  "agent": {
+    "shakey": "search:Shakey the robot SRI",
+    "rover": "search:Curiosity rover selfie Mars",
+    "dispetcer": "search:air traffic control room"
+  },
+  "caio": {
+    "iclas": "search:business meeting boardroom",
+    "sahmat": "search:chess pieces board strategy",
+    "komanda": "search:team workshop sticky notes"
+  },
+  "kripto": {
+    "enigma": "search:Enigma machine Wehrmacht",
+    "bletchley": "search:Bletchley Park mansion",
+    "skitala": "search:scytale",
+    "sezar": "search:Julius Caesar bust Tusculum",
+    "alkindi": "search:al-Kindi manuscript cryptanalysis"
+  },
+  "kiber": {
+    "wannacry": "search:WannaCry ransomware screenshot",
+    "morris": "search:Morris worm floppy disk",
+    "router": "search:wireless router",
+    "usb": "search:USB flash drive"
   }
 }
