@@ -1,0 +1,86 @@
+{
+ "metropolis": {
+  "title": "Horst von Harbou - Metropolis set photograph 05.jpg",
+  "artist": "Horst von Harbou",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Horst_von_Harbou_-_Metropolis_set_photograph_05.jpg"
+ },
+ "aya": {
+  "title": "Le Voyage dans la lune.jpg",
+  "artist": "Georges Méliès",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_lune.jpg"
+ },
+ "rur": {
+  "title": "Capek play.jpg",
+  "artist": "Unknown, uploaded to ar.wiki by ar:المستخدم:Classic 971 on 13 July 2006, to en.wiki by en:User:Rocketmagnet on 4 Decembe",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Capek_play.jpg"
+ },
+ "norad": {
+  "title": "Cheyenne Mountain Const - tunnel with pipes.jpg",
+  "artist": "",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Cheyenne_Mountain_Const_-_tunnel_with_pipes.jpg"
+ },
+ "m87": {
+  "title": "Black hole - Messier 87.jpg",
+  "artist": "Event Horizon Telescope",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87.jpg"
+ },
+ "gps": {
+  "title": "GPS-IIR (cropped).jpg",
+  "artist": "US Government",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:GPS-IIR_(cropped).jpg"
+ },
+ "arecibo": {
+  "title": "Arecibo message monochrome transparent.png",
+  "artist": "Pablo Carlos Budassi",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Arecibo_message_monochrome_transparent.png"
+ },
+ "sagan": {
+  "title": "Carl Sagan Planetary Society.JPG",
+  "artist": "NASA/JPL",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Carl_Sagan_Planetary_Society.JPG"
+ },
+ "thorne": {
+  "title": "Kip Thorne at Caltech.jpg",
+  "artist": "Keenan Pepper",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Kip_Thorne_at_Caltech.jpg"
+ },
+ "adleman": {
+  "title": "Len-mankin-pic.jpg",
+  "artist": "len adlmen",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Len-mankin-pic.jpg"
+ },
+ "velociraptor": {
+  "title": "Velociraptor size.png",
+  "artist": "PaleoNeolitic",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Velociraptor_size.png"
+ },
+ "kepler16": {
+  "title": "Kepler-16b.jpg",
+  "artist": "NASA/JPL-Caltech/T. Pyle",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Kepler-16b.jpg"
+ },
+ "oregon": {
+  "title": "Oregon Dunes OR2.jpg",
+  "artist": "Acroterion",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Oregon_Dunes_OR2.jpg"
+ },
+ "eliza": {
+  "title": "ELIZA conversation.png",
+  "artist": "Unknown authorUnknown author",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:ELIZA_conversation.png"
+ }
+}
