@@ -56,6 +56,7 @@ select{font:15px var(--sans);padding:8px 10px;border-radius:8px;border:1px solid
       <tr><td>Kodun işlədiyini bilmir</td><td>Testləri, build-i işə salıb nəticəyə baxır</td></tr>
       <tr><td>Hər dəfə konteksti izah etməlisiniz</td><td>Layihənin qaydalarını <span class="sym">CLAUDE.md</span> faylından xatırlayır</td></tr>
     </table></div>
+    <figure class="pic"><img src="courses/claudecode/img/lovelace.jpg" alt="Ada Lavleys" data-credit="lovelace" loading="lazy"><figcaption><b>Ada Lavleys (1815–1852)</b>İlk kompüter proqramının müəllifi sayılır: 1843-cü ildə Çarlz Bebbicin “Analitik maşını” üçün Bernulli ədədlərini hesablayan alqoritm yazıb. O, hələ o vaxt yazırdı ki, maşın təkcə ədədlərlə deyil, musiqi kimi simvollarla da işləyə bilər. 180 il sonra biz maşınla adi dildə danışırıq.</figcaption></figure>
     <h3 style="margin-top:14px">Harada işləyir?</h3>
     <ul>
       <li><b>Terminal (CLI):</b> əsas forma. Layihə qovluğunda <span class="sym">claude</span> yazırsınız.</li>
@@ -82,6 +83,7 @@ select{font:15px var(--sans);padding:8px 10px;border-radius:8px;border:1px solid
     <p>Node.js quraşdırılıbsa, npm ilə də olar:</p>
     <pre class="code">npm install -g @anthropic-ai/claude-code</pre>
     <p>İlk açılışda hesabınıza daxil olmağınız istənir. Claude abunəliyi (Pro, Max, Team və s.) və ya API açarı ilə daxil olmaq mümkündür.</p>
+    <figure class="pic wide fit"><img src="courses/claudecode/img/vt100.jpg" alt="DEC VT100 terminalı" data-credit="vt100" loading="lazy"><figcaption><b>DEC VT100 (1978)</b>Terminal belə yaranıb: ekran və klaviatura, arxada isə uzaqdakı güclü kompüter. Bu gün terminal pəncərəsi də eyni ideyanın davamıdır. Claude Code-un “evi” də məhz terminaldır.</figcaption></figure>
     <h3>İlk sessiya</h3>
     <pre class="code">cd ~/layiheler/menim-saytim
 claude</pre>
@@ -118,6 +120,7 @@ claude</pre>
   <div class="card">
     <h2>3. Yaxşı tapşırıq (prompt) yazmaq</h2>
     <p class="lead">Claude Code-un nəticəsinin keyfiyyəti çox vaxt tapşırığın keyfiyyətindən asılıdır. Claude sizin beyninizi oxuya bilmir: bildiyiniz, amma yazmadığınız hər şey onun üçün yoxdur.</p>
+    <figure class="pic"><img src="courses/claudecode/img/defter.jpg" alt="Dəftərə qeyd yazmaq" data-credit="defter" loading="lazy"><figcaption><b>Əvvəlcə düşün, sonra yaz</b>Yaxşı tapşırıq yazmaq aydın düşünməyin özüdür. Bir çox təcrübəli proqramçı Claude-a yazmazdan əvvəl məqsədi kağızda 3–4 cümlə ilə yazır. Yaza bilmirsinizsə, deməli hələ özünüz də dəqiq bilmirsiniz.</figcaption></figure>
     <h3>Yaxşı tapşırığın 6 elementi</h3>
     <ol>
       <li><b>Məqsəd:</b> nə etmək lazımdır? (“düzəlt”, “əlavə et”, “yenidən yaz”)</li>
@@ -176,6 +179,7 @@ claude</pre>
       <p>“Əvvəlcə <span class="sym">calculateDiscount</span> funksiyası üçün testlər yaz: 10%, 0%, mənfi məbləğ və 100%-dən çox endirim halları. Testləri işə sal və uğursuz olduqlarını göstər. Testləri commit et. Sonra funksiyanı elə yaz ki, bütün testlər keçsin. Testləri dəyişmə.”</p>
       <p>Claude-un aydın hədəfi (testlər) olanda o, özü yoxlayıb özü düzəldir, siz isə nəticəyə əmin olursunuz.</p>
     </div>
+    <figure class="pic wide fit"><img src="courses/claudecode/img/bug.jpg" alt="1947-ci il jurnalında yapışdırılmış güvə" data-credit="bug" loading="lazy"><figcaption><b>İlk “bug” (1947)</b>Harvard Mark II kompüterinin jurnalı: 9 sentyabr 1947-ci ildə operatorlar releyin içində güvə tapıb onu jurnala yapışdırıblar və yazıblar: “bug-ın tapıldığı ilk real hal”. Bu hekayəni Qreys Hopper məşhurlaşdırıb. Səhvlər həmişə olub, onları tapmaq üçün yoxlama lazımdır.</figcaption></figure>
     <div class="ex"><span class="tag">📌 Real nümunə: bu Akademiyada yoxlama</span>
       <p>Hər dəyişiklikdən sonra Claude Code tətbiqi görünməyən (headless) brauzerdə açıb testləri işə saldı: telefon enində səhifənin yana sürüşməsi, testlərin işləməsi, oflayn rejim. Bir dəfə məhz bu yoxlama mobil görünüşdə bir xətanı tapdı: ana səhifə dərsin üstündə qalırdı. Xəta sizə çatmamış düzəldildi. <b>Yoxlama olmadan “hazırdır” demək olmaz.</b></p>
     </div>
@@ -204,6 +208,7 @@ claude</pre>
       <tr><td>bypassPermissions</td><td>Heç nə soruşmur</td><td>Yalnız təcrid olunmuş mühitdə (konteyner, sınaq maşını)</td></tr>
     </table></div>
     <p>Rejimlər arasında <kbd>Shift</kbd>+<kbd>Tab</kbd> ilə keçilir. Yeni versiyalarda “auto” kimi əlavə rejimlər də ola bilər: təhlükəsiz addımları özü edir, riskli olanlarda soruşur.</p>
+    <figure class="pic"><img src="courses/claudecode/img/qifil.jpg" alt="Kəsik qıfıl" data-credit="qifil" loading="lazy"><figcaption><b>İcazə sistemi bir qıfıldır</b>Qıfıl kimi icazə qaydaları da kimin, nəyi, nə vaxt aça biləcəyini müəyyən edir. Ən yaxşı qıfıl rahatlıqla təhlükəsizlik arasında balans qurandır.</figcaption></figure>
     <h3>İcazə qaydaları</h3>
     <p>Hər dəfə eyni sualı cavablandırmamaq üçün qaydaları <span class="sym">settings.json</span>-da yazmaq olar:</p>
     <pre class="code">{
@@ -430,6 +435,7 @@ və xəta halları üçün test yaz. Mövcud test üslubuna uy. Testləri işə 
   <div class="card">
     <h2>11. MCP: Claude-u xarici alətlərə qoşmaq</h2>
     <p class="lead"><b>MCP</b> (Model Context Protocol) Claude-u kənar sistemlərə qoşmaq üçün açıq standartdır: GitHub, verilənlər bazası, Figma, Slack, brauzer və s.</p>
+    <figure class="pic"><img src="courses/claudecode/img/usb.jpg" alt="İki USB-C konnektoru" data-credit="usb" loading="lazy"><figcaption><b>“Süni intellekt üçün USB-C”</b>MCP-ni yaradan Anthropic onu çox vaxt USB-C portu ilə müqayisə edir: hər cihaz üçün ayrıca kabel əvəzinə bir standart. MCP də hər xidmət üçün ayrıca inteqrasiya əvəzinə Claude-u istənilən aləti eyni protokolla qoşmağa imkan verir.</figcaption></figure>
     <p>MCP serveri əlavə etmək:</p>
     <pre class="code"># kompüterdə işləyən server
 claude mcp add playwright -- npx @playwright/mcp@latest
@@ -472,6 +478,7 @@ cat error.log | claude -p "bu xətaların ən çox rast gəlinən 3 səbəbini i
 claude -p "testləri işə sal və nəticəni xülasə et" --output-format json</pre>
     <h3>GitHub ilə</h3>
     <p>Claude-un GitHub tətbiqini quraşdırsanız (terminalda <span class="sym">/install-github-app</span>), issue və ya PR şərhində <span class="sym">@claude</span> yazıb tapşırıq verə bilərsiniz: “@claude bu bug-ı düzəlt”. O, branch yaradıb dəyişiklik edir və PR açır.</p>
+    <figure class="pic"><img src="courses/reqemsal/img/data-merkezi.jpg" alt="Server rəfləri" data-credit="reqemsal/data-merkezi" loading="lazy"><figcaption><b>Bulud: başqasının kompüteri</b>Bulud sessiyası belə bir data mərkəzindəki təcrid olunmuş konteynerdə işləyir. Siz telefonu bağlasanız da, iş orada davam edir.</figcaption></figure>
     <h3>Bulud sessiyaları</h3>
     <p>claude.ai/code və ya Claude tətbiqində sessiya Anthropic-in buludundakı təcrid olunmuş konteynerdə işləyir: repo ora klonlanır, iş orada görülür, nəticə branch-a göndərilir. Kompüteriniz söndürülü olsa belə, iş davam edir. Telefondan da izləmək olar.</p>
     <div class="ex"><span class="tag">📌 Real nümunə: siz bunu artıq etmisiniz</span>
@@ -498,6 +505,7 @@ claude -p "testləri işə sal və nəticəni xülasə et" --output-format json<
       <li><b>Diaqnostika:</b> dərc uğursuz oldu. Claude logu oxudu, səbəbi tapdı (private repo və Pages), seçimləri izah etdi, qərarı sizə buraxdı. <i>Prinsip: xətanı oxu, təxmin etmə.</i></li>
       <li><b>Bilik ötürmə:</b> README-də yeni kursun necə əlavə olunduğu yazıldı. Bu kurs da həmin təlimata əsasən əlavə edildi. <i>Prinsip: yaddaş (CLAUDE.md / README).</i></li>
     </ol>
+    <figure class="pic"><img src="courses/claudecode/img/hamilton.jpg" alt="Marqaret Hamilton Apollon proqram kodunun çap nüsxələri ilə" data-credit="hamilton" loading="lazy"><figcaption><b>Marqaret Hamilton (1969)</b>NASA-nın Apollon missiyası üçün proqram təminatına rəhbərlik edib. Yanındakı kağız qalağı onun komandasının yazdığı kodun çap nüsxəsidir. Ay enişi zamanı kompüter həddən artıq yüklənəndə, komandanın əvvəlcədən düşündüyü xəta idarəetməsi sayəsində sistem vacib işləri ön plana çəkdi və eniş davam etdi. Uğurun sirri yoxlama və əvvəlcədən düşünülmüş prosesdir. Bu kurs da bunu öyrədir.</figcaption></figure>
     <div class="note"><b>Nəticə:</b> Claude Code ilə uğurlu iş “sehrli bir prompt” deyil, bir prosesdir: aydın məqsəd, qısa dövrlər, mütləq yoxlama, vacib qərarlarda insanın nəzarəti və yaddaşın saxlanması.</div>
     <h3>Sizin növbəti layihəniz üçün plan</h3>
     <ol>

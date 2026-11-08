@@ -310,3 +310,5 @@ svg.diagram{width:100%;height:auto;display:block;border-radius:14px;background:v
   .stat{flex-direction:column;align-items:flex-start;gap:6px}
   .stat .ic{width:34px;height:34px;flex-basis:34px;font-size:16px}
 }
+
+figure.pic.fit img{object-fit:contain;max-height:300px;background:#fff;padding:6px}
