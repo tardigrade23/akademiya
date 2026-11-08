@@ -1,0 +1,247 @@
+<style>
+.mx{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px;align-items:start}
+.mx label{display:flex;justify-content:space-between;font-weight:600;font-size:.9rem}
+.mx input[type=range],.mx select{width:100%}
+svg.matrix{width:100%;height:auto;border-radius:12px;background:var(--code)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px}
+.kpi{border-radius:14px;padding:12px 14px;background:var(--accent-soft)}
+.kpi .n{font:700 1.4rem var(--serif);font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.82rem;color:var(--muted)}
+.qs{display:grid;gap:8px;margin:10px 0}
+.qs .qrow{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--panel)}
+.qs .qrow .yn button{border:1.5px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:5px 14px;font:inherit;cursor:pointer;margin-left:4px}
+.qs .qrow .yn button.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.chk{display:grid;gap:6px;margin:10px 0}
+.chk label{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--panel);cursor:pointer}
+.chk input{margin-top:4px;accent-color:var(--accent)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border:1.5px solid var(--accent);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 16px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--accent);color:var(--on-accent)}
+@media (max-width:640px){.mx{grid-template-columns:1fr}}
+</style>
+
+<section class="lesson" data-title="CAIO rolu" data-ill="crown">
+  <div class="card">
+    <h2>1. Chief AI Officer kimdir?</h2>
+    <p class="lead"><b>Chief AI Officer (CAIO)</b>, yəni Süni İntellekt üzrə Baş Direktor, təşkilatda Sİ-nin <b>dəyər yaratmasına</b> və <b>təhlükəsiz istifadəsinə</b> cavabdeh olan rəhbərdir.</p>
+    <p>Sİ bir şöbənin deyil, bütün təşkilatın işini dəyişir: satış, hüquq, HR, maliyyə, müştəri xidməti. Ona görə də kimsə bütöv mənzərəni görməli, prioritetləri müəyyən etməli və riskləri idarə etməlidir.</p>
+    <h3>Əsas məsuliyyətlər</h3>
+    <ol>
+      <li><b>Strategiya:</b> Sİ-nin hansı biznes məqsədlərinə xidmət edəcəyini müəyyən etmək.</li>
+      <li><b>Portfel:</b> use-case-ləri, yəni istifadə hallarını seçmək və prioritetləşdirmək.</li>
+      <li><b>İdarəetmə (governance):</b> qaydalar, risklər, tənzimləmə tələblərinə uyğunluq.</li>
+      <li><b>İnsanlar:</b> bacarıqlar, komanda quruluşu, Sİ savadlılığı.</li>
+      <li><b>Dəyərin ölçülməsi:</b> pilotdan real nəticəyə keçid.</li>
+    </ol>
+    <figure class="pic"><img src="courses/caio/img/iclas.jpg" alt="Direktorlar şurasının iclası" data-credit="iclas" loading="lazy"><figcaption><b>Sİ direktorlar şurasının mövzusudur</b>Sİ artıq yalnız IT şöbəsinin məsələsi deyil: o, biznes modelinə, işçi qüvvəsinə və şirkətin reputasiyasına təsir edir. Ona görə CAIO çox vaxt birbaşa baş direktora tabe olur.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: ABŞ federal qurumları</span>
+      <p>2024-cü ilin martında ABŞ hökuməti federal qurumlardan Sİ üzrə məsul şəxs, yəni <b>Chief AI Officer</b> təyin etməyi tələb etdi. Onun vəzifəsi qurumda Sİ-nin istifadəsini koordinasiya etmək, risklərə nəzarət etmək və innovasiyanı dəstəkləməkdir. Bir çox böyük bank, sığorta şirkəti və pərakəndə şəbəkəsi də oxşar vəzifələr yaradıb.</p>
+    </div>
+    <div class="note"><b>CAIO, CIO, CDO, CTO fərqi:</b> CIO şirkətin informasiya sistemlərini, CTO məhsul texnologiyasını, CDO isə datanı idarə edir. CAIO bunların kəsişməsində durur, amma əsas sualı belədir: <b>“Sİ ilə hansı biznes dəyəri yaradırıq və bunu necə təhlükəsiz edirik?”</b> Kiçik təşkilatlarda bu rolu bəzən CIO və ya CDO öz üzərinə götürür.</div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: bu kimin məsuliyyətidir?</h3><div id="c1Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="role"></div></div>
+</section>
+
+<section class="lesson" data-title="Sİ strategiyası və portfel" data-ill="compass">
+  <div class="card">
+    <h2>2. Sİ strategiyası və use-case portfeli</h2>
+    <p class="lead">Ən geniş yayılmış səhv: <b>“Bizə Sİ lazımdır. Gəlin nəsə edək.”</b> Düzgün sual isə belədir: “Biznesimizin hansı problemini Sİ ilə daha yaxşı, daha sürətli və ya daha ucuz həll edə bilərik?”</p>
+    <h3>Use-case-ləri qiymətləndirmək</h3>
+    <p>Hər istifadə halı iki oxda qiymətləndirilir:</p>
+    <ul>
+      <li><b>Dəyər:</b> gəlir artımı, xərc qənaəti, risk azalması, müştəri təcrübəsi.</li>
+      <li><b>İcra oluna bilmə:</b> data hazırdırmı, texnologiya yetkindirmi, risk nə qədərdir, komandada bacarıq varmı?</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Real nümunə: sığorta şirkəti</span>
+      <p>Şirkətin 20 Sİ ideyası var. Matrisə yerləşdirəndən sonra mənzərə aydınlaşır. <b>Tez qələbə:</b> zəng mərkəzində söhbətlərin avtomatik xülasəsi. Data var, risk aşağıdır, qənaət böyükdür. <b>Strateji mərc:</b> avtomobil qəzası şəkillərindən zərərin avtomatik qiymətləndirilməsi. Dəyəri böyükdür, amma data hazırlığı 1 il çəkəcək. <b>Qaçmaq lazım:</b> “Sİ ilə korporativ şeir yazmaq” 🙂</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📊 Alət: dəyər və icra matrisi</h3>
+    <p class="fb">Use-case seçin və onu iki oxda qiymətləndirin. Nöqtə matrisdəki yerinə keçəcək.</p>
+    <div class="mx">
+      <div>
+        <label>Use-case</label><select id="mxSel"></select>
+        <label style="margin-top:10px">Biznes dəyəri <b id="mxV">5</b></label><input type="range" id="mxVin" min="1" max="10" value="5">
+        <label style="margin-top:10px">İcra oluna bilmə <b id="mxF">5</b></label><input type="range" id="mxFin" min="1" max="10" value="5">
+        <div id="mxMsg"></div>
+      </div>
+      <svg class="matrix" id="mxSvg" viewBox="0 0 320 300" aria-label="Prioritet matrisi"></svg>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="strategy"></div></div>
+</section>
+
+<section class="lesson" data-title="Biznes keysi" data-ill="chart">
+  <div class="card">
+    <h2>3. Biznes keysi: Sİ layihəsi özünü ödəyirmi?</h2>
+    <p class="lead">Sİ layihəsinin iqtisadiyyatı adi IT layihəsindən fərqlidir: hər sorğunun öz xərci var, nəticə 100% dəqiq deyil və insan yoxlaması lazım ola bilər.</p>
+    <h3>Nəzərə alınmalı xərclər</h3>
+    <ul>
+      <li><b>Birdəfəlik:</b> inteqrasiya, data hazırlığı, test, təlim.</li>
+      <li><b>Dəyişən:</b> hər sorğunun model xərci (tokenlər).</li>
+      <li><b>Gizli:</b> səhv cavabların insan tərəfindən yoxlanması və düzəldilməsi, monitorinq.</li>
+    </ul>
+    <div class="ex warn"><span class="tag">⚠️ Tipik səhv</span>
+      <p>“Sİ hər sorğuda 10 dəqiqə qənaət edir, ayda 10 000 sorğu var, deməli 1667 saat qənaət edirik!” Amma nəticələrin 15%-ini insan yoxlamalı və düzəltməlidirsə, azad olan vaxt başqa işə yönəldilmirsə və işçilər sistemi istifadə etmirsə, real qənaət xeyli az olur.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧮 Kalkulyator: Sİ use-case-in biznes keysi</h3>
+    <div class="tool-row">
+      <label>Ayda sorğu sayı<input type="number" id="bcN" value="8000"></label>
+      <label>Bir sorğuda qənaət (dəq.)<input type="number" id="bcM" value="6"></label>
+      <label>İşçinin saatlıq xərci (₼)<input type="number" id="bcH" value="9"></label>
+      <label>İnsan yoxlaması tələb edən pay (%)<input type="number" id="bcR" value="20"></label>
+      <label>Bir yoxlama (dəq.)<input type="number" id="bcRM" value="3"></label>
+      <label>Sİ xərci, bir sorğu (₼)<input type="number" id="bcA" value="0.04" step="0.01"></label>
+      <label>Birdəfəlik xərc (₼)<input type="number" id="bcC" value="30000"></label>
+      <label>İstifadə səviyyəsi (%)<input type="number" id="bcU" value="70"></label>
+    </div>
+    <div class="kpis" id="bcOut"></div>
+    <div id="bcMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="bizcase"></div></div>
+</section>
+
+<section class="lesson" data-title="Qurmaq, almaq, yoxsa tərəfdaş?" data-ill="blocks">
+  <div class="card">
+    <h2>4. Qurmaq, almaq, yoxsa tərəfdaşlıq?</h2>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Variant</th><th>Nədir</th><th>Nə vaxt</th></tr>
+      <tr><td><b>Almaq</b> (buy)</td><td>Hazır Sİ məhsulu: ofis köməkçisi, CRM-də Sİ funksiyası</td><td>Ümumi tapşırıqlar, tez nəticə lazımdır, rəqabət üstünlüyü vermir</td></tr>
+      <tr><td><b>Qurmaq</b> (build)</td><td>Model API-ləri üzərində öz həllinizi qurmaq</td><td>Unikal data və proses, rəqabət üstünlüyü, daxili komanda var</td></tr>
+      <tr><td><b>Tərəfdaşlıq</b></td><td>İnteqrator və ya konsaltinq şirkəti ilə birgə</td><td>Bacarıq yoxdur, amma həll xüsusi olmalıdır</td></tr>
+    </table></div>
+    <div class="ex"><span class="tag">📌 Real nümunə: bank</span>
+      <p>Bank işçilər üçün <b>hazır</b> Sİ ofis köməkçisi alır (məktub, xülasə). Bu, rəqabət üstünlüyü deyil, gigiyenadır. Kredit riskinin qiymətləndirilməsi üçün isə öz datası ilə <b>öz modelini qurur</b>, çünki bu, bankın əsas biznesi və unikal dəyəridir. Mobil tətbiqdə Sİ köməkçisi üçün isə <b>tərəfdaşla</b> işləyir: daxili komanda hələ kiçikdir.</p>
+    </div>
+    <div class="note"><b>Data suverenliyi:</b> Müştəri və dövlət datası ilə işləyəndə data harada saxlanılır və emal olunur, provayder datanızdan model öyrətmək üçün istifadə edirmi? Müqavilədə bunlar aydın yazılmalıdır.</div>
+  </div>
+  <div class="card">
+    <h3>🧭 Alət: qərar köməkçisi</h3>
+    <div class="qs" id="bbQs"></div>
+    <div id="bbOut"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="buybuild"></div></div>
+</section>
+
+<section class="lesson" data-title="Sİ idarəetməsi (governance)" data-ill="shield">
+  <div class="card">
+    <h2>5. Sİ idarəetməsi: sürət və təhlükəsizlik balansı</h2>
+    <p class="lead">Governance innovasiyanı dayandırmaq deyil. Əksinə, aydın qaydalar komandalara <b>daha sürətli</b> və inamla hərəkət etməyə imkan verir.</p>
+    <h3>Əsas çərçivələr</h3>
+    <ul>
+      <li><b>AB Sİ Aktı (2024):</b> riskə əsaslanan qanun. Avropa ilə işləyən şirkətlər üçün məcburidir. Süni intellekt kursunun 9-cu dərsinə baxın.</li>
+      <li><b>NIST AI RMF (ABŞ, 2023):</b> könüllü risk idarəetmə çərçivəsi, dörd funksiyası var: <b>Govern</b> (idarə et), <b>Map</b> (xəritələ), <b>Measure</b> (ölç), <b>Manage</b> (idarə et/azalt).</li>
+      <li><b>ISO/IEC 42001 (2023):</b> Sİ idarəetmə sistemləri üzrə beynəlxalq standart. Şirkət bu standart üzrə sertifikat ala bilər.</li>
+    </ul>
+    <h3>Minimal Sİ siyasəti nələri əhatə etməlidir?</h3>
+    <ul>
+      <li>Hansı Sİ alətlərinə icazə var, hansılarına yoxdur.</li>
+      <li>Hansı datanı Sİ-yə vermək olmaz (müştəri, şəxsi, gizli məlumat).</li>
+      <li>Hansı qərarlarda insan nəzarəti məcburidir.</li>
+      <li>Sİ ilə yaradılan məzmun necə işarələnir.</li>
+      <li>Sİ sistemlərinin reyestri: hansı sistem harada istifadə olunur, kim məsuldur.</li>
+    </ul>
+    <div class="ex warn"><span class="tag">⚠️ “Kölgə Sİ” (shadow AI)</span>
+      <p>Rəsmi alət verilməyəndə işçilər öz şəxsi hesablarındakı pulsuz Sİ xidmətlərindən istifadə edir və ora müştəri datası, müqavilələr, kod yazırlar. Qadağa adətən işləmir. Daha yaxşı həll: təhlükəsiz korporativ alət vermək və aydın qaydalar qoymaq.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>✅ Özünüqiymətləndirmə: təşkilatınızın Sİ idarəetməsi</h3>
+    <div class="chk" id="gvChk"></div>
+    <div id="gvMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="gov"></div></div>
+</section>
+
+<section class="lesson" data-title="Komanda və təşkilat modeli" data-ill="users">
+  <div class="card">
+    <h2>6. Komanda və təşkilat modeli</h2>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Model</th><th>Necə işləyir</th><th>Üstünlük</th><th>Risk</th></tr>
+      <tr><td><b>Mərkəzləşmiş (CoE)</b></td><td>Bütün Sİ ekspertləri bir “Mükəmməllik Mərkəzində” toplanır</td><td>Standartlar, bilik toplanır</td><td>Biznesdən uzaq qalır, “növbə” yaranır</td></tr>
+      <tr><td><b>Hub-and-spoke</b></td><td>Mərkəz platforma və qaydaları verir, şöbələrdə Sİ mütəxəssisləri işləyir</td><td>Balans: standart və sürət</td><td>Koordinasiya tələb edir</td></tr>
+      <tr><td><b>Mərkəzləşməmiş</b></td><td>Hər şöbə öz Sİ işini aparır</td><td>Sürət, biznesə yaxınlıq</td><td>Təkrarlanma, risklər, uyğunsuzluq</td></tr>
+    </table></div>
+    <p>Əksər təşkilatlar <b>mərkəzləşmiş</b> modellə başlayır, yetkinləşdikcə isə <b>hub-and-spoke</b> modelinə keçir.</p>
+    <figure class="pic"><img src="courses/caio/img/komanda.jpg" alt="Komanda seminarı" data-credit="komanda" loading="lazy"><figcaption><b>Sİ komandası təkcə mühəndislərdən ibarət deyil</b>Yaxşı komandada məhsul meneceri, data mühəndisi, Sİ mühəndisi, hüquqşünas və risk mütəxəssisi, eləcə də biznes ekspertləri olur.</figcaption></figure>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: bu təşkilata hansı model uyğundur?</h3><div id="c6Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="org"></div></div>
+</section>
+
+<section class="lesson" data-title="Sİ savadlılığı və dəyişiklik" data-ill="cycle">
+  <div class="card">
+    <h2>7. Sİ savadlılığı və dəyişikliyin idarəsi</h2>
+    <p class="lead">Ən yaxşı Sİ sistemi istifadə olunmursa, dəyəri sıfırdır. Texnologiya alınır, istifadə vərdişi isə qurulmalıdır.</p>
+    <p>AB Sİ Aktına görə 2025-ci ilin fevralından Sİ sistemlərindən istifadə edən təşkilatlar işçilərinin kifayət qədər <b>Sİ savadlılığına</b> malik olmasını təmin etməlidir. Bu, yaxşı təcrübə olmaqla yanaşı, artıq hüquqi tələbdir.</p>
+    <h3>Rollara görə təlim</h3>
+    <ul>
+      <li><b>Hamı:</b> Sİ nədir, nə edə bilir, nə edə bilmir, hansı data qadağandır, nəticəni necə yoxlamalı.</li>
+      <li><b>Rəhbərlər:</b> use-case seçimi, risk, investisiya qərarları.</li>
+      <li><b>“Güclü istifadəçilər”:</b> prompt texnikaları, avtomatlaşdırma, agentlər.</li>
+      <li><b>Texniki komandalar:</b> modellərin inteqrasiyası, qiymətləndirmə, təhlükəsizlik.</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Real nümunə: “Sİ çempionları”</span>
+      <p>Şirkət hər şöbədən 1–2 maraqlı işçini “Sİ çempionu” seçir. Onlar dərin təlim keçir, ayda bir dəfə öz uğurlu nümunələrini paylaşır və həmkarlarına kömək edir. Həmkarın “bax, bu hesabatı 2 saata yox, 20 dəqiqəyə hazırladım” deməsi rəhbərliyin istənilən təqdimatından daha çox inandırır.</p>
+    </div>
+    <div class="note"><b>Rəqəmsal transformasiya kursu ilə əlaqə:</b> Kotterin 8 addımı (9-cu dərs) Sİ tətbiqində də işləyir: təcililik hissi, koalisiya, qısamüddətli qələbələr, mədəniyyətə yerləşdirmə.</div>
+  </div>
+  <div class="card"><h3>🧩 Məşq: Sİ tətbiq proqramını sıraya düzün</h3><div id="c7Ord"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="literacy"></div></div>
+</section>
+
+<section class="lesson" data-title="Pilotdan dəyərə: ölçmə" data-ill="gauge">
+  <div class="card">
+    <h2>8. Pilotdan dəyərə: ölçmə</h2>
+    <p class="lead">“Pilot cəhənnəmi” (pilot purgatory): onlarla maraqlı Sİ pilotu aparılır, amma heç biri real istehsala və real biznes nəticəsinə çatmır.</p>
+    <h3>Səbəblər</h3>
+    <ul>
+      <li>Pilot real biznes problemi deyil, texnoloji maraq üzərində qurulub.</li>
+      <li>Uğur meyarı əvvəlcədən yazılmayıb.</li>
+      <li>İstehsal üçün lazım olanlar düşünülməyib: inteqrasiya, təhlükəsizlik, dəstək, xərc.</li>
+      <li>Biznes sahibi (“owner”) yoxdur.</li>
+    </ul>
+    <h3>Üç növ göstərici</h3>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Növ</th><th>Sual</th><th>Nümunə</th></tr>
+      <tr><td><b>İstifadə</b></td><td>İnsanlar istifadə edirmi?</td><td>Həftəlik aktiv istifadəçilər, təkrar istifadə</td></tr>
+      <tr><td><b>Dəyər</b></td><td>Biznes nəticəsi dəyişdimi?</td><td>Müraciətin həll müddəti, satış, xərc</td></tr>
+      <tr><td><b>Risk və keyfiyyət</b></td><td>Təhlükəsiz və dəqiqdirmi?</td><td>Xəta faizi, şikayətlər, insidentlər</td></tr>
+    </table></div>
+    <div class="ex life"><span class="tag">✅ Tətbiq: pilot kartı</span>
+      <p>Hər pilotdan əvvəl bir səhifə yazın: biznes problemi; biznes sahibi; uğur meyarı (rəqəmlə); 8–12 həftəlik müddət; uğur olsa, istehsala keçid planı və büdcəsi; uğursuz olsa, “dayandırırıq” qərarı. Bu sonuncu bənd ən çox unudulur.</p>
+    </div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: göstəricini növünə görə ayırın</h3><div id="c8Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="measure"></div></div>
+</section>
+
+<section class="lesson" data-title="İlk 100 gün" data-ill="rocket">
+  <div class="card">
+    <h2>9. CAIO-nun ilk 100 günü</h2>
+    <p class="lead">Yeni CAIO-nun ilk 100 günü inam qurmaq, mənzərəni anlamaq və ilk görünən nəticəni əldə etmək üçündür.</p>
+    <div class="tabs" id="hdTabs"></div>
+    <div id="hdBody"></div>
+    <div class="ex"><span class="tag">📌 İlk 100 günün tipik tələləri</span>
+      <ul>
+        <li>Hər şeyi bir anda etməyə çalışmaq: 30 pilot başlatmaq.</li>
+        <li>Yalnız texnologiyadan danışmaq, biznes nəticəsindən yox.</li>
+        <li>Hüquq, risk və İT şöbələrini sonradan cəlb etmək.</li>
+        <li>“Kölgə Sİ” istifadəsini görməzdən gəlmək.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="hundred"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
+  <div class="card">
+    <h2>10. Yekun imtahan</h2>
+    <p class="lead">15 sual. Ən azı 12 düzgün cavab verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>

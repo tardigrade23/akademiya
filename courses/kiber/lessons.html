@@ -1,0 +1,261 @@
+<style>
+.chk{display:grid;gap:6px;margin:10px 0}
+.chk label{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--panel);cursor:pointer}
+.chk input{margin-top:4px;accent-color:var(--accent)}
+.score-big{font:700 2rem var(--serif);font-variant-numeric:tabular-nums}
+.sms{max-width:420px;border-radius:16px;padding:12px 14px;background:var(--code);border:1px solid var(--line);font-size:.95rem;margin:6px 0}
+.sms small{display:block;color:var(--muted);font-size:.78rem;margin-bottom:4px}
+.login{display:grid;gap:8px;max-width:420px}
+.login input{font:15px var(--mono)}
+.sql{font-family:var(--mono);font-size:.88rem;background:#0f1614;color:#d5e2de;border-radius:10px;padding:10px 12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+.sql .u{color:#ffb86b;font-weight:700}
+.sql .k{color:#7fd6ff}
+.mfa{display:grid;gap:6px;margin:10px 0}
+.mfa div{display:grid;grid-template-columns:170px minmax(0,1fr);gap:10px;align-items:center;font-size:.9rem}
+.mfa .t{height:16px;border-radius:8px;background:var(--line);overflow:hidden}
+.mfa .t i{display:block;height:100%;border-radius:8px}
+@media (max-width:560px){.mfa div{grid-template-columns:110px minmax(0,1fr)}}
+</style>
+
+<section class="lesson" data-title="Təhdid mənzərəsi" data-ill="shield">
+  <div class="card">
+    <h2>1. Təhdid mənzərəsi: kim, nə üçün, necə?</h2>
+    <p class="lead">Kibertəhlükəsizlik “hakerlərə qarşı mübarizə” ilə məhdudlaşmır. Bu, məlumatınızın <b>məxfiliyini</b>, <b>bütövlüyünü</b> və <b>əlçatanlığını</b> qorumaqdır. Bu üç prinsip ingiliscə “CIA üçlüyü” adlanır.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Prinsip</th><th>Pozulma nümunəsi</th></tr>
+      <tr><td><b>Məxfilik</b> (Confidentiality)</td><td>Müştəri bazası sızıb internetdə satılır</td></tr>
+      <tr><td><b>Bütövlük</b> (Integrity)</td><td>Fırıldaqçı qaimədəki bank hesabını dəyişir</td></tr>
+      <tr><td><b>Əlçatanlıq</b> (Availability)</td><td>Ransomware bütün faylları şifrələyir, sayt DDoS hücumu ilə çökür</td></tr>
+    </table></div>
+    <h3>Hücumçular kimdir?</h3>
+    <ul>
+      <li><b>Kibercinayətkarlar:</b> məqsəd puldur. Ən geniş yayılmış qrupdur: fişinq, ransomware, kart fırıldaqları.</li>
+      <li><b>Dövlət dəstəkli qruplar:</b> casusluq, infrastruktura hücum.</li>
+      <li><b>Haktivistlər:</b> siyasi və ya ideoloji motivlə hərəkət edənlər.</li>
+      <li><b>Daxili təhdid:</b> narazı və ya diqqətsiz işçi. Sızmaların ciddi hissəsi səhvdən baş verir.</li>
+    </ul>
+    <figure class="pic noimg"><figcaption><b>Morris qurdu (1988)</b>İnternetdə yayılan ilk məşhur “qurd” proqramı. Tələbə Robert Morrisin təcrübəsi səhv ucbatından o vaxtkı internetə qoşulu kompüterlərin təxminən 10%-ni yavaşlatdı və ya iflic etdi. Bu hadisədən sonra ilk kompüter insidentlərinə reaksiya komandası (CERT) yaradıldı.</figcaption></figure>
+    <div class="note"><b>Əsas fikir:</b> hücumçular adətən ən asan hədəfi seçir. Mükəmməl qorunmağa ehtiyac yoxdur. Əsas qaydalara əməl etmək, yəni “ən asan hədəf olmamaq”, risklərin böyük hissəsini aradan qaldırır. Bu kurs məhz həmin qaydaları öyrədir.</div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: hansı prinsip pozulub?</h3><div id="b1Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="threats"></div></div>
+</section>
+
+<section class="lesson" data-title="Hesablarınızı qoruyun" data-ill="key">
+  <div class="card">
+    <h2>2. Hesablarınızı qoruyun: parol menecerləri, MFA, passkey</h2>
+    <p class="lead">Hesabların ələ keçirilməsinin ən geniş yayılmış səbəbi eyni parolun bir çox saytda təkrar istifadə olunmasıdır. Bir sayt sızır, hücumçular həmin e-poçt və parolla avtomatik olaraq yüzlərlə başqa saytı yoxlayır. Bu hücum <b>credential stuffing</b> adlanır.</p>
+    <h3>Üç qızıl qayda</h3>
+    <ol>
+      <li><b>Parol meneceri:</b> hər sayt üçün uzun, unikal, təsadüfi parol. Siz yalnız bir güclü əsas parolu yadda saxlayırsınız.</li>
+      <li><b>İkiaddımlı doğrulama (MFA)</b> hər vacib hesabda: e-poçt, bank, sosial şəbəkələr, iş hesabları.</li>
+      <li><b>E-poçtunuzu xüsusi qoruyun:</b> o, bütün digər hesabların “bərpa açarıdır”.</li>
+    </ol>
+    <h3>MFA növləri: hansı daha etibarlıdır?</h3>
+    <div class="mfa">
+      <div><span>SMS kodu</span><div class="t"><i style="width:40%;background:var(--ex-amber-b)"></i></div></div>
+      <div><span>Tətbiq kodu (Authenticator)</span><div class="t"><i style="width:65%;background:var(--ex-blue-b)"></i></div></div>
+      <div><span>Push bildirişi + nömrə uyğunluğu</span><div class="t"><i style="width:72%;background:var(--ex-blue-b)"></i></div></div>
+      <div><span>Passkey / fiziki açar</span><div class="t"><i style="width:95%;background:var(--ex-green-b)"></i></div></div>
+    </div>
+    <p class="fb">SMS MFA-sız hesabdan qat-qat yaxşıdır, amma SİM kartın dəyişdirilməsi (SIM swap) və fişinq ilə ələ keçirilə bilər. Passkey isə saxta saytda ümumiyyətlə işləmir, çünki o, saytın ünvanına bağlıdır.</p>
+    <div class="ex warn"><span class="tag">⚠️ Real ssenari: “kodu səhvən göndərdim”</span>
+      <p>WhatsApp-da tanışınızdan mesaj gəlir: “Salam, səhvən sənin nömrənə 6 rəqəmli kod göndərdim, zəhmət olmasa mənə yaz.” Əslində tanışınızın hesabı artıq ələ keçirilib və fırıldaqçı <b>sizin</b> hesabınızı qeydiyyatdan keçirməyə çalışır. Gələn kod sizin hesabınızın açarıdır. <b>Heç bir kodu heç kimə verməyin</b>, hətta tanışınıza da.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>✅ Özünüyoxlama: hesablarınız nə qədər qorunur?</h3>
+    <div class="chk" id="acChk"></div>
+    <div id="acOut"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="accounts"></div></div>
+</section>
+
+<section class="lesson" data-title="Fişinq və sosial mühəndislik" data-ill="masks">
+  <div class="card">
+    <h2>3. Fişinq və sosial mühəndislik</h2>
+    <p class="lead">Ən təsirli hücumlar kompüteri deyil, <b>insanı</b> “sındırır”. Sosial mühəndislik psixologiyadan istifadə edir: qorxu, təcililik, maraq, hörmət, xeyirxahlıq.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Növ</th><th>Kanal</th><th>Tipik ssenari</th></tr>
+      <tr><td>Fişinq</td><td>E-poçt</td><td>“Hesabınız bloklanacaq, linkə keçin”</td></tr>
+      <tr><td>Smişinq</td><td>SMS</td><td>“Bağlamanız gömrükdə saxlanılıb, 2 ₼ ödəyin”</td></tr>
+      <tr><td>Vişinq</td><td>Zəng</td><td>“Bankın təhlükəsizlik şöbəsindənik, kartınızdan şübhəli əməliyyat var, SMS kodu deyin”</td></tr>
+      <tr><td>Messencer</td><td>WhatsApp, Telegram</td><td>“Mən sənin oğlunam, telefonum xarab olub, təcili pul lazımdır”</td></tr>
+    </table></div>
+    <h3>Dayan, Yoxla, Düşün</h3>
+    <ol>
+      <li><b>Dayan:</b> təcililik hissi əsas siqnaldır. Fırıldaqçılar düşünməyə vaxt vermək istəmir.</li>
+      <li><b>Yoxla:</b> göndərənin ünvanını, linkin hara apardığını yoxlayın. Bank və ya dövlət qurumuna onların rəsmi nömrəsi ilə özünüz zəng edin.</li>
+      <li><b>Düşün:</b> bu qurum bu məlumatı həqiqətən belə soruşardımı? Bank heç vaxt kartın tam nömrəsini, CVV-ni və SMS kodunu soruşmur.</li>
+    </ol>
+    <div class="note"><b>Rəqəmsal transformasiya kursu ilə əlaqə:</b> fişinq məktubunu təhlil etmək üçün orada da bir oyun var (10-cu dərs). Burada isə SMS və messencer mesajları ilə məşq edirik.</div>
+  </div>
+  <div class="card"><h3>🎣 Məşq: fırıldaqdır, yoxsa etibarlı?</h3><div id="b3Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="phish"></div></div>
+</section>
+
+<section class="lesson" data-title="Cihazlar və ehtiyat nüsxələr" data-ill="phone">
+  <div class="card">
+    <h2>4. Cihazlar və ehtiyat nüsxələr</h2>
+    <h3>Cihaz gigiyenası</h3>
+    <ul>
+      <li><b>Yeniləmələr:</b> avtomatik yeniləməni aktiv edin. Hücumların çoxu artıq düzəldilmiş, amma yenilənməmiş zəifliklərdən istifadə edir.</li>
+      <li><b>Ekran kilidi və şifrələmə:</b> telefon və noutbukda güclü PIN/parol. Müasir telefonlar kilidli olanda yaddaşı avtomatik şifrələyir, kompüterlərdə isə BitLocker (Windows) və FileVault (macOS) var.</li>
+      <li><b>Proqramlar yalnız rəsmi mağazalardan:</b> “pulsuz kreklənmiş” proqramlar zərərli proqramların ən geniş yayılmış mənbəyidir.</li>
+      <li><b>Tapılmış USB-ni qoşmayın.</b></li>
+    </ul>
+    <figure class="pic"><img src="courses/kiber/img/usb.jpg" alt="USB fləş kart" data-credit="usb" loading="lazy"><figcaption><b>“Tapılmış” USB fləş kart</b>2016-cı ildə İllinoys Universitetinin tədqiqatçıları kampusda yüzlərlə USB fləş kart “itirdilər”. Onların demək olar ki, hamısı götürüldü, təxminən yarısı isə kompüterlərə qoşuldu, bəziləri ilk bir neçə dəqiqədə. Hücumçular bu üsulla şirkət şəbəkələrinə daxil olurlar.</figcaption></figure>
+    <h3>3-2-1 ehtiyat nüsxə qaydası</h3>
+    <p><b>3</b> nüsxə (orijinal + 2 ehtiyat), <b>2</b> fərqli daşıyıcıda (məs. kompüter və xarici disk), <b>1</b>-i başqa yerdə (bulud və ya başqa ünvan). Ransomware-ə qarşı ən etibarlı müdafiə <b>oflayn</b> ehtiyat nüsxədir: xarici disk ehtiyat nüsxədən sonra kompüterdən ayrılmalıdır.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: ailə fotoarxivi</span>
+      <p>15 illik ailə fotoları yalnız bir noutbukdadır. Noutbuk oğurlanır və ya disk xarab olur, fotolar əbədi itir. 3-2-1 həlli belədir: fotolar noutbukda (1), həftədə bir dəfə xarici diskə köçürülür və disk şkafda saxlanılır (2), həm də avtomatik olaraq bulud xidmətinə yüklənir (3, başqa yer).</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>💾 Alət: ehtiyat nüsxə planınızı yoxlayın</h3>
+    <div class="chk" id="bkChk"></div>
+    <div id="bkOut"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="devices"></div></div>
+</section>
+
+<section class="lesson" data-title="Şəbəkə və Wi-Fi" data-ill="wave">
+  <div class="card">
+    <h2>5. Şəbəkə və Wi-Fi</h2>
+    <h3>İctimai Wi-Fi</h3>
+    <p>Kafe, hava limanı və otelin Wi-Fi şəbəkəsində əsas risklər bunlardır: <b>saxta giriş nöqtəsi</b> (“Free_Airport_WiFi” adlı şəbəkəni hücumçu özü yarada bilər) və şifrələnməmiş trafikin dinlənməsi. HTTPS bu gün trafikin böyük hissəsini qoruyur. Yenə də ictimai şəbəkədə bank əməliyyatlarını mobil internetlə etmək daha təhlükəsizdir.</p>
+    <p><b>VPN</b> nə edir? Trafikinizi VPN serverinə qədər şifrələnmiş tunel ilə göndərir. Bu, ictimai Wi-Fi-da faydalıdır. Amma VPN sizi fişinqdən, zərərli proqramdan və ya zəif paroldan qorumur. “VPN tam anonimlik verir” reklamlarına ehtiyatla yanaşın: VPN provayderi trafikinizi görə bilir.</p>
+    <figure class="pic noimg"><figcaption><b>Ev router-i: evinizin “qapısı”</b>Bütün cihazlarınız internetə buradan çıxır. Standart parolla qalan router hücumçu üçün açıq qapıdır.</figcaption></figure>
+  </div>
+  <div class="card">
+    <h3>📶 Ev router-inizi yoxlayın</h3>
+    <div class="chk" id="rtChk"></div>
+    <div id="rtOut"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="network"></div></div>
+</section>
+
+<section class="lesson" data-title="Veb tətbiq təhlükəsizliyi" data-ill="terminal">
+  <div class="card">
+    <h2>6. Veb tətbiq təhlükəsizliyi: OWASP və SQL injeksiyası</h2>
+    <p class="lead"><b>OWASP Top 10</b> veb tətbiqlərdə ən kritik təhlükəsizlik risklərinin siyahısıdır. 2021-ci il siyahısında birinci yerdə <b>giriş nəzarətinin pozulması</b> durur: istifadəçi icazəsi olmayan məlumatı görə bilir.</p>
+    <ul>
+      <li><b>Giriş nəzarətinin pozulması:</b> URL-də <span class="sym">/hesab/1001</span> yazısını <span class="sym">/hesab/1002</span> ilə dəyişib başqasının hesabını görmək.</li>
+      <li><b>İnjeksiya (SQL, əmr):</b> istifadəçinin daxil etdiyi mətnin kod kimi icra olunması.</li>
+      <li><b>Kriptoqrafik səhvlər:</b> parolların açıq mətnlə və ya zəif hash ilə saxlanması (Kriptoqrafiya kursu, 10-cu dərs).</li>
+      <li><b>Səhv konfiqurasiya:</b> standart parollar, açıq qalmış idarəetmə panelləri.</li>
+    </ul>
+    <div class="ex warn"><span class="tag">⚠️ Etik qayda</span>
+      <p>Bu dərsdəki nümunə yalnız öyrənmək və öz kodunuzu qorumaq üçündür. Başqasının sistemini icazəsiz yoxlamaq hüquqi məsuliyyət yaradır. Təhlükəsizliyi peşəkar şəkildə öyrənmək istəyirsinizsə, xüsusi təlim platformaları (CTF yarışları, öyrənmə laboratoriyaları) və icazəli “bug bounty” proqramları var.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧪 Laboratoriya: SQL injeksiyası necə işləyir (təhlükəsiz simulyasiya)</h3>
+    <p class="fb">Bu, əsl verilənlər bazası deyil, sadəcə proqramın qurduğu sorğu mətnini göstərir. İstifadəçi adına <span class="sym">' OR '1'='1</span> yazın və nə baş verdiyinə baxın.</p>
+    <div class="login"><input type="text" id="sqU" value="aysel" placeholder="istifadəçi adı"><input type="text" id="sqP" value="parol123" placeholder="parol"></div>
+    <div class="row" style="margin:8px 0"><button class="btn ghost" id="sqInj">Injeksiya nümunəsini daxil et</button></div>
+    <p class="fb" style="margin-bottom:4px">❌ Zəif kod (mətn birləşdirmə):</p>
+    <div class="sql" id="sqBad"></div>
+    <p class="fb" style="margin:10px 0 4px">✅ Düzgün kod (parametrli sorğu):</p>
+    <div class="sql" id="sqGood"></div>
+    <div id="sqMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="web"></div></div>
+</section>
+
+<section class="lesson" data-title="Ransomware" data-ill="chip">
+  <div class="card">
+    <h2>7. Ransomware: faylların girov götürülməsi</h2>
+    <p class="lead">Ransomware fayllarınızı şifrələyir və açar üçün fidyə (adətən kriptovalyuta ilə) tələb edir. Müasir qruplar həm də məlumatı oğurlayır və “ödəməsəniz, internetdə dərc edəcəyik” deyə hədələyir (ikiqat şantaj).</p>
+    <figure class="pic noimg"><figcaption><b>WannaCry, may 2017</b>Bir neçə gün ərzində 150 ölkədə 200 000-dən çox kompüteri yoluxdurdu. Britaniyanın səhiyyə sistemində (NHS) bəzi xəstəxanalar əməliyyatları təxirə salmalı oldu. Qurd Windows-un zəifliyindən istifadə edirdi, Microsoft isə həmin zəifliyi bağlayan yeniləməni <b>iki ay əvvəl</b> buraxmışdı. Yenilənmiş kompüterlər qorunmuşdu.</figcaption></figure>
+    <h3>Müdafiə</h3>
+    <ul>
+      <li><b>Yeniləmələr</b> (WannaCry dərsi).</li>
+      <li><b>Oflayn ehtiyat nüsxələr</b> və onları bərpa etməyin vaxtaşırı yoxlanması.</li>
+      <li><b>Fişinqə qarşı diqqət:</b> ransomware çox vaxt e-poçt qoşmasından başlayır.</li>
+      <li><b>Ən az hüquq:</b> adi istifadəçi admin hüququ ilə işləməməlidir.</li>
+      <li><b>Uzaqdan girişin (RDP) internetə açıq qalmaması</b> və MFA.</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Fidyə ödəmək lazımdırmı?</span>
+      <p>Hüquq-mühafizə orqanları və təhlükəsizlik mütəxəssisləri ödəməməyi tövsiyə edir: ödəniş məlumatın qaytarılmasına zəmanət vermir, cinayətkarları maliyyələşdirir və sizi “ödəyən” kimi təkrar hədəfə çevirir. Ən yaxşı cavab işləyən ehtiyat nüsxədir. Hücum zamanı peşəkarlara və hüquq-mühafizə orqanlarına müraciət edin.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="ransom"></div></div>
+</section>
+
+<section class="lesson" data-title="İnsidentə reaksiya" data-ill="flask">
+  <div class="card">
+    <h2>8. İnsidentə reaksiya: bir şey baş verdisə, nə etməli?</h2>
+    <p class="lead">Panika ən pis məsləhətçidir. Əvvəlcədən hazırlanmış plan saatları və pulu xilas edir.</p>
+    <h3>Şəxsi insident: “hesabım sındırılıb”</h3>
+    <ol>
+      <li>Mümkünsə, parolu dərhal dəyişin və <b>bütün sessiyalardan çıxın</b> (“bütün cihazlardan çıx”).</li>
+      <li>MFA-nı aktivləşdirin və bərpa e-poçtunu və telefonunu yoxlayın: hücumçu onları dəyişə bilər.</li>
+      <li>Eyni parolu istifadə etdiyiniz bütün digər hesablarda da parolu dəyişin.</li>
+      <li>Dostlarınızı xəbərdar edin: sizin adınızdan pul istəyən mesajlara inanmasınlar.</li>
+      <li>Bank kartı ilə bağlıdırsa, bankın rəsmi nömrəsinə zəng edib kartı bloklayın.</li>
+      <li>Fırıldaqçılıq olubsa, polisə müraciət edin. Kiber insidentlər barədə Azərbaycanda <b>CERT.az</b>-a da məlumat vermək olar.</li>
+    </ol>
+    <div class="ex"><span class="tag">📌 Təşkilatlarda: NIST modeli</span>
+      <p>ABŞ-ın NIST institutunun insidentlərə reaksiya modeli dünyada geniş istifadə olunur. Aşağıdakı məşqdə onun mərhələlərini sıraya düzün. Ən vacib mərhələ ən birincisidir: hazırlıq. Plan, kontaktlar və ehtiyat nüsxələr insidentdən <b>əvvəl</b> hazır olmalıdır.</p>
+    </div>
+  </div>
+  <div class="card"><h3>🧩 Məşq: insidentə reaksiyanın mərhələləri</h3><div id="b8Ord"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="incident"></div></div>
+</section>
+
+<section class="lesson" data-title="Kiçik biznes üçün təhlükəsizlik" data-ill="blocks">
+  <div class="card">
+    <h2>9. Kiçik biznes üçün təhlükəsizlik</h2>
+    <p class="lead">Kiçik bizneslər tez-tez belə düşünür: “Bizi niyə hədəf alsınlar?” Amma hücumçular məhz buna görə kiçik biznesləri seçir: onların müdafiəsi adətən zəif olur.</p>
+    <h3>Ən təsirli 10 addım</h3>
+    <ol>
+      <li>Bütün hesablarda MFA, xüsusən e-poçt və maliyyə hesablarında.</li>
+      <li>Parol meneceri və ortaq parolların olmaması.</li>
+      <li>Avtomatik yeniləmələr.</li>
+      <li>Oflayn ehtiyat nüsxə və bərpanın yoxlanması.</li>
+      <li>Ən az hüquq: işçi yalnız öz işi üçün lazım olan məlumatı görür.</li>
+      <li>İşdən çıxan işçinin bütün girişlərinin <b>həmin gün</b> bağlanması.</li>
+      <li>Ödəniş rekvizitlərinin dəyişməsi telefonla təsdiqlənir.</li>
+      <li>Fişinq təlimi, ildə ən azı bir dəfə.</li>
+      <li>Wi-Fi: işçilər və qonaqlar üçün ayrı şəbəkə.</li>
+      <li>İnsident zamanı kimə zəng ediləcəyi əvvəlcədən yazılıb.</li>
+    </ol>
+    <div class="ex warn"><span class="tag">⚠️ Real ssenari: “təchizatçının yeni hesabı”</span>
+      <p>Mühasibat şöbəsi daimi təchizatçıdan e-poçt alır: “Bank hesabımız dəyişib, bu ayın ödənişini yeni hesaba köçürün.” Məktub təchizatçının əsl ünvanından gəlir, çünki onun e-poçtu sındırılıb. 40 000 ₼ fırıldaqçının hesabına gedir. Bu, ən bahalı kibercinayət növlərindən biridir. Qorunma qaydası sadədir: rekvizit dəyişikliyini təchizatçının <b>əvvəlcədən məlum olan</b> nömrəsinə zəng edərək təsdiqləyin.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🏢 Biznesinizin təhlükəsizlik balı</h3>
+    <div class="chk" id="smChk"></div>
+    <div id="smOut"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="smb"></div></div>
+</section>
+
+<section class="lesson" data-title="Mobil və sosial şəbəkə məxfiliyi" data-ill="eye">
+  <div class="card">
+    <h2>10. Mobil cihazlar və sosial şəbəkələrdə məxfilik</h2>
+    <figure class="pic"><img src="courses/reqemsal/img/telefon.jpg" alt="Telefonla ödəniş" data-credit="reqemsal/telefon" loading="lazy"><figcaption><b>Telefon: ən şəxsi cihazınız</b>Ödəniş kartlarınız, yazışmalarınız, şəkilləriniz və yer məlumatınız bir cihazdadır. Ekran kilidi, yeniləmələr və tətbiq icazələri ona görə xüsusilə vacibdir.</figcaption></figure>
+    <h3>Tətbiq icazələri</h3>
+    <p>Fənər tətbiqi kontaktlarınıza, kalkulyator isə mikrofona niyə çıxış istəyir? Telefonun ayarlarında icazələri vaxtaşırı yoxlayın: yer məlumatı, kamera, mikrofon və kontaktlar yalnız həqiqətən lazım olan tətbiqlərdə açıq olsun.</p>
+    <h3>OSINT: açıq mənbələrdən kəşfiyyat</h3>
+    <p>Fırıldaqçılar hədəf haqqında məlumatı çox vaxt sosial şəbəkələrdən toplayır: ad günü, ev heyvanının adı (məşhur “təhlükəsizlik sualları”), iş yeri, məzuniyyət tarixləri, uşaqların məktəbi. Bu məlumatlarla inandırıcı fişinq qurulur və ya parol təxmin edilir.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: məzuniyyət şəkli</span>
+      <p>“Ailəliklə 2 həftə Antalyaya uçuruq! ✈️” Bu paylaşım bir neçə şey deyir: evin 2 həftə boş olacağını, bəlkə həm də ünvanı (əvvəlki şəkillərdən). Şəkilləri səfərdən <b>qayıtdıqdan sonra</b> paylaşmaq daha təhlükəsizdir.</p>
+    </div>
+    <div class="ex life"><span class="tag">✅ Tətbiq: 10 dəqiqəlik məxfilik auditi</span>
+      <p>Bu gün: 1) sosial şəbəkə profillərinizi “başqa istifadəçi kimi” açıb nə göründüyünə baxın; 2) telefonda yer məlumatı icazəsi olan tətbiqləri yoxlayın; 3) adınızı axtarış sistemində axtarın; 4) təhlükəsizlik suallarına real cavab əvəzinə parol menecerində saxlanılan təsadüfi cavab yazın.</p>
+    </div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: paylaşmaq olar, yoxsa yox?</h3><div id="b10Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="privacy"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
+  <div class="card">
+    <h2>11. Yekun imtahan</h2>
+    <p class="lead">15 sual. Ən azı 12 düzgün cavab verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>

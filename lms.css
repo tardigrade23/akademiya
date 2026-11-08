@@ -312,3 +312,24 @@ svg.diagram{width:100%;height:auto;display:block;border-radius:14px;background:v
 }
 
 figure.pic.fit img{object-fit:contain;max-height:300px;background:#fff;padding:6px}
+
+/* ---------- shared exercises: sorter + order ---------- */
+.srt-bins{display:grid;gap:8px;margin-top:10px}
+.srt-bin{border:2px dashed var(--line);border-radius:14px;padding:8px;min-height:70px}
+.srt-bin h4{margin:0 0 6px;font-size:.84rem}
+.srt-bin.c0{background:var(--ex-blue);border-color:var(--ex-blue-b)} .srt-bin.c1{background:var(--ex-amber);border-color:var(--ex-amber-b)}
+.srt-bin.c2{background:var(--ex-green);border-color:var(--ex-green-b)} .srt-bin.c3{background:var(--ex-red);border-color:var(--ex-red-b)} .srt-bin.c4{background:var(--ex-violet);border-color:var(--ex-violet-b)}
+.srt-chip{display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:.82rem}
+.ord-list{display:grid;gap:6px}
+.ord-list button{text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:9px 12px;font:inherit;cursor:pointer;display:flex;gap:10px;align-items:center}
+.ord-list button .n{width:24px;height:24px;flex:0 0 24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px}
+.ord-list button.picked{border-color:var(--accent);background:var(--accent-soft)}
+.ord-list button.picked .n{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+pre.code{font:13.5px/1.55 var(--mono);background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;margin:10px 0;white-space:pre}
+.tool-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.tool-row label{display:grid;gap:4px;font-size:.88rem;font-weight:600}
+.tool-row input,.tool-row select{font:15px var(--mono);padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+@media (max-width:640px){.srt-bins{grid-template-columns:1fr!important}}
+.puzzles{list-style:none;padding:0;display:grid;gap:6px;margin:10px 0}
+.puzzles li{padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.puzzles li.ok{border-color:var(--ex-green-b);background:var(--ex-green)}

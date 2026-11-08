@@ -1,0 +1,305 @@
+<style>
+.cio{display:grid;gap:8px}
+.cio textarea,.cio input[type=text]{font-family:var(--mono)}
+.out{font-family:var(--mono);background:var(--code);border-radius:10px;padding:10px 12px;word-break:break-all;min-height:44px;font-size:.95rem}
+.out.big{font-size:1.1rem;letter-spacing:.06em}
+.freq{display:grid;grid-template-columns:repeat(32,minmax(0,1fr));gap:2px;align-items:end;height:120px;margin:8px 0 2px}
+.freq i{display:block;border-radius:3px 3px 0 0;background:linear-gradient(180deg,var(--c2),var(--c));min-height:1px}
+.freq.ref i{background:var(--ex-amber-b);opacity:.7}
+.flab{display:grid;grid-template-columns:repeat(32,minmax(0,1fr));gap:2px;font:10px var(--mono);text-align:center;color:var(--muted)}
+.bits{font-family:var(--mono);font-size:.9rem;overflow-x:auto;white-space:nowrap;background:var(--code);border-radius:10px;padding:10px 12px;line-height:1.8}
+.bits b{display:inline-block;min-width:110px;color:var(--muted);font-weight:600}
+.hash{font-family:var(--mono);font-size:.82rem;word-break:break-all;background:var(--code);border-radius:10px;padding:8px 10px}
+.hash span.d{background:var(--ex-red);color:var(--ex-red-b);border-radius:2px}
+.dh{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.dh .p{border-radius:14px;padding:12px;font-size:.92rem}
+.dh .a{background:var(--ex-blue);border:1px solid var(--ex-blue-b)} .dh .e{background:var(--ex-red);border:1px solid var(--ex-red-b)} .dh .b{background:var(--ex-green);border:1px solid var(--ex-green-b)}
+.dh h4{margin:0 0 6px}
+.chain{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(200px,1fr);gap:10px;overflow-x:auto;padding-bottom:6px}
+.blk{border-radius:14px;padding:10px 12px;border:2px solid var(--ex-green-b);background:var(--ex-green);font-size:.82rem;font-family:var(--mono)}
+.blk.bad{border-color:var(--ex-red-b);background:var(--ex-red)}
+.blk input{width:100%;font:13px var(--mono);padding:5px 6px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.blk .h{word-break:break-all;color:var(--muted)}
+.meter2{height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin:8px 0}
+.meter2 i{display:block;height:100%;transition:width .3s,background .3s}
+@media (max-width:640px){.dh{grid-template-columns:1fr}}
+</style>
+
+<section class="lesson" data-title="Kriptoqrafiya nədir?" data-ill="key">
+  <div class="card">
+    <h2>1. Kriptoqrafiya nədir?</h2>
+    <p class="lead">Kriptoqrafiya (yunanca <i>kryptos</i>, “gizli”, və <i>graphein</i>, “yazmaq”) məlumatı yalnız lazım olan şəxslərin oxuya biləcəyi formaya salmaq elmidir. Bu gün o, bank əməliyyatlarından WhatsApp mesajlarına qədər hər şeyin təhlükəsizliyinin əsasıdır.</p>
+    <h3>Kriptoqrafiyanın dörd məqsədi</h3>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Məqsəd</th><th>Sual</th><th>Alət</th></tr>
+      <tr><td><b>Məxfilik</b></td><td>Başqası oxuya bilərmi?</td><td>Şifrələmə</td></tr>
+      <tr><td><b>Bütövlük</b></td><td>Yolda dəyişdirilibmi?</td><td>Hash, MAC</td></tr>
+      <tr><td><b>Autentiklik</b></td><td>Həqiqətən o göndəribmi?</td><td>Rəqəmsal imza, sertifikat</td></tr>
+      <tr><td><b>İnkar edilməzlik</b></td><td>Göndərən sonra “mən göndərməmişəm” deyə bilərmi?</td><td>Rəqəmsal imza</td></tr>
+    </table></div>
+    <figure class="pic wide fit"><img src="courses/kripto/img/skitala.jpg" alt="Skitala" data-credit="skitala" loading="lazy"><figcaption><b>Skitala</b>Qədim Spartada istifadə olunan ən erkən şifrələmə alətlərindən biri. Dəri lent çubuğa sarınır və mətn çubuğun boyu yazılır. Lent açılanda hərflər qarışıq görünür. Mətni yalnız eyni diametrli çubuğu olan şəxs oxuya bilir.</figcaption></figure>
+    <div class="note"><b>Kerkhofs prinsipi (1883):</b> şifrələmə sisteminin təhlükəsizliyi alqoritmin gizli saxlanmasından deyil, yalnız <b>açarın</b> gizli saxlanmasından asılı olmalıdır. Bu gün bütün etibarlı alqoritmlər (AES, RSA) açıqdır və dünyanın ən yaxşı mütəxəssisləri onları illərlə yoxlayıb. “Bizim gizli alqoritmimiz var” demək kriptoqrafiyada pis əlamətdir.</div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: hansı məqsəddir?</h3><div id="k1Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="intro"></div></div>
+</section>
+
+<section class="lesson" data-title="Sezar şifrəsi" data-ill="crown">
+  <div class="card">
+    <h2>2. Sezar şifrəsi: hər şey haradan başladı</h2>
+    <figure class="pic"><img src="courses/kripto/img/sezar.jpg" alt="Yuli Sezarın büstü" data-credit="sezar" loading="lazy"><figcaption><b>Yuli Sezar (e.ə. 100–44)</b>Roma tarixçisi Svetoni yazır ki, Sezar şəxsi məktublarında hər hərfi əlifbada 3 hərf sonrakı ilə əvəz edirdi: A → D, B → E…</figcaption></figure>
+    <p>Sezar şifrəsində <b>açar</b> sürüşmənin miqdarıdır. Azərbaycan əlifbasında 32 hərf var, deməli yalnız 31 mümkün açar var. Kompüter hamısını bir anda yoxlaya bilər. Buna <b>kobud güc</b> (brute force) hücumu deyilir.</p>
+    <div class="ex warn"><span class="tag">⚠️ Dərs: açarların sayı çox olmalıdır</span>
+      <p>Bu gün istifadə olunan AES-256 alqoritmində açarların sayı 2²⁵⁶-dır. Bu, təxminən 1 rəqəmindən sonra 77 sıfır deməkdir və müşahidə olunan kainatdakı atomların sayına yaxındır. Dünyanın bütün kompüterləri birlikdə də bu açarları kainatın yaşından çox müddətdə belə yoxlaya bilməz.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔐 Laboratoriya: Sezar şifrəsi</h3>
+    <div class="cio">
+      <input type="text" id="czIn" value="Bakıda görüşək, saat yeddidə">
+      <label style="display:flex;justify-content:space-between;font-weight:600">Sürüşmə (açar) <b id="czK">3</b></label>
+      <input type="range" id="czKin" min="1" max="31" value="3">
+      <div class="out big" id="czOut"></div>
+    </div>
+    <h3 style="margin-top:14px">🕵️ Tapşırıq: bu mesajı sındırın</h3>
+    <div class="out big" id="czSecret"></div>
+    <div class="row" style="margin-top:8px"><label>Açarı tapın: <input type="number" id="czGuess" min="1" max="31" value="1" style="width:80px;font:15px var(--mono);padding:6px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)"></label><button class="btn ghost" id="czBrute">Kobud güc: 31 açarı yoxla</button></div>
+    <div class="out" id="czTry"></div>
+    <div id="czMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="caesar"></div></div>
+</section>
+
+<section class="lesson" data-title="Tezlik analizi" data-ill="chart">
+  <div class="card">
+    <h2>3. Tezlik analizi: əl-Kindinin kəşfi</h2>
+    <p class="lead">IX əsrdə ərəb alimi <b>Əbu Yusif əl-Kindi</b> şifrələri sındırmaq üsulu haqqında traktat yazdı. Bu, tezlik analizinin bizə məlum olan ilk təsviridir.</p>
+    <p>İdeya sadədir: hər dildə bəzi hərflər daha tez-tez işlənir. Azərbaycan dilində <b>a</b>, <b>ə</b>, <b>i</b>, <b>r</b> çox, <b>ğ</b> və <b>c</b> isə az rast gəlinir. Şifrələnmiş mətndə ən çox təkrarlanan hərf, çox güman ki, dildə ən çox işlənən hərfin əvəzidir.</p>
+    <figure class="pic wide fit"><img src="courses/kripto/img/alkindi.jpg" alt="Əl-Kindinin əlyazması" data-credit="alkindi" loading="lazy"><figcaption><b>Əl-Kindinin əlyazması</b>“Şifrəli məktubların açılması haqqında risalə”. Bu traktat kriptoanalizin, yəni şifrə sındırma elminin başlanğıcı sayılır.</figcaption></figure>
+  </div>
+  <div class="card">
+    <h3>📊 Laboratoriya: şifrəni tezliklə sındırın</h3>
+    <p class="fb">Yuxarıdakı qrafik şifrəli mətndəki hərf tezlikləridir. Aşağıdakı sarı qrafik isə adi Azərbaycan mətnindəki tezliklərdir. Sürüşməni elə seçin ki, iki qrafik üst-üstə düşsün.</p>
+    <div class="freq" id="fqC"></div><div class="flab" id="fqL1"></div>
+    <div class="freq ref" id="fqR" style="height:80px"></div><div class="flab" id="fqL2"></div>
+    <label style="display:flex;justify-content:space-between;font-weight:600;margin-top:10px">Geri sürüşmə <b id="fqK">0</b></label>
+    <input type="range" id="fqKin" min="0" max="31" value="0" style="width:100%">
+    <div class="out" id="fqOut"></div>
+    <div id="fqMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="freq"></div></div>
+</section>
+
+<section class="lesson" data-title="Vijener və Enigma" data-ill="gates">
+  <div class="card">
+    <h2>4. Vijener şifrəsi və Enigma</h2>
+    <p class="lead">Tezlik analizinə qarşı həll: hər hərfi <b>fərqli</b> sürüşmə ilə şifrələmək. XVI əsrdə yaranan Vijener şifrəsində açar bir sözdür və onun hərfləri növbə ilə fərqli sürüşmə verir.</p>
+    <p>Vijener şifrəsi 300 ilə yaxın “sındırılmaz şifrə” sayılırdı. Yalnız XIX əsrdə Çarlz Bebbic və Fridrix Kasiski açarın təkrarlanmasından istifadə edərək onu sındırmağın yolunu tapdılar.</p>
+    <figure class="pic"><img src="courses/kripto/img/enigma.jpg" alt="Enigma şifrələmə maşını" data-credit="enigma" loading="lazy"><figcaption><b>Enigma</b>İkinci Dünya müharibəsində Almaniyanın şifrələmə maşını. Fırlanan rotorlar hər düymə basılanda şifrəni dəyişirdi. Gündəlik ayarların sayı təxminən 10²³ idi.</figcaption></figure>
+    <figure class="pic"><img src="courses/kripto/img/bletchley.jpg" alt="Bletçli Park" data-credit="bletchley" loading="lazy"><figcaption><b>Bletçli Park</b>Britaniyanın şifrə sındırma mərkəzi. Polşalı riyaziyyatçıların (Marian Reyevski və həmkarları) 1930-cu illərdəki işinə əsaslanaraq Alan Türinq və komandası Enigma şifrələrini açan elektromexaniki “Bombe” maşınlarını hazırladı. Tarixçilərin fikrincə, bu iş müharibəni qısaltdı.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Enigma-nın zəif yeri: insan</span>
+      <p>Enigma riyazi cəhətdən çox güclü idi. Amma operatorlar hər səhər eyni formada mesaj göndərirdi, məsələn, hava proqnozunu eyni sözlərlə. Bletçlinin kriptoanalitikləri bu “təxmin edilə bilən sözlərdən” (crib) istifadə edirdilər. Bu gün də ən güclü kriptoqrafiya çox vaxt riyaziyyata görə deyil, insan səhvinə görə sınır: zəif parol, açarın yanlış saxlanması.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔑 Laboratoriya: Vijener şifrəsi</h3>
+    <div class="cio">
+      <input type="text" id="vgIn" value="ATAKA SƏHƏR BAŞLAYIR">
+      <input type="text" id="vgKey" value="LİMON" placeholder="açar söz">
+      <div class="out big" id="vgOut"></div>
+      <div class="fb" id="vgInfo"></div>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="vig"></div></div>
+</section>
+
+<section class="lesson" data-title="Simmetrik şifrələmə" data-ill="mirror">
+  <div class="card">
+    <h2>5. Simmetrik şifrələmə: XOR, birdəfəlik bloknot, AES</h2>
+    <p class="lead">Simmetrik şifrələmədə <b>eyni açar</b> həm şifrələmə, həm də deşifrələmə üçün istifadə olunur.</p>
+    <p>Kompüterdə hər şey bitlərdir. Ən sadə simmetrik əməliyyat <b>XOR</b>dur (⊕): bitlər eyni olanda 0, fərqli olanda 1. Onun gözəl xüsusiyyəti var: <span class="sym">(M ⊕ K) ⊕ K = M</span>. Eyni açarla ikinci dəfə XOR etsəniz, ilkin mesaj geri qayıdır.</p>
+    <ul>
+      <li><b>Birdəfəlik bloknot (one-time pad):</b> açar mesaj qədər uzun, tam təsadüfi və <b>yalnız bir dəfə</b> istifadə olunursa, şifr nəzəri olaraq sındırılmazdır. Bunu Klod Şennon 1949-cu ildə sübut edib. Amma açarı paylamaq praktik deyil.</li>
+      <li><b>AES (2001):</b> bu gün dünyada ən çox istifadə olunan simmetrik alqoritmdir. Belçikalı Daemen və Reymenin hazırladığı Rijndael alqoritmi müsabiqədə qalib gəldi. Telefonunuzun yaddaşı, Wi-Fi (WPA2/WPA3) və HTTPS trafiki AES ilə şifrələnir.</li>
+    </ul>
+    <div class="ex warn"><span class="tag">⚠️ Açarı təkrar istifadə etmək olmaz</span>
+      <p>Eyni açarla iki mesaj şifrələnsə, onların şifrəli mətnlərinin XOR-u açarsız iki açıq mətnin XOR-una bərabər olur: <span class="sym">C₁ ⊕ C₂ = M₁ ⊕ M₂</span>. Soyuq müharibə dövründə Sovet İttifaqı bəzi birdəfəlik bloknotları təkrar istifadə etdi. ABŞ-ın “Venona” layihəsi bu səhvdən istifadə edərək minlərlə mesajın bir hissəsini oxudu.</p>
+    </div>
+    <div class="note"><b>Simmetrik şifrələmənin problemi:</b> açarı qarşı tərəfə necə təhlükəsiz çatdırmaq olar? Görüşə bilmirsinizsə, açarı göndərmək üçün də şifrə lazımdır… Bu problemin həlli 7-ci dərsdədir.</div>
+  </div>
+  <div class="card">
+    <h3>⊕ Laboratoriya: XOR şifrələməsi</h3>
+    <div class="cio"><input type="text" id="xrIn" value="SALAM" maxlength="8"><input type="text" id="xrKey" value="K3Y!9" maxlength="8"></div>
+    <div class="bits" id="xrBits" style="margin-top:8px"></div>
+    <div id="xrMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="sym"></div></div>
+</section>
+
+<section class="lesson" data-title="Hash funksiyalar" data-ill="grid">
+  <div class="card">
+    <h2>6. Hash funksiyalar: rəqəmsal barmaq izi</h2>
+    <p class="lead">Hash funksiyası istənilən uzunluqda məlumatdan sabit uzunluqlu “barmaq izi” yaradır. Məsələn, SHA-256 həmişə 256 bit (64 hex simvol) verir.</p>
+    <h3>Yaxşı hash funksiyasının xüsusiyyətləri</h3>
+    <ul>
+      <li><b>Deterministik:</b> eyni giriş həmişə eyni nəticəni verir.</li>
+      <li><b>Bir istiqamətli:</b> hash-dən ilkin məlumatı geri bərpa etmək praktiki olaraq mümkün deyil.</li>
+      <li><b>Uçqun effekti:</b> girişdə bir hərfi dəyişsəniz, nəticədəki bitlərin təxminən yarısı dəyişir.</li>
+      <li><b>Toqquşmaya davamlılıq:</b> eyni hash-i verən iki fərqli giriş tapmaq praktiki olaraq mümkün deyil.</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Real nümunələr</span>
+      <ul>
+        <li><b>Faylın yoxlanması:</b> proqram yükləyəndə sayt SHA-256 hash-i göstərir. Yüklədiyiniz faylın hash-i eynidirsə, fayl yolda dəyişdirilməyib.</li>
+        <li><b>Parollar:</b> düzgün qurulmuş sayt parolunuzu deyil, onun hash-ini saxlayır (10-cu dərs).</li>
+        <li><b>Git:</b> hər commit-in identifikatoru onun məzmununun hash-idir. Bu Akademiyanın kodu da belə saxlanılır.</li>
+        <li><b>Blokçeyn:</b> bloklar bir-birinə hash-lərlə bağlanır (11-ci dərs).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔬 Laboratoriya: uçqun effekti (əsl SHA-256)</h3>
+    <p class="fb">Bu hesablamanı brauzerinizin öz kriptoqrafiya modulu edir. İki mətndə bir hərfi dəyişin və hash-lərin necə fərqləndiyinə baxın.</p>
+    <div class="cio"><input type="text" id="hsA" value="Akademiya 2026"><div class="hash" id="hsHA"></div><input type="text" id="hsB" value="Akademiya 2027"><div class="hash" id="hsHB"></div></div>
+    <div id="hsMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="hash"></div></div>
+</section>
+
+<section class="lesson" data-title="Açıq açar: Diffie-Hellman" data-ill="users">
+  <div class="card">
+    <h2>7. Açıq açar inqilabı: Diffie-Hellman</h2>
+    <p class="lead">1976-cı ildə Uitfild Diffi və Martin Hellman əsrlərlə həllsiz qalan problemi həll etdilər: heç vaxt görüşməmiş iki nəfər <b>açıq kanalda</b>, hamı dinləsə belə, ortaq gizli açar yarada bilər.</p>
+    <h3>Rənglərlə analogiya</h3>
+    <ol>
+      <li>Alisa və Bob açıq şəkildə ortaq rəng seçirlər: <b>sarı</b>. Eva da bunu görür.</li>
+      <li>Hər biri öz <b>gizli</b> rəngini qarışdırır: Alisa qırmızı, Bob mavi.</li>
+      <li>Qarışıqları bir-birinə göndərirlər: Alisa narıncını, Bob yaşılı. Eva bunları da görür.</li>
+      <li>Hər biri aldığı qarışığa öz gizli rəngini əlavə edir. İkisində də <b>eyni</b> qəhvəyi rəng alınır.</li>
+      <li>Eva qarışıqları görsə də, onları “ayıra” bilmir. Rəngi qarışdırmaq asandır, ayırmaq isə çətindir.</li>
+    </ol>
+    <p>Riyaziyyatda “rəngi qarışdırmaq” <b>modul üzrə qüvvətə yüksəltmədir</b>: <span class="sym">gᵃ mod p</span>. Bunu hesablamaq asandır, nəticədən <i>a</i>-nı tapmaq (diskret loqarifm) isə böyük ədədlərdə praktiki olaraq mümkün deyil.</p>
+    <div class="ex hist"><span class="tag">💡 Tarix: gizli kəşf</span>
+      <p>Sonradan məlum oldu ki, Britaniya kəşfiyyatının (GCHQ) mütəxəssisləri Ceyms Ellis, Klifford Koks və Malkolm Uilyamson bu ideyaları bir neçə il əvvəl kəşf ediblər. Amma işləri məxfi olduğu üçün bu, yalnız 1997-ci ildə açıqlandı.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔢 Laboratoriya: kiçik ədədlərlə Diffie-Hellman</h3>
+    <p class="fb">Açıq parametrlər: p = 23, g = 5. Alisa və Bobun gizli ədədlərini seçin.</p>
+    <div class="tool-row"><label>Alisanın gizli ədədi (a)<input type="number" id="dhA" value="6" min="1" max="22"></label><label>Bobun gizli ədədi (b)<input type="number" id="dhB" value="15" min="1" max="22"></label></div>
+    <div class="dh" id="dhOut" style="margin-top:10px"></div>
+    <div id="dhMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="dh"></div></div>
+</section>
+
+<section class="lesson" data-title="RSA və rəqəmsal imza" data-ill="doc">
+  <div class="card">
+    <h2>8. RSA və rəqəmsal imza</h2>
+    <p class="lead">1977-ci ildə Rivest, Şamir və Adleman (RSA) ilk praktik <b>asimmetrik</b> şifrələmə sistemini yaratdılar. Bu sistemdə iki açar var: <b>açıq açar</b> hamıya verilir, <b>gizli açar</b> isə yalnız sahibində qalır.</p>
+    <ul>
+      <li>Açıq açarla şifrələnmiş mesajı <b>yalnız gizli açar</b> aça bilər. Bu, poçt qutusuna bənzəyir: məktubu hər kəs ata bilər, açarı isə yalnız sahibindədir.</li>
+      <li>Gizli açarla “imzalanmış” məlumatı <b>hər kəs açıq açarla yoxlaya</b> bilər. Bu, rəqəmsal imzadır.</li>
+    </ul>
+    <p>RSA-nın təhlükəsizliyi böyük ədədləri vuruqlara ayırmağın çətinliyinə əsaslanır. İki 300 rəqəmli sadə ədədi vurmaq bir saniyə çəkir, hasildən onları geri tapmaq isə müasir kompüterlərlə praktiki olaraq mümkün deyil. Kvant kompüterləri bunu dəyişə bilər: Kvant hesablamaları kursunun 8-ci və 9-cu dərslərinə baxın.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: Azərbaycanda elektron imza</span>
+      <p>Azərbaycanda “Asan İmza” mobil elektron imzası ilə vergi bəyannaməsi təqdim etmək, dövlət xidmətlərindən istifadə etmək və sənədləri imzalamaq mümkündür. Əsasında eyni prinsip durur: gizli açar sizin SİM kartınızdadır, sənədi imzalayır, dövlət qurumu isə imzanı açıq açarla (sertifikatla) yoxlayır.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔢 Laboratoriya: oyuncaq RSA</h3>
+    <p class="fb">Kiçik sadə ədədlərlə RSA-nın bütün addımları. Real RSA-da ədədlər 600-dən çox rəqəmlidir.</p>
+    <div class="tool-row">
+      <label>Sadə ədəd p<select id="rsP"><option>11</option><option selected>17</option><option>19</option><option>23</option><option>29</option></select></label>
+      <label>Sadə ədəd q<select id="rsQ"><option>13</option><option>29</option><option selected>31</option><option>37</option><option>41</option></select></label>
+      <label>Mesaj (ədəd, m &lt; n)<input type="number" id="rsM" value="65" min="2"></label>
+    </div>
+    <div class="out" id="rsOut" style="margin-top:10px;line-height:1.8"></div>
+    <div id="rsMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="rsa"></div></div>
+</section>
+
+<section class="lesson" data-title="HTTPS və sertifikatlar" data-ill="shield">
+  <div class="card">
+    <h2>9. HTTPS və sertifikatlar: hər gün işləyən kriptoqrafiya</h2>
+    <p class="lead">Ünvan sətrindəki 🔒 işarəsi üç şey deməkdir: əlaqə şifrələnib, məlumat yolda dəyişdirilməyib və siz həqiqətən o sayta qoşulmusunuz.</p>
+    <p>HTTPS (TLS protokolu) bütün dərsləri birləşdirir:</p>
+    <ul>
+      <li><b>Sertifikat</b> saytın açıq açarını və onun sayta məxsus olduğunu təsdiqləyən <b>Sertifikat Mərkəzinin (CA) rəqəmsal imzasını</b> daşıyır (8-ci dərs).</li>
+      <li><b>Açar mübadiləsi</b> Diffie-Hellman ilə ortaq gizli açar yaradır (7-ci dərs).</li>
+      <li><b>Trafik</b> AES ilə sürətlə şifrələnir (5-ci dərs).</li>
+      <li><b>Bütövlük</b> hash əsaslı mexanizmlərlə yoxlanılır (6-cı dərs).</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Real nümunə: Let's Encrypt</span>
+      <p>2015-ci ilə qədər sertifikat almaq pullu və çətin idi, ona görə saytların çoxu HTTP ilə işləyirdi. Qeyri-kommersiya təşkilatı Let's Encrypt pulsuz, avtomatik sertifikat verməyə başladı. Bu gün brauzerlərdə açılan səhifələrin böyük əksəriyyəti HTTPS ilədir. Bu Akademiyanın GitHub Pages ünvanı da HTTPS ilə işləyir.</p>
+    </div>
+    <div class="ex warn"><span class="tag">⚠️ 🔒 işarəsi saytın dürüst olduğunu göstərmir</span>
+      <p>Fırıldaqçı da öz saytı üçün pulsuz sertifikat ala bilər: <span class="sym">numunebank-bonus.example</span> saytında da 🔒 olacaq. Kilid əlaqənin şifrələndiyini göstərir, saytın sahibinin etibarlı olduğunu yox. Ünvanı həmişə diqqətlə oxuyun.</p>
+    </div>
+    <figure class="pic"><img src="courses/claudecode/img/qifil.jpg" alt="Qıfıl" data-credit="claudecode/qifil" loading="lazy"><figcaption><b>Kilid: şifrələmə, etibar deyil</b>Kilid yalnız qapının bağlı olduğunu göstərir. İçəridə kimin olduğunu isə ünvan sətrindən özünüz yoxlamalısınız.</figcaption></figure>
+  </div>
+  <div class="card"><h3>🧩 Məşq: HTTPS əlaqəsinin addımlarını sıraya düzün</h3><div id="k9Ord"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="https"></div></div>
+</section>
+
+<section class="lesson" data-title="Parollar" data-ill="key">
+  <div class="card">
+    <h2>10. Parollar: kriptoqrafiyanın ən zəif halqası</h2>
+    <p class="lead">Ən güclü şifrələmə də “123456” parolu ilə qorunursa, heç nəyə yaramır.</p>
+    <h3>Saytlar parolları necə saxlamalıdır?</h3>
+    <ol>
+      <li><b>Heç vaxt açıq mətnlə saxlamamalı.</b></li>
+      <li><b>Hash ilə saxlamalı.</b> Amma adi SHA-256 kifayət deyil: çox sürətlidir, hücumçu saniyədə milyardlarla variant yoxlaya bilər.</li>
+      <li><b>“Duz” (salt) əlavə etməli.</b> Hər istifadəçi üçün unikal təsadüfi əlavə. Beləliklə, eyni parolun hash-ləri fərqli olur və əvvəlcədən hazırlanmış cədvəllər işləmir.</li>
+      <li><b>Yavaş alqoritmlərdən istifadə etməli:</b> bcrypt, scrypt və ya Argon2 (2015-ci ildə parol hash müsabiqəsinin qalibi). Onlar bilərəkdən yavaş və yaddaş tələb edən şəkildə qurulub.</li>
+    </ol>
+    <div class="ex"><span class="tag">📌 Ən yaxşı praktika</span>
+      <ul>
+        <li><b>Uzunluq mürəkkəblikdən vacibdir:</b> “qırmızı-alma-dağ-pişik-7” kimi parol ifadəsi “P@s5w!” parolundan çox güclüdür.</li>
+        <li><b>Hər sayt üçün ayrı parol.</b> Bir sayt sızsa, digərləri təhlükədə qalmasın. Bunun üçün parol meneceri istifadə edin.</li>
+        <li><b>İkiaddımlı doğrulama (MFA)</b> və mümkün olan yerdə <b>passkey</b>: parolsuz, açıq açar kriptoqrafiyasına əsaslanan giriş.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔑 Alət: parolunuz nə qədər güclüdür?</h3>
+    <p class="fb">Real parolunuzu yazmayın! Ona bənzər bir nümunə yazın. Hesablama yalnız brauzerinizdə aparılır, heç yerə göndərilmir.</p>
+    <input type="text" id="pwIn" value="Baku2026!" autocomplete="off" style="font-family:var(--mono)">
+    <div class="meter2"><i id="pwBar"></i></div>
+    <div class="out" id="pwOut" style="line-height:1.8"></div>
+    <div class="row" style="margin-top:8px"><button class="btn ghost" data-pw="123456">123456</button><button class="btn ghost" data-pw="P@s5w!">P@s5w!</button><button class="btn ghost" data-pw="qırmızı-alma-dağ-pişik-7">qırmızı-alma-dağ-pişik-7</button></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="pass"></div></div>
+</section>
+
+<section class="lesson" data-title="Blokçeyn və gələcək" data-ill="blocks">
+  <div class="card">
+    <h2>11. Blokçeyn və kriptoqrafiyanın gələcəyi</h2>
+    <p class="lead">2008-ci ildə Satoşi Nakamoto ləqəbli müəllif Bitkoin haqqında məqaləsini dərc etdi. Blokçeyn yeni kriptoqrafiya deyil: o, artıq öyrəndiyimiz iki aləti birləşdirir.</p>
+    <ul>
+      <li><b>Hash zənciri:</b> hər blok əvvəlki blokun hash-ini saxlayır. Bir blokda bir rəqəmi dəyişsəniz, ondan sonrakı bütün bloklar “qırılır”.</li>
+      <li><b>Rəqəmsal imzalar:</b> hər əməliyyatı gizli açarın sahibi imzalayır. “Kripto pul kisəsi” əslində gizli açarınızdır. Onu itirsəniz, pul əbədi itir.</li>
+    </ul>
+    <div class="ex warn"><span class="tag">⚠️ “Kripto” fırıldaqları</span>
+      <p>Kriptoqrafiya ilə “kriptovalyuta investisiyası” fərqli şeylərdir. “Ayda 30% gəlir zəmanətli” kripto layihələri, “pul kisənizi təsdiqləmək üçün gizli sözlərinizi (seed phrase) yazın” mesajları klassik fırıldaqçılıqdır. Gizli açarınızı heç kimə verməyin.</p>
+    </div>
+    <h3>Gələcək: kvanta davamlı kriptoqrafiya</h3>
+    <p>Güclü kvant kompüteri RSA və Diffie-Hellman-ı (Şor alqoritmi ilə) sındıra bilər. AES və SHA-256 isə daha davamlıdır: açar uzunluğunu artırmaq kifayətdir. 2024-cü ildə NIST ilk post-kvant standartlarını təsdiqlədi (ML-KEM, ML-DSA, SLH-DSA). Ətraflı məlumat Kvant hesablamaları kursunun 9-cu dərsindədir.</p>
+  </div>
+  <div class="card">
+    <h3>⛓️ Laboratoriya: hash zənciri (əsl SHA-256)</h3>
+    <p class="fb">Bloklardan birinin məlumatını dəyişin, məsələn, “Əli → Vəli: 5” yazısını “50”-yə. Hansı blokların qırıldığına baxın.</p>
+    <div class="chain" id="chBox"></div>
+    <div class="row" style="margin-top:8px"><button class="btn ghost" id="chFix">Hash-ləri yenidən hesabla</button></div>
+    <div id="chMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="chain"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
+  <div class="card">
+    <h2>12. Yekun imtahan</h2>
+    <p class="lead">15 sual. Ən azı 12 düzgün cavab verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>

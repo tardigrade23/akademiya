@@ -1,0 +1,258 @@
+<style>
+.lab2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.lab2 label{display:flex;justify-content:space-between;font-weight:600;font-size:.9rem}
+.lab2 input[type=range]{width:100%}
+svg.plot{width:100%;height:auto;background:var(--code);border-radius:12px}
+.tok{display:inline-block;margin:2px;padding:3px 8px;border-radius:8px;background:var(--accent-soft);font-family:var(--mono);font-size:.88rem}
+.gen{font-size:1.1rem;line-height:1.8;padding:12px 14px;border-radius:12px;background:var(--code);min-height:60px}
+.gen b{color:var(--accent)}
+.cand{display:grid;grid-template-columns:110px minmax(0,1fr) 50px;gap:8px;align-items:center;font-family:var(--mono);font-size:.88rem;margin:3px 0}
+.cand .t{height:14px;background:var(--line);border-radius:7px;overflow:hidden}.cand .t i{display:block;height:100%;background:linear-gradient(90deg,var(--c),var(--c2))}
+.pb{display:grid;gap:8px}.pb label{display:grid;gap:4px;font-weight:600;font-size:.9rem}
+.pb textarea{min-height:52px;font-family:var(--sans)}
+@media (max-width:640px){.lab2{grid-template-columns:1fr}}
+</style>
+
+<section class="lesson" data-title="Süni intellekt nədir?" data-ill="chip">
+  <div class="card">
+    <h2>1. Süni intellekt nədir?</h2>
+    <p class="lead">Süni intellekt (Sİ) adətən insan zəkası tələb edən işləri görən kompüter sistemləridir: tanımaq, anlamaq, proqnozlaşdırmaq, qərar vermək, yaratmaq.</p>
+    <p>Klassik proqram belə işləyir: <b>qaydalar + məlumat → cavab</b>. Proqramçı bütün qaydaları əvvəlcədən yazır. Maşın öyrənməsi isə tərsinə işləyir: <b>məlumat + cavablar → qaydalar</b>. Sistem qaydaları nümunələrdən özü çıxarır.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Növ</th><th>Nədir</th><th>Bu gün varmı?</th></tr>
+      <tr><td><b>Dar Sİ</b></td><td>Bir və ya bir neçə konkret iş üzrə: üz tanıma, tərcümə, şahmat</td><td>Bəli, hər yerdədir</td></tr>
+      <tr><td><b>Ümumi Sİ (AGI)</b></td><td>İnsan kimi istənilən intellektual işi öyrənə bilən sistem</td><td>Hələ yoxdur, ətrafında ciddi mübahisə gedir</td></tr>
+    </table></div>
+    <figure class="pic"><img src="courses/si/img/mccarthy.jpg" alt="Con Makkarti" data-credit="mccarthy" loading="lazy"><figcaption><b>Con Makkarti (1927–2011)</b>“Süni intellekt” terminini 1955-ci ildə o təklif edib. 1956-cı ildə Dartmut kollecində keçirilən yay seminarı Sİ elminin doğum günü sayılır.</figcaption></figure>
+    <figure class="pic"><img src="courses/si/img/deep-blue.jpg" alt="IBM Deep Blue" data-credit="deep-blue" loading="lazy"><figcaption><b>Deep Blue, 1997</b>IBM-in kompüteri dünya çempionu Harri Kasparovu şahmatda məğlub etdi. Amma Deep Blue “öyrənmirdi”: o, saniyədə yüz milyonlarla gedişi yoxlayan, insanların yazdığı qaydalarla işləyən sistem idi.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: siz Sİ-dən hər gün istifadə edirsiniz</span>
+      <ul>
+        <li>Telefonun kilidi üzünüzü tanıyır.</li>
+        <li>Poçt qutusu spamı ayırır.</li>
+        <li>Xəritə tətbiqi tıxacı proqnozlaşdırıb marşrut təklif edir.</li>
+        <li>Bank kartınızla şübhəli əməliyyatı bloklayır.</li>
+        <li>Video platforması “sizə maraqlı ola bilər” siyahısı qurur.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: Sİ, yoxsa adi proqram?</h3><div id="s1Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="intro"></div></div>
+</section>
+
+<section class="lesson" data-title="Maşın öyrənməsinin növləri" data-ill="blocks">
+  <div class="card">
+    <h2>2. Maşın öyrənməsinin üç növü</h2>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Növ</th><th>Necə öyrənir</th><th>Nümunə</th></tr>
+      <tr><td><b>Nəzarətli öyrənmə</b><br><small>(supervised)</small></td><td>Düzgün cavabı olan nümunələrdən: “bu şəkil pişikdir”, “bu məktub spamdır”</td><td>Spam filtri, mənzil qiymətinin proqnozu, rentgen şəklində xəstəliyin aşkarlanması</td></tr>
+      <tr><td><b>Nəzarətsiz öyrənmə</b><br><small>(unsupervised)</small></td><td>Cavabsız datada oxşar qrupları və strukturları özü tapır</td><td>Müştəriləri seqmentlərə bölmək, qeyri-adi əməliyyatları tapmaq</td></tr>
+      <tr><td><b>Möhkəmləndirmə ilə öyrənmə</b><br><small>(reinforcement)</small></td><td>Sınaq və səhvlə: yaxşı hərəkətə “mükafat”, pis hərəkətə “cərimə”</td><td>Oyunlar (AlphaGo), robotlar, reklam büdcəsinin idarəsi</td></tr>
+    </table></div>
+    <div class="ex"><span class="tag">📌 Real nümunə: bank</span>
+      <p>Bir bankda üç növün hamısı işləyə bilər. <b>Nəzarətli:</b> keçmiş kreditlərin “qaytarıldı/qaytarılmadı” datası ilə yeni müraciətin riski qiymətləndirilir. <b>Nəzarətsiz:</b> müştərilər davranışlarına görə qruplara bölünür (“tələbələr”, “kiçik biznes”, “səyahətçilər”). <b>Möhkəmləndirmə:</b> tətbiqdə hansı təklifin kimə, nə vaxt göstəriləcəyi sınaqlarla öyrənilir.</p>
+    </div>
+    <div class="note"><b>Məntiq kursu ilə əlaqə:</b> maşın öyrənməsi <b>induksiyadır</b>, yəni nümunələrdən ümumi qaydaya keçid. Fəlsəfə kursunda Devid Yumun xəbərdarlığını görmüşdük: keçmiş nümunələr gələcəyə zəmanət vermir. Sİ-nin bir çox səhvi buradan gəlir.</div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: hansı növdür?</h3><div id="s2Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="mltypes"></div></div>
+</section>
+
+<section class="lesson" data-title="Maşın necə öyrənir?" data-ill="chart">
+  <div class="card">
+    <h2>3. Maşın necə öyrənir?</h2>
+    <p class="lead">Ən sadə maşın öyrənməsi məsələsi belədir: nöqtələrin arasından elə xətt keçirmək ki, səhv ən kiçik olsun.</p>
+    <ol>
+      <li><b>Model:</b> düstur, məsələn: <span class="sym">qiymət = w · sahə + b</span>. Burada w və b modelin “parametrləridir”.</li>
+      <li><b>Xəta funksiyası:</b> modelin proqnozu real qiymətdən orta hesabla nə qədər uzaqdır?</li>
+      <li><b>Öyrənmə (qradiyent enişi):</b> parametrləri xətanı azaldan istiqamətdə kiçik addımlarla dəyişmək. Dumanlı dağda ətəyə doğru addım-addım enmək kimi.</li>
+    </ol>
+    <p>ChatGPT və Claude kimi böyük modellərdə də prinsip eynidir, sadəcə 2 parametr əvəzinə <b>milyardlarla</b> parametr var.</p>
+  </div>
+  <div class="card">
+    <h3>📈 Laboratoriya: modeli özünüz öyrədin</h3>
+    <p class="fb">Bakıda mənzil qiymətləri (nümunə data, real deyil): üfüqi oxda sahə (m²), şaquli oxda qiymət (min ₼). Əvvəlcə sürüşkənlərlə xətti özünüz yerləşdirin, sonra kompüterin necə öyrəndiyinə baxın.</p>
+    <div class="lab2">
+      <div>
+        <label>w (meyl) <b id="lrW">0.50</b></label><input type="range" id="lrWin" min="0" max="3" step="0.01" value="0.5">
+        <label style="margin-top:8px">b (başlanğıc) <b id="lrB">40</b></label><input type="range" id="lrBin" min="-50" max="150" step="1" value="40">
+        <div class="msg info" id="lrLoss" style="font-family:var(--mono)"></div>
+        <div class="row"><button class="btn" id="lrGo">🤖 Qradiyent enişi ilə öyrət</button></div>
+        <div id="lrMsg"></div>
+      </div>
+      <svg class="plot" id="lrSvg" viewBox="0 0 320 240" aria-label="Xətti reqressiya"></svg>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="learn"></div></div>
+</section>
+
+<section class="lesson" data-title="Neyron şəbəkələr" data-ill="nodes">
+  <div class="card">
+    <h2>4. Neyron şəbəkələr</h2>
+    <figure class="pic wide fit"><img src="courses/si/img/cajal.jpg" alt="Ramon i Kaxalın neyron çertyoju" data-credit="cajal" loading="lazy"><figcaption><b>Beyin neyronları</b>Santyaqo Ramon i Kaxalın XIX əsrin sonunda çəkdiyi çertyojlar. Bu işlərə görə 1906-cı ildə Nobel mükafatı alıb. Süni neyron şəbəkələri bu bioloji quruluşdan ilhamlanıb, amma onun çox sadələşdirilmiş versiyasıdır.</figcaption></figure>
+    <p><b>Süni neyron</b> çox sadədir: girişləri <b>çəkilərə</b> vurur, cəmləyir, üstünə <b>sürüşmə</b> (bias) əlavə edir və nəticə həddi keçirsə, “yanır”, yəni 1 qaytarır. Minlərlə və ya milyonlarla belə neyron qatlarla birləşəndə şəbəkə çox mürəkkəb qanunauyğunluqları tanıya bilir.</p>
+    <figure class="pic wide fit"><img src="courses/si/img/perseptron.jpg" alt="Mark I Perseptron" data-credit="perseptron" loading="lazy"><figcaption><b>Mark I Perseptron (1958)</b>Təlimatdan sxem. Frenk Rozenblatın ilk öyrənən neyron şəbəkəsi. Bu, proqram deyil, kabel və potensiometrlərdən ibarət bir maşın idi. Kamera ilə sadə fiqurları tanımağı öyrənirdi.</figcaption></figure>
+  </div>
+  <div class="card">
+    <h3>🧠 Laboratoriya: bir neyron</h3>
+    <p class="fb">Çəkiləri və sürüşməni elə seçin ki, neyron əvvəlcə <b>VƏ</b> (AND), sonra <b>VƏ YA</b> (OR) məntiqi qapısı kimi işləsin. Məntiq kursunun 2-ci dərsini xatırlayırsınız?</p>
+    <div class="lab2">
+      <div>
+        <label>w₁ <b id="pW1">0.5</b></label><input type="range" id="pW1in" min="-2" max="2" step="0.1" value="0.5">
+        <label>w₂ <b id="pW2">0.5</b></label><input type="range" id="pW2in" min="-2" max="2" step="0.1" value="0.5">
+        <label>b (sürüşmə) <b id="pB">0.2</b></label><input type="range" id="pBin" min="-2" max="2" step="0.1" value="0.2">
+        <p class="fb">Çıxış = 1, əgər w₁·x₁ + w₂·x₂ + b &gt; 0</p>
+      </div>
+      <div><div class="scroll" id="pTable"></div><ul class="puzzles" id="pPuz" style="list-style:none;padding:0;display:grid;gap:6px"></ul></div>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="nn"></div></div>
+</section>
+
+<section class="lesson" data-title="Dərin öyrənmə" data-ill="eye">
+  <div class="card">
+    <h2>5. Dərin öyrənmə: “dərin” nə deməkdir?</h2>
+    <p class="lead">“Dərin” neyron şəbəkədə çoxlu <b>qatın</b> olması deməkdir. Hər qat əvvəlkinin üzərində daha mürəkkəb anlayış qurur.</p>
+    <p>Şəkil tanıyan şəbəkədə ilk qatlar sadə xətləri və kənarları tapır. Orta qatlar bunlardan formalar qurur: göz, təkər, qulaq. Son qatlar isə bütöv obyekti tanıyır: “pişik”, “avtomobil”. Bu xüsusiyyətləri heç kim əl ilə proqramlaşdırmır: şəbəkə onları milyonlarla nümunədən özü öyrənir.</p>
+    <div class="ex hist"><span class="tag">💡 Tarix: 2012-ci il dönüş nöqtəsi</span>
+      <p>2012-ci ildə AlexNet adlı dərin neyron şəbəkə ImageNet şəkil tanıma müsabiqəsində əvvəlki üsulları böyük fərqlə qabaqladı. Üç şey bir araya gəlmişdi: internetdən toplanan <b>böyük data</b>, oyun kompüterləri üçün hazırlanmış güclü <b>qrafik prosessorlar (GPU)</b> və yaxşılaşdırılmış <b>alqoritmlər</b>. Müasir Sİ bumu buradan başladı.</p>
+    </div>
+    <figure class="pic wide fit"><img src="courses/si/img/alphago.jpg" alt="AlphaGo və Li Sedol matçı" data-credit="alphago" loading="lazy"><figcaption><b>AlphaGo – Li Sedol, 2016</b>Qo oyununda mümkün vəziyyətlərin sayı kainatdakı atomlardan çoxdur, ona görə hər variantı yoxlamaq mümkün deyil. DeepMind-ın AlphaGo sistemi dərin öyrənmə və möhkəmləndirmə ilə öyrəndi və dünya çempionlarından biri Li Sedolu 4:1 hesabı ilə məğlub etdi. 2-ci oyundakı “37-ci gediş”i ekspertlər əvvəlcə səhv saydılar, sonra isə dahiyanə adlandırdılar. Şəkildə isə 4-cü oyunun gedişləri göstərilib: bu, Li Sedolun qazandığı yeganə oyundur. Onun 78-ci gedişi sonradan “ilahi gediş” adını aldı.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: tibbi şəkillər</span>
+      <p>Dərin öyrənmə modelləri rentgen, MRT və dəri şəkillərində bəzi xəstəlikləri təcrübəli həkimlərlə müqayisə olunan dəqiqliklə aşkarlaya bilir. Amma bu, həkimi əvəz etmək demək deyil. Ən yaxşı nəticələr “həkim + Sİ” birliyində alınır: Sİ şübhəli yerləri göstərir, qərarı isə həkim verir.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="deep"></div></div>
+</section>
+
+<section class="lesson" data-title="Böyük dil modelləri" data-ill="speech">
+  <div class="card">
+    <h2>6. Böyük dil modelləri (LLM) necə işləyir?</h2>
+    <p class="lead">ChatGPT, Claude və Gemini kimi sistemlərin əsasında sadə görünən bir iş durur: <b>növbəti tokeni proqnozlaşdırmaq</b>.</p>
+    <ol>
+      <li><b>Tokenləşdirmə:</b> mətn kiçik hissələrə, yəni tokenlərə bölünür. Token bir söz, sözün bir hissəsi və ya işarə ola bilər.</li>
+      <li><b>Əvvəlcədən öyrədilmə:</b> model internetdəki və kitablardakı nəhəng həcmdə mətndə “növbəti token nədir?” sualına cavab verməyi öyrənir. Bu, aylarla davam edir və milyonlarla dollara başa gəlir.</li>
+      <li><b>Dəqiqləşdirmə:</b> sonra model insan rəyləri ilə faydalı, dürüst və təhlükəsiz cavab verməyə öyrədilir.</li>
+      <li><b>Generasiya:</b> cavab token-token qurulur: hər addımda ehtimallar hesablanır və bir token seçilir.</li>
+    </ol>
+    <div class="ex hist"><span class="tag">💡 Tarix</span>
+      <p>2017-ci ildə Google tədqiqatçılarının “Attention Is All You Need” məqaləsi <b>Transformer</b> arxitekturasını təqdim etdi. Bu arxitektura mətnin bütün hissələrinə eyni anda “diqqət” yetirə bilir. Bugünkü bütün böyük dil modelləri bu arxitekturaya əsaslanır. 2022-ci ilin noyabrında ChatGPT-nin təqdimatı Sİ-ni gündəlik həyata gətirdi.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔤 Laboratoriya: kiçik dil modeli</h3>
+    <p class="fb">Bu, bir neçə cümləlik Azərbaycan dilində mətn üzərində “öyrədilmiş” oyuncaq modeldir: hər sözdən sonra hansı sözün gəldiyini sayır. Başlanğıc sözü seçin və mətni token-token yaradın. <b>Temperatur</b> modelin nə qədər “cəsarətli” seçim edəcəyini müəyyən edir.</p>
+    <div class="row"><label>Başlanğıc: <select id="lmStart" style="width:auto"></select></label><label style="flex:1;min-width:200px">Temperatur: <b id="lmT">0.7</b><input type="range" id="lmTin" min="0.1" max="2" step="0.1" value="0.7" style="width:100%"></label></div>
+    <div class="gen" id="lmOut"></div>
+    <div class="row" style="margin:8px 0"><button class="btn" id="lmStep">Növbəti token</button><button class="btn ghost" id="lmAuto">8 token yarat</button><button class="btn ghost" id="lmReset">Sıfırla</button></div>
+    <div id="lmCand"></div>
+    <div id="lmMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="llm"></div></div>
+</section>
+
+<section class="lesson" data-title="Sİ ilə effektiv işləmək" data-ill="pen">
+  <div class="card">
+    <h2>7. Sİ ilə effektiv işləmək: yaxşı prompt</h2>
+    <p class="lead">Model sizin başınızdakı konteksti bilmir. Nəticənin keyfiyyəti verdiyiniz məlumatın keyfiyyətindən asılıdır.</p>
+    <h3>Yaxşı promptun 5 hissəsi</h3>
+    <ol>
+      <li><b>Rol və kontekst:</b> kimsiniz, vəziyyət nədir?</li>
+      <li><b>Tapşırıq:</b> dəqiq nə lazımdır?</li>
+      <li><b>Məhdudiyyətlər:</b> uzunluq, ton, nədən qaçmaq lazımdır.</li>
+      <li><b>Format:</b> cədvəl, siyahı, e-poçt, kod…</li>
+      <li><b>Nümunə:</b> istədiyiniz nəticəyə bir nümunə.</li>
+    </ol>
+    <div class="ex"><span class="tag">📌 Real nümunə: müştəriyə məktub</span>
+      <p><b>Zəif:</b> “Müştəriyə üzrxahlıq məktubu yaz.”</p>
+      <p><b>Güclü:</b> “Mən kiçik onlayn mağazanın sahibiyəm. Müştərinin sifarişi 5 gün gecikib, səbəb kuryer şirkətinin problemi idi. Ona qısa (6–8 cümlə), səmimi, amma rəsmi Azərbaycan dilində üzrxahlıq məktubu yaz. Bəhanə gətirmə, məsuliyyəti öz üzərimizə götür. Növbəti sifariş üçün 10% endirim kodu təklif et: <span class="sym">BAGISLA10</span>. Sonda telefon nömrəmizi qeyd et.”</p>
+    </div>
+    <div class="ex life"><span class="tag">✅ Tətbiq: “Məni sorğu-suala tut”</span>
+      <p>Mürəkkəb tapşırıqda modeldən əvvəlcə sual verməsini istəyin: “Bu tapşırığı yerinə yetirmək üçün məndən hansı məlumatlar lazımdır? Əvvəlcə 5 sual ver.” Bu, Claude Code kursundakı “meta-çərçivə” ideyasının eynisidir.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🛠️ Alət: prompt qurucusu</h3>
+    <div class="pb">
+      <label>Rol və kontekst<textarea id="pbRole">Mən Gəncədə 3 nəfərlik mühasibat bürosunun sahibiyəm.</textarea></label>
+      <label>Tapşırıq<textarea id="pbTask">Müştərilərə yeni vergi bəyannaməsi müddətləri haqqında məlumat məktubu yaz.</textarea></label>
+      <label>Məhdudiyyətlər<textarea id="pbCons"></textarea></label>
+      <label>Format<textarea id="pbFmt"></textarea></label>
+      <label>Nümunə (istəyə bağlı)<textarea id="pbEx"></textarea></label>
+    </div>
+    <h3 style="margin-top:12px">Hazır prompt</h3>
+    <pre class="code" id="pbOut" style="white-space:pre-wrap"></pre>
+    <div id="pbMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="prompt"></div></div>
+</section>
+
+<section class="lesson" data-title="Sİ-nin məhdudiyyətləri" data-ill="masks">
+  <div class="card">
+    <h2>8. Sİ-nin məhdudiyyətləri: halüsinasiya, qərəz, məxfilik</h2>
+    <h3>Halüsinasiya</h3>
+    <p>Dil modeli “doğru” cavabı deyil, <b>inandırıcı görünən</b> davamı yaradır. Bəzən o, mövcud olmayan fakt, mənbə və ya rəqəm uydurur, həm də çox inamla.</p>
+    <div class="ex warn"><span class="tag">⚠️ Real hadisə: məhkəmədə uydurma işlər</span>
+      <p>2023-cü ildə Nyu-Yorkda iki vəkil məhkəməyə təqdim etdikləri sənəddə ChatGPT-nin tövsiyə etdiyi əvvəlki məhkəmə işlərinə istinad etdilər. Sonra məlum oldu ki, bu işlərin heç biri mövcud deyil. Hakim vəkilləri 5000 dollar cərimələdi. Dərs: <b>Sİ-nin verdiyi hər fakt, rəqəm və mənbə yoxlanılmalıdır.</b></p>
+    </div>
+    <h3>Qərəz (bias)</h3>
+    <p>Model öyrəndiyi datanın güzgüsüdür. Datada qərəz varsa, model onu öyrənir və bəzən gücləndirir.</p>
+    <div class="ex warn"><span class="tag">⚠️ Real hadisə: işə qəbul sistemi</span>
+      <p>Amazon şirkəti CV-ləri qiymətləndirən Sİ sistemi hazırlayırdı. Sistem keçmiş 10 ilin qəbul datası ilə öyrədilmişdi, həmin dövrdə isə texniki vəzifələrə qəbul olunanların əksəriyyəti kişilər idi. Model “qadın” sözü olan CV-lərə aşağı bal verməyi öyrəndi. Şirkət layihədən imtina etdi (2018-ci ildə xəbər verilib).</p>
+    </div>
+    <h3>Məxfilik</h3>
+    <p>Pulsuz Sİ xidmətlərinə yazdığınız məlumatlar ayarlardan asılı olaraq saxlanıla və ya modelin təkmilləşdirilməsində istifadə oluna bilər. <b>Müştəri datasını, parolları, müqavilələri və tibbi məlumatları</b> şirkətinizin təsdiqlədiyi xidmətlərdən başqa yerə yazmayın.</p>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: Sİ-nin cavabını yoxlamaq nə qədər vacibdir?</h3><div id="s8Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="limits"></div></div>
+</section>
+
+<section class="lesson" data-title="Etika və tənzimləmə" data-ill="scales">
+  <div class="card">
+    <h2>9. Etika və tənzimləmə</h2>
+    <p class="lead">Avropa İttifaqının <b>Sİ Aktı</b> (AI Act) dünyada Sİ haqqında ilk hərtərəfli qanundur. 2024-cü il avqustun 1-də qüvvəyə minib, tələbləri isə mərhələli şəkildə tətbiq olunur.</p>
+    <p>Qanunun ideyası <b>riskə əsaslanan</b> yanaşmadır: Sİ sistemi insanlara nə qədər çox təsir edə bilirsə, tələblər də bir o qədər sərtdir.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Risk səviyyəsi</th><th>Nümunə</th><th>Tələb</th></tr>
+      <tr><td class="F">Qəbuledilməz</td><td>Dövlətin vətəndaşlara “sosial reytinq” verməsi, insanların zəif cəhətlərindən istifadə edən manipulyasiya</td><td>Qadağandır (2025-ci ilin fevralından)</td></tr>
+      <tr><td><b>Yüksək</b></td><td>İşə qəbul, kredit, təhsildə qiymətləndirmə, tibbi cihazlar</td><td>Risklərin idarəsi, keyfiyyətli data, insan nəzarəti, sənədləşmə</td></tr>
+      <tr><td>Məhdud</td><td>Çatbotlar, deepfake</td><td>Şəffaflıq: insan Sİ ilə danışdığını və ya məzmunun süni olduğunu bilməlidir</td></tr>
+      <tr><td class="T">Minimal</td><td>Spam filtri, oyunlar</td><td>Xüsusi tələb yoxdur</td></tr>
+    </table></div>
+    <div class="ex"><span class="tag">📌 Azərbaycan üçün niyə vacibdir?</span>
+      <p>Avropa ilə işləyən və ya Avropa vətəndaşlarına xidmət göstərən şirkətlər bu tələblərə əməl etməlidir, GDPR-də olduğu kimi. Azərbaycanda da 2025-ci ildə 2025–2028-ci illər üçün süni intellekt strategiyası təsdiq edilib. Sİ-nin məsuliyyətli tətbiqi dünya üzrə ümumi standarta çevrilir.</p>
+    </div>
+    <div class="note"><b>Fəlsəfə kursu ilə əlaqə:</b> “Sürücüsüz avtomobil kimi qorumalıdır?” (trolleybus dilemması, 8-ci dərs) və “Sİ həqiqətən anlayırmı?” (Çin otağı, 7-ci dərs) sualları burada praktik məsələyə çevrilir.</div>
+  </div>
+  <div class="card"><h3>🗂️ Məşq: hansı risk səviyyəsidir?</h3><div id="s9Sort"></div></div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="ethics"></div></div>
+</section>
+
+<section class="lesson" data-title="Sİ iş yerində" data-ill="users">
+  <div class="card">
+    <h2>10. Sİ iş yerində və gündəlik həyatda</h2>
+    <p class="lead">Sİ ən yaxşı nəticəni insanı əvəz edəndə deyil, onun işini <b>gücləndirəndə</b> verir.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Sahə</th><th>Sİ ilə tez və yaxşı</th><th>İnsanda qalmalıdır</th></tr>
+      <tr><td>Mətn</td><td>Qaralama, xülasə, tərcümə, redaktə</td><td>Əsas fikir, ton, son yoxlama</td></tr>
+      <tr><td>Data</td><td>Cədvəl düsturları, ilkin analiz, qrafiklər</td><td>Hansı sualın vacib olduğu, nəticənin şərhi</td></tr>
+      <tr><td>Proqramlaşdırma</td><td>Kod yazmaq, test, səhv axtarmaq (Claude Code kursu)</td><td>Arxitektura, təhlükəsizlik, məsuliyyət</td></tr>
+      <tr><td>Müştəri xidməti</td><td>Tez-tez verilən suallara cavab, müraciətlərin bölüşdürülməsi</td><td>Mürəkkəb və emosional hallar</td></tr>
+      <tr><td>Təhsil</td><td>Fərdi müəllim kimi izah, test sualları</td><td>Motivasiya, tənqidi düşüncə</td></tr>
+    </table></div>
+    <div class="ex"><span class="tag">📌 Real nümunə: müəllimin bir həftəsi</span>
+      <p>Riyaziyyat müəllimi Sİ ilə: 1) mövzu üzrə 3 səviyyəli (asan, orta, çətin) 20 məsələ hazırlayır; 2) hər şagirdin tipik səhvlərinə görə fərdi izah yazdırır; 3) valideynlərə həftəlik məlumatı qısaldır. Qənaət etdiyi 5–6 saatı zəif şagirdlərlə fərdi işə sərf edir. Sİ müəllimi əvəz etmədi, onun ən dəyərli işinə vaxt açdı.</p>
+    </div>
+    <div class="ex life"><span class="tag">✅ Tətbiq: bu həftə</span>
+      <p>İşinizdə ən çox vaxt aparan 3 təkrarlanan tapşırığı yazın. Hər biri üçün yoxlayın: Sİ hansı hissəni edə bilər, siz hansını yoxlamalısınız? Birini sınayın və nəticəni “Qeydlərim” bölməsində saxlayın.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="work"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
+  <div class="card">
+    <h2>11. Yekun imtahan</h2>
+    <p class="lead">Bütün kursdan 15 sual. Ən azı 12 düzgün cavab verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>

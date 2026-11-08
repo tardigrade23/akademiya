@@ -85,6 +85,91 @@
         "12": "Yekun"
       },
       "added": "2026-11-08"
+    },
+    {
+      "id": "si",
+      "title": "Süni intellekt",
+      "mark": "AI",
+      "color": "#e8590c",
+      "color2": "#c2255c",
+      "ill": "chip",
+      "lessons": 11,
+      "description": "Sİ nədir, maşın necə öyrənir, neyron şəbəkələr və böyük dil modelləri necə işləyir. Prompt yazmaq, halüsinasiya və qərəz, AB Sİ Aktı, Sİ iş yerində. Öz modelinizi öyrədin, bir neyronu proqramlaşdırın, kiçik dil modeli ilə mətn yaradın.",
+      "parts": {
+        "0": "I hissə · Əsaslar",
+        "3": "II hissə · Neyron şəbəkələr və dil modelləri",
+        "6": "III hissə · Praktika və məsuliyyət",
+        "10": "Yekun"
+      },
+      "added": "2026-11-08"
+    },
+    {
+      "id": "agent",
+      "title": "Agentic AI: Sİ agentləri",
+      "mark": "⚙",
+      "color": "#1d3a8a",
+      "color2": "#0aa2a2",
+      "ill": "nodes",
+      "lessons": 10,
+      "description": "Çatbotdan agentə: düşün → hərəkət et → müşahidə et dövrü, alətlər, yaddaş və RAG, planlaşdırma, çoxagentli sistemlər, MCP və A2A, prompt injeksiyası və qoruyucular. Agentin daxili monoloqu, kiçik RAG və agent dizayn kətanı ilə.",
+      "parts": {
+        "0": "I hissə · Agentin anatomiyası",
+        "4": "II hissə · Mürəkkəb agentlər",
+        "7": "III hissə · Etibarlılıq və dizayn",
+        "9": "Yekun"
+      },
+      "added": "2026-11-08"
+    },
+    {
+      "id": "caio",
+      "title": "Chief AI Officer",
+      "mark": "♛",
+      "color": "#2b2d6e",
+      "color2": "#c2902b",
+      "ill": "crown",
+      "lessons": 10,
+      "description": "Təşkilatda Sİ-yə rəhbərlik: strategiya və use-case portfeli, biznes keysi, qurmaq və ya almaq, idarəetmə (AB Sİ Aktı, NIST AI RMF, ISO/IEC 42001), komanda modelləri, Sİ savadlılığı, pilotdan dəyərə keçid və ilk 100 gün.",
+      "parts": {
+        "0": "I hissə · Rol və strategiya",
+        "4": "II hissə · İdarəetmə və insanlar",
+        "7": "III hissə · Nəticə",
+        "9": "Yekun"
+      },
+      "added": "2026-11-08"
+    },
+    {
+      "id": "kripto",
+      "title": "Kriptoqrafiya",
+      "mark": "🔑",
+      "color": "#0f6b4f",
+      "color2": "#3a9d23",
+      "ill": "key",
+      "lessons": 12,
+      "description": "Sezar şifrəsindən HTTPS-ə qədər: tezlik analizi, Vijener və Enigma, XOR və AES, SHA-256, Diffie-Hellman, RSA və rəqəmsal imza, parollar, blokçeyn və kvanta davamlı gələcək. Bütün şifrələri brauzerdə özünüz sınayın və sındırın.",
+      "parts": {
+        "0": "I hissə · Klassik şifrələr",
+        "4": "II hissə · Müasir kriptoqrafiya",
+        "8": "III hissə · Gündəlik həyatda",
+        "11": "Yekun"
+      },
+      "added": "2026-11-08"
+    },
+    {
+      "id": "kiber",
+      "title": "Praktiki kibertəhlükəsizlik",
+      "mark": "🛡",
+      "color": "#a51d2d",
+      "color2": "#5b2a86",
+      "ill": "shield",
+      "lessons": 11,
+      "description": "Özünüzü, ailənizi və biznesinizi qoruyun: parol menecerləri və MFA, fişinq və sosial mühəndislik, ehtiyat nüsxələr, Wi-Fi və router, SQL injeksiyası, ransomware, insidentə reaksiya, kiçik biznes və sosial şəbəkə məxfiliyi. Özünüyoxlama alətləri ilə.",
+      "parts": {
+        "0": "I hissə · Şəxsi təhlükəsizlik",
+        "4": "II hissə · Şəbəkə və tətbiqlər",
+        "7": "III hissə · İnsident və biznes",
+        "10": "Yekun"
+      },
+      "added": "2026-11-08"
     }
   ]
 }

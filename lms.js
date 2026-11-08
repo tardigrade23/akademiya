@@ -354,6 +354,51 @@
       set(k, v) { prog[cid].extra[k] = v; touch(cid); },
       quizzes(Q) { $('#lessonHost').querySelectorAll('.quiz').forEach(el => buildQuiz(el, Q, this)); },
       onUnmount(fn) { unmountFns.push(fn); },
+      // Bir-bir göstərilən maddələri qruplara ayırma məşqi.
+      // cfg: {items: [[mətn, qrupİndeksi, izah?]], bins: ['Qrup A', ...], done: dərsİndeksi, end: 'yekun mətn'}
+      sorter(id, cfg) {
+        const root = document.getElementById(id); if (!root) return;
+        let i = 0, right = 0;
+        root.innerHTML = `<div class="srt-item"></div><div class="srt-bins" style="grid-template-columns:repeat(${Math.min(cfg.bins.length, 3)},minmax(0,1fr))">${cfg.bins.map((b, k) => `<div class="srt-bin c${k % 5}"><h4>${esc(b)}</h4><div></div></div>`).join('')}</div><div class="srt-msg"></div>`;
+        const item = root.querySelector('.srt-item'), msg = root.querySelector('.srt-msg'), bins = root.querySelectorAll('.srt-bin>div');
+        const next = () => {
+          if (i >= cfg.items.length) {
+            item.innerHTML = '';
+            msg.innerHTML = `<div class="msg ok">${right} / ${cfg.items.length} düzgün. ${cfg.end || ''}</div>`;
+            if (cfg.done != null) this.done(cfg.done);
+            return;
+          }
+          const [t] = cfg.items[i];
+          item.innerHTML = `<div class="msg info" style="font-size:1.04rem"><b>${esc(t)}</b></div><div class="row" style="margin-top:8px">${cfg.bins.map((b, k) => `<button class="btn${k ? ' ghost' : ''}" data-k="${k}">${esc(b)}</button>`).join('')}</div>`;
+          item.querySelectorAll('button').forEach(b => b.onclick = () => {
+            const [t2, ok, why] = cfg.items[i], good = +b.dataset.k === ok; if (good) right++;
+            const c = document.createElement('span'); c.className = 'srt-chip'; c.textContent = (good ? '' : '✗ ') + t2; bins[ok].appendChild(c);
+            msg.innerHTML = good ? (why ? `<div class="fb">✓ ${esc(why)}</div>` : '') : `<div class="msg bad">“${esc(t2)}”: ${esc(cfg.bins[ok])}.${why ? ' ' + esc(why) : ''}</div>`;
+            i++; next();
+          });
+        };
+        next();
+      },
+      // Addımları düzgün sıraya düzmə məşqi. cfg: {steps: [...düzgün sıra...], done, ok, hint}
+      order(id, cfg) {
+        const root = document.getElementById(id); if (!root) return;
+        let shown, picked;
+        root.innerHTML = '<div class="ord-list"></div><div class="row" style="margin-top:8px"><button class="btn ord-check">Yoxla</button><button class="btn ghost ord-reset">Sıfırla</button></div><div class="ord-msg"></div>';
+        const list = root.querySelector('.ord-list'), msg = root.querySelector('.ord-msg');
+        const draw = () => {
+          list.innerHTML = shown.map(k => { const p = picked.indexOf(k); return `<button data-k="${k}" class="${p >= 0 ? 'picked' : ''}"><span class="n">${p >= 0 ? p + 1 : ''}</span>${esc(cfg.steps[k])}</button>`; }).join('');
+          list.querySelectorAll('button').forEach(b => b.onclick = () => { const k = +b.dataset.k, p = picked.indexOf(k); if (p >= 0) picked.splice(p, 1); else picked.push(k); draw(); });
+        };
+        const reset = () => { shown = cfg.steps.map((_, k) => k); do { shown.sort(() => Math.random() - .5); } while (shown.length > 1 && shown.every((v, k) => v === k)); picked = []; msg.innerHTML = ''; draw(); };
+        root.querySelector('.ord-reset').onclick = reset;
+        root.querySelector('.ord-check').onclick = () => {
+          if (picked.length < cfg.steps.length) { msg.innerHTML = '<div class="msg info">Bütün addımlara nömrə verin.</div>'; return; }
+          const wrong = picked.filter((v, k) => v !== k).length;
+          msg.innerHTML = wrong ? `<div class="msg bad">${wrong} addım yerində deyil. ${esc(cfg.hint || '')}</div>` : `<div class="msg ok">✅ Düzgündür! ${esc(cfg.ok || '')}</div>`;
+          if (!wrong && cfg.done != null) this.done(cfg.done);
+        };
+        reset();
+      },
     };
   }
 
