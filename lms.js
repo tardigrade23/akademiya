@@ -65,29 +65,14 @@
   // ---------- şəxsi öyrənmə vəziyyəti: kartlar, səhvlər, aktivlik, nişanlar, əlfəcinlər ----------
   const me = Object.assign({ cards: {}, miss: {}, log: {}, acc: {}, badges: {}, marks: [], reviews: 0, perfect: {}, hl: {}, own: {}, proj: {} }, lsGet('akademiya:me') || {});
   const saveMe = () => lsSet('akademiya:me', me);
-  const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return dayKey(d); };
-  const INT = [0, 1, 3, 7, 16, 35]; // aralıqlı təkrar: səviyyəyə görə günlər
-  let CARDS = [], CARD = {};
+  let CARDS = [], CARD = {}; // testlərin sual bankı: yalnız “Səhvlərim” üçün (köhnə səhvlərin mətni)
   function logAct(n = 1) { const t = today(); me.log[t] = (me.log[t] || 0) + n; }
-  function schedule(id, ok) {
-    const c = me.cards[id] || (me.cards[id] = { b: 0, due: today() });
-    if (ok) { c.b = Math.min(c.b + 1, 5); c.due = addDays(INT[c.b]); }
-    else { c.b = 0; c.due = addDays(1); }
-  }
   function recordAnswer(cid, id, ok, snap) {
     const a = me.acc[cid] || (me.acc[cid] = [0, 0]); a[1]++; if (ok) a[0]++;
-    if (CARD[id]) schedule(id, ok);
-    if (!ok) me.miss[id] = Object.assign({ ts: Date.now(), fixed: false }, CARD[id] ? {} : { d: snap });
+    if (!ok) me.miss[id] = { ts: Date.now(), fixed: false, d: snap };
     else if (me.miss[id]) me.miss[id].fixed = true;
     logAct(); saveMe(); checkBadges();
   }
-  function activateLesson(cid, l) {
-    let n = 0;
-    CARDS.forEach(c => { if (c.c === cid && c.l === l && !me.cards[c.id]) { me.cards[c.id] = { b: 0, due: today() }; n++; } });
-    if (n) saveMe();
-  }
-  const dueIds = () => Object.keys(me.cards).filter(id => CARD[id] && me.cards[id].due <= today())
-    .sort((x, y) => me.cards[x].b - me.cards[y].b || (me.cards[x].due < me.cards[y].due ? -1 : 1));
   const openMiss = () => Object.keys(me.miss).filter(id => !me.miss[id].fixed && (CARD[id] || me.miss[id].d));
   const cardData = id => CARD[id] || (me.miss[id] && me.miss[id].d);
 
@@ -104,9 +89,6 @@
       ['s3', '🔥', 'Alov', '3 gün ardıcıl öyrən', s => s.streak >= 3],
       ['s7', '🔥', 'Həftəlik alov', '7 gün ardıcıl öyrən', s => s.streak >= 7],
       ['s30', '☄️', 'Dəmir iradə', '30 gün ardıcıl öyrən', s => s.streak >= 30],
-      ['r50', '🧠', 'Yaddaş ustası', '50 kart təkrar et', s => s.reviews >= 50],
-      ['r300', '🏋️', 'Yaddaş çempionu', '300 kart təkrar et', s => s.reviews >= 300],
-      ['m20', '💎', 'Möhkəm bilik', '20 kartı 3-cü səviyyəyə çatdır', s => s.mastered >= 20],
       ['perfect', '💯', 'Mükəmməl', 'Yekun imtahanı səhvsiz keç', s => s.perfect >= 1],
       ['fix10', '🩹', 'Səhvlərdən öyrənən', '10 səhvi düzəlt', s => s.fixed >= 10],
       ['mark', '🖍️', 'Kolleksiyaçı', 'İlk cümləni vurğula', s => s.hl >= 1],
@@ -121,7 +103,7 @@
     const done = {}; catalog.forEach(c => { done[c.id] = doneCount(c.id) >= c.lessons; });
     return {
       lessons: catalog.reduce((s, c) => s + doneCount(c.id), 0), courses: Object.values(done).filter(Boolean).length, totalCourses: catalog.length,
-      streak: streak(), reviews: me.reviews || 0, mastered: Object.values(me.cards).filter(c => c.b >= 3).length, perfect: Object.keys(me.perfect).length,
+      streak: streak(), perfect: Object.keys(me.perfect).length,
       fixed: Object.values(me.miss).filter(m => m.fixed).length, marks: me.marks.length, proj: Object.values(me.proj).filter(x => x.done).length, own: Object.keys(me.own).length,
       hl: Object.values(me.hl).reduce((n, a) => n + a.length, 0), kk: Object.keys(((prog.mentiq || {}).extra || {}).kk || {}).length, done,
     };
@@ -270,28 +252,14 @@
         <div class="foot"><span>${doneCount(c.id)} / ${c.lessons} dərs</span><span>${pc === 100 ? '🎓 bitib' : pc + '%'}</span></div></div></a>`;
     }).join('') + `<div class="course-card add"><div class="cover">${art('star')}</div><div class="body"><h3>Yeni kurs</h3>
         <p>Claude ilə yeni sessiyada yaz: “Akademiyama … kursu əlavə et”. Kurs bu rəfdə görünəcək və irəliləyişin ayrıca saxlanılacaq.</p></div></div>`;
-    renderToday(); renderPaths();
+    renderQuick(); renderPaths();
     $('#home').classList.add('ready');
     renderAppBox();
   }
 
-  function renderToday() {
-    const due = dueIds().length, miss = openMiss().length, active = Object.keys(me.cards).length;
-    $('#todayBox').innerHTML = `<div class="today">
-      <div class="today-ic">🧠</div>
-      <div><div class="label">Bugünkü təkrar</div>
-      ${!CARDS.length ? '<div class="what">Kartlar yüklənir…</div>' : due ? `<div class="what">${due} kart təkrar gözləyir</div><div class="sub">təxminən ${Math.max(1, Math.round(Math.min(due, 15) * 0.4))} dəqiqə · aralıqlı təkrar unutmağa başladığınız anda xatırladır</div>`
-        : active ? `<div class="what">Bu gün üçün təkrar yoxdur 🎉</div><div class="sub">${active} kart yaddaşınızdadır. Növbəti təkrar: ${nextDue()}</div>`
-        : '<div class="what">Hələ kart yoxdur</div><div class="sub">Dərsləri tamamladıqca və testləri cavablandırdıqca hər dərsdən 3–5 təkrar kartı yaranacaq.</div>'}</div>
-      ${due ? '<a class="btn" href="#tekrar">Təkrara başla →</a>' : miss ? '<a class="btn ghost" href="#sehvler">Səhvləri təkrarla</a>' : ''}</div>`;
-    const tiles = [['sehvler', '🩹', 'Səhvlərim', miss], ['qeydlerim', '🖍️', 'Qeydlərim', Object.values(me.hl).reduce((n, a) => n + a.length, 0)], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : ''], ['axtar', '🔍', 'Axtarış', '']];
+  function renderQuick() {
+    const tiles = [['qeydlerim', '🖍️', 'Qeydlərim', Object.values(me.hl).reduce((n, a) => n + a.length, 0)], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : '']];
     $('#quickBox').innerHTML = tiles.map(([h, ic, n, c]) => `<a class="qt" href="#${h}"><span class="qi">${ic}</span><span>${n}</span>${c ? `<b>${c}</b>` : ''}</a>`).join('');
-  }
-  function nextDue() {
-    const ds = Object.values(me.cards).map(c => c.due).filter(d => d > today()).sort();
-    if (!ds.length) return '—';
-    const d = new Date(ds[0] + 'T00:00:00'), diff = Math.round((d - new Date(today() + 'T00:00:00')) / 864e5);
-    return diff === 1 ? 'sabah' : diff + ' gün sonra';
   }
   function renderPaths() {
     const paths = window.__paths || [];
@@ -307,84 +275,28 @@
     }).join('');
   }
 
-  // ---------- səhifələr: təkrar, səhvlər, əlfəcinlər, lüğət, statistika, axtarış ----------
-  const PAGES = { tekrar: 'Bugünkü təkrar', sehvler: 'Səhvlərim', qeydlerim: 'Qeydlərim', luget: 'Lüğət', statistika: 'Statistika', axtar: 'Axtarış' };
+  // ---------- səhifələr: səhvlər, qeydlər, lüğət, statistika, axtarış ----------
+  const PAGES = { sehvler: 'Səhvlərim', qeydlerim: 'Qeydlərim', luget: 'Lüğət', statistika: 'Statistika', axtar: 'Axtarış' };
   const loaded = {};
   const getJSON = f => loaded[f] || (loaded[f] = fetch(f).then(r => r.ok ? r.json() : []).catch(() => []));
   const chip = cid => byId[cid] ? `<span class="cchip" style="${cvars(byId[cid])}">${esc(byId[cid].title)}</span>` : '';
   const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
   const fold = s => String(s).toLocaleLowerCase('az').replace(/[əıöüşçğ]/g, c => ({ 'ə': 'e', 'ı': 'i', 'ö': 'o', 'ü': 'u', 'ş': 's', 'ç': 'c', 'ğ': 'g' }[c]));
-  let reviewMode = 'due', rv = null, pendingMark = null;
+  let pendingMark = null;
 
   function renderPage(page) {
     const v = $('#pageView');
     $('#crumb').innerHTML = `<b>${PAGES[page]}</b>`;
-    ({ tekrar: pageReview, sehvler: pageMistakes, qeydlerim: pageHls, luget: pageGlossary, statistika: pageStats, axtar: pageSearch })[page](v);
+    ({ sehvler: pageMistakes, qeydlerim: pageHls, luget: pageGlossary, statistika: pageStats, axtar: pageSearch })[page](v);
     window.scrollTo({ top: 0 });
   }
-  function startReview(mode) { reviewMode = mode; rv = null; if (location.hash === '#tekrar') renderPage('tekrar'); else location.hash = 'tekrar'; }
-
-  function pageReview(v) {
-    if (!rv) {
-      let ids;
-      if (reviewMode === 'miss') ids = shuffle(openMiss()).slice(0, 15);
-      else if (reviewMode === 'ahead') ids = Object.keys(me.cards).filter(id => CARD[id]).sort((x, y) => me.cards[x].due < me.cards[y].due ? -1 : 1).slice(0, 10);
-      else ids = dueIds().slice(0, 15);
-      rv = { ids, i: 0, ok: 0, answered: false };
-    }
-    if (!rv.ids.length) {
-      const miss = openMiss().length, act = Object.keys(me.cards).length;
-      v.innerHTML = `<div class="card"><h2>🧠 Bugünkü təkrar</h2><p class="lead">${act ? 'Bu gün üçün bütün təkrarlar tamamlanıb. Əla!' : 'Hələ təkrar kartınız yoxdur.'}</p>
-        <p>${act ? `Yaddaşınızda ${act} kart var. Növbəti təkrar: <b>${nextDue()}</b>.` : 'Dərsləri tamamladıqca və testləri cavablandırdıqca hər dərsdən 3–5 kart yaranır. Onlar 1, 3, 7, 16 və 35 gündən sonra təkrar üçün qayıdacaq.'}</p>
-        <div class="row">${miss ? `<button class="btn" id="rvMiss">Səhvlərimi təkrarla (${miss})</button>` : ''}${act ? '<button class="btn ghost" id="rvAhead">Qabaqcadan təkrar et</button>' : ''}<a class="btn ghost" href="#">Ana səhifə</a></div></div>`;
-      const m = $('#rvMiss'); if (m) m.onclick = () => startReview('miss');
-      const a = $('#rvAhead'); if (a) a.onclick = () => startReview('ahead');
-      return;
-    }
-    if (rv.i >= rv.ids.length) {
-      const all = rv.ok === rv.ids.length;
-      v.innerHTML = `<div class="card rv-done"><div class="big">${all ? '🏆' : '✅'}</div><h2>Təkrar bitdi!</h2><p class="lead">${rv.ids.length} kartdan <b>${rv.ok}</b>-i düzgün.</p>
-        <p>${all ? 'Mükəmməl! Bu kartlar daha uzun fasilədən sonra qayıdacaq.' : 'Səhv cavab verdiyiniz kartlar sabah yenidən qarşınıza çıxacaq. Səhvlər yaddaşı möhkəmləndirməyin bir hissəsidir.'}</p>
-        <div class="row"><a class="btn" href="#">Ana səhifə</a>${openMiss().length ? '<button class="btn ghost" id="rvMiss2">Səhvlərimi təkrarla</button>' : ''}</div></div>`;
-      if (all) celebrate(false);
-      const m = $('#rvMiss2'); if (m) m.onclick = () => startReview('miss');
-      checkBadges(); rv.finished = true;
-      return;
-    }
-    const id = rv.ids[rv.i], c = cardData(id);
-    if (!c) { rv.i++; return pageReview(v); }
-    const order = shuffle(c.o.map((t, k) => k));
-    const lvl = me.cards[id] ? me.cards[id].b : 0;
-    v.innerHTML = `<div class="rv-top"><span>${rv.i + 1} / ${rv.ids.length}</span><div class="meter"><i style="width:${rv.i / rv.ids.length * 100}%"></i></div><span>✓ ${rv.ok}</span></div>
-      <div class="card rv" style="${byId[c.c] ? cvars(byId[c.c]) : ''}">
-        <div class="rv-meta">${chip(c.c)}<span class="fb">${esc(c.t || '')}${reviewMode === 'miss' ? ' · səhv' : ` · səviyyə ${lvl}/5`}</span></div>
-        <div class="rv-q">${esc(c.q)}</div>
-        <div class="opts rv-opts">${order.map(k => `<button data-k="${k}">${esc(c.o[k])}</button>`).join('')}</div>
-        <div class="fb" id="rvFb"></div>
-        <div class="row" id="rvNext" hidden><button class="btn" id="rvGo">Növbəti →</button><a class="btn ghost" href="#${c.c}-${c.l + 1}">Dərsə keç</a></div>
-      </div>`;
-    v.querySelectorAll('.rv-opts button').forEach(b => b.onclick = () => {
-      if (rv.answered) return; rv.answered = true;
-      const ok = +b.dataset.k === c.a; if (ok) rv.ok++;
-      b.classList.add(ok ? 'right' : 'wrong'); v.querySelector(`.rv-opts button[data-k="${c.a}"]`).classList.add('right');
-      me.reviews = (me.reviews || 0) + 1;
-      recordAnswer(c.c, id, ok, c);
-      const nb = me.cards[id];
-      $('#rvFb').innerHTML = (ok ? '✅ Düzgün! ' : '❌ Səhv. ') + esc(c.e || '') + (nb ? `<br><small>Növbəti dəfə: ${nb.due === addDays(1) ? 'sabah' : Math.round((new Date(nb.due + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 864e5) + ' gün sonra'}</small>` : '');
-      $('#rvNext').hidden = false; $('#rvGo').focus();
-    });
-    $('#rvGo').onclick = () => { rv.i++; rv.answered = false; pageReview(v); window.scrollTo({ top: 0 }); };
-  }
-
   function pageMistakes(v, showFixed) {
     const ids = Object.keys(me.miss).filter(id => cardData(id) && (showFixed || !me.miss[id].fixed)).sort((a, b) => me.miss[b].ts - me.miss[a].ts);
-    const open = openMiss().length;
-    v.innerHTML = `<div class="card"><h2>🩹 Səhvlərim</h2><p class="lead">Testlərdə və təkrarlarda səhv cavab verdiyiniz suallar. Düzgün cavab verəndə sual “düzəldilmiş” olur.</p>
-      <div class="row">${open ? `<button class="btn" id="msRev">Bunları təkrarla (${open})</button>` : ''}<label class="fb" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="msFixed" ${showFixed ? 'checked' : ''}> Düzəldilmişləri də göstər</label></div></div>
+    v.innerHTML = `<div class="card"><h2>🩹 Səhvlərim</h2><p class="lead">Testlərdə səhv cavab verdiyiniz suallar. Düzgün cavab verəndə sual “düzəldilmiş” olur.</p>
+      <div class="row"><label class="fb" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="msFixed" ${showFixed ? 'checked' : ''}> Düzəldilmişləri də göstər</label></div></div>
       ${ids.length ? ids.map(id => { const c = cardData(id), m = me.miss[id]; return `<div class="card mis ${m.fixed ? 'fixed' : ''}"><div class="rv-meta">${chip(c.c)}<span class="fb">${esc(c.t || '')} · ${new Date(m.ts).toLocaleDateString('az')}${m.fixed ? ' · ✓ düzəldilib' : ''}</span></div>
         <div class="rv-q">${esc(c.q)}</div><div class="ans">✓ ${esc(c.o[c.a])}</div><div class="fb">${esc(c.e || '')}</div><a class="fb" href="#${c.c}-${c.l + 1}">Dərsə keç →</a></div>`; }).join('')
         : '<div class="card"><p>Səhv yoxdur. 🎉 Testləri cavablandırdıqca səhv etdiyiniz suallar burada toplanacaq.</p></div>'}`;
-    const r = $('#msRev'); if (r) r.onclick = () => startReview('miss');
     $('#msFixed').onchange = e => pageMistakes(v, e.target.checked);
   }
 
@@ -413,6 +325,7 @@
     me.marks = []; saveMe();
   }
   migrateMarks();
+  if (Object.keys(me.cards || {}).length) { me.cards = {}; delete me.reviews; saveMe(); } // aralıqlı təkrar ləğv olunub
   // öz kartlar ləğv olunub: təkrar cədvəlindən çıxarılır (bir dəfəlik)
   if (Object.keys(me.own || {}).length || Object.keys(me.cards).some(id => id.startsWith('own:'))) {
     Object.keys(me.cards).forEach(id => { if (id.startsWith('own:')) delete me.cards[id]; });
@@ -467,11 +380,13 @@
     const DN = ['B.', 'B.e.', 'Ç.a.', 'Ç.', 'C.a.', 'C.', 'Ş.'];
     const accs = catalog.map(c => { const a = me.acc[c.id] || [0, 0]; return [c, a[1] ? a[0] / a[1] : null, a[1]]; }).filter(x => x[2] >= 5).sort((a, b) => b[1] - a[1]);
     const earned = badgeList().filter(b => me.badges[b[0]]).length;
+    const answers = Object.values(me.acc).reduce((n, a) => n + a[1], 0), right = Object.values(me.acc).reduce((n, a) => n + a[0], 0), miss = openMiss().length;
     v.innerHTML = `<div class="card"><h2>📊 Statistika</h2>
-      <div class="kp">${[[s.lessons, 'tamamlanmış dərs'], [s.courses + ' / ' + s.totalCourses, 'bitirilmiş kurs'], [s.streak, 'gün ardıcıl'], [s.reviews, 'kart təkrarı'], [s.mastered, 'möhkəm kart (səviyyə 3+)'], [earned, 'nişan']].map(([n, l]) => `<div><b>${n}</b><span>${l}</span></div>`).join('')}</div></div>
+      <div class="kp">${[[s.lessons, 'tamamlanmış dərs'], [s.courses + ' / ' + s.totalCourses, 'bitirilmiş kurs'], [s.streak, 'gün ardıcıl'], [answers, 'test cavabı'], [answers ? Math.round(right / answers * 100) + '%' : '—', 'düzgün cavab'], [earned, 'nişan']].map(([n, l]) => `<div><b>${n}</b><span>${l}</span></div>`).join('')}</div></div>
       <div class="card"><h3>Son 7 gün</h3><div class="b7">${last7.map(([k, n, d]) => `<div><span class="n">${n || ''}</span><i style="height:${n / mx * 100}%"></i><small>${DN[d.getDay()]}</small></div>`).join('')}</div>
       <h3 style="margin-top:16px">Son 12 həftə</h3><div class="heat">${days.map(([k, n]) => `<i title="${k}: ${n}" style="opacity:${n ? 0.25 + 0.75 * n / mxAll : 1};${n ? '' : 'background:var(--line)'}"></i>`).join('')}</div>
-      <p class="fb">Hər xana bir gündür. Rəng tündləşdikcə həmin gün daha çox dərs, test və təkrar edilib.</p></div>
+      <p class="fb">Hər xana bir gündür. Rəng tündləşdikcə həmin gün daha çox dərs və test edilib.</p></div>
+      <a class="card sr-link" href="#sehvler"><span>🩹 <b>Səhvlərim</b> <span class="fb">testlərdə səhv cavab verdiyiniz suallar</span></span><b>${miss || ''} →</b></a>
       <div class="card"><h3>Kurslar üzrə dəqiqlik</h3>${accs.length ? `${accs.map(([c, a, n]) => `<div class="acc"><span>${esc(c.title)}</span><div class="t"><i style="width:${a * 100}%;${cvars(c)}"></i></div><b>${Math.round(a * 100)}%</b><small>${n} cavab</small></div>`).join('')}
         ${accs.length > 1 ? `<p>💪 Ən güclü: <b>${esc(accs[0][0].title)}</b> · 🎯 Diqqət tələb edir: <b>${esc(accs[accs.length - 1][0].title)}</b></p>` : ''}` : '<p class="fb">Dəqiqlik ən azı 5 cavabdan sonra görünəcək.</p>'}</div>
       <div class="card"><h3>Kurslar üzrə irəliləyiş</h3>${catalog.map(c => `<div class="acc"><span>${esc(c.title)}</span><div class="t"><i style="width:${pctOf(c.id)}%;${cvars(c)}"></i></div><b>${pctOf(c.id)}%</b><small>${doneCount(c.id)} / ${c.lessons}</small></div>`).join('')}</div>
@@ -810,13 +725,11 @@
   }
 
   function mergeMe(o) {
-    for (const [id, c] of Object.entries(o.cards || {})) if (!me.cards[id] || c.b > me.cards[id].b) me.cards[id] = c;
     for (const [id, m] of Object.entries(o.miss || {})) if (!me.miss[id] || m.ts > me.miss[id].ts) me.miss[id] = m;
     for (const [d, n] of Object.entries(o.log || {})) me.log[d] = Math.max(me.log[d] || 0, n);
     for (const [cid, a] of Object.entries(o.acc || {})) { const b = me.acc[cid] || [0, 0]; if (a[1] > b[1]) me.acc[cid] = a; }
     Object.assign(me.badges, o.badges || {}); Object.assign(me.perfect, o.perfect || {});
     (o.marks || []).forEach(m => { if (!me.marks.some(x => x.id === m.id)) me.marks.push(m); });
-    me.reviews = Math.max(me.reviews || 0, o.reviews || 0);
     for (const [k, a] of Object.entries(o.hl || {})) { const cur = me.hl[k] || (me.hl[k] = []); a.forEach(h => { if (!cur.some(x => x.id === h.id)) cur.push(h); }); }
     for (const [cid, x] of Object.entries(o.proj || {})) { const cur = me.proj[cid] || (me.proj[cid] = { k: {}, n: '', done: 0 }); Object.assign(cur.k, x.k || {}); if ((x.n || '').length > (cur.n || '').length) cur.n = x.n; if (x.done && (!cur.done || x.done < cur.done)) cur.done = x.done; }
     saveMe(); migrateMarks();
@@ -826,7 +739,6 @@
   function courseFootprint(cid) {
     const pre = cid + ':';
     return {
-      cards: Object.keys(me.cards).filter(id => id.startsWith(pre)).length,
       miss: Object.keys(me.miss).filter(id => id.startsWith(pre)).length,
       notes: Object.keys(prog[cid].notes).length,
       hl: Object.entries(me.hl).filter(([k]) => k.startsWith(pre)).reduce((n, [, a]) => n + a.length, 0),
@@ -842,7 +754,7 @@
     d.innerHTML = `<div class="ak-dlg-box card" role="dialog" aria-modal="true" aria-labelledby="rsT"><h3 id="rsT">↺ “${esc(c.title)}” kursunu sıfırla</h3>
       <p class="fb">Kurs ilk dəfə açılmış kimi olacaq. Nə silinsin?</p>
       <label class="rs-o"><input type="checkbox" checked disabled> <span>İrəliləyiş: tamamlanmış dərslər, test və laboratoriya nəticələri <span class="fb">(${dn} dərs)</span></span></label>
-      ${opt('rsCards', 'Təkrar kartları, səhvlər və dəqiqlik statistikası', f.cards + f.miss, true)}
+      ${opt('rsCards', 'Səhvlər və dəqiqlik statistikası', f.miss, true)}
       ${opt('rsHl', 'Qeydlərim (vurğular)', f.hl, false)}
       ${opt('rsProj', 'Praktiki layihə (yoxlama siyahısı və qeydlər)', f.proj, false)}
       <p class="fb">Qazanılmış nişanlar və aktivlik tarixçəsi (ardıcıl günlər) silinmir. Bu əməliyyatı geri qaytarmaq olmur; əvvəlcə ana səhifədən yedək fayl saxlaya bilərsiniz.</p>
@@ -866,7 +778,6 @@
     if (!prog[cid].resetNotes) delete prog[cid].resetNotes;
     touch(cid);
     if (o.cards) {
-      Object.keys(me.cards).forEach(id => { if (id.startsWith(pre)) delete me.cards[id]; });
       Object.keys(me.miss).forEach(id => { if (id.startsWith(pre)) delete me.miss[id]; });
       delete me.acc[cid];
     }
@@ -979,7 +890,7 @@
       done(i) {
         if (prog[cid].done[i]) return;
         prog[cid].done[i] = true; touch(cid); renderSide();
-        activateLesson(cid, i); logAct(); saveMe();
+        logAct(); saveMe();
         const t = lessonEls[i] && lessonEls[i].dataset.title;
         const all = doneCount(cid) >= byId[cid].lessons;
         toast(all ? '🎓 Kurs bitdi: ' + byId[cid].title : 'Tamamlandı: ' + (t || 'Dərs ' + (i + 1)));
@@ -1129,7 +1040,6 @@
     hideBar();
     if (mapRO) { mapRO.disconnect(); mapRO = null; }
     if (askCtl) askCtl.abort();
-    if (r.view !== 'page' || r.page !== 'tekrar' || (rv && rv.finished)) rv = null;
     if (r.view === 'page') {
       curCid = null;
       $('#courseView').hidden = true; $('#home').hidden = true; $('#pageView').hidden = false;
@@ -1194,10 +1104,9 @@
     await route();
     CARDS = await getJSON('data/cards.json');
     CARD = {}; CARDS.forEach(c => { CARD[c.id] = c; });
-    catalog.forEach(c => Object.keys(prog[c.id].done).forEach(l => activateLesson(c.id, +l)));
     checkBadges();
     if (!$('#home').hidden) renderHome();
-    else if (!$('#pageView').hidden && /^(tekrar|sehvler)$/.test(location.hash.slice(1)) && !(rv && rv.ids.length)) { rv = null; route(); }
+    else if (!$('#pageView').hidden && location.hash === '#sehvler') route();
     if (inClaude) {
       try { sampleFn = await window.claude.use('sample'); } catch (e) { sampleFn = null; }
       if (sampleFn && curCid && !notesMode) setupAsk(current);

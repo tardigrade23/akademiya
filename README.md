@@ -43,8 +43,7 @@ akademiya/
 
 ## Öyrənmə alətləri
 
-- **Təkrar kartları** (`#tekrar`): hər dərsin testindən 3–5 kart; dərs tamamlananda aktivləşir, aralıqlar 1, 3, 7, 16, 35 gün. Səhv cavab kartı sabaha qaytarır.
-- **Səhvlərim** (`#sehvler`), **Qeydlərim** (`#qeydlerim`: dərsdə vurğulanan cümlələr; köhnə əlfəcinlər bir dəfəlik vurğuya çevrilir, `#vurgular` və `#elfecinler` bura yönəlir), **Lüğət** (`#luget`, `data/glossary.json`), **Axtarış** (`#axtar`, `data/search.json`), **Statistika və nişanlar** (`#statistika`).
+- **Səhvlərim** (`#sehvler`, Statistika səhifəsindən açılır; `data/cards.json` testlərin sual bankıdır), **Qeydlərim** (`#qeydlerim`: dərsdə vurğulanan cümlələr; köhnə əlfəcinlər bir dəfəlik vurğuya çevrilir, `#vurgular` və `#elfecinler` bura yönəlir), **Lüğət** (`#luget`, `data/glossary.json`), **Axtarış** (`#axtar`, `data/search.json`), **Statistika və nişanlar** (`#statistika`).
 - **Öyrənmə yolları**: `courses/catalog.json`-dakı `paths`.
 - **Şrift ölçüsü** (Aa) və **Claude-dan soruş** (yalnız claude.ai versiyasında).
 - **Vurğulama**: dərsdə mətni seçəndə aşağıda rəng paneli çıxır; vurğular “Qeydlərim”də və kursun Konspektində toplanır.
