@@ -1,0 +1,355 @@
+<style>
+/* Kvant hesablamaları kursu: Blox sferası, qapılar, histoqramlar */
+.ket{font-family:var(--mono);font-weight:700;color:var(--accent);white-space:nowrap}
+.qlab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center}
+.qlab svg{width:100%;max-width:300px;justify-self:center}
+.qlab label{display:flex;justify-content:space-between;font-weight:600;font-size:.92rem}
+.qlab input[type=range]{width:100%}
+.amp{font-family:var(--mono);background:var(--code);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:.92rem}
+.pbar{display:grid;grid-template-columns:52px minmax(0,1fr) 54px;gap:8px;align-items:center;margin:5px 0;font-family:var(--mono);font-size:.9rem}
+.pbar .t{height:20px;border-radius:6px;background:var(--line);overflow:hidden}
+.pbar .t i{display:block;height:100%;background:linear-gradient(90deg,var(--c),var(--c2));transition:width .35s}
+.gates{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.gates button{min-width:52px;padding:8px 10px;border-radius:10px;border:2px solid var(--accent);background:var(--panel);color:var(--accent);font:700 15px var(--mono);cursor:pointer}
+.gates button:hover{background:var(--accent-soft)}
+.gates button.reset{border-color:var(--line);color:var(--muted)}
+.wire{font-family:var(--mono);background:var(--code);border-radius:10px;padding:10px 12px;overflow-x:auto;white-space:nowrap;font-size:.95rem}
+.puzzles{list-style:none;padding:0;display:grid;gap:6px;margin:10px 0}
+.puzzles li{padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.puzzles li.ok{border-color:var(--ex-green-b);background:var(--ex-green)}
+.histo{display:flex;align-items:flex-end;gap:10px;height:150px;margin:10px 0;padding:0 4px;border-bottom:2px solid var(--line)}
+.histo div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-family:var(--mono);font-size:.82rem}
+.histo div i{display:block;width:100%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--c2),var(--c));transition:height .4s}
+.histo div span{margin-top:4px}
+.grover{display:flex;align-items:flex-end;gap:6px;height:170px;margin:12px 0;position:relative}
+.grover .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;position:relative}
+.grover .col i{position:absolute;left:10%;right:10%;border-radius:4px;transition:all .4s}
+.grover .col span{position:absolute;bottom:-22px;font-family:var(--mono);font-size:.8rem}
+.grover::after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px dashed var(--muted)}
+.bb{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.82rem;text-align:center}
+.bb td,.bb th{border:1px solid var(--line);padding:3px 4px}
+.bb th{background:var(--accent-soft);text-align:left;white-space:nowrap}
+.bb td.k{background:var(--ex-green)}
+.bb td.x{background:var(--ex-red)}
+.bb td.d{color:var(--muted);opacity:.5}
+@media (max-width:640px){.qlab{grid-template-columns:1fr}}
+</style>
+
+<!-- ============ I HİSSƏ: KVANT DÜNYASI ============ -->
+<section class="lesson" data-title="Kvant kompüteri nədir?" data-ill="atom">
+  <div class="card">
+    <h2>1. Kvant kompüteri nədir?</h2>
+    <p class="lead">Kvant kompüteri sadəcə “çox sürətli kompüter” deyil. O, məlumatı tamamilə fərqli qanunlarla, yəni atom və elektronların dünyasını idarə edən <b>kvant mexanikası</b> qanunları ilə emal edir.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th></th><th>Klassik kompüter</th><th>Kvant kompüteri</th></tr>
+      <tr><td><b>Əsas vahid</b></td><td>Bit: ya 0, ya 1</td><td>Kubit: 0 və 1-in <b>superpozisiyası</b></td></tr>
+      <tr><td><b>Əlaqə</b></td><td>Bitlər bir-birindən asılı deyil</td><td>Kubitlər <b>dolaşıq</b> ola bilər</td></tr>
+      <tr><td><b>Hesablama</b></td><td>Məntiqi qapılar (VƏ, VƏ YA, DEYİL)</td><td>Kvant qapıları və <b>interferensiya</b></td></tr>
+      <tr><td><b>Nəticə</b></td><td>Dəqiq cavab</td><td>Ölçmə ilə alınan <b>ehtimallı</b> cavab</td></tr>
+      <tr><td><b>Harada işləyir</b></td><td>Otaq temperaturunda</td><td>Çox vaxt mütləq sıfıra yaxın temperaturda</td></tr>
+    </table></div>
+    <figure class="pic"><img src="courses/kvant/img/ibm-q.jpg" alt="IBM Q System One kvant kompüteri" data-credit="ibm-q" loading="lazy"><figcaption><b>IBM Q System One</b>İlk inteqrasiya olunmuş kommersiya kvant kompüterlərindən biri (2019). Şüşə kubun içində kubitlər və onları soyudan sistem yerləşir.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: kvant kompüteri sizin noutbukunuzu əvəz edəcəkmi?</span>
+      <p><b>Xeyr.</b> E-poçt, video, cədvəllər və oyunlar üçün klassik kompüter həmişə daha yaxşı və ucuz olacaq. Kvant kompüteri xüsusi növ məsələlər üçün ixtisaslaşmış alətdir: molekulların simulyasiyası, bəzi optimallaşdırma məsələləri, böyük ədədlərin vuruqlara ayrılması. Onu bir növ “sürətləndirici” kimi təsəvvür edin. Gələcəkdə onlardan çox güman ki, bulud vasitəsilə, klassik kompüterlə birlikdə istifadə edəcəyik.</p>
+    </div>
+    <div class="ex hist"><span class="tag">💡 Tarix: fikir haradan gəlib?</span>
+      <p>1981-ci ildə fizik Riçard Feynman belə bir fikir irəli sürdü: təbiət kvant mexanikası ilə işləyir, ona görə də onu dəqiq simulyasiya etmək üçün <b>kvant prinsipləri ilə işləyən kompüter</b> lazımdır. 1994-cü ildə Piter Şor kvant kompüterinin böyük ədədləri sürətlə vuruqlara ayıra biləcəyini göstərdi. Bundan sonra bu sahəyə dünyanın marağı kəskin artdı.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="intro"></div></div>
+</section>
+
+<section class="lesson" data-title="Kvant mexanikasının qəribəlikləri" data-ill="wave">
+  <div class="card">
+    <h2>2. Kvant mexanikasının qəribəlikləri</h2>
+    <figure class="pic wide"><img src="courses/kvant/img/solvay.jpg" alt="1927-ci il Solvey konfransının iştirakçıları" data-credit="solvay" loading="lazy"><figcaption><b>Solvey konfransı, 1927</b>Kvant mexanikasını yaradanlar bir fotoda: Eynşteyn, Bor, Plank, Mari Küri, Şredinger, Heyzenberq, Dirak və başqaları. 29 iştirakçıdan 17-si Nobel mükafatı alıb və ya sonradan alacaqdı.</figcaption></figure>
+    <p>XX əsrin əvvəlində fiziklər kəşf etdilər ki, atom səviyyəsində təbiət gündəlik təcrübəmizə heç bənzəmir. Kvant hesablamalarının əsasında üç fikir durur:</p>
+    <ol>
+      <li><b>Superpozisiya:</b> ölçülməmiş hissəcik eyni anda bir neçə vəziyyətin “qarışığında” ola bilər.</li>
+      <li><b>Ölçmə:</b> ölçmə anında superpozisiya “çökür” və hissəcik müəyyən bir vəziyyətə düşür. Hansı vəziyyətə düşəcəyi ehtimalla müəyyən olunur.</li>
+      <li><b>Dolaşıqlıq:</b> iki hissəcik elə əlaqəli ola bilər ki, onları ayrı-ayrılıqda təsvir etmək mümkün olmur.</li>
+    </ol>
+    <h3>İkiqat yarıq təcrübəsi</h3>
+    <p>Elektronları iki dar yarığı olan lövhəyə bir-bir göndəririk. Klassik məntiqə görə hər elektron ya bir, ya da o biri yarıqdan keçməli və ekranda iki zolaq yaratmalıdır. Amma ekranda <b>dalğalara xas interferensiya mənzərəsi</b>, yəni çoxlu zolaq yaranır. Elektron, sanki, eyni anda hər iki yarıqdan keçir və “özü ilə interferensiya edir”. Əgər elektronun hansı yarıqdan keçdiyini ölçsək, mənzərə yox olur və iki zolaq qalır.</p>
+    <figure class="pic wide fit"><img src="courses/kvant/img/yariq.jpg" alt="Elektronların ikiqat yarıq təcrübəsində interferensiya mənzərəsi" data-credit="yariq" loading="lazy"><figcaption><b>Elektronlar bir-bir gəlir…</b>Hər elektron ekranda bir nöqtə qoyur. Minlərlə nöqtə toplandıqca dalğalara xas interferensiya zolaqları yaranır.</figcaption></figure>
+    <figure class="pic wide fit"><img src="courses/kvant/img/pishik.jpg" alt="Şredinger pişiyi illüstrasiyası" data-credit="pishik" loading="lazy"><figcaption><b>Şredinger pişiyi (1935)</b>Ervin Şredinger superpozisiyanın gündəlik dünyaya köçürülməsinin nə qədər absurd görünəcəyini göstərmək üçün düşüncə təcrübəsi uydurdu: qutudakı pişik radioaktiv atomun vəziyyətindən asılı olaraq “həm diri, həm ölü” olardı. Real həyatda böyük cisimlər ətraf mühitlə qarşılıqlı təsirə görə superpozisiyanı dərhal itirir. Buna dekoherensiya deyilir.</figcaption></figure>
+    <figure class="pic"><img src="courses/kvant/img/schrodinger.jpg" alt="Ervin Şredinger" data-credit="schrodinger" loading="lazy"><figcaption><b>Ervin Şredinger (1887–1961)</b>Avstriyalı fizik. Kvant sisteminin zamanla necə dəyişdiyini təsvir edən dalğa tənliyinin müəllifidir. Bu tənliyə görə 1933-cü ildə Nobel mükafatı alıb. “Pişik” paradoksunu kvant mexanikasını tənqid etmək üçün uydurub.</figcaption></figure>
+    <div class="ex warn"><span class="tag">⚠️ Tez-tez rast gəlinən yanlış təsəvvür</span>
+      <p>“Superpozisiya o deməkdir ki, kubit əslində ya 0, ya 1-dir, sadəcə biz bilmirik.” <b>Bu, səhvdir.</b> Əgər belə olsaydı, interferensiya baş verməzdi. Superpozisiya ehtimalların deyil, <b>amplitudların</b> qarışığıdır. Amplitudlar müsbət, mənfi və hətta kompleks ola bilir, ona görə də bir-birini gücləndirə və ya söndürə bilir. Kvant hesablamalarının bütün gücü buradan gəlir.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="weird"></div></div>
+</section>
+
+<section class="lesson" data-title="Kubit və Blox sferası" data-ill="sphere">
+  <div class="card">
+    <h2>3. Kubit və Blox sferası</h2>
+    <p class="lead">Klassik bit bir açardır: ya söndürülüb (0), ya yandırılıb (1). Kubit isə bir kürənin səthindəki istənilən nöqtədir.</p>
+    <p>Kubitin vəziyyəti belə yazılır: <span class="ket">|ψ⟩ = α|0⟩ + β|1⟩</span>. Burada α və β <b>amplitudlardır</b>. Ölçmə zamanı 0 alınma ehtimalı <b>|α|²</b>, 1 alınma ehtimalı <b>|β|²</b>-dir, cəmləri isə həmişə 1-ə bərabərdir.</p>
+    <ul>
+      <li><span class="ket">|0⟩</span>: kürənin şimal qütbü. Ölçsək, həmişə 0 alınır.</li>
+      <li><span class="ket">|1⟩</span>: cənub qütbü. Həmişə 1 alınır.</li>
+      <li>Ekvatordakı istənilən nöqtə: 50% / 50%. Amma fərqli nöqtələr (fərqli <b>faza</b>) interferensiyada fərqli davranır.</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Analogiya: qlobus</span>
+      <p>Kubiti qlobusda bir şəhər kimi təsəvvür edin. Enlik ölçmədə 0 və ya 1 alınma ehtimalını göstərir: şimala yaxın şəhər çox vaxt “0” verir. Uzunluq isə fazadır: ölçmədə birbaşa görünmür, amma qapılarla işləyəndə nəticəni dəyişir. Bakı ilə eyni enlikdə yerləşən Pekin fərqli şəhərdir, baxmayaraq ki, “0” alınma ehtimalları eynidir.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🌐 Laboratoriya: Blox sferası</h3>
+    <div class="qlab">
+      <div>
+        <label>θ (enlik bucağı) <b id="blT">60°</b></label><input type="range" id="blTin" min="0" max="180" value="60">
+        <label style="margin-top:10px">φ (faza) <b id="blP">45°</b></label><input type="range" id="blPin" min="0" max="360" value="45">
+        <div class="amp" id="blAmp"></div>
+        <div id="blBars"></div>
+      </div>
+      <svg id="blSvg" viewBox="0 0 300 300" aria-label="Blox sferası"></svg>
+    </div>
+    <div class="row" style="margin-top:8px"><button class="btn ghost" data-bl="0,0">|0⟩</button><button class="btn ghost" data-bl="180,0">|1⟩</button><button class="btn ghost" data-bl="90,0">|+⟩</button><button class="btn ghost" data-bl="90,180">|−⟩</button><button class="btn ghost" data-bl="90,90">|i⟩</button></div>
+    <div id="blMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="qubit"></div></div>
+</section>
+
+<section class="lesson" data-title="Ölçmə və ehtimal" data-ill="dice">
+  <div class="card">
+    <h2>4. Ölçmə və ehtimal</h2>
+    <p class="lead">Kvant kompüterinin ən böyük “problemi”: daxildə nə qədər mürəkkəb vəziyyət olsa da, ölçəndə hər kubitdən yalnız <b>bir bit</b>, yəni 0 və ya 1 alırıq.</p>
+    <p>Ölçmə vəziyyəti dəyişir: superpozisiya çökür. Ona görə də kvant alqoritmləri adətən çox dəfə işə salınır (məsələn, 1000 dəfə) və nəticələrin <b>statistikasına</b> baxılır. Bu təkrarlara ingiliscə “shots” deyilir.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: seçki sorğusu</span>
+      <p>Seçicinin fikrini birbaşa görə bilmirik, ancaq soruşa bilərik. Bir nəfərdən soruşmaq az şey deyir, min nəfərdən soruşmaq isə dəqiq mənzərə verir. Kvant ölçməsi də belədir: bir ölçmə təsadüfidir, min ölçmə amplitudların necə paylandığını göstərir. Ehtimal və statistika haqqında daha ətraflı Məntiq kursunun 17-ci və 19-cu dərslərində danışmışdıq.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📊 Laboratoriya: kubiti dəfələrlə ölçün</h3>
+    <label style="display:flex;justify-content:space-between;font-weight:600">θ bucağı <b id="msT">90°</b></label>
+    <input type="range" id="msTin" min="0" max="180" value="90" style="width:100%">
+    <div class="amp" id="msInfo"></div>
+    <div class="row"><button class="btn" data-ms="1">1 dəfə ölç</button><button class="btn" data-ms="10">10 dəfə</button><button class="btn" data-ms="1000">1000 dəfə</button><button class="btn ghost" id="msReset">Sıfırla</button></div>
+    <div class="histo" id="msHist"></div>
+    <div id="msMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="measure"></div></div>
+</section>
+
+<!-- ============ II HİSSƏ: KVANT HESABLAMALARI ============ -->
+<section class="lesson" data-title="Kvant qapıları" data-ill="circuit">
+  <div class="card">
+    <h2>5. Kvant qapıları</h2>
+    <p class="lead">Klassik kompüter bitləri VƏ, VƏ YA, DEYİL qapıları ilə dəyişir. Kvant kompüteri kubitləri <b>kvant qapıları</b> ilə, yəni Blox sferasını fırladan əməliyyatlarla dəyişir.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Qapı</th><th>Nə edir</th><th>Klassik analoq</th></tr>
+      <tr><td><b>X</b></td><td>|0⟩ ↔ |1⟩ (sferanı X oxu ətrafında 180° fırladır)</td><td>DEYİL</td></tr>
+      <tr><td><b>H</b> (Adamar)</td><td>|0⟩ → |+⟩ (50/50 superpozisiya), |1⟩ → |−⟩</td><td>yoxdur</td></tr>
+      <tr><td><b>Z</b></td><td>Fazanı dəyişir: |+⟩ ↔ |−⟩. Ölçmə ehtimallarına birbaşa təsir etmir</td><td>yoxdur</td></tr>
+      <tr><td><b>Y</b></td><td>X və Z-nin birləşməsi</td><td>yoxdur</td></tr>
+      <tr><td><b>S, T</b></td><td>Fazanı 90° və 45° fırladır</td><td>yoxdur</td></tr>
+    </table></div>
+    <p>Bütün kvant qapıları <b>geri qaytarılandır</b>: hər əməliyyatı tərsinə çevirib başlanğıc vəziyyətə qayıtmaq olar. Ölçmə isə istisnadır, onu geri qaytarmaq mümkün deyil.</p>
+    <div class="ex"><span class="tag">📌 İnterferensiyanın sehri: H iki dəfə</span>
+      <p>|0⟩-a H tətbiq edək: 50/50 superpozisiya alınır. Sanki “tam təsadüf” əldə etdik. İkinci dəfə H tətbiq edək: nəticə 50/50 deyil, <b>100% |0⟩</b> olur! Səbəb budur ki, |1⟩-ə aparan iki yolun amplitudları əks işarəlidir və bir-birini söndürür. Klassik təsadüfdə bu mümkün deyil: iki dəfə pul atmaq yenə təsadüfdür. Laboratoriyada özünüz yoxlayın.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧪 Laboratoriya: bir kubitlik kvant kompüteri</h3>
+    <p class="fb">Qapılara basın. Kubit <span class="ket">|0⟩</span> vəziyyətindən başlayır.</p>
+    <div class="gates" id="g1Btns"></div>
+    <div class="wire" id="g1Wire"></div>
+    <div class="qlab"><div><div class="amp" id="g1Amp"></div><div id="g1Bars"></div></div><svg id="g1Svg" viewBox="0 0 300 300" aria-label="Blox sferası"></svg></div>
+    <h3 style="margin-top:12px">🎯 Tapmacalar</h3>
+    <ul class="puzzles" id="g1Puz"></ul>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="gates"></div></div>
+</section>
+
+<section class="lesson" data-title="Dolaşıqlıq" data-ill="loop">
+  <div class="card">
+    <h2>6. Dolaşıqlıq: “uzaqdan qorxulu təsir”</h2>
+    <div class="grid2">
+      <figure class="pic wide" style="margin:0"><img src="courses/kvant/img/einstein.jpg" alt="Albert Eynşteyn" data-credit="einstein" loading="lazy"><figcaption><b>Albert Eynşteyn</b>Dolaşıqlığı “uzaqdan qorxulu təsir” adlandırdı və kvant mexanikasının natamam olduğunu düşünürdü (EPR məqaləsi, 1935).</figcaption></figure>
+      <figure class="pic wide" style="margin:0"><img src="courses/kvant/img/bohr.jpg" alt="Nils Bor" data-credit="bohr" loading="lazy"><figcaption><b>Nils Bor</b>Kvant mexanikasının təsvirinin tam olduğunu müdafiə etdi. Onun Eynşteynlə mübahisəsi on illərlə davam edib.</figcaption></figure>
+    </div>
+    <p>İki kubit <b>dolaşıq</b> ola bilər: onların ümumi vəziyyəti var, amma ayrılıqda hər birinin öz vəziyyəti yoxdur. Ən məşhur nümunə Bell vəziyyətidir:</p>
+    <p style="text-align:center"><span class="ket">|Φ⁺⟩ = (|00⟩ + |11⟩) / √2</span></p>
+    <p>Hər kubiti ayrıca ölçsək, 50/50 təsadüfi nəticə alarıq. Amma nəticələr <b>həmişə eyni</b> olur: birincidə 0 alınırsa, ikincidə də 0 alınır, kubitlər bir-birindən min kilometr uzaqda olsa belə.</p>
+    <div class="ex warn"><span class="tag">⚠️ Dolaşıqlıq işıqdan sürətli rabitə demək deyil</span>
+      <p>Hər tərəf yalnız təsadüfi 0 və 1 görür. Nəticələrin uyğun gəldiyini isə yalnız qeydləri adi kanalla müqayisə edəndə bilmək olur. Ona görə dolaşıqlıqla məlumat ötürmək mümkün deyil. Eynşteynin nisbilik nəzəriyyəsi pozulmur.</p>
+    </div>
+    <div class="ex hist"><span class="tag">💡 Tarix: Nobel 2022</span>
+      <p>Eynşteyn haqlı idimi? Bəlkə də kubitlərin “gizli parametrləri” var? 1964-cü ildə Con Bell bunu təcrübədə yoxlamağın yolunu göstərdi. Alen Aspe, Con Klauzer və Anton Zaylinger təcrübələrlə sübut etdilər ki, dolaşıqlıq realdır və gizli parametrlərlə izah oluna bilməz. Bu işlərə görə onlar 2022-ci ildə fizika üzrə Nobel mükafatı aldılar.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🔗 Laboratoriya: iki kubit və Bell vəziyyəti</h3>
+    <p class="fb">Hədəf: elə vəziyyət qurun ki, ölçəndə yalnız <b>00</b> və <b>11</b> alınsın, təxminən yarı-yarıya. İpucu: H, sonra CNOT.</p>
+    <div class="gates" id="g2Btns"></div>
+    <div class="wire" id="g2Wire"></div>
+    <div id="g2Bars"></div>
+    <div class="row"><button class="btn" id="g2Meas">100 dəfə ölç</button></div>
+    <div class="histo" id="g2Hist"></div>
+    <div id="g2Msg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="entangle"></div></div>
+</section>
+
+<section class="lesson" data-title="İnterferensiya: kvant üstünlüyünün sirri" data-ill="gates">
+  <div class="card">
+    <h2>7. İnterferensiya: kvant üstünlüyünün sirri</h2>
+    <p class="lead">Ən geniş yayılmış mif belədir: “Kvant kompüteri bütün cavabları eyni anda yoxlayır.” <b>Bu, düzgün deyil.</b> Ölçəndə təsadüfi bir cavab alırıq, çox vaxt da səhv cavab.</p>
+    <p>Həqiqi sirr <b>interferensiyadır</b>. Yaxşı kvant alqoritmi qapıları elə düzür ki:</p>
+    <ul>
+      <li>səhv cavablara aparan yolların amplitudları bir-birini <b>söndürsün</b> (dağıdıcı interferensiya);</li>
+      <li>düzgün cavaba aparan yolların amplitudları bir-birini <b>gücləndirsin</b> (quruculuq interferensiyası).</li>
+    </ul>
+    <p>Sonda ölçəndə düzgün cavab yüksək ehtimalla alınır.</p>
+    <div class="ex"><span class="tag">📌 Analogiya: səs-küyü söndürən qulaqlıqlar</span>
+      <p>Aktiv səs-küy söndürmə funksiyası olan qulaqlıq mikrofonla ətrafdakı səsi dinləyir və ona tam əks fazalı səs dalğası yaradır. İki dalğa toplanır və bir-birini söndürür: sükut yaranır. Kvant alqoritmləri də eyni şeyi amplitudlarla edir: “səhv cavabların səsini” söndürür.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Ən sadə kvant alqoritmi: Doyç məsələsi</span>
+      <p>Bir “qara qutu” funksiyası var: 0 və ya 1 qəbul edir, 0 və ya 1 qaytarır. Sual: funksiya <b>sabitdir</b> (həmişə eyni cavab), yoxsa <b>balanslıdır</b> (iki girişə fərqli cavab)? Klassik kompüter funksiyanı iki dəfə çağırmalıdır. Devid Doyçun 1985-ci il alqoritmi isə H qapıları və interferensiya sayəsində bir çağırışla cavab verir. Kiçik nümunədir, amma ideyanı göstərir: bəzi suallara cavab vermək üçün hər bir halı ayrıca hesablamaq lazım deyil.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="interf"></div></div>
+</section>
+
+<section class="lesson" data-title="Alqoritmlər: Qrover və Şor" data-ill="lens">
+  <div class="card">
+    <h2>8. Alqoritmlər: Qrover və Şor</h2>
+    <h3>Qrover alqoritmi (1996): axtarış</h3>
+    <p>Sırasız N elementin içindən birini tapmaq lazımdır. Klassik kompüter orta hesabla N/2 yoxlama aparır. Lov Qroverin alqoritmi isə təxminən <b>√N</b> addım tələb edir: 1 milyon element üçün 500 min əvəzinə təxminən 800 addım. Hər addımda iki əməliyyat var: “oracle” axtarılan elementin amplitudunun işarəsini çevirir, “diffuziya” isə bütün amplitudları orta qiymətə nəzərən əks etdirir. Nəticədə axtarılan elementin amplitudu hər addımda böyüyür.</p>
+  </div>
+  <div class="card">
+    <h3>🔍 Laboratoriya: Qrover alqoritmi (8 element)</h3>
+    <p class="fb">Axtarılan elementi seçin və addım-addım irəliləyin. Sütunlar amplitudları göstərir, qırmızı sütun axtarılan elementdir.</p>
+    <div class="row"><label>Axtarılan: <select id="grT" style="width:auto"></select></label><button class="btn" id="grStep">1 Qrover addımı</button><button class="btn ghost" id="grReset">Sıfırla</button></div>
+    <div class="grover" id="grBars"></div>
+    <div style="height:18px"></div>
+    <div id="grMsg"></div>
+  </div>
+  <div class="card">
+    <h3>Şor alqoritmi (1994): vuruqlara ayırma</h3>
+    <p>İki böyük sadə ədədi vurmaq asandır, hasili yenidən vuruqlara ayırmaq isə klassik kompüter üçün çox çətindir. İnternetin təhlükəsizliyini təmin edən <b>RSA</b> şifrələməsi məhz bu çətinliyə əsaslanır. Piter Şorun alqoritmi isə vuruqlara ayırmanı kvant kompüterində <b>eksponensial sürətlə</b> həll edir.</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Məsələ</th><th>Ən yaxşı klassik üsul</th><th>Kvant alqoritmi</th><th>Sürətlənmə</th></tr>
+      <tr><td>Sırasız axtarış</td><td>~N</td><td>Qrover: ~√N</td><td>Kvadratik</td></tr>
+      <tr><td>Vuruqlara ayırma (RSA)</td><td>Praktiki olaraq yüz illər</td><td>Şor: saatlar və ya günlər*</td><td>Eksponensial</td></tr>
+      <tr><td>Molekul simulyasiyası</td><td>Atom sayı ilə eksponensial artır</td><td>Kvant simulyasiyası</td><td>Çox vaxt eksponensial</td></tr>
+    </table></div>
+    <p class="fb">* Bunun üçün xətaları düzəldilən, yüz minlərlə və ya milyonlarla fiziki kubiti olan kompüter lazımdır. Hələlik belə kompüter yoxdur.</p>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="algo"></div></div>
+</section>
+
+<!-- ============ III HİSSƏ: TƏTBİQ VƏ GƏLƏCƏK ============ -->
+<section class="lesson" data-title="Kvant və kriptoqrafiya" data-ill="key">
+  <div class="card">
+    <h2>9. Kvant və kriptoqrafiya</h2>
+    <p class="lead">Kvant kompüterləri həm təhlükə, həm də yeni müdafiə üsuludur.</p>
+    <h3>Təhlükə: “indi topla, sonra aç”</h3>
+    <p>Bu gün güclü kvant kompüteri olmasa da, kimsə şifrələnmiş məlumatı (məsələn, dövlət və ya tibbi arxivləri) indi toplayıb saxlaya, 10–15 ildən sonra isə Şor alqoritmi ilə aça bilər. Ona görə də uzun müddət gizli qalmalı məlumatı <b>indidən</b> qorumaq lazımdır.</p>
+    <h3>Həll 1: kvanta davamlı (post-kvant) kriptoqrafiya</h3>
+    <p>Bunlar kvant kompüterinin də sürətlə həll edə bilmədiyi riyazi məsələlərə əsaslanan yeni alqoritmlərdir. ABŞ-ın Standartlar və Texnologiya İnstitutu (NIST) 2024-cü ilin avqustunda ilk standartları təsdiqlədi: <b>ML-KEM</b> (açar mübadiləsi), <b>ML-DSA</b> və <b>SLH-DSA</b> (rəqəmsal imza). Brauzerlər və mesajlaşma tətbiqləri artıq onlara keçməyə başlayıb.</p>
+    <h3>Həll 2: kvant açar paylanması (QKD)</h3>
+    <p>Fizikanın özü təhlükəsizliyə zəmanət verir: ölçmə vəziyyəti dəyişdiyi üçün kimsə kanalı “dinləsə”, iz qalır. Ən məşhur protokol 1984-cü ildə Çarlz Bennet və Jil Brassar tərəfindən təklif olunan <b>BB84</b>-dür.</p>
+  </div>
+  <div class="card">
+    <h3>🔐 Simulyator: BB84 protokolu</h3>
+    <p class="fb">Alisa fotonları təsadüfi bitlər və təsadüfi bazislərlə (+ və ya ×) göndərir. Bob da təsadüfi bazislə ölçür. Sonra onlar açıq kanalda yalnız <b>bazisləri</b> müqayisə edirlər. Bazislər üst-üstə düşən bitlər açarı təşkil edir. Casus Eva kanalı dinləsə, nə baş verir?</p>
+    <div class="row"><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="bbEve"> Eva kanalı dinləyir 🕵️</label><button class="btn" id="bbRun">16 foton göndər</button></div>
+    <div class="scroll" id="bbTable" style="margin-top:10px"></div>
+    <div id="bbMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="crypto"></div></div>
+</section>
+
+<section class="lesson" data-title="Kvant kompüterləri necə qurulur?" data-ill="chip">
+  <div class="card">
+    <h2>10. Kvant kompüterləri necə qurulur?</h2>
+    <p class="lead">Kubit yaratmaq asandır, onu <b>uzun müddət qorumaq</b> isə çox çətindir. Ən kiçik titrəmə, istilik və ya elektromaqnit küyü superpozisiyanı pozur. Buna <b>dekoherensiya</b> deyilir.</p>
+    <figure class="pic wide fit"><img src="courses/kvant/img/kriostat.jpg" alt="Kvant kompüterinin soyuducusu" data-credit="kriostat" loading="lazy"><figcaption><b>“Çılçıraq”</b>Superkeçirici kubitlər belə həll soyuducusunun (dilution refrigerator) ən aşağı pilləsində işləyir: mütləq sıfırdan cəmi bir neçə millidərəcə yuxarı temperaturda. Bu, açıq kosmosdan da soyuqdur.</figcaption></figure>
+    <h3>Kubit texnologiyaları</h3>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Texnologiya</th><th>Kimlər işləyir</th><th>Üstünlük</th><th>Çətinlik</th></tr>
+      <tr><td>Superkeçirici sxemlər</td><td>IBM, Google</td><td>Sürətli qapılar, çip texnologiyası</td><td>Həddən artıq soyutma, qısa yaşama müddəti</td></tr>
+      <tr><td>Tələyə salınmış ionlar</td><td>Quantinuum, IonQ</td><td>Çox dəqiq qapılar, uzun yaşama müddəti</td><td>Yavaş qapılar, miqyaslandırma</td></tr>
+      <tr><td>Neytral atomlar</td><td>QuEra, Pasqal</td><td>Yüzlərlə atom, çevik düzülüş</td><td>Yeni texnologiyadır</td></tr>
+      <tr><td>Fotonlar</td><td>PsiQuantum, Xanadu</td><td>Otaq temperaturu, optik lif</td><td>Fotonlar arasında qarşılıqlı təsir çətindir</td></tr>
+    </table></div>
+    <figure class="pic"><img src="courses/kvant/img/cip.jpg" alt="Kvant prosessoru" data-credit="cip" loading="lazy"><figcaption><b>Kvant prosessoru</b>Superkeçirici kubitlər belə kiçik çip üzərində yerləşir. Çip özü kiçikdir, onu işlətmək üçün lazım olan soyuducu və elektronika isə bir otaq tutur.</figcaption></figure>
+    <figure class="pic"><img src="courses/kvant/img/ion.jpg" alt="İon tələsi laboratoriyası" data-credit="ion" loading="lazy"><figcaption><b>İon tələsi</b>Bu texnologiyada hər kubit vakuumda elektrik sahəsi ilə havada saxlanılan bir atomdur (ion). Kubitlər lazer şüaları ilə idarə olunur.</figcaption></figure>
+    <h3>Xətalar və xəta düzəlişi</h3>
+    <p>Bugünkü kubitlər çox səhv edir. Həll yolu belədir: bir neçə yüz “fiziki” kubitdən bir etibarlı “məntiqi” kubit yaradılır. Bu, kvant xəta düzəlişi adlanır.</p>
+    <div class="ex hist"><span class="tag">💡 Tarix: əsas mərhələlər</span>
+      <ul>
+        <li><b>2016:</b> IBM kvant kompüterinə ilk dəfə bulud vasitəsilə hamı üçün açıq giriş verdi.</li>
+        <li><b>2019:</b> Google-un 53 kubitlik Sycamore prosessoru xüsusi seçilmiş bir məsələni 200 saniyəyə həll etdi və bunu “kvant üstünlüyü” adlandırdı. IBM bu nəticəni mübahisələndirdi: ona görə güclü klassik superkompüter də məsələni bir neçə günə həll edə bilərdi.</li>
+        <li><b>2024:</b> Google-un 105 kubitlik Willow çipi göstərdi ki, kubitlərin sayı artdıqca məntiqi kubitin xətası azalır. Xəta düzəlişinin işlədiyini göstərən vacib addım idi.</li>
+      </ul>
+    </div>
+    <div class="ex"><span class="tag">📌 Biz hansı dövrdəyik?</span>
+      <p>Fizik Con Preskill 2018-ci ildə bugünkü dövrü <b>NISQ</b> adlandırdı: “Noisy Intermediate-Scale Quantum”, yəni küylü, orta ölçülü kvant cihazları. Yüzlərlə kubit var, amma onlar səhv edir və xəta tam düzəldilmir. Faydalı, böyük miqyaslı kvant kompüterlərinə hələ illər var.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="hardware"></div></div>
+</section>
+
+<section class="lesson" data-title="Tətbiqlər: mif və reallıq" data-ill="flask">
+  <div class="card">
+    <h2>11. Tətbiqlər: mif və reallıq</h2>
+    <h3>Ən perspektivli sahələr</h3>
+    <ul>
+      <li><b>Kimya və materiallar:</b> molekulların davranışını dəqiq hesablamaq. Məsələn, gübrə istehsalı üçün daha az enerji tələb edən katalizatorlar, daha yaxşı akkumulyatorlar, yeni dərmanlar. Bu, Feynmanın ilk ideyasıdır və ən çox gözlənti də bu sahəyədir.</li>
+      <li><b>Kriptoqrafiya:</b> həm təhlükə (Şor), həm də müdafiə (QKD).</li>
+      <li><b>Optimallaşdırma:</b> logistika, maliyyə portfeli. Burada kvant üstünlüyü hələ sübut olunmayıb və tədqiqatlar davam edir.</li>
+      <li><b>Maşın öyrənməsi:</b> çox maraqlı tədqiqat sahəsidir, amma praktik üstünlük hələ aydın deyil.</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Real nümunə: azot gübrəsi</span>
+      <p>Dünyada istehsal olunan enerjinin təxminən 1–2%-i Haber-Boş prosesi ilə ammonyak (azot gübrəsi) istehsalına sərf olunur. Bəzi bakteriyalar isə eyni işi otaq temperaturunda, xüsusi bir ferment vasitəsilə görür. Bu fermentin necə işlədiyini klassik kompüterlə tam dəqiq modelləşdirmək çox çətindir. Kvant kompüterləri bunu bacarsa, enerji və iqlim üçün böyük nəticələri ola bilər. Bu, kvant kimyası sahəsində ən çox sitat gətirilən nümunələrdən biridir.</p>
+    </div>
+    <div class="ex warn"><span class="tag">⚠️ Reklam tələsi</span>
+      <p>“Kvant” sözü marketinqdə çox populyardır: “kvant enerjili bilərzik”, “kvant suyu”. Bunların kvant hesablamaları ilə heç bir əlaqəsi yoxdur. Məntiq kursundakı qayda burada da işləyir: hansı yoxlanıla bilən iddia irəli sürülür və onu kim yoxlayıb?</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq: mif, yoxsa fakt?</h3><div class="quiz" data-quiz="myths"></div></div>
+</section>
+
+<section class="lesson" data-title="Necə başlamaq olar?" data-ill="terminal">
+  <div class="card">
+    <h2>12. Necə başlamaq olar?</h2>
+    <p class="lead">Kvant proqramlaşdırmasını öyrənmək üçün nə laboratoriya, nə də fizika dərəcəsi lazımdır. Ehtiyacınız olan: bir az xətti cəbr, Python və maraq.</p>
+    <h3>İlk kvant proqramınız: Bell vəziyyəti (Qiskit)</h3>
+    <pre class="amp" style="white-space:pre;overflow-x:auto">pip install qiskit
+
+from qiskit import QuantumCircuit
+
+qc = QuantumCircuit(2, 2)   # 2 kubit, 2 klassik bit
+qc.h(0)                     # 0-cı kubitə Adamar qapısı
+qc.cx(0, 1)                 # CNOT: dolaşıqlıq
+qc.measure([0, 1], [0, 1])  # ölçmə
+print(qc.draw())</pre>
+    <p>Bu, 6-cı dərsdəki laboratoriyada qurduğunuz dövrənin eynisidir. Simulyatorda işə salsanız, yalnız <span class="ket">00</span> və <span class="ket">11</span> nəticələrini görəcəksiniz.</p>
+    <h3>Öyrənmə yolu</h3>
+    <ol>
+      <li><b>Riyazi əsas:</b> vektorlar, matrislər və kompleks ədədlər. Sadə səviyyə kifayətdir.</li>
+      <li><b>Alətlər:</b> Qiskit (IBM), Cirq (Google), PennyLane. Hamısı açıq mənbəli və pulsuzdur.</li>
+      <li><b>Real cihaz:</b> IBM Quantum platforması real kvant kompüterlərinə bulud vasitəsilə məhdud pulsuz giriş verir.</li>
+      <li><b>Klassik kitab:</b> Nilsen və Çanqın “Quantum Computation and Quantum Information” kitabı bu sahənin əsas dərsliyi sayılır.</li>
+    </ol>
+    <div class="ex life"><span class="tag">✅ Tətbiq: Claude Code ilə</span>
+      <p>Claude Code kursunda öyrəndiklərinizi burada tətbiq edin: boş qovluqda <span class="sym">claude</span> işə salın və yazın: “Qiskit ilə 3 kubitlik GHZ vəziyyəti yarat, simulyatorda 1000 dəfə ölç, nəticəni histoqramla göstər və hər addımı Azərbaycan dilində şərh et.” Sonra kodu oxuyub hər sətri anlamağa çalışın.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Karyera</span>
+      <p>Kvant sahəsində təkcə fiziklər işləmir. Proqram mühəndisləri, kriptoqraflar, kimyaçılar və məhsul menecerləri də lazımdır. Ən sürətlə böyüyən istiqamətlərdən biri <b>post-kvant kriptoqrafiyasına keçiddir</b>: banklar və dövlət qurumları sistemlərini artıq bu gün yeniləməlidir. Rəqəmsal transformasiya kursundakı yanaşma da burada işləyir.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="start"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
+  <div class="card">
+    <h2>13. Yekun imtahan</h2>
+    <p class="lead">Bütün kursdan 15 sual. Ən azı 12 düzgün cavab (80%) verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>

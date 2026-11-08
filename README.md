@@ -1,6 +1,6 @@
 # Şəxsi Akademiya
 
-Şəxsi LMS (öyrənmə platforması). Kurslar: `mentiq` (Məntiq, 23 dərs), `claudecode` (Claude Code, 14 dərs), `felsefe` (Fəlsəfə, 12 dərs), `reqemsal` (Rəqəmsal transformasiya, 13 dərs).
+Şəxsi LMS (öyrənmə platforması). Kurslar: `mentiq` (Məntiq, 23 dərs), `claudecode` (Claude Code, 14 dərs), `felsefe` (Fəlsəfə, 12 dərs), `reqemsal` (Rəqəmsal transformasiya, 13 dərs), `kvant` (Kvant hesablamaları, 13 dərs).
 
 Dizayn: hər kursun `catalog.json`-da `color`, `color2` (qradiyent) və `ill` (illustrations.js-dən ikon) sahələri var. Hər dərs `<section data-ill="...">` ilə öz illüstrasiyasını alır. `.ex` blokları teqinə görə rənglənir (⚠️ qırmızı, “Addım” sarı, “Tətbiq” yaşıl, “Düşüncə təcrübəsi” bənövşəyi). Şəkillər: `tools/images.json` + “Fetch course images” workflow-u (Wikimedia Commons), `<figure class="pic"><img data-credit="ad">` müəllif və lisenziyanı avtomatik göstərir. claude.ai-da şəxsi Artifact kimi dərc olunub:
 https://claude.ai/artifact/HmmZdg8oyvjiBU14uva5Kk

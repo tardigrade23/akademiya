@@ -68,6 +68,23 @@
         "12": "Yekun"
       },
       "added": "2026-11-08"
+    },
+    {
+      "id": "kvant",
+      "title": "Kvant hesablamaları",
+      "mark": "ψ",
+      "color": "#6a11cb",
+      "color2": "#d6307a",
+      "ill": "atom",
+      "description": "Kubit, superpozisiya, dolaşıqlıq və interferensiya sadə dillə: Blox sferası, bir və iki kubitlik kvant simulyatoru, Qrover alqoritmi, BB84 kvant kriptoqrafiyası, kvant kompüterlərinin qurulması, mif və reallıq. İlk Qiskit proqramınızla.",
+      "lessons": 13,
+      "parts": {
+        "0": "I hissə · Kvant dünyası",
+        "4": "II hissə · Kvant hesablamaları",
+        "8": "III hissə · Tətbiq və gələcək",
+        "12": "Yekun"
+      },
+      "added": "2026-11-08"
     }
   ]
 }
