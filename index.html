@@ -9,6 +9,8 @@
   <a class="brand" href="#" id="brand"><span class="seal">A</span><span class="name">Şəxsi Akademiya</span></a>
   <div class="crumb" id="crumb"></div>
   <span class="sync" id="sync">Yalnız bu cihazda</span>
+  <button class="iconbtn" id="searchBtn" title="Axtarış" aria-label="Axtarış">🔍</button>
+  <button class="iconbtn" id="fontBtn" title="Şrift ölçüsü" aria-label="Şrift ölçüsünü dəyiş">Aa</button>
   <button class="iconbtn" id="themeBtn" title="Açıq/qaranlıq mövzu" aria-label="Mövzunu dəyiş">◐</button>
 </header>
 
@@ -16,9 +18,13 @@
   <main id="home" class="home" aria-live="polite">
     <div class="greet"><div><h1 id="greetH">Xoş gəldin</h1><p>Öyrənməyə qaldığın yerdən davam et.</p></div><div id="greetArt"></div></div>
     <div id="continueBox"></div>
+    <div id="todayBox"></div>
+    <div class="quick" id="quickBox"></div>
     <div class="stats" id="stats"></div>
     <div class="shelf-h"><h2>Kurslarım</h2><span class="fb" id="shelfCount"></span></div>
     <div class="shelf" id="shelf"><div class="card">Kurslar yüklənir…</div></div>
+    <div class="shelf-h"><h2>Öyrənmə yolları</h2><span class="fb">məqsədə görə kurs ardıcıllığı</span></div>
+    <div class="paths" id="pathsBox"></div>
     <div class="tools" id="appBox"></div>
   </main>
 
@@ -32,10 +38,18 @@
         <textarea id="noteText" placeholder="Bu dərs haqqında öz sözlərinlə qısa xülasə, suallar, öz həyatından nümunələr…"></textarea>
         <div class="fb" id="noteState">Qeydlər avtomatik saxlanılır.</div>
       </div>
+      <div class="card ask-card" id="askCard" hidden>
+        <h3>🤖 Claude-dan soruş</h3>
+        <p class="fb">Bu dərsdə anlamadığınız bir şeyi soruşun. Claude dərsin mətninə əsaslanaraq Azərbaycan dilində izah edəcək.</p>
+        <textarea id="askQ" placeholder="Məsələn: Bunu daha sadə izah et və gündəlik həyatdan bir nümunə gətir"></textarea>
+        <div class="row" style="margin-top:8px"><button class="btn" id="askBtn">Soruş</button><button class="btn ghost" id="askStop" hidden>Dayandır</button></div>
+        <div class="ask-out" id="askOut"></div>
+      </div>
       <div class="pager" id="pager"></div>
     </div>
   </div>
 </div>
+<main id="pageView" class="wrap pagev" hidden></main>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="illustrations.js"></script>

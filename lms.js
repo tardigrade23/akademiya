@@ -56,6 +56,74 @@
     scheduleRemote(cid);
   }
 
+  // ---------- şəxsi öyrənmə vəziyyəti: kartlar, səhvlər, aktivlik, nişanlar, əlfəcinlər ----------
+  const me = Object.assign({ cards: {}, miss: {}, log: {}, acc: {}, badges: {}, marks: [], reviews: 0, perfect: {} }, lsGet('akademiya:me') || {});
+  const saveMe = () => lsSet('akademiya:me', me);
+  const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return dayKey(d); };
+  const INT = [0, 1, 3, 7, 16, 35]; // aralıqlı təkrar: səviyyəyə görə günlər
+  let CARDS = [], CARD = {};
+  function logAct(n = 1) { const t = today(); me.log[t] = (me.log[t] || 0) + n; }
+  function schedule(id, ok) {
+    const c = me.cards[id] || (me.cards[id] = { b: 0, due: today() });
+    if (ok) { c.b = Math.min(c.b + 1, 5); c.due = addDays(INT[c.b]); }
+    else { c.b = 0; c.due = addDays(1); }
+  }
+  function recordAnswer(cid, id, ok, snap) {
+    const a = me.acc[cid] || (me.acc[cid] = [0, 0]); a[1]++; if (ok) a[0]++;
+    if (CARD[id]) schedule(id, ok);
+    if (!ok) me.miss[id] = Object.assign({ ts: Date.now(), fixed: false }, CARD[id] ? {} : { d: snap });
+    else if (me.miss[id]) me.miss[id].fixed = true;
+    logAct(); saveMe(); checkBadges();
+  }
+  function activateLesson(cid, l) {
+    let n = 0;
+    CARDS.forEach(c => { if (c.c === cid && c.l === l && !me.cards[c.id]) { me.cards[c.id] = { b: 0, due: today() }; n++; } });
+    if (n) saveMe();
+  }
+  const dueIds = () => Object.keys(me.cards).filter(id => CARD[id] && me.cards[id].due <= today())
+    .sort((x, y) => me.cards[x].b - me.cards[y].b || (me.cards[x].due < me.cards[y].due ? -1 : 1));
+  const openMiss = () => Object.keys(me.miss).filter(id => !me.miss[id].fixed && (CARD[id] || me.miss[id].d));
+  const cardData = id => CARD[id] || (me.miss[id] && me.miss[id].d);
+
+  const COURSE_BADGES = { mentiq: ['🧩', 'Məntiqçi'], claudecode: ['❯', 'Claude ustası'], felsefe: ['🏛️', 'Filosof'], reqemsal: ['⚡', 'Transformator'], kvant: ['⚛️', 'Kvant düşüncəli'], si: ['🤖', 'Sİ bələdçisi'], agent: ['⚙️', 'Agent memarı'], caio: ['♛', 'Sİ lideri'], kripto: ['🔑', 'Kriptoqraf'], kiber: ['🛡️', 'Kiber qoruyucu'] };
+  function badgeList() {
+    const L = [
+      ['ilk', '🌱', 'İlk addım', 'İlk dərsi tamamla', s => s.lessons >= 1],
+      ['on', '📚', 'Kitabsevər', '10 dərs tamamla', s => s.lessons >= 10],
+      ['elli', '🏛️', 'Alim', '50 dərs tamamla', s => s.lessons >= 50],
+      ['yuz', '🌟', 'Akademik', '100 dərs tamamla', s => s.lessons >= 100],
+      ['kurs1', '🎓', 'Məzun', 'İlk kursu bitir', s => s.courses >= 1],
+      ['kurs3', '🏅', 'Çoxyönlü', '3 kurs bitir', s => s.courses >= 3],
+      ['kursall', '👑', 'Hər şeyi bilən', 'Bütün kursları bitir', s => s.courses >= s.totalCourses],
+      ['s3', '🔥', 'Alov', '3 gün ardıcıl öyrən', s => s.streak >= 3],
+      ['s7', '🔥', 'Həftəlik alov', '7 gün ardıcıl öyrən', s => s.streak >= 7],
+      ['s30', '☄️', 'Dəmir iradə', '30 gün ardıcıl öyrən', s => s.streak >= 30],
+      ['r50', '🧠', 'Yaddaş ustası', '50 kart təkrar et', s => s.reviews >= 50],
+      ['r300', '🏋️', 'Yaddaş çempionu', '300 kart təkrar et', s => s.reviews >= 300],
+      ['m20', '💎', 'Möhkəm bilik', '20 kartı 3-cü səviyyəyə çatdır', s => s.mastered >= 20],
+      ['perfect', '💯', 'Mükəmməl', 'Yekun imtahanı səhvsiz keç', s => s.perfect >= 1],
+      ['fix10', '🩹', 'Səhvlərdən öyrənən', '10 səhvi düzəlt', s => s.fixed >= 10],
+      ['mark', '📌', 'Kolleksiyaçı', 'İlk əlfəcini əlavə et', s => s.marks >= 1],
+      ['kk', '🧩', 'Tapmaca ustası', 'Bütün cəngavər-yalançı tapmacalarını həll et', s => s.kk >= 5],
+    ];
+    catalog.forEach(c => { const [ic, n] = COURSE_BADGES[c.id] || ['🎖️', c.title]; L.push(['c-' + c.id, ic, n, `“${c.title}” kursunu bitir`, s => s.done[c.id]]); });
+    return L;
+  }
+  function badgeStats() {
+    const done = {}; catalog.forEach(c => { done[c.id] = doneCount(c.id) >= c.lessons; });
+    return {
+      lessons: catalog.reduce((s, c) => s + doneCount(c.id), 0), courses: Object.values(done).filter(Boolean).length, totalCourses: catalog.length,
+      streak: streak(), reviews: me.reviews || 0, mastered: Object.values(me.cards).filter(c => c.b >= 3).length, perfect: Object.keys(me.perfect).length,
+      fixed: Object.values(me.miss).filter(m => m.fixed).length, marks: me.marks.length, kk: Object.keys(((prog.mentiq || {}).extra || {}).kk || {}).length, done,
+    };
+  }
+  function checkBadges() {
+    if (!catalog.length) return;
+    const s = badgeStats(), fresh = [];
+    badgeList().forEach(([id, ic, n, , test]) => { if (!me.badges[id] && test(s)) { me.badges[id] = Date.now(); fresh.push(ic + ' ' + n); } });
+    if (fresh.length) { saveMe(); setTimeout(() => { toast('🏅 Yeni nişan: ' + fresh.join(', ')); celebrate(false); }, 900); }
+  }
+
   // ---------- cloud sync ----------
   const SYNC = {
     local: ['Yalnız bu cihazda', ''], connecting: ['Qoşulur…', ''], cloud: ['Buludda saxlanılır', 'cloud'],
@@ -120,6 +188,7 @@
   function streak() {
     const all = new Set();
     catalog.forEach(c => (prog[c.id].days || []).forEach(d => all.add(d)));
+    Object.keys(me.log).forEach(d => all.add(d));
     const d = new Date();
     if (!all.has(dayKey(d))) d.setDate(d.getDate() - 1);
     let n = 0;
@@ -192,7 +261,255 @@
         <div class="foot"><span>${doneCount(c.id)} / ${c.lessons} dərs</span><span>${pc === 100 ? '🎓 bitib' : pc + '%'}</span></div></div></a>`;
     }).join('') + `<div class="course-card add"><div class="cover">${art('star')}</div><div class="body"><h3>Yeni kurs</h3>
         <p>Claude ilə yeni sessiyada yaz: “Akademiyama … kursu əlavə et”. Kurs bu rəfdə görünəcək və irəliləyişin ayrıca saxlanılacaq.</p></div></div>`;
+    renderToday(); renderPaths();
     renderAppBox();
+  }
+
+  function renderToday() {
+    const due = dueIds().length, miss = openMiss().length, active = Object.keys(me.cards).length;
+    $('#todayBox').innerHTML = `<div class="today">
+      <div class="today-ic">🧠</div>
+      <div><div class="label">Bugünkü təkrar</div>
+      ${!CARDS.length ? '<div class="what">Kartlar yüklənir…</div>' : due ? `<div class="what">${due} kart təkrar gözləyir</div><div class="sub">təxminən ${Math.max(1, Math.round(Math.min(due, 15) * 0.4))} dəqiqə · aralıqlı təkrar unutmağa başladığınız anda xatırladır</div>`
+        : active ? `<div class="what">Bu gün üçün təkrar yoxdur 🎉</div><div class="sub">${active} kart yaddaşınızdadır. Növbəti təkrar: ${nextDue()}</div>`
+        : '<div class="what">Hələ kart yoxdur</div><div class="sub">Dərsləri tamamladıqca və testləri cavablandırdıqca hər dərsdən 3–5 təkrar kartı yaranacaq.</div>'}</div>
+      ${due ? '<a class="btn" href="#tekrar">Təkrara başla →</a>' : miss ? '<a class="btn ghost" href="#sehvler">Səhvləri təkrarla</a>' : ''}</div>`;
+    const tiles = [['sehvler', '🩹', 'Səhvlərim', miss], ['elfecinler', '📌', 'Əlfəcinlər', me.marks.length], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : ''], ['axtar', '🔍', 'Axtarış', '']];
+    $('#quickBox').innerHTML = tiles.map(([h, ic, n, c]) => `<a class="qt" href="#${h}"><span class="qi">${ic}</span><span>${n}</span>${c !== '' && c != null ? `<b>${c}</b>` : ''}</a>`).join('');
+  }
+  function nextDue() {
+    const ds = Object.values(me.cards).map(c => c.due).filter(d => d > today()).sort();
+    if (!ds.length) return '—';
+    const d = new Date(ds[0] + 'T00:00:00'), diff = Math.round((d - new Date(today() + 'T00:00:00')) / 864e5);
+    return diff === 1 ? 'sabah' : diff + ' gün sonra';
+  }
+  function renderPaths() {
+    const paths = window.__paths || [];
+    $('#pathsBox').innerHTML = paths.map(p => {
+      const cs = p.courses.filter(id => byId[id]);
+      const tot = cs.reduce((s, id) => s + byId[id].lessons, 0), dn = cs.reduce((s, id) => s + doneCount(id), 0);
+      const next = cs.find(id => doneCount(id) < byId[id].lessons);
+      const pc = tot ? Math.round(dn / tot * 100) : 0;
+      return `<div class="path"><div class="path-h"><span class="path-ic">${esc(p.icon)}</span><div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p></div></div>
+        <div class="steps">${cs.map((id, k) => { const c = byId[id], d = pctOf(id); return `${k ? '<span class="arr">→</span>' : ''}<a class="step ${d === 100 ? 'done' : ''}" href="#${id}-${prog[id].last + 1}" style="${cvars(c)}"><span class="dot">${d === 100 ? '✓' : k + 1}</span>${esc(c.title)}<small>${d}%</small></a>`; }).join('')}</div>
+        <div class="meter"><i style="width:${pc}%"></i></div>
+        <div class="path-f"><span>${dn} / ${tot} dərs · ${pc}%</span>${next ? `<a class="btn ghost" href="#${next}-${prog[next].last + 1}">${dn ? 'Davam et' : 'Başla'}: ${esc(byId[next].title)} →</a>` : '<b>🎓 Yol tamamlandı</b>'}</div></div>`;
+    }).join('');
+  }
+
+  // ---------- səhifələr: təkrar, səhvlər, əlfəcinlər, lüğət, statistika, axtarış ----------
+  const PAGES = { tekrar: 'Bugünkü təkrar', sehvler: 'Səhvlərim', elfecinler: 'Əlfəcinlər', luget: 'Lüğət', statistika: 'Statistika', axtar: 'Axtarış' };
+  const loaded = {};
+  const getJSON = f => loaded[f] || (loaded[f] = fetch(f).then(r => r.ok ? r.json() : []).catch(() => []));
+  const chip = cid => byId[cid] ? `<span class="cchip" style="${cvars(byId[cid])}">${esc(byId[cid].title)}</span>` : '';
+  const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+  const fold = s => String(s).toLocaleLowerCase('az').replace(/[əıöüşçğ]/g, c => ({ 'ə': 'e', 'ı': 'i', 'ö': 'o', 'ü': 'u', 'ş': 's', 'ç': 'c', 'ğ': 'g' }[c]));
+  let reviewMode = 'due', rv = null, pendingMark = null;
+
+  function renderPage(page) {
+    const v = $('#pageView');
+    $('#crumb').innerHTML = `<b>${PAGES[page]}</b>`;
+    ({ tekrar: pageReview, sehvler: pageMistakes, elfecinler: pageMarks, luget: pageGlossary, statistika: pageStats, axtar: pageSearch })[page](v);
+    window.scrollTo({ top: 0 });
+  }
+  function startReview(mode) { reviewMode = mode; rv = null; if (location.hash === '#tekrar') renderPage('tekrar'); else location.hash = 'tekrar'; }
+
+  function pageReview(v) {
+    if (!rv) {
+      let ids;
+      if (reviewMode === 'miss') ids = shuffle(openMiss()).slice(0, 15);
+      else if (reviewMode === 'ahead') ids = Object.keys(me.cards).filter(id => CARD[id]).sort((x, y) => me.cards[x].due < me.cards[y].due ? -1 : 1).slice(0, 10);
+      else ids = dueIds().slice(0, 15);
+      rv = { ids, i: 0, ok: 0, answered: false };
+    }
+    if (!rv.ids.length) {
+      const miss = openMiss().length, act = Object.keys(me.cards).length;
+      v.innerHTML = `<div class="card"><h2>🧠 Bugünkü təkrar</h2><p class="lead">${act ? 'Bu gün üçün bütün təkrarlar tamamlanıb. Əla!' : 'Hələ təkrar kartınız yoxdur.'}</p>
+        <p>${act ? `Yaddaşınızda ${act} kart var. Növbəti təkrar: <b>${nextDue()}</b>.` : 'Dərsləri tamamladıqca və testləri cavablandırdıqca hər dərsdən 3–5 kart yaranır. Onlar 1, 3, 7, 16 və 35 gündən sonra təkrar üçün qayıdacaq.'}</p>
+        <div class="row">${miss ? `<button class="btn" id="rvMiss">Səhvlərimi təkrarla (${miss})</button>` : ''}${act ? '<button class="btn ghost" id="rvAhead">Qabaqcadan təkrar et</button>' : ''}<a class="btn ghost" href="#">Ana səhifə</a></div></div>`;
+      const m = $('#rvMiss'); if (m) m.onclick = () => startReview('miss');
+      const a = $('#rvAhead'); if (a) a.onclick = () => startReview('ahead');
+      return;
+    }
+    if (rv.i >= rv.ids.length) {
+      const all = rv.ok === rv.ids.length;
+      v.innerHTML = `<div class="card rv-done"><div class="big">${all ? '🏆' : '✅'}</div><h2>Təkrar bitdi!</h2><p class="lead">${rv.ids.length} kartdan <b>${rv.ok}</b>-i düzgün.</p>
+        <p>${all ? 'Mükəmməl! Bu kartlar daha uzun fasilədən sonra qayıdacaq.' : 'Səhv cavab verdiyiniz kartlar sabah yenidən qarşınıza çıxacaq. Səhvlər yaddaşı möhkəmləndirməyin bir hissəsidir.'}</p>
+        <div class="row"><a class="btn" href="#">Ana səhifə</a>${openMiss().length ? '<button class="btn ghost" id="rvMiss2">Səhvlərimi təkrarla</button>' : ''}</div></div>`;
+      if (all) celebrate(false);
+      const m = $('#rvMiss2'); if (m) m.onclick = () => startReview('miss');
+      checkBadges(); rv.finished = true;
+      return;
+    }
+    const id = rv.ids[rv.i], c = cardData(id);
+    if (!c) { rv.i++; return pageReview(v); }
+    const order = shuffle(c.o.map((t, k) => k));
+    const lvl = me.cards[id] ? me.cards[id].b : 0;
+    v.innerHTML = `<div class="rv-top"><span>${rv.i + 1} / ${rv.ids.length}</span><div class="meter"><i style="width:${rv.i / rv.ids.length * 100}%"></i></div><span>✓ ${rv.ok}</span></div>
+      <div class="card rv" style="${byId[c.c] ? cvars(byId[c.c]) : ''}">
+        <div class="rv-meta">${chip(c.c)}<span class="fb">${esc(c.t || '')}${reviewMode === 'miss' ? ' · səhv' : ` · səviyyə ${lvl}/5`}</span></div>
+        <div class="rv-q">${esc(c.q)}</div>
+        <div class="opts rv-opts">${order.map(k => `<button data-k="${k}">${esc(c.o[k])}</button>`).join('')}</div>
+        <div class="fb" id="rvFb"></div>
+        <div class="row" id="rvNext" hidden><button class="btn" id="rvGo">Növbəti →</button><a class="btn ghost" href="#${c.c}-${c.l + 1}">Dərsə keç</a></div>
+      </div>`;
+    v.querySelectorAll('.rv-opts button').forEach(b => b.onclick = () => {
+      if (rv.answered) return; rv.answered = true;
+      const ok = +b.dataset.k === c.a; if (ok) rv.ok++;
+      b.classList.add(ok ? 'right' : 'wrong'); v.querySelector(`.rv-opts button[data-k="${c.a}"]`).classList.add('right');
+      me.reviews = (me.reviews || 0) + 1;
+      recordAnswer(c.c, id, ok, c);
+      const nb = me.cards[id];
+      $('#rvFb').innerHTML = (ok ? '✅ Düzgün! ' : '❌ Səhv. ') + esc(c.e || '') + (nb ? `<br><small>Növbəti dəfə: ${nb.due === addDays(1) ? 'sabah' : Math.round((new Date(nb.due + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 864e5) + ' gün sonra'}</small>` : '');
+      $('#rvNext').hidden = false; $('#rvGo').focus();
+    });
+    $('#rvGo').onclick = () => { rv.i++; rv.answered = false; pageReview(v); window.scrollTo({ top: 0 }); };
+  }
+
+  function pageMistakes(v, showFixed) {
+    const ids = Object.keys(me.miss).filter(id => cardData(id) && (showFixed || !me.miss[id].fixed)).sort((a, b) => me.miss[b].ts - me.miss[a].ts);
+    const open = openMiss().length;
+    v.innerHTML = `<div class="card"><h2>🩹 Səhvlərim</h2><p class="lead">Testlərdə və təkrarlarda səhv cavab verdiyiniz suallar. Düzgün cavab verəndə sual “düzəldilmiş” olur.</p>
+      <div class="row">${open ? `<button class="btn" id="msRev">Bunları təkrarla (${open})</button>` : ''}<label class="fb" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="msFixed" ${showFixed ? 'checked' : ''}> Düzəldilmişləri də göstər</label></div></div>
+      ${ids.length ? ids.map(id => { const c = cardData(id), m = me.miss[id]; return `<div class="card mis ${m.fixed ? 'fixed' : ''}"><div class="rv-meta">${chip(c.c)}<span class="fb">${esc(c.t || '')} · ${new Date(m.ts).toLocaleDateString('az')}${m.fixed ? ' · ✓ düzəldilib' : ''}</span></div>
+        <div class="rv-q">${esc(c.q)}</div><div class="ans">✓ ${esc(c.o[c.a])}</div><div class="fb">${esc(c.e || '')}</div><a class="fb" href="#${c.c}-${c.l + 1}">Dərsə keç →</a></div>`; }).join('')
+        : '<div class="card"><p>Səhv yoxdur. 🎉 Testləri cavablandırdıqca səhv etdiyiniz suallar burada toplanacaq.</p></div>'}`;
+    const r = $('#msRev'); if (r) r.onclick = () => startReview('miss');
+    $('#msFixed').onchange = e => pageMistakes(v, e.target.checked);
+  }
+
+  function pageMarks(v) {
+    const groups = {};
+    me.marks.slice().sort((a, b) => b.ts - a.ts).forEach(m => (groups[m.c] = groups[m.c] || []).push(m));
+    v.innerHTML = `<div class="card"><h2>📌 Əlfəcinlər</h2><p class="lead">Dərslərdəki istənilən nümunə və ya qeyd blokunda ☆ işarəsinə basaraq onu burada saxlayın.</p></div>` +
+      (me.marks.length ? Object.entries(groups).map(([cid, list]) => `<div class="card"><h3>${chip(cid)}</h3>${list.map(m => `<div class="mk"><div><b>${esc(m.tag)}</b> <span class="fb">· ${esc(m.t)}</span><p>${esc(m.s)}</p></div>
+        <div class="row"><button class="btn ghost mk-open" data-id="${esc(m.id)}">Aç</button><button class="iconbtn mk-del" data-id="${esc(m.id)}" title="Sil">✕</button></div></div>`).join('')}</div>`).join('')
+        : '<div class="card"><p>Hələ əlfəcin yoxdur.</p></div>');
+    v.querySelectorAll('.mk-open').forEach(b => b.onclick = () => { const m = me.marks.find(x => x.id === b.dataset.id); pendingMark = m.id; location.hash = `${m.c}-${m.l + 1}`; });
+    v.querySelectorAll('.mk-del').forEach(b => b.onclick = () => { me.marks = me.marks.filter(x => x.id !== b.dataset.id); saveMe(); pageMarks(v); });
+  }
+  function toggleMark(id, cid, l, block, btn) {
+    const k = me.marks.findIndex(m => m.id === id);
+    if (k >= 0) { me.marks.splice(k, 1); btn.classList.remove('on'); btn.textContent = '☆'; toast('Əlfəcin silindi'); }
+    else {
+      const tag = ((block.querySelector('.tag') || {}).textContent || (block.classList.contains('note') ? 'Qeyd' : 'Nümunə')).replace(/^[^\wƏəÇçŞşĞğÖöÜüİı“"]+/u, '').trim();
+      const txt = block.textContent.replace(block.querySelector('.tag') ? block.querySelector('.tag').textContent : '', '').replace(/[☆★]/g, '').replace(/\s+/g, ' ').trim();
+      me.marks.push({ id, c: cid, l, t: (lessonEls[l] || {}).dataset ? lessonEls[l].dataset.title : '', tag: tag.slice(0, 80), s: txt.slice(0, 220) + (txt.length > 220 ? '…' : ''), ts: Date.now() });
+      btn.classList.add('on'); btn.textContent = '★'; toast('📌 Əlfəcinlərə əlavə olundu');
+    }
+    saveMe(); checkBadges();
+  }
+
+  async function pageGlossary(v) {
+    v.innerHTML = '<div class="card">Lüğət yüklənir…</div>';
+    const G = (await getJSON('data/glossary.json')).slice().sort((a, b) => a.t.localeCompare(b.t, 'az'));
+    const letter = t => t.charAt(0).toLocaleUpperCase('az');
+    const letters = [...new Set(G.map(g => letter(g.t)))];
+    v.innerHTML = `<div class="card"><h2>📖 Lüğət</h2><p class="lead">${G.length} termin, hər biri öz dərsinə bağlıdır.</p>
+      <input type="text" id="glQ" placeholder="Termin axtar…" style="font-family:var(--sans)"><div class="letters">${letters.map(l => `<a href="#luget" data-l="${esc(l)}">${esc(l)}</a>`).join('')}</div></div><div id="glList"></div>`;
+    const draw = q => {
+      const f = fold(q || ''), list = G.filter(g => !f || fold(g.t + ' ' + g.d).includes(f));
+      let cur = '', h = '';
+      list.forEach(g => { const L = letter(g.t); if (L !== cur) { if (cur) h += '</div>'; cur = L; h += `<div class="card gl-sec" id="gl-${esc(L)}"><h3 class="gl-l">${esc(L)}</h3>`; }
+        h += `<div class="gl"><b>${esc(g.t)}</b><span>${esc(g.d)}</span><a href="#${g.c}-${g.l + 1}">${chip(g.c)}</a></div>`; });
+      $('#glList').innerHTML = (h ? h + '</div>' : '<div class="card"><p>Heç nə tapılmadı.</p></div>');
+    };
+    $('#glQ').oninput = e => draw(e.target.value);
+    v.querySelectorAll('[data-l]').forEach(a => a.onclick = e => { e.preventDefault(); $('#glQ').value = ''; draw(''); const s = document.getElementById('gl-' + a.dataset.l); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    draw('');
+  }
+
+  async function pageSearch(v) {
+    v.innerHTML = `<div class="card"><h2>🔍 Axtarış</h2><input type="text" id="srQ" placeholder="Məsələn: Bayes, fişinq, kubit…" style="font-family:var(--sans);font-size:1.05rem" autocomplete="off"><p class="fb">Bütün ${catalog.reduce((s, c) => s + c.lessons, 0)} dərsdə və lüğətdə axtarır. “ş, ə, ı” hərfləri olmadan da yaza bilərsiniz.</p></div><div id="srOut"></div>`;
+    const inp = $('#srQ'); inp.focus();
+    const [S, G] = await Promise.all([getJSON('data/search.json'), getJSON('data/glossary.json')]);
+    const FS = S.map(x => ({ x, ft: fold(x.t), fx: fold(x.x) }));
+    let t;
+    const run = () => {
+      const q = inp.value.trim(), f = fold(q);
+      if (f.length < 2) { $('#srOut').innerHTML = ''; return; }
+      const g = G.filter(x => fold(x.t).includes(f)).slice(0, 6);
+      const res = FS.map(r => { let n = 0, i = -1; while ((i = r.fx.indexOf(f, i + 1)) >= 0 && n < 50) n++; return [r, n + (r.ft.includes(f) ? 20 : 0)]; }).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]).slice(0, 30);
+      const snip = r => { const i = r.fx.indexOf(f); if (i < 0) return esc(r.x.x.slice(0, 160)) + '…'; const a = Math.max(0, i - 70), b = Math.min(r.x.x.length, i + f.length + 90);
+        return (a ? '…' : '') + esc(r.x.x.slice(a, i)) + '<mark>' + esc(r.x.x.slice(i, i + f.length)) + '</mark>' + esc(r.x.x.slice(i + f.length, b)) + (b < r.x.x.length ? '…' : ''); };
+      $('#srOut').innerHTML = (g.length ? `<div class="card"><h3>📖 Lüğətdə</h3>${g.map(x => `<div class="gl"><b>${esc(x.t)}</b><span>${esc(x.d)}</span><a href="#${x.c}-${x.l + 1}">${chip(x.c)}</a></div>`).join('')}</div>` : '') +
+        (res.length ? `<div class="card"><h3>📚 Dərslərdə (${res.length})</h3>${res.map(([r]) => `<a class="sr" href="#${r.x.c}-${r.x.l + 1}"><div>${chip(r.x.c)} <b>${r.x.l + 1}. ${esc(r.x.t)}</b></div><p>${snip(r)}</p></a>`).join('')}</div>` : (g.length ? '' : '<div class="card"><p>Heç nə tapılmadı. Başqa söz sınayın.</p></div>'));
+    };
+    inp.oninput = () => { clearTimeout(t); t = setTimeout(run, 150); };
+    if (inp.value) run();
+  }
+
+  function pageStats(v) {
+    const s = badgeStats(), days = [];
+    for (let k = 83; k >= 0; k--) { const d = new Date(); d.setDate(d.getDate() - k); const key = dayKey(d); let n = me.log[key] || 0; if (!n && catalog.some(c => (prog[c.id].days || []).includes(key))) n = 1; days.push([key, n, d]); }
+    const last7 = days.slice(-7), mx = Math.max(1, ...last7.map(d => d[1])), mxAll = Math.max(1, ...days.map(d => d[1]));
+    const DN = ['B.', 'B.e.', 'Ç.a.', 'Ç.', 'C.a.', 'C.', 'Ş.'];
+    const accs = catalog.map(c => { const a = me.acc[c.id] || [0, 0]; return [c, a[1] ? a[0] / a[1] : null, a[1]]; }).filter(x => x[2] >= 5).sort((a, b) => b[1] - a[1]);
+    const earned = badgeList().filter(b => me.badges[b[0]]).length;
+    v.innerHTML = `<div class="card"><h2>📊 Statistika</h2>
+      <div class="kp">${[[s.lessons, 'tamamlanmış dərs'], [s.courses + ' / ' + s.totalCourses, 'bitirilmiş kurs'], [s.streak, 'gün ardıcıl'], [s.reviews, 'kart təkrarı'], [s.mastered, 'möhkəm kart (səviyyə 3+)'], [earned, 'nişan']].map(([n, l]) => `<div><b>${n}</b><span>${l}</span></div>`).join('')}</div></div>
+      <div class="card"><h3>Son 7 gün</h3><div class="b7">${last7.map(([k, n, d]) => `<div><span class="n">${n || ''}</span><i style="height:${n / mx * 100}%"></i><small>${DN[d.getDay()]}</small></div>`).join('')}</div>
+      <h3 style="margin-top:16px">Son 12 həftə</h3><div class="heat">${days.map(([k, n]) => `<i title="${k}: ${n}" style="opacity:${n ? 0.25 + 0.75 * n / mxAll : 1};${n ? '' : 'background:var(--line)'}"></i>`).join('')}</div>
+      <p class="fb">Hər xana bir gündür. Rəng tündləşdikcə həmin gün daha çox dərs, test və təkrar edilib.</p></div>
+      <div class="card"><h3>Kurslar üzrə dəqiqlik</h3>${accs.length ? `${accs.map(([c, a, n]) => `<div class="acc"><span>${esc(c.title)}</span><div class="t"><i style="width:${a * 100}%;${cvars(c)}"></i></div><b>${Math.round(a * 100)}%</b><small>${n} cavab</small></div>`).join('')}
+        ${accs.length > 1 ? `<p>💪 Ən güclü: <b>${esc(accs[0][0].title)}</b> · 🎯 Diqqət tələb edir: <b>${esc(accs[accs.length - 1][0].title)}</b></p>` : ''}` : '<p class="fb">Dəqiqlik ən azı 5 cavabdan sonra görünəcək.</p>'}</div>
+      <div class="card"><h3>Kurslar üzrə irəliləyiş</h3>${catalog.map(c => `<div class="acc"><span>${esc(c.title)}</span><div class="t"><i style="width:${pctOf(c.id)}%;${cvars(c)}"></i></div><b>${pctOf(c.id)}%</b><small>${doneCount(c.id)} / ${c.lessons}</small></div>`).join('')}</div>
+      <div class="card"><h3>🏅 Nişanlar (${earned} / ${badgeList().length})</h3><div class="bdg">${badgeList().map(([id, ic, n, d]) => `<div class="${me.badges[id] ? 'on' : ''}"><span>${ic}</span><b>${esc(n)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>`;
+  }
+
+  // ---------- şrift ölçüsü və səsli oxu ----------
+  const FS = [16, 17.5, 19, 15];
+  const applyFs = px => { document.documentElement.style.fontSize = px + 'px'; };
+  applyFs(lsGet('akademiya:fs') || 16);
+  $('#fontBtn').onclick = () => { const cur = lsGet('akademiya:fs') || 16, nx = FS[(FS.indexOf(cur) + 1) % FS.length]; lsSet('akademiya:fs', nx); applyFs(nx); toast('Şrift ölçüsü: ' + Math.round(nx / 16 * 100) + '%'); };
+  $('#searchBtn').onclick = () => { location.hash = 'axtar'; };
+
+  const lessonText = s => {
+    const c = s.cloneNode(true);
+    c.querySelectorAll('.quiz, .quiz-card, button, svg, style, script, .bm, .tts, table, input, select, textarea, .credit, .kicker').forEach(e => e.remove());
+    return c.textContent.replace(/\s+/g, ' ').trim();
+  };
+  let speaking = null;
+  function stopSpeak() { if (window.speechSynthesis) speechSynthesis.cancel(); if (speaking) { speaking.btn.textContent = '🔊 Dinlə'; speaking = null; } }
+  function speak(s, btn) {
+    if (speaking) { const same = speaking.btn === btn; stopSpeak(); if (same) return; }
+    const voices = speechSynthesis.getVoices();
+    const v = voices.find(x => /^az/i.test(x.lang)) || voices.find(x => /^tr/i.test(x.lang));
+    if (!v) toast('Cihazınızda Azərbaycan səsi tapılmadı: standart səslə oxunur');
+    else if (!/^az/i.test(v.lang)) toast('Azərbaycan səsi tapılmadı: türk səsi ilə oxunur');
+    const parts = lessonText(s).match(/[^.!?…]+[.!?…]*\s*/g) || [];
+    const chunks = []; let buf = '';
+    parts.forEach(p => { if ((buf + p).length > 220 && buf) { chunks.push(buf); buf = ''; } buf += p; }); if (buf) chunks.push(buf);
+    speaking = { btn }; btn.textContent = '⏹ Dayandır';
+    chunks.forEach((t, k) => {
+      const u = new SpeechSynthesisUtterance(t); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'az-AZ';
+      if (k === chunks.length - 1) u.onend = () => { if (speaking && speaking.btn === btn) { btn.textContent = '🔊 Dinlə'; speaking = null; } };
+      speechSynthesis.speak(u);
+    });
+  }
+
+  // ---------- Claude-dan soruş (yalnız claude.ai versiyasında) ----------
+  let sampleFn = null, askCtl = null;
+  function setupAsk(i) {
+    const card = $('#askCard'); card.hidden = !sampleFn; if (!sampleFn) return;
+    $('#askOut').textContent = ''; $('#askQ').value = '';
+    $('#askBtn').onclick = async () => {
+      const q = $('#askQ').value.trim(); if (!q) { $('#askQ').focus(); return; }
+      const s = lessonEls[i], txt = lessonText(s).slice(0, 6000), c = byId[curCid];
+      const prompt = `Sən “Şəxsi Akademiya” öyrənmə tətbiqində Azərbaycan dilində dərs deyən köməkçisən. Tələbə “${c.title}” kursunun “${s.dataset.title}” dərsini oxuyur.\n\nDƏRSİN MƏTNİ:\n${txt}\n\nTƏLƏBƏNİN SUALI:\n${q}\n\nYalnız Azərbaycan dilində, sadə və aydın cavab ver. Mümkünsə gündəlik həyatdan qısa nümunə gətir. Cavab 200 sözdən çox olmasın. Dərsdə olmayan məlumat əlavə edirsənsə, bunu qeyd et. Markdown başlıqları işlətmə.`;
+      askCtl = new AbortController();
+      $('#askOut').textContent = 'Claude düşünür…'; $('#askBtn').disabled = true; $('#askStop').hidden = false;
+      try {
+        const r = await sampleFn(prompt, { signal: askCtl.signal, onText: ({ text }) => { $('#askOut').textContent = text; } });
+        $('#askOut').textContent = r.text; logAct(); saveMe();
+      } catch (e) {
+        const code = e && e.code;
+        $('#askOut').textContent = code === 'not_granted' ? 'Claude-a sual vermək icazəsi verilmədi.' : code === 'rate_limited' ? 'Çox sayda sorğu göndərildi. Bir az sonra yenidən cəhd edin.' : (e && (e.name === 'AbortError' || code === 'aborted')) ? ((e.text ? e.text + '\n\n' : '') + '⏹ Dayandırıldı.') : 'Cavab alınmadı. Yenidən cəhd edin.';
+        if (code === 'not_granted') { sampleFn = null; }
+      }
+      $('#askBtn').disabled = false; $('#askStop').hidden = true;
+    };
+    $('#askStop').onclick = () => { if (askCtl) askCtl.abort(); };
   }
 
   // ---------- install as app + backup ----------
@@ -230,7 +547,7 @@
     if (ib) ib.onclick = async () => { const e = installEvt; installEvt = null; e.prompt(); await e.userChoice.catch(() => {}); renderAppBox(); };
     const eb = $('#exportBtn');
     if (eb) eb.onclick = () => {
-      const data = { app: 'akademiya', version: 1, exported: new Date().toISOString(), progress: prog };
+      const data = { app: 'akademiya', version: 2, exported: new Date().toISOString(), progress: prog, me };
       const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
       const a = document.createElement('a'); a.href = url; a.download = `akademiya-yedek-${today()}.json`;
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000);
@@ -247,11 +564,23 @@
           prog[cid] = merge(prog[cid], Object.assign(blank(), rec));
           saveLocal(cid); scheduleRemote(cid); n++;
         }
+        if (isObj(data.me)) { mergeMe(data.me); n++; }
         toast(n ? 'İrəliləyiş bərpa olundu' : 'Faylda bu kurslar üçün məlumat yoxdur');
         renderHome();
       } catch (err) { toast('Bu fayl Akademiya yedəyi deyil'); }
       e.target.value = '';
     };
+  }
+
+  function mergeMe(o) {
+    for (const [id, c] of Object.entries(o.cards || {})) if (!me.cards[id] || c.b > me.cards[id].b) me.cards[id] = c;
+    for (const [id, m] of Object.entries(o.miss || {})) if (!me.miss[id] || m.ts > me.miss[id].ts) me.miss[id] = m;
+    for (const [d, n] of Object.entries(o.log || {})) me.log[d] = Math.max(me.log[d] || 0, n);
+    for (const [cid, a] of Object.entries(o.acc || {})) { const b = me.acc[cid] || [0, 0]; if (a[1] > b[1]) me.acc[cid] = a; }
+    Object.assign(me.badges, o.badges || {}); Object.assign(me.perfect, o.perfect || {});
+    (o.marks || []).forEach(m => { if (!me.marks.some(x => x.id === m.id)) me.marks.push(m); });
+    me.reviews = Math.max(me.reviews || 0, o.reviews || 0);
+    saveMe();
   }
 
   // ---------- course mounting ----------
@@ -316,6 +645,20 @@
       else if (/tətbiq|həyatda|praktik|məşq|siz bunu|gündəlik/.test(t)) ex.classList.add('life');
       else if (/düşüncə təcrübəsi|tarix|rəvayət|hekayə/.test(t)) ex.classList.add('hist');
     });
+    lessonEls.forEach((s, i) => {
+      s.querySelectorAll('.ex, .note').forEach((blk, k) => {
+        const id = `${cid}:${i}:${k}`, on = me.marks.some(m => m.id === id);
+        const b = document.createElement('button'); b.className = 'bm' + (on ? ' on' : ''); b.type = 'button';
+        b.dataset.bm = id; b.title = 'Əlfəcinlərə əlavə et'; b.setAttribute('aria-label', 'Əlfəcin'); b.textContent = on ? '★' : '☆';
+        b.onclick = () => toggleMark(id, cid, i, blk, b);
+        blk.appendChild(b);
+      });
+      const ht = s.querySelector('.hero-txt');
+      if (ht && 'speechSynthesis' in window) {
+        const t = document.createElement('button'); t.className = 'tts'; t.type = 'button'; t.textContent = '🔊 Dinlə';
+        t.onclick = () => speak(s, t); ht.appendChild(t);
+      }
+    });
     host.querySelectorAll('.quiz').forEach(q => { const card = q.closest('.card'); if (card) card.classList.add('quiz-card'); });
     const imgs = [...host.querySelectorAll('figure.pic img')];
     imgs.forEach(img => {
@@ -345,11 +688,14 @@
       done(i) {
         if (prog[cid].done[i]) return;
         prog[cid].done[i] = true; touch(cid); renderSide();
+        activateLesson(cid, i); logAct(); saveMe();
         const t = lessonEls[i] && lessonEls[i].dataset.title;
         const all = doneCount(cid) >= byId[cid].lessons;
         toast(all ? '🎓 Kurs bitdi: ' + byId[cid].title : 'Tamamlandı: ' + (t || 'Dərs ' + (i + 1)));
         celebrate(all);
+        checkBadges();
       },
+      cid,
       get: k => prog[cid].extra[k],
       set(k, v) { prog[cid].extra[k] = v; touch(cid); },
       quizzes(Q) { $('#lessonHost').querySelectorAll('.quiz').forEach(el => buildQuiz(el, Q, this)); },
@@ -417,6 +763,8 @@
         b.onclick = () => {
           if (d.dataset.done) return; d.dataset.done = 1; answered++;
           const ok = oi === it.a; if (ok) right++;
+          const lt = (el.closest('section') || {}).dataset ? el.closest('section').dataset.title : '';
+          recordAnswer(api.cid, `${api.cid}:${key}:${qi}`, ok, { q: it.q, o: it.o, a: it.a, e: it.e, c: api.cid, l: section, t: lt });
           b.classList.add(ok ? 'right' : 'wrong'); opts.children[it.a].classList.add('right');
           fb.innerHTML = (ok ? '✅ Düzgün! ' : '❌ Səhv. ') + esc(it.e);
           if (answered === qs.length) finish();
@@ -433,7 +781,8 @@
       res.innerHTML = `Nəticə: ${right} / ${qs.length}. ` + (pass ? (isFinal ? '🎓 Təbriklər! Kursu tamamladın.' : 'Dərs tamamlandı ✓') : 'Mövzunu yenidən oxu və təkrar cəhd et.') +
         ' <button class="btn ghost" style="margin-left:8px;padding:4px 10px">Yenidən</button>';
       res.querySelector('button').onclick = () => buildQuiz(el, QUIZ, api);
-      if (pass) api.done(section);
+      if (isFinal && right === qs.length) { me.perfect[api.cid] = 1; saveMe(); }
+      if (pass) api.done(section); else checkBadges();
     }
   }
 
@@ -507,6 +856,7 @@
   // ---------- routing ----------
   function parseHash() {
     const h = decodeURIComponent(location.hash.slice(1));
+    if (PAGES[h]) return { view: 'page', page: h };
     const m = h.match(/^([a-z0-9]+)(?:-(\d+|qeydler))?$/);
     if (!m || !byId[m[1]]) return { view: 'home' };
     if (m[2] === 'qeydler') return { view: 'notes', cid: m[1] };
@@ -514,6 +864,16 @@
   }
   async function route() {
     const r = parseHash();
+    stopSpeak();
+    if (askCtl) askCtl.abort();
+    if (r.view !== 'page' || r.page !== 'tekrar' || (rv && rv.finished)) rv = null;
+    if (r.view === 'page') {
+      curCid = null;
+      $('#courseView').hidden = true; $('#home').hidden = true; $('#pageView').hidden = false;
+      renderPage(r.page);
+      return;
+    }
+    $('#pageView').hidden = true;
     if (r.view === 'home') {
       curCid = null;
       $('#courseView').hidden = true; $('#home').hidden = false;
@@ -525,10 +885,17 @@
     $('#courseView').setAttribute('style', cvars(byId[r.cid]));
     await mount(r.cid);
     if (mounted !== r.cid || curCid !== r.cid) return;
-    if (r.view === 'notes') showNotes();
-    else showLesson(r.lesson == null ? prog[r.cid].last : r.lesson);
+    if (r.view === 'notes') { showNotes(); $('#askCard').hidden = true; return; }
+    showLesson(r.lesson == null ? prog[r.cid].last : r.lesson);
+    setupAsk(current);
+    if (pendingMark) {
+      const el = document.querySelector(`[data-bm="${pendingMark}"]`);
+      pendingMark = null;
+      if (el) { const blk = el.parentElement; setTimeout(() => { blk.scrollIntoView({ behavior: 'smooth', block: 'center' }); blk.classList.add('flash'); setTimeout(() => blk.classList.remove('flash'), 2200); }, 60); }
+    }
   }
   function refreshChrome() {
+    if (!$('#pageView').hidden) return;
     if (!curCid) renderHome(); else renderSide();
   }
   window.addEventListener('hashchange', route);
@@ -550,7 +917,9 @@
   (async () => {
     try {
       const r = await fetch('courses/catalog.json');
-      catalog = (await r.json()).courses || [];
+      const data = await r.json();
+      catalog = data.courses || [];
+      window.__paths = data.paths || [];
     } catch (e) {
       $('#shelf').innerHTML = '<div class="card">Kurs kataloqu yüklənmədi. Səhifəni yenilə.</div>';
       return;
@@ -558,5 +927,15 @@
     catalog.forEach(c => { byId[c.id] = c; loadLocal(c.id); });
     route();
     connect();
+    CARDS = await getJSON('data/cards.json');
+    CARD = {}; CARDS.forEach(c => { CARD[c.id] = c; });
+    catalog.forEach(c => Object.keys(prog[c.id].done).forEach(l => activateLesson(c.id, +l)));
+    checkBadges();
+    if (!$('#home').hidden) renderHome();
+    else if (!$('#pageView').hidden && /^(tekrar|sehvler)$/.test(location.hash.slice(1)) && !(rv && rv.ids.length)) { rv = null; route(); }
+    if (inClaude) {
+      try { sampleFn = await window.claude.use('sample'); } catch (e) { sampleFn = null; }
+      if (sampleFn && curCid && !notesMode) setupAsk(current);
+    }
   })();
 })();

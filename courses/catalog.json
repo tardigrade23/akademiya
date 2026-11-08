@@ -171,5 +171,62 @@
       },
       "added": "2026-11-08"
     }
+  ],
+  "paths": [
+    {
+      "id": "dusunce",
+      "icon": "🧠",
+      "title": "Düşüncənin təməli",
+      "desc": "Aydın düşünmək, arqumenti yoxlamaq və böyük suallar üzərində düşünmək.",
+      "courses": [
+        "mentiq",
+        "felsefe"
+      ]
+    },
+    {
+      "id": "silider",
+      "icon": "♛",
+      "title": "Sİ lideri",
+      "desc": "Sİ-ni anlamaqdan təşkilatda ona rəhbərlik etməyə qədər.",
+      "courses": [
+        "si",
+        "agent",
+        "caio",
+        "reqemsal"
+      ]
+    },
+    {
+      "id": "siproq",
+      "icon": "❯",
+      "title": "Sİ ilə proqramlaşdırma",
+      "desc": "Sİ-nin necə işlədiyini anlayıb onunla real layihələr qurmaq.",
+      "courses": [
+        "si",
+        "claudecode",
+        "agent"
+      ]
+    },
+    {
+      "id": "tehlukesizlik",
+      "icon": "🛡",
+      "title": "Təhlükəsizlik",
+      "desc": "Şifrələmənin riyaziyyatından gündəlik praktik müdafiəyə və kvant gələcəyinə.",
+      "courses": [
+        "kripto",
+        "kiber",
+        "kvant"
+      ]
+    },
+    {
+      "id": "gelecek",
+      "icon": "🚀",
+      "title": "Gələcəyin texnologiyaları",
+      "desc": "Kvant hesablamaları, kriptoqrafiya və süni intellekt bir yolda.",
+      "courses": [
+        "kvant",
+        "kripto",
+        "si"
+      ]
+    }
   ]
 }

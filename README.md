@@ -41,10 +41,19 @@ akademiya/
 - İrəliləyiş `db` capability ilə `data/users/<istifadəçi-id>/<kurs-id>` sənədində saxlanılır — bu bölmə başqalarından, hətta artifact sahibindən də gizlidir; cihazlar arasında sinxronlaşır.
 - Bulud əlçatan olmayanda hər şey brauzerin `localStorage`-ında saxlanılır və bulud qayıdanda birləşdirilir.
 
+## Öyrənmə alətləri
+
+- **Təkrar kartları** (`#tekrar`): hər dərsin testindən 3–5 kart; dərs tamamlananda aktivləşir, aralıqlar 1, 3, 7, 16, 35 gün. Səhv cavab kartı sabaha qaytarır.
+- **Səhvlərim** (`#sehvler`), **Əlfəcinlər** (`#elfecinler`, nümunə/qeyd bloklarındakı ☆), **Lüğət** (`#luget`, `data/glossary.json`), **Axtarış** (`#axtar`, `data/search.json`), **Statistika və nişanlar** (`#statistika`).
+- **Öyrənmə yolları**: `courses/catalog.json`-dakı `paths`.
+- **Şrift ölçüsü** (Aa), **səsli oxu** (🔊 Dinlə, brauzerin speechSynthesis-i; az səsi cihazdan asılıdır), **Claude-dan soruş** (yalnız claude.ai versiyasında).
+- Bu vəziyyət `localStorage`-da `akademiya:me` açarında saxlanılır və yedək faylına daxildir.
+- Kurs məzmunu dəyişəndə: `node tools/build_index.mjs` (kartları və axtarış indeksini yeniləyir).
+
 ## Dərc
 
 - Artifact: https://claude.ai/artifact/HmmZdg8oyvjiBU14uva5Kk (yenidən dərc edəndə bu URL-i `url` kimi ver)
-- capabilities: `{ db: {}, user: {} }`
+- capabilities: `{ db: {}, user: {}, sample: {} }` (`sample` — dərsdəki “Claude-dan soruş” üçün)
 
 ## Telefona quraşdırılan versiya (PWA)
 
