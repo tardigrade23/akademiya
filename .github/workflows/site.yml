@@ -24,4 +24,6 @@ jobs:
             code=$(curl -s -o /dev/null -w '%{http_code}' -L "$base$path")
             echo "$code $base$path"
           done
-          curl -s -I "https://tardigrade23.github.io/akademiya/" | head -20
+          for u in https://tardigrade23.github.io/ https://tardigrade23.github.io/Akademiya/ https://tardigrade23.github.io/akademiya/index.html http://tardigrade23.github.io/akademiya/ https://tardigrade23.github.io/digitalnation/ https://tardigrade23.github.io/DigitalNation/; do
+            echo "$(curl -s -o /tmp/b -w '%{http_code}' -L "$u") $u :: $(grep -o '<title>[^<]*' /tmp/b | head -1)"
+          done
