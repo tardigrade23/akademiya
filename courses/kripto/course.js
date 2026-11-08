@@ -93,9 +93,10 @@ LMS.registerCourse('kripto', function (api) {
       $('hsHB').innerHTML = [...b].map((ch, i) => ch === a[i] ? ch : `<span class="d">${ch}</span>`).join('');
       let bits = 0; for (let i = 0; i < 64; i += 2) { let x = parseInt(a.substr(i, 2), 16) ^ parseInt(b.substr(i, 2), 16); while (x) { bits += x & 1; x >>= 1; } }
       $('hsMsg').innerHTML = a === b ? '<div class="msg info">Mətnlər eynidir, hash-lər də eynidir: deterministiklik.</div>' : `<div class="msg ok">256 bitdən <b>${bits}</b>-i fərqlidir (${(bits / 2.56).toFixed(0)}%). İdeal hash-də bu, təxminən 50%-dir. Mətnlər arasında fərq bir simvol olsa belə, hash-lər tamam fərqlidir: uçqun effekti.</div>`;
-      if (a !== b) api.done(5);
+      if (a !== b && ready) api.done(5);
     }
-    $('hsA').oninput = draw; $('hsB').oninput = draw; draw();
+    let ready = false;
+    $('hsA').oninput = draw; $('hsB').oninput = draw; draw().then(() => { ready = true; });
   })();
 
   // ===== Diffie-Hellman =====

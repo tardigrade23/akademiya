@@ -435,6 +435,7 @@
     saveMe(); checkBadges();
   }
 
+  const glRow = g => `<div class="gl"><b>${esc(g.t)}</b><span>${esc(g.d)}</span>${g.n ? `<em class="gl-ex"><b>Nümunə:</b> ${esc(g.n)}</em>` : ''}<a href="#${g.c}-${g.l + 1}">${chip(g.c)}</a></div>`;
   async function pageGlossary(v) {
     v.innerHTML = '<div class="card">Lüğət yüklənir…</div>';
     const G = (await getJSON('data/glossary.json')).slice().sort((a, b) => a.t.localeCompare(b.t, 'az'));
@@ -443,10 +444,10 @@
     v.innerHTML = `<div class="card"><h2>📖 Lüğət</h2><p class="lead">${G.length} termin, hər biri öz dərsinə bağlıdır.</p>
       <input type="text" id="glQ" placeholder="Termin axtar…" style="font-family:var(--sans)"><div class="letters">${letters.map(l => `<a href="#luget" data-l="${esc(l)}">${esc(l)}</a>`).join('')}</div></div><div id="glList"></div>`;
     const draw = q => {
-      const f = fold(q || ''), list = G.filter(g => !f || fold(g.t + ' ' + g.d).includes(f));
+      const f = fold(q || ''), list = G.filter(g => !f || fold(g.t + ' ' + g.d + ' ' + (g.n || '')).includes(f));
       let cur = '', h = '';
       list.forEach(g => { const L = letter(g.t); if (L !== cur) { if (cur) h += '</div>'; cur = L; h += `<div class="card gl-sec" id="gl-${esc(L)}"><h3 class="gl-l">${esc(L)}</h3>`; }
-        h += `<div class="gl"><b>${esc(g.t)}</b><span>${esc(g.d)}</span><a href="#${g.c}-${g.l + 1}">${chip(g.c)}</a></div>`; });
+        h += glRow(g); });
       $('#glList').innerHTML = (h ? h + '</div>' : '<div class="card"><p>Heç nə tapılmadı.</p></div>');
     };
     $('#glQ').oninput = e => draw(e.target.value);
@@ -467,7 +468,7 @@
       const res = FS.map(r => { let n = 0, i = -1; while ((i = r.fx.indexOf(f, i + 1)) >= 0 && n < 50) n++; return [r, n + (r.ft.includes(f) ? 20 : 0)]; }).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]).slice(0, 30);
       const snip = r => { const i = r.fx.indexOf(f); if (i < 0) return esc(r.x.x.slice(0, 160)) + '…'; const a = Math.max(0, i - 70), b = Math.min(r.x.x.length, i + f.length + 90);
         return (a ? '…' : '') + esc(r.x.x.slice(a, i)) + '<mark>' + esc(r.x.x.slice(i, i + f.length)) + '</mark>' + esc(r.x.x.slice(i + f.length, b)) + (b < r.x.x.length ? '…' : ''); };
-      $('#srOut').innerHTML = (g.length ? `<div class="card"><h3>📖 Lüğətdə</h3>${g.map(x => `<div class="gl"><b>${esc(x.t)}</b><span>${esc(x.d)}</span><a href="#${x.c}-${x.l + 1}">${chip(x.c)}</a></div>`).join('')}</div>` : '') +
+      $('#srOut').innerHTML = (g.length ? `<div class="card"><h3>📖 Lüğətdə</h3>${g.map(glRow).join('')}</div>` : '') +
         (res.length ? `<div class="card"><h3>📚 Dərslərdə (${res.length})</h3>${res.map(([r]) => `<a class="sr" href="#${r.x.c}-${r.x.l + 1}"><div>${chip(r.x.c)} <b>${r.x.l + 1}. ${esc(r.x.t)}</b></div><p>${snip(r)}</p></a>`).join('')}</div>` : (g.length ? '' : '<div class="card"><p>Heç nə tapılmadı. Başqa söz sınayın.</p></div>'));
     };
     inp.oninput = () => { clearTimeout(t); t = setTimeout(run, 150); };
@@ -703,31 +704,37 @@
   }
 
   async function viewSummary(v, cid) {
-    const G = (await getJSON('data/glossary.json')).filter(g => g.c === cid);
+    const G = (await getJSON('data/glossary.json')).filter(g => g.c === cid), KEYS = (await getJSON('data/keys.json'))[cid] || [];
     if (curCid !== cid) return;
+    const withKeys = lsGet('akademiya:ksKeys') !== false;
     const c = byId[cid], p = prog[cid], HLN = { y: 'sarı', g: 'yaşıl', p: 'çəhrayı' };
     const own = Object.entries(me.own).filter(([, o]) => o.c === cid);
     let html = '', md = `# ${c.title}: konspekt\n\n_${new Date().toLocaleDateString('az')}_\n`, any = false;
     lessonEls.forEach((s, i) => {
       const note = p.notes[i], hl = (me.hl[cid + ':' + i] || []).slice().sort((a, b) => a.ts - b.ts), mk = me.marks.filter(m => m.c === cid && m.l === i);
-      if (!note && !hl.length && !mk.length) return;
-      any = true;
+      const ky = withKeys ? KEYS[i] || [] : [];
+      if (!note && !hl.length && !mk.length && !ky.length) return;
+      if (note || hl.length || mk.length) any = true;
       html += `<section class="ks"><h3><a href="#${cid}-${i + 1}">${i + 1}. ${esc(s.dataset.title)}</a></h3>
+        ${ky.length ? `<ul class="ks-keys">${ky.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
         ${note ? `<div class="ks-note"><b>📝 Qeydim</b><pre>${esc(note.t)}</pre></div>` : ''}
         ${hl.map(h => `<blockquote class="ks-hl hl-${h.c}">${esc(h.t)}</blockquote>`).join('')}
         ${mk.map(m => `<div class="ks-mk">📌 <b>${esc(m.tag)}</b>: ${esc(m.s)}</div>`).join('')}</section>`;
       md += `\n## ${i + 1}. ${s.dataset.title}\n`;
+      if (ky.length) md += '\n**Əsas fikirlər:**\n\n' + ky.map(t => `- ${t}`).join('\n') + '\n';
       if (note) md += `\n**Qeydim:**\n\n${note.t}\n`;
       hl.forEach(h => { md += `\n> ${h.t.replace(/\n/g, ' ')} _(${HLN[h.c]})_\n`; });
       mk.forEach(m => { md += `\n- 📌 **${m.tag}**: ${m.s}\n`; });
     });
     if (own.length) { html += `<section class="ks"><h3>🃏 Kartlarım</h3>${own.map(([, o]) => `<div class="ks-mk"><b>${esc(o.q)}</b><br>${esc(o.a)}</div>`).join('')}</section>`; md += '\n## Kartlarım\n'; own.forEach(([, o]) => { md += `\n- **${o.q}**: ${o.a}\n`; }); }
-    if (G.length) { html += `<section class="ks"><h3>📖 Kursun lüğəti</h3><dl class="ks-gl">${G.map(g => `<dt>${esc(g.t)}</dt><dd>${esc(g.d)}</dd>`).join('')}</dl></section>`; md += '\n## Lüğət\n'; G.forEach(g => { md += `\n- **${g.t}**: ${g.d}\n`; }); }
+    if (G.length) { html += `<section class="ks"><h3>📖 Kursun lüğəti</h3><dl class="ks-gl">${G.map(g => `<dt>${esc(g.t)}</dt><dd>${esc(g.d)}${g.n ? `<br><i>Nümunə: ${esc(g.n)}</i>` : ''}</dd>`).join('')}</dl></section>`; md += '\n## Lüğət\n'; G.forEach(g => { md += `\n- **${g.t}**: ${g.d}${g.n ? ` _Nümunə: ${g.n}_` : ''}\n`; }); }
     v.innerHTML = `<div class="card no-print"><h2>📄 Konspekt</h2><p class="lead">Bu kursdakı qeydləriniz, vurğuladığınız cümlələr, əlfəcinləriniz, öz kartlarınız və kursun lüğəti bir səhifədə.</p>
+      <label class="fb ks-tg"><input type="checkbox" id="ksKeys" ${withKeys ? 'checked' : ''}> Hər dərsin “Əsas fikirlər”ini də daxil et</label>
       <div class="row"><button class="btn" id="ksPrint">🖨️ Çap et / PDF</button><button class="btn ghost" id="ksCopy">📋 Kopyala (Markdown)</button>${inClaude ? '' : '<button class="btn ghost" id="ksDl">⬇️ .md faylı</button>'}</div>
       <p class="fb">Kopyaladığınız mətni Word, Google Docs, Notion və ya Obsidian-a yapışdıra bilərsiniz. PDF üçün çap pəncərəsində “PDF kimi saxla” seçin.</p>
-      ${any ? '' : '<p>Hələ bu kursda qeyd, vurğu və ya əlfəcin yoxdur. Dərsləri oxuyarkən cümlələri seçib vurğulayın, ☆ ilə blokları saxlayın, aşağıda qeyd yazın: hamısı burada toplanacaq.</p>'}</div>
+      ${any ? '' : '<p class="fb">Hələ bu kursda qeyd, vurğu və ya əlfəcin yoxdur. Dərsləri oxuyarkən cümlələri seçib vurğulayın, ☆ ilə blokları saxlayın, aşağıda qeyd yazın: hamısı burada toplanacaq.</p>'}</div>
       <div class="card konspekt"><h1 class="print-only">${esc(c.title)}: konspekt</h1>${html}</div>`;
+    $('#ksKeys').onchange = e => { lsSet('akademiya:ksKeys', e.target.checked); viewSummary(v, cid); };
     $('#ksPrint').onclick = () => { try { window.print(); } catch (e) { toast('Çap bu görünüşdə əlçatan deyil. Mətni kopyalayın.'); } };
     $('#ksCopy').onclick = async () => {
       try { await navigator.clipboard.writeText(md); toast('📋 Konspekt kopyalandı'); }
@@ -928,7 +935,7 @@
       host.innerHTML = await r.text();
       lessonEls = [...host.querySelectorAll('section.lesson')];
       lessonEls.forEach((s, i) => { s.dataset.idx = i; });
-      decorate(cid);
+      decorate(cid, (await getJSON('data/keys.json'))[cid] || []);
       mounted = cid;
       await loadScript(cid);
       registry[cid](makeApi(cid));
@@ -943,10 +950,15 @@
 
   // Lesson headers become coloured, illustrated heroes; example blocks get a colour by kind;
   // pictures get their licence credits and a graceful fallback when the file is missing.
-  function decorate(cid) {
+  function decorate(cid, keys) {
     const c = byId[cid], parts = c.parts || {}, host = $('#lessonHost');
     let part = '';
     lessonEls.forEach((s, i) => {
+      if (keys && keys[i] && keys[i].length) {
+        const k = document.createElement('div'); k.className = 'card keys-card';
+        k.innerHTML = `<h3>💡 Əsas fikirlər</h3><ul>${keys[i].map(t => `<li>${esc(t)}</li>`).join('')}</ul>`;
+        s.appendChild(k);
+      }
       if (parts[i]) part = parts[i];
       const card = s.querySelector('.card'), h2 = card && card.querySelector('h2');
       if (!h2) return;
