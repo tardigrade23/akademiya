@@ -27,3 +27,23 @@ jobs:
           for u in https://tardigrade23.github.io/ https://tardigrade23.github.io/Akademiya/ https://tardigrade23.github.io/akademiya/index.html http://tardigrade23.github.io/akademiya/ https://tardigrade23.github.io/digitalnation/ https://tardigrade23.github.io/DigitalNation/; do
             echo "$(curl -s -o /tmp/b -w '%{http_code}' -L "$u") $u :: $(grep -o '<title>[^<]*' /tmp/b | head -1)"
           done
+      - name: Open the live app in a real browser
+        run: |
+          cd "$RUNNER_TEMP"
+          npm init -y >/dev/null && npm i --silent playwright@1.48.2 >/dev/null && npx playwright install chromium >/dev/null
+          cat > check.js <<'JS'
+          const { chromium } = require('playwright');
+          (async () => {
+            const b = await chromium.launch(); const p = await b.newPage(); const errs = [];
+            p.on('pageerror', e => errs.push(e.message));
+            const base = 'https://tardigrade23.github.io/akademiya/';
+            await p.goto(base); await p.waitForSelector('#shelf .course-card', { timeout: 20000 });
+            console.log('home: courses', await p.$$eval('#shelf .course-card:not(.add)', a => a.length));
+            await p.goto(base + '#mentiq-1'); await p.waitForSelector('section.lesson.show .hero', { timeout: 20000 });
+            console.log('lesson ok, key ideas', await p.$$eval('#lessonHost .keys-card', a => a.length), 'reset button', !!(await p.$('#resetBtn')));
+            await p.reload(); await p.waitForTimeout(2000);
+            console.log('service worker active', await p.evaluate(() => !!navigator.serviceWorker.controller));
+            console.log('errors', JSON.stringify(errs)); await b.close();
+          })();
+          JS
+          node check.js
