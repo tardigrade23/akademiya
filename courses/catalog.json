@@ -204,6 +204,23 @@
     "14": "Yekun"
    },
    "added": "2026-11-08"
+  },
+  {
+   "id": "fantastika",
+   "title": "Elmi fantastika və elm",
+   "mark": "🚀",
+   "color": "#1b2a4a",
+   "color2": "#e0643c",
+   "ill": "rocket",
+   "lessons": 14,
+   "description": "Məşhur fantastik filmlər və onların arxasındakı real elm: “2001”, “Blade Runner”, “Matris”, “WarGames”, “Yura dövrü parkı”, “Ulduzlararası”, “Gəliş” və başqaları. Hər filmdə nə doğrudur, nə fantaziyadır və bu mövzu Sİ, məntiq, fəlsəfə, kvant, kripto və kiber kurslarının hansı dərsləri ilə bağlıdır.",
+   "parts": {
+    "0": "I hissə · Maşın və ağıl",
+    "4": "II hissə · Reallıq və informasiya",
+    "8": "III hissə · Təbiət, kosmos və dil",
+    "13": "Yekun"
+   },
+   "added": "2026-11-08"
   }
  ],
  "paths": [
@@ -216,7 +233,8 @@
     "mentiq",
     "felsefe",
     "hikmet",
-    "dinler"
+    "dinler",
+    "fantastika"
    ]
   },
   {

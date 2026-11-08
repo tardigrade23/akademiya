@@ -796,5 +796,72 @@
     "Neytral üslubda esse yazılıb"
    ]
   }
+ },
+ "fantastika": {
+  "reading": [
+   {
+    "k": "kitab",
+    "t": "Frankenşteyn",
+    "a": "Meri Şelli, 1818",
+    "n": "Elmi fantastikanın başlanğıcı. Kursun ilk dərsinin davamı."
+   },
+   {
+    "k": "kitab",
+    "t": "Do Androids Dream of Electric Sheep?",
+    "a": "Filip Dik, 1968",
+    "n": "“Blade Runner”in əsası. Romanda empatiya mövzusu filmdən də dərindir."
+   },
+   {
+    "k": "kitab",
+    "t": "Stories of Your Life and Others",
+    "a": "Ted Çan, 2002",
+    "n": "“Gəliş” filminin əsası olan hekayə və elmlə fəlsəfəni birləşdirən digər hekayələr."
+   },
+   {
+    "k": "kitab",
+    "t": "The Science of Interstellar",
+    "a": "Kip Torn, 2014",
+    "n": "Fizikin özü filmdəki hər səhnənin elmini izah edir."
+   },
+   {
+    "k": "kitab",
+    "t": "Kontakt",
+    "a": "Karl Saqan, 1985",
+    "n": "Romanın sonu filmdən fərqlidir və riyaziyyatla bağlı gözlənilməz kəşflə bitir."
+   },
+   {
+    "k": "onlayn",
+    "t": "Science & Entertainment Exchange",
+    "a": "ABŞ Milli Elmlər Akademiyası",
+    "u": "https://scienceandentertainmentexchange.org",
+    "n": "Kinematoqrafçıları alimlərlə tanış edən proqram. Filmlərin elmi məsləhətçiləri haqqında yazılar."
+   },
+   {
+    "k": "onlayn",
+    "t": "Insultingly Stupid Movie Physics",
+    "a": "Tom Rogers",
+    "u": "https://www.intuitor.com/moviephysics/",
+    "n": "Filmlərdəki fizika səhvlərini zarafatla təhlil edən köhnə, amma məşhur sayt."
+   }
+  ],
+  "project": {
+   "t": "Bir filmin elmi ekspertizası",
+   "g": "Sevdiyiniz fantastik filmi seçib onda nəyin elmə uyğun, nəyin fantaziya olduğunu yoxlamaq və onu Akademiyanın dərsləri ilə əlaqələndirmək.",
+   "s": [
+    "Bu kursda olmayan bir elmi fantastik film seçin.",
+    "Filmdəki 5 elmi və ya texnoloji iddianı yazın.",
+    "Hər biri üçün etibarlı mənbə tapın və “✅ elmə uyğun / ⚠️ qismən / ❌ fantaziya” qiyməti verin.",
+    "Filmin ən azı 3 mövzusunu Akademiyanın konkret dərsləri ilə əlaqələndirin.",
+    "Filmin elmdən daha çox nəyi “düzgün” tutduğu haqqında bir səhifə yazın: insan, cəmiyyət, etika."
+   ],
+   "d": "5 iddialıq ekspertiza cədvəli, 3 əlaqə və bir səhifəlik esse.",
+   "c": [
+    "Film seçilib",
+    "5 iddia mənbə ilə yoxlanıb",
+    "Hər iddiaya qiymət verilib",
+    "3 dərslə əlaqə var",
+    "Esse yazılıb"
+   ]
+  }
  }
 }

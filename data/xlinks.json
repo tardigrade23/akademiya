@@ -1076,5 +1076,306 @@
   "felsefe",
   5,
   "İnanc və bilik arasındakı fərq."
+ ],
+ [
+  "fantastika",
+  0,
+  "dinler",
+  4,
+  "Prometey: Meri Şellinin “Müasir Prometey”i."
+ ],
+ [
+  "fantastika",
+  0,
+  "hikmet",
+  3,
+  "Maşın nə edə bilər: Lavleys və Türinqin sualı."
+ ],
+ [
+  "fantastika",
+  0,
+  "si",
+  0,
+  "Sİ ideyasının ədəbi kökləri: Frankenşteyndən robota."
+ ],
+ [
+  "fantastika",
+  1,
+  "mentiq",
+  3,
+  "HAL-ın iki zidd əmri: ziddiyyət qanunu."
+ ],
+ [
+  "fantastika",
+  1,
+  "agent",
+  7,
+  "Agent nə vaxt “yox” deməlidir: HAL və qoruyucular."
+ ],
+ [
+  "fantastika",
+  1,
+  "si",
+  8,
+  "Məqsədin yanlış qoyulması: HAL-dan bugünkü Sİ-yə."
+ ],
+ [
+  "fantastika",
+  1,
+  "claudecode",
+  4,
+  "“Qapını aç” əmri: təhlükəli əməllərdən əvvəl icazə."
+ ],
+ [
+  "fantastika",
+  2,
+  "felsefe",
+  6,
+  "Replikantlar: ağıl, kimlik və yaddaş."
+ ],
+ [
+  "fantastika",
+  2,
+  "kiber",
+  1,
+  "CAPTCHA: maşının insanı yoxladığı Türinq testi."
+ ],
+ [
+  "fantastika",
+  3,
+  "si",
+  5,
+  "“Her”dəki Samanta bu gün böyük dil modelidir."
+ ],
+ [
+  "fantastika",
+  3,
+  "si",
+  7,
+  "ELIZA effekti: inandırıcı danışıq şüur deyil."
+ ],
+ [
+  "fantastika",
+  3,
+  "agent",
+  0,
+  "Samanta e-poçtları özü göndərir: agent nədir?"
+ ],
+ [
+  "fantastika",
+  3,
+  "caio",
+  4,
+  "Sİ yoldaşları və manipulyasiya riski: idarəetmə sualı."
+ ],
+ [
+  "fantastika",
+  4,
+  "felsefe",
+  2,
+  "Matris: Platonun mağarasının kino forması."
+ ],
+ [
+  "fantastika",
+  4,
+  "felsefe",
+  5,
+  "Dekartın aldadıcı demonu: biliyə necə əmin olaq?"
+ ],
+ [
+  "fantastika",
+  4,
+  "hikmet",
+  8,
+  "Çjuan-tszının kəpənəyi: yuxu, yoxsa reallıq?"
+ ],
+ [
+  "fantastika",
+  4,
+  "mentiq",
+  10,
+  "Simulyasiya fərziyyəsi təkzib oluna bilirmi?"
+ ],
+ [
+  "fantastika",
+  5,
+  "kiber",
+  0,
+  "“WarGames”dən sonra kiber təhdid ilk dəfə dövlət gündəminə çıxdı."
+ ],
+ [
+  "fantastika",
+  5,
+  "kiber",
+  1,
+  "Arxa qapı və masada yazılmış parol."
+ ],
+ [
+  "fantastika",
+  5,
+  "mentiq",
+  15,
+  "Sistem düşüncəsi: insanı prosesdən çıxarmaq."
+ ],
+ [
+  "fantastika",
+  6,
+  "kripto",
+  7,
+  "Sneakers-in qutusu RSA-nı sındırır."
+ ],
+ [
+  "fantastika",
+  6,
+  "kvant",
+  7,
+  "Şor alqoritmi filmdən iki il sonra gəldi."
+ ],
+ [
+  "fantastika",
+  6,
+  "kvant",
+  8,
+  "Kvant və kriptoqrafiya: “indi topla, sonra aç”."
+ ],
+ [
+  "fantastika",
+  6,
+  "kiber",
+  2,
+  "Səsi kəsib birləşdirmək: sosial mühəndislik."
+ ],
+ [
+  "fantastika",
+  7,
+  "mentiq",
+  16,
+  "Bayes: 99% dəqiq sistem niyə əsasən səhv edir?"
+ ],
+ [
+  "fantastika",
+  7,
+  "mentiq",
+  18,
+  "Prekoqların fikir ayrılığı: siqnal və küy."
+ ],
+ [
+  "fantastika",
+  7,
+  "si",
+  7,
+  "Qərəzli data: proqnozlaşdırıcı polis."
+ ],
+ [
+  "fantastika",
+  7,
+  "si",
+  8,
+  "Cinayətdən əvvəl cəza: etika sualı."
+ ],
+ [
+  "fantastika",
+  8,
+  "mentiq",
+  9,
+  "Malkolmun su damcısı: xaos nəzəriyyəsi."
+ ],
+ [
+  "fantastika",
+  8,
+  "mentiq",
+  15,
+  "Parkın çöküşü: bir-birinə bağlı zəifliklər."
+ ],
+ [
+  "fantastika",
+  8,
+  "kiber",
+  0,
+  "Nedri: daxili təhdid."
+ ],
+ [
+  "fantastika",
+  9,
+  "kvant",
+  1,
+  "Cazibə və kvant: həll olunmamış böyük sual."
+ ],
+ [
+  "fantastika",
+  9,
+  "mentiq",
+  10,
+  "Eynşteyn əvvəlcədən dedi, sonra ölçdülər."
+ ],
+ [
+  "fantastika",
+  9,
+  "hikmet",
+  4,
+  "Zaman: fəlsəfədən fizikaya."
+ ],
+ [
+  "fantastika",
+  10,
+  "dinler",
+  13,
+  "Elli sübutsuz təcrübə ilə qalır: inanc və ağıl."
+ ],
+ [
+  "fantastika",
+  10,
+  "mentiq",
+  18,
+  "Kosmik küydə siqnal axtarmaq."
+ ],
+ [
+  "fantastika",
+  10,
+  "kripto",
+  0,
+  "Naməlum mesajı oxumaq: kriptoqrafın işi."
+ ],
+ [
+  "fantastika",
+  11,
+  "hikmet",
+  1,
+  "Dilin sərhədi düşüncənin sərhədidirmi?"
+ ],
+ [
+  "fantastika",
+  11,
+  "si",
+  5,
+  "Tərcümə və bir sözün çox mənası."
+ ],
+ [
+  "fantastika",
+  11,
+  "hikmet",
+  9,
+  "“Kenquru” mifi: heç vaxt deyilməyən sözlər."
+ ],
+ [
+  "fantastika",
+  12,
+  "dinler",
+  1,
+  "Lukas və Kempbellin qəhrəman yolu."
+ ],
+ [
+  "fantastika",
+  12,
+  "si",
+  8,
+  "“Dyuna”: düşünən maşın yaratmaq qadağası."
+ ],
+ [
+  "fantastika",
+  12,
+  "felsefe",
+  9,
+  "Xarizmatik lider və ədalətli cəmiyyət."
  ]
 ]

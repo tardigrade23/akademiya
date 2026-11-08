@@ -618,5 +618,70 @@
 "t": "Dağüstü vəz",
 "en": "Sermon on the Mount",
 "c": "dinler"
+},
+{
+"t": "elmi fantastika",
+"en": "science fiction",
+"c": "fantastika"
+},
+{
+"t": "arxa qapı",
+"en": "backdoor",
+"c": "fantastika"
+},
+{
+"t": "sosial mühəndislik",
+"en": "social engineering",
+"c": "fantastika"
+},
+{
+"t": "baza tezliyi",
+"en": "base rate",
+"c": "fantastika"
+},
+{
+"t": "kəpənək effekti",
+"en": "butterfly effect",
+"c": "fantastika"
+},
+{
+"t": "ümumi nisbilik",
+"en": "general relativity",
+"c": "fantastika"
+},
+{
+"t": "simulyasiya fərziyyəsi",
+"en": "simulation hypothesis",
+"c": "fantastika"
+},
+{
+"t": "təcrübə maşını",
+"en": "experience machine",
+"c": "fantastika"
+},
+{
+"t": "ELIZA effekti",
+"en": "ELIZA effect",
+"c": "fantastika"
+},
+{
+"t": "Sapir–Uorf fərziyyəsi",
+"en": "Sapir–Whorf hypothesis",
+"c": "fantastika"
+},
+{
+"t": "qəhrəmanın yolu",
+"en": "hero's journey",
+"c": "fantastika"
+},
+{
+"t": "penetrasiya testi",
+"en": "penetration test",
+"c": "fantastika"
+},
+{
+"t": "daxili təhdid",
+"en": "insider threat",
+"c": "fantastika"
 }
 ]

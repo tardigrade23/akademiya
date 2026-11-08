@@ -643,5 +643,67 @@
    12,
    "kənardan baxış və əxlaq"
   ]
+ ],
+ "fantastika": [
+  [
+   0,
+   1,
+   "robotun üsyanından HAL-a"
+  ],
+  [
+   1,
+   3,
+   "danışan maşınlar"
+  ],
+  [
+   2,
+   3,
+   "maşın insanı aldada bilərmi?"
+  ],
+  [
+   2,
+   4,
+   "reallıq və kimlik"
+  ],
+  [
+   5,
+   6,
+   "kiber təhlükəsizlikdən kriptoqrafiyaya"
+  ],
+  [
+   6,
+   9,
+   "kvant: Şordan cazibəyə"
+  ],
+  [
+   7,
+   8,
+   "proqnoz və xaos"
+  ],
+  [
+   1,
+   5,
+   "insanı prosesdən çıxarmaq"
+  ],
+  [
+   10,
+   11,
+   "yad mesajı oxumaq"
+  ],
+  [
+   9,
+   10,
+   "kosmos və elmi metod"
+  ],
+  [
+   0,
+   12,
+   "mif və texnologiya"
+  ],
+  [
+   4,
+   10,
+   "sübut və inam"
+  ]
  ]
 }
