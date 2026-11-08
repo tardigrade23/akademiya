@@ -1,0 +1,27 @@
+name: Check live site
+
+# Requests the published GitHub Pages site and prints the HTTP status of its main files.
+# Run it by hand from the Actions tab.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pages settings
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/${{ github.repository }}/pages || true
+      - name: Request site files
+        run: |
+          base="https://tardigrade23.github.io/akademiya"
+          for path in "" "/" "/index.html" "/lms.js" "/sw.js" "/manifest.webmanifest" "/courses/catalog.json" "/data/keys.json"; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -L "$base$path")
+            echo "$code $base$path"
+          done
+          curl -s -I "https://tardigrade23.github.io/akademiya/" | head -20
