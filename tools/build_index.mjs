@@ -1,6 +1,6 @@
 // Kurslardan təkrar kartları və axtarış indeksi yaradır:
 //   node tools/build_index.mjs
-// Nəticə: data/cards.json (hər dərsdən 3–5 kart, dərsin testindən) və data/search.json (dərslərin mətni).
+// Nəticə: data/map.json (kurs xəritəsi), data/cards.json (hər dərsdən 3–5 kart, dərsin testindən) və data/search.json (dərslərin mətni).
 // Kurs məzmunu dəyişəndə yenidən işə salın.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -49,7 +49,37 @@ for (const c of catalog) {
     }));
   });
 }
+// Kurs xəritəsi: dərs A-da izah olunan lüğət termini sonrakı dərs B-də işlənirsə, A → B əlaqəsi yaranır.
+const fold = s => s.toLocaleLowerCase('az').replace(/[əıöüşçğ]/g, ch => ({ 'ə': 'e', 'ı': 'i', 'ö': 'o', 'ü': 'u', 'ş': 's', 'ç': 'c', 'ğ': 'g' }[ch]));
+const glossary = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/glossary.json'), 'utf8'));
+const manual = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/links.json'), 'utf8'));
+const map = {};
+for (const c of catalog) {
+  const lessons = search.filter(x => x.c === c.id), edges = {};
+  const terms = glossary.filter(g => g.c === c.id).map(g => ({ t: g.t, l: g.l, keys: g.t.split(/\s*[(/]\s*/)[0].split(/\s*,\s*/).map(k => fold(k.replace(/[)“”"]/g, '').trim())).filter(k => k.length >= 3) }));
+  for (const g of terms) lessons.forEach(x => {
+    if (x.l <= g.l || /yekun/i.test(x.t)) return;
+    const txt = fold(x.x);
+    if (g.keys.some(k => txt.includes(k))) (edges[g.l + '>' + x.l] = edges[g.l + '>' + x.l] || []).push(g.t);
+  });
+  map[c.id] = {
+    terms: Object.fromEntries(lessons.map(x => [x.l, terms.filter(g => g.l === x.l).map(g => g.t)]).filter(([, v]) => v.length)),
+    edges: [],
+  };
+  const seen = new Set();
+  for (const [a, b, why] of manual[c.id] || []) {
+    const [x, y] = a < b ? [a, b] : [b, a];
+    if (y >= lessons.length || seen.has(x + '>' + y)) throw new Error(`${c.id}: səhv əlaqə ${a}-${b}`);
+    seen.add(x + '>' + y); map[c.id].edges.push([x, y, why]);
+  }
+  for (const [k, v] of Object.entries(edges)) {
+    const [a, b] = k.split('>').map(Number);
+    if (b - a > 1 && !seen.has(k)) { seen.add(k); map[c.id].edges.push([a, b, 'termin: ' + v.slice(0, 2).join(', ')]); }
+  }
+}
 fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
+fs.writeFileSync(path.join(ROOT, 'data/map.json'), JSON.stringify(map));
 fs.writeFileSync(path.join(ROOT, 'data/cards.json'), JSON.stringify(cards));
 fs.writeFileSync(path.join(ROOT, 'data/search.json'), JSON.stringify(search));
+console.log('xəritə əlaqələri:', Object.entries(map).map(([k, v]) => k + ' ' + v.edges.length).join(', '));
 console.log(`kartlar: ${cards.length}, axtarış: ${search.length} dərs, ${(JSON.stringify(search).length / 1024).toFixed(0)} KB`);

@@ -57,7 +57,7 @@
   }
 
   // ---------- şəxsi öyrənmə vəziyyəti: kartlar, səhvlər, aktivlik, nişanlar, əlfəcinlər ----------
-  const me = Object.assign({ cards: {}, miss: {}, log: {}, acc: {}, badges: {}, marks: [], reviews: 0, perfect: {} }, lsGet('akademiya:me') || {});
+  const me = Object.assign({ cards: {}, miss: {}, log: {}, acc: {}, badges: {}, marks: [], reviews: 0, perfect: {}, hl: {}, own: {}, proj: {} }, lsGet('akademiya:me') || {});
   const saveMe = () => lsSet('akademiya:me', me);
   const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return dayKey(d); };
   const INT = [0, 1, 3, 7, 16, 35]; // aralıqlı təkrar: səviyyəyə görə günlər
@@ -69,6 +69,7 @@
     else { c.b = 0; c.due = addDays(1); }
   }
   function recordAnswer(cid, id, ok, snap) {
+    if (CARD[id] && CARD[id].own) { schedule(id, ok); logAct(); saveMe(); checkBadges(); return; }
     const a = me.acc[cid] || (me.acc[cid] = [0, 0]); a[1]++; if (ok) a[0]++;
     if (CARD[id]) schedule(id, ok);
     if (!ok) me.miss[id] = Object.assign({ ts: Date.now(), fixed: false }, CARD[id] ? {} : { d: snap });
@@ -104,6 +105,9 @@
       ['perfect', '💯', 'Mükəmməl', 'Yekun imtahanı səhvsiz keç', s => s.perfect >= 1],
       ['fix10', '🩹', 'Səhvlərdən öyrənən', '10 səhvi düzəlt', s => s.fixed >= 10],
       ['mark', '📌', 'Kolleksiyaçı', 'İlk əlfəcini əlavə et', s => s.marks >= 1],
+      ['proj', '🛠️', 'Praktik', 'İlk praktiki layihəni tamamla', s => s.proj >= 1],
+      ['own10', '🃏', 'Kart ustası', '10 öz kartını yarat', s => s.own >= 10],
+      ['hl10', '🖍️', 'Diqqətli oxucu', '10 cümləni vurğula', s => s.hl >= 10],
       ['kk', '🧩', 'Tapmaca ustası', 'Bütün cəngavər-yalançı tapmacalarını həll et', s => s.kk >= 5],
     ];
     catalog.forEach(c => { const [ic, n] = COURSE_BADGES[c.id] || ['🎖️', c.title]; L.push(['c-' + c.id, ic, n, `“${c.title}” kursunu bitir`, s => s.done[c.id]]); });
@@ -114,7 +118,8 @@
     return {
       lessons: catalog.reduce((s, c) => s + doneCount(c.id), 0), courses: Object.values(done).filter(Boolean).length, totalCourses: catalog.length,
       streak: streak(), reviews: me.reviews || 0, mastered: Object.values(me.cards).filter(c => c.b >= 3).length, perfect: Object.keys(me.perfect).length,
-      fixed: Object.values(me.miss).filter(m => m.fixed).length, marks: me.marks.length, kk: Object.keys(((prog.mentiq || {}).extra || {}).kk || {}).length, done,
+      fixed: Object.values(me.miss).filter(m => m.fixed).length, marks: me.marks.length, proj: Object.values(me.proj).filter(x => x.done).length, own: Object.keys(me.own).length,
+      hl: Object.values(me.hl).reduce((n, a) => n + a.length, 0), kk: Object.keys(((prog.mentiq || {}).extra || {}).kk || {}).length, done,
     };
   }
   function checkBadges() {
@@ -274,7 +279,7 @@
         : active ? `<div class="what">Bu gün üçün təkrar yoxdur 🎉</div><div class="sub">${active} kart yaddaşınızdadır. Növbəti təkrar: ${nextDue()}</div>`
         : '<div class="what">Hələ kart yoxdur</div><div class="sub">Dərsləri tamamladıqca və testləri cavablandırdıqca hər dərsdən 3–5 təkrar kartı yaranacaq.</div>'}</div>
       ${due ? '<a class="btn" href="#tekrar">Təkrara başla →</a>' : miss ? '<a class="btn ghost" href="#sehvler">Səhvləri təkrarla</a>' : ''}</div>`;
-    const tiles = [['sehvler', '🩹', 'Səhvlərim', miss], ['elfecinler', '📌', 'Əlfəcinlər', me.marks.length], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : ''], ['axtar', '🔍', 'Axtarış', '']];
+    const tiles = [['kartlarim', '🃏', 'Kartlarım', Object.keys(me.own).length || ''], ['sehvler', '🩹', 'Səhvlərim', miss], ['elfecinler', '📌', 'Əlfəcinlər', me.marks.length], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : ''], ['axtar', '🔍', 'Axtarış', '']];
     $('#quickBox').innerHTML = tiles.map(([h, ic, n, c]) => `<a class="qt" href="#${h}"><span class="qi">${ic}</span><span>${n}</span>${c !== '' && c != null ? `<b>${c}</b>` : ''}</a>`).join('');
   }
   function nextDue() {
@@ -298,7 +303,7 @@
   }
 
   // ---------- səhifələr: təkrar, səhvlər, əlfəcinlər, lüğət, statistika, axtarış ----------
-  const PAGES = { tekrar: 'Bugünkü təkrar', sehvler: 'Səhvlərim', elfecinler: 'Əlfəcinlər', luget: 'Lüğət', statistika: 'Statistika', axtar: 'Axtarış' };
+  const PAGES = { tekrar: 'Bugünkü təkrar', kartlarim: 'Kartlarım', sehvler: 'Səhvlərim', elfecinler: 'Əlfəcinlər', luget: 'Lüğət', statistika: 'Statistika', axtar: 'Axtarış' };
   const loaded = {};
   const getJSON = f => loaded[f] || (loaded[f] = fetch(f).then(r => r.ok ? r.json() : []).catch(() => []));
   const chip = cid => byId[cid] ? `<span class="cchip" style="${cvars(byId[cid])}">${esc(byId[cid].title)}</span>` : '';
@@ -309,7 +314,7 @@
   function renderPage(page) {
     const v = $('#pageView');
     $('#crumb').innerHTML = `<b>${PAGES[page]}</b>`;
-    ({ tekrar: pageReview, sehvler: pageMistakes, elfecinler: pageMarks, luget: pageGlossary, statistika: pageStats, axtar: pageSearch })[page](v);
+    ({ tekrar: pageReview, kartlarim: pageOwn, sehvler: pageMistakes, elfecinler: pageMarks, luget: pageGlossary, statistika: pageStats, axtar: pageSearch })[page](v);
     window.scrollTo({ top: 0 });
   }
   function startReview(mode) { reviewMode = mode; rv = null; if (location.hash === '#tekrar') renderPage('tekrar'); else location.hash = 'tekrar'; }
@@ -343,6 +348,7 @@
     }
     const id = rv.ids[rv.i], c = cardData(id);
     if (!c) { rv.i++; return pageReview(v); }
+    if (c.own) return reviewOwn(v, id, c);
     const order = shuffle(c.o.map((t, k) => k));
     const lvl = me.cards[id] ? me.cards[id].b : 0;
     v.innerHTML = `<div class="rv-top"><span>${rv.i + 1} / ${rv.ids.length}</span><div class="meter"><i style="width:${rv.i / rv.ids.length * 100}%"></i></div><span>✓ ${rv.ok}</span></div>
@@ -366,6 +372,32 @@
     $('#rvGo').onclick = () => { rv.i++; rv.answered = false; pageReview(v); window.scrollTo({ top: 0 }); };
   }
 
+  function reviewOwn(v, id, c) {
+    const lvl = me.cards[id] ? me.cards[id].b : 0;
+    v.innerHTML = `<div class="rv-top"><span>${rv.i + 1} / ${rv.ids.length}</span><div class="meter"><i style="width:${rv.i / rv.ids.length * 100}%"></i></div><span>✓ ${rv.ok}</span></div>
+      <div class="card rv" style="${byId[c.c] ? cvars(byId[c.c]) : ''}">
+        <div class="rv-meta">${chip(c.c)}<span class="fb">🃏 öz kartım · səviyyə ${lvl}/5</span></div>
+        <div class="rv-q">${esc(c.q)}</div>
+        <div class="row" id="rvShowR"><button class="btn" id="rvShow">Cavabı göstər</button></div>
+        <div class="rv-ans" id="rvAns" hidden><div>${esc(c.a)}</div>
+          <p class="fb">Cavabı düzgün xatırladınızmı?</p>
+          <div class="row"><button class="btn ok" id="rvYes">✓ Bildim</button><button class="btn ghost" id="rvNo">✗ Bilmədim</button></div></div>
+        <div class="fb" id="rvFb"></div>
+        <div class="row" id="rvNext" hidden><button class="btn" id="rvGo">Növbəti →</button>${c.c && c.l >= 0 ? `<a class="btn ghost" href="#${c.c}-${c.l + 1}">Dərsə keç</a>` : ''}</div>
+      </div>`;
+    $('#rvShow').onclick = () => { $('#rvShowR').hidden = true; $('#rvAns').hidden = false; $('#rvYes').focus(); };
+    const grade = ok => {
+      if (rv.answered) return; rv.answered = true; if (ok) rv.ok++;
+      me.reviews = (me.reviews || 0) + 1; recordAnswer(c.c, id, ok, c);
+      $('#rvAns').querySelector('.row').hidden = true; $('#rvAns').querySelector('.fb').hidden = true;
+      const nb = me.cards[id];
+      $('#rvFb').innerHTML = `${ok ? '✅' : '🔁'} Növbəti dəfə: ${nb.due === addDays(1) ? 'sabah' : Math.round((new Date(nb.due + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 864e5) + ' gün sonra'}`;
+      $('#rvNext').hidden = false; $('#rvGo').focus();
+    };
+    $('#rvYes').onclick = () => grade(true); $('#rvNo').onclick = () => grade(false);
+    $('#rvGo').onclick = () => { rv.i++; rv.answered = false; pageReview(v); window.scrollTo({ top: 0 }); };
+  }
+
   function pageMistakes(v, showFixed) {
     const ids = Object.keys(me.miss).filter(id => cardData(id) && (showFixed || !me.miss[id].fixed)).sort((a, b) => me.miss[b].ts - me.miss[a].ts);
     const open = openMiss().length;
@@ -385,6 +417,9 @@
       (me.marks.length ? Object.entries(groups).map(([cid, list]) => `<div class="card"><h3>${chip(cid)}</h3>${list.map(m => `<div class="mk"><div><b>${esc(m.tag)}</b> <span class="fb">· ${esc(m.t)}</span><p>${esc(m.s)}</p></div>
         <div class="row"><button class="btn ghost mk-open" data-id="${esc(m.id)}">Aç</button><button class="iconbtn mk-del" data-id="${esc(m.id)}" title="Sil">✕</button></div></div>`).join('')}</div>`).join('')
         : '<div class="card"><p>Hələ əlfəcin yoxdur.</p></div>');
+    const hls = Object.entries(me.hl).flatMap(([k, a]) => a.map(h => [k.split(':')[0], +k.split(':')[1], h])).filter(([c]) => byId[c]).sort((a, b) => b[2].ts - a[2].ts);
+    if (hls.length) v.insertAdjacentHTML('beforeend', `<div class="card"><h3>🖍️ Vurğuladığım cümlələr (${hls.length})</h3>${hls.map(([c, l, h]) => `<a class="sr" href="#${c}-${l + 1}"><div>${chip(c)} <span class="fb">${l + 1}. ${esc(h.lt || '')}</span></div><blockquote class="ks-hl hl-${h.c}">${esc(h.t)}</blockquote></a>`).join('')}
+      <p class="fb">Kurs üzrə hamısını bir yerdə görmək üçün kursun yan panelindəki “📄 Konspekt”ə keçin.</p></div>`);
     v.querySelectorAll('.mk-open').forEach(b => b.onclick = () => { const m = me.marks.find(x => x.id === b.dataset.id); pendingMark = m.id; location.hash = `${m.c}-${m.l + 1}`; });
     v.querySelectorAll('.mk-del').forEach(b => b.onclick = () => { me.marks = me.marks.filter(x => x.id !== b.dataset.id); saveMe(); pageMarks(v); });
   }
@@ -455,6 +490,285 @@
         ${accs.length > 1 ? `<p>💪 Ən güclü: <b>${esc(accs[0][0].title)}</b> · 🎯 Diqqət tələb edir: <b>${esc(accs[accs.length - 1][0].title)}</b></p>` : ''}` : '<p class="fb">Dəqiqlik ən azı 5 cavabdan sonra görünəcək.</p>'}</div>
       <div class="card"><h3>Kurslar üzrə irəliləyiş</h3>${catalog.map(c => `<div class="acc"><span>${esc(c.title)}</span><div class="t"><i style="width:${pctOf(c.id)}%;${cvars(c)}"></i></div><b>${pctOf(c.id)}%</b><small>${doneCount(c.id)} / ${c.lessons}</small></div>`).join('')}</div>
       <div class="card"><h3>🏅 Nişanlar (${earned} / ${badgeList().length})</h3><div class="bdg">${badgeList().map(([id, ic, n, d]) => `<div class="${me.badges[id] ? 'on' : ''}"><span>${ic}</span><b>${esc(n)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>`;
+  }
+
+
+  // ---------- öz kartlarım ----------
+  const ownCard = (id, o) => ({ id, own: true, c: o.c || '', l: o.l == null ? -1 : o.l, t: o.t || 'Öz kartım', q: o.q, a: o.a, ts: o.ts });
+  function syncOwn() { Object.entries(me.own).forEach(([id, o]) => { CARD[id] = ownCard(id, o); }); }
+  function cardDialog(pre, editId) {
+    const old = $('#cardDlg'); if (old) old.remove();
+    const o = editId ? me.own[editId] : (pre || {});
+    const d = document.createElement('div'); d.id = 'cardDlg'; d.className = 'dlg';
+    d.innerHTML = `<div class="dlg-box card" role="dialog" aria-modal="true" aria-labelledby="cdT"><h3 id="cdT">${editId ? '✏️ Kartı dəyiş' : '🃏 Yeni kart'}</h3>
+      <label class="fl">Sual və ya termin<textarea id="cdQ" placeholder="Məsələn: Entimem nədir?">${esc(o.q || '')}</textarea></label>
+      <label class="fl">Cavab<textarea id="cdA" placeholder="Qısa və aydın cavab">${esc(o.a || '')}</textarea></label>
+      <label class="fl">Kurs<select id="cdC"><option value="">Ümumi (kursa bağlı deyil)</option>${catalog.map(c => `<option value="${c.id}" ${o.c === c.id ? 'selected' : ''}>${esc(c.title)}</option>`).join('')}</select></label>
+      <div class="row"><button class="btn" id="cdSave">Saxla</button><button class="btn ghost" id="cdX">Ləğv et</button></div></div>`;
+    document.body.appendChild(d);
+    const close = () => d.remove();
+    d.onclick = e => { if (e.target === d) close(); };
+    d.onkeydown = e => { if (e.key === 'Escape') close(); };
+    $('#cdX').onclick = close;
+    $('#cdSave').onclick = () => {
+      const q = $('#cdQ').value.trim(), a = $('#cdA').value.trim(), c = $('#cdC').value;
+      if (!q || !a) { toast('Sual və cavabı yazın'); (!q ? $('#cdQ') : $('#cdA')).focus(); return; }
+      const keep = c && c === o.c && o.l != null && o.l >= 0;
+      const rec = { q: q.slice(0, 600), a: a.slice(0, 1200), c, l: keep ? o.l : -1, t: keep ? o.t : (c ? 'Öz kartım' : 'Ümumi'), ts: Date.now() };
+      const id = editId || 'own:' + Date.now().toString(36);
+      me.own[id] = rec; CARD[id] = ownCard(id, rec);
+      if (!me.cards[id]) me.cards[id] = { b: 0, due: today() };
+      saveMe(); checkBadges(); close();
+      toast(editId ? 'Kart yeniləndi' : '🃏 Kart əlavə olundu: sabah təkrara düşəcək');
+      if (!$('#pageView').hidden && location.hash === '#kartlarim') renderPage('kartlarim');
+    };
+    setTimeout(() => (o.q ? $('#cdA') : $('#cdQ')).focus(), 30);
+  }
+  function pageOwn(v) {
+    const ids = Object.keys(me.own).sort((a, b) => me.own[b].ts - me.own[a].ts);
+    v.innerHTML = `<div class="card"><h2>🃏 Kartlarım</h2><p class="lead">Kitabdan, işdən və ya dərslərdən öyrəndiyiniz hər şeyi kart edin. Kartlar digərləri kimi 1, 3, 7, 16, 35 gün aralıqla təkrara qayıdır.</p>
+      <div class="row"><button class="btn" id="ownNew">+ Yeni kart</button>${ids.length ? `<span class="fb">${ids.length} kart</span>` : ''}</div>
+      <p class="fb">İpucu: dərsdə istənilən cümləni seçib aşağıdakı paneldə “Kart” düyməsinə bassanız, kart həmin mətnlə hazır açılır.</p></div>` +
+      (ids.length ? `<div class="card">${ids.map(id => { const o = me.own[id], s = me.cards[id] || { b: 0, due: today() }; return `<div class="mk"><div>${o.c ? chip(o.c) + ' ' : ''}<b>${esc(o.q)}</b><p>${esc(o.a)}</p>
+        <span class="fb">səviyyə ${s.b}/5 · növbəti: ${s.due <= today() ? 'bu gün' : esc(s.due)}</span></div>
+        <div class="row"><button class="iconbtn own-ed" data-id="${id}" title="Dəyiş" aria-label="Dəyiş">✏️</button><button class="iconbtn own-del" data-id="${id}" title="Sil" aria-label="Sil">✕</button></div></div>`; }).join('')}</div>`
+        : '<div class="card"><p>Hələ öz kartınız yoxdur.</p></div>');
+    $('#ownNew').onclick = () => cardDialog();
+    v.querySelectorAll('.own-ed').forEach(b => b.onclick = () => cardDialog(null, b.dataset.id));
+    v.querySelectorAll('.own-del').forEach(b => b.onclick = () => {
+      if (!confirm('Bu kart silinsin?')) return;
+      const id = b.dataset.id; delete me.own[id]; delete me.cards[id]; delete me.miss[id]; delete CARD[id]; saveMe(); pageOwn(v);
+    });
+  }
+
+  // ---------- mətndə vurğulama ----------
+  const HL_SKIP = '.quiz, button, input, textarea, select, label, svg, script, style, .bm, .tts, .kicker, .credit, .out, .res, .msg, .fb, .score, [id]';
+  const HL_COLORS = { y: 'Sarı', g: 'Yaşıl', p: 'Çəhrayı' };
+  function textNodes(sec) {
+    const out = [], w = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT, {
+      acceptNode: n => { const p = n.parentElement; if (!p || !n.nodeValue) return NodeFilter.FILTER_REJECT; const sk = p.closest(HL_SKIP); return sk && sk !== sec && sec.contains(sk) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; },
+    });
+    let n, off = 0; while ((n = w.nextNode())) { out.push({ n, off }); off += n.nodeValue.length; }
+    return { nodes: out, text: out.map(x => x.n.nodeValue).join('') };
+  }
+  function wrapHl(sec, start, end, h) {
+    const { nodes } = textNodes(sec);
+    nodes.forEach(({ n, off }) => {
+      const len = n.nodeValue.length, s = Math.max(start, off), e = Math.min(end, off + len);
+      if (s >= e) return;
+      let t = n; if (s > off) t = t.splitText(s - off); if (e < off + len) t.splitText(e - s);
+      if (!t.nodeValue.trim()) return;
+      const m = document.createElement('mark'); m.className = 'hl hl-' + h.c; m.dataset.hl = h.id;
+      t.parentNode.insertBefore(m, t); m.appendChild(t);
+    });
+  }
+  function applyHl(sec, h) {
+    const { text } = textNodes(sec);
+    let i = h.p ? text.indexOf(h.p + h.t) : -1;
+    i = i >= 0 ? i + h.p.length : text.indexOf(h.t);
+    if (i >= 0) wrapHl(sec, i, i + h.t.length, h);
+  }
+  function restoreHl(cid) { lessonEls.forEach((s, l) => (me.hl[cid + ':' + l] || []).forEach(h => applyHl(s, h))); }
+  function unwrapHl(id) { document.querySelectorAll(`mark.hl[data-hl="${id}"]`).forEach(m => { const p = m.parentNode; while (m.firstChild) p.insertBefore(m.firstChild, m); m.remove(); p.normalize(); }); }
+  let hlState = null;
+  const hlBar = document.createElement('div'); hlBar.className = 'hlbar'; hlBar.hidden = true;
+  hlBar.innerHTML = Object.entries(HL_COLORS).map(([k, n]) => `<button class="sw hl-${k}" data-c="${k}" title="${n}" aria-label="${n} vurğula"></button>`).join('') +
+    '<button class="hb" data-act="card">🃏 Kart</button><button class="hb" data-act="del" hidden>🗑 Sil</button><button class="hb" data-act="x" aria-label="Bağla">✕</button>';
+  document.body.appendChild(hlBar);
+  hlBar.addEventListener('mousedown', e => e.preventDefault());
+  function showBar(st) { hlState = st; hlBar.hidden = false; hlBar.querySelector('[data-act="del"]').hidden = st.mode !== 'edit'; hlBar.querySelectorAll('.sw').forEach(b => b.classList.toggle('on', st.mode === 'edit' && st.h.c === b.dataset.c)); }
+  function hideBar() { hlBar.hidden = true; hlState = null; }
+  function selInfo() {
+    const sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount || !curCid || notesMode) return null;
+    const r = sel.getRangeAt(0), sec = lessonEls[current];
+    if (!sec || !sec.classList.contains('show') || !sec.contains(r.commonAncestorContainer)) return null;
+    const { nodes, text } = textNodes(sec);
+    let start = -1, end = -1;
+    nodes.forEach(({ n, off }) => {
+      if (!r.intersectsNode(n)) return;
+      const s = off + (n === r.startContainer ? r.startOffset : 0), e = off + (n === r.endContainer ? r.endOffset : n.nodeValue.length);
+      if (e <= s) return; if (start < 0) start = s; end = e;
+    });
+    if (start < 0) return null;
+    while (start < end && /\s/.test(text[start])) start++;
+    while (end > start && /\s/.test(text[end - 1])) end--;
+    const t = text.slice(start, end); if (t.length < 2 || t.length > 1500) return null;
+    return { mode: 'new', sec, l: current, start, end, t, p: text.slice(Math.max(0, start - 24), start) };
+  }
+  let selT;
+  document.addEventListener('selectionchange', () => { clearTimeout(selT); selT = setTimeout(() => { const s = selInfo(); if (s) showBar(s); else if (hlState && hlState.mode === 'new') hideBar(); }, 220); });
+  document.addEventListener('click', e => {
+    const m = e.target.closest && e.target.closest('mark.hl');
+    if (m && curCid) { const key = curCid + ':' + current, h = (me.hl[key] || []).find(x => x.id === m.dataset.hl); if (h) { showBar({ mode: 'edit', h, key }); return; } }
+    if (hlState && hlState.mode === 'edit' && !e.target.closest('.hlbar')) hideBar();
+  });
+  hlBar.onclick = e => {
+    const b = e.target.closest('button'); if (!b || !hlState) return;
+    const st = hlState;
+    if (b.dataset.c) {
+      if (st.mode === 'new') {
+        const key = curCid + ':' + st.l, h = { id: 'h' + Date.now().toString(36), t: st.t, p: st.p, c: b.dataset.c, ts: Date.now(), lt: st.sec.dataset.title || '' };
+        (me.hl[key] = me.hl[key] || []).push(h); wrapHl(st.sec, st.start, st.end, h);
+        window.getSelection().removeAllRanges(); logAct(); toast('🖍️ Vurğulandı');
+      } else { st.h.c = b.dataset.c; document.querySelectorAll(`mark.hl[data-hl="${st.h.id}"]`).forEach(m => { m.className = 'hl hl-' + st.h.c; }); }
+      saveMe(); checkBadges(); hideBar();
+    } else if (b.dataset.act === 'del' && st.mode === 'edit') {
+      me.hl[st.key] = me.hl[st.key].filter(x => x.id !== st.h.id); if (!me.hl[st.key].length) delete me.hl[st.key];
+      unwrapHl(st.h.id); saveMe(); hideBar(); toast('Vurğu silindi');
+    } else if (b.dataset.act === 'card') {
+      const t = st.mode === 'new' ? st.t : st.h.t, l = st.mode === 'new' ? st.l : +st.key.split(':')[1];
+      window.getSelection().removeAllRanges(); hideBar();
+      cardDialog({ a: t, c: curCid, l, t: lessonEls[l] ? lessonEls[l].dataset.title : '' });
+    } else { window.getSelection().removeAllRanges(); hideBar(); }
+  };
+
+  // ---------- telefonda sürüşdürmə ----------
+  (() => {
+    const host = $('#lessonHost'); let sx = 0, sy = 0, st = 0, ok = false;
+    host.addEventListener('animationend', () => host.classList.remove('sw-l', 'sw-r'));
+    const scrollable = el => { for (let e = el; e && e !== host; e = e.parentElement) if (e.scrollWidth > e.clientWidth + 2 && /(auto|scroll)/.test(getComputedStyle(e).overflowX)) return true; return false; };
+    host.addEventListener('touchstart', e => {
+      const t = e.touches[0]; ok = e.touches.length === 1 && !e.target.closest('input, textarea, select, svg, canvas, .sorter, .ord, .puzzles, [draggable], .quiz') && !scrollable(e.target);
+      sx = t.clientX; sy = t.clientY; st = Date.now();
+    }, { passive: true });
+    host.addEventListener('touchend', e => {
+      if (!ok || !curCid || notesMode) return; ok = false;
+      const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) < 70 || Math.abs(dy) > Math.abs(dx) * 0.5 || Date.now() - st > 700) return;
+      const s = window.getSelection(); if (s && !s.isCollapsed) return;
+      const to = current + (dx < 0 ? 1 : -1);
+      if (to < 0 || to >= lessonEls.length) { toast(to < 0 ? 'Bu, ilk dərsdir' : 'Bu, son dərsdir'); return; }
+      host.classList.remove('sw-l', 'sw-r'); void host.offsetWidth; host.classList.add(dx < 0 ? 'sw-l' : 'sw-r');
+      location.hash = `${curCid}-${to + 1}`;
+    }, { passive: true });
+  })();
+
+  // ---------- kursun əlavə səhifələri: xəritə, konspekt, layihə ----------
+  const AUX = { qeydler: 'Qeydlər', xerite: 'Kurs xəritəsi', konspekt: 'Konspekt', elave: 'Layihə və əlavə oxu' };
+  async function showAux(kind) {
+    if (kind === 'qeydler') return showNotes();
+    notesMode = true; hideBar();
+    const cid = curCid, c = byId[cid];
+    $('#lessonHost').hidden = true; $('#notesCard').hidden = true; $('#askCard').hidden = true; $('#pager').innerHTML = '';
+    const v = $('#notesView'); v.hidden = false; v.innerHTML = '<div class="card">Yüklənir…</div>';
+    $('#crumb').innerHTML = `<b>${esc(c.title)}</b> · ${AUX[kind]}`;
+    renderSide(); window.scrollTo({ top: 0 });
+    if (kind === 'xerite') await viewMap(v, cid);
+    else if (kind === 'konspekt') await viewSummary(v, cid);
+    else await viewExtra(v, cid);
+  }
+
+  let mapRO = null;
+  async function viewMap(v, cid) {
+    const M = (await getJSON('data/map.json'))[cid] || { terms: {}, edges: [] };
+    if (curCid !== cid) return;
+    const c = byId[cid], p = prog[cid], parts = c.parts || {};
+    const links = {}; M.edges.forEach(([a, b, w]) => { (links[a] = links[a] || []).push([b, w]); (links[b] = links[b] || []).push([a, w]); });
+    let rows = '';
+    lessonEls.forEach((s, i) => {
+      if (parts[i]) rows += `<div class="mp-part">${esc(parts[i])}</div>`;
+      const terms = (M.terms[i] || []).slice(0, 4), ln = links[i] || [];
+      rows += `<div class="mp-row ${p.done[i] ? 'done' : ''} ${i === p.last ? 'cur' : ''}" data-i="${i}">
+        <button class="mp-dot" data-i="${i}" aria-label="${i + 1}-ci dərsin əlaqələri">${p.done[i] ? '✓' : i + 1}</button>
+        <div class="mp-body"><a href="#${cid}-${i + 1}">${esc(s.dataset.title)}</a>
+        ${terms.length ? `<div class="mp-terms">${terms.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
+        ${ln.length ? `<button class="mp-ln" data-i="${i}">🔗 ${ln.length} əlaqə</button><div class="mp-list" hidden>${ln.sort((x, y) => x[0] - y[0]).map(([j, w]) => `<a href="#${cid}-${j + 1}"><b>${j + 1}. ${esc(lessonEls[j].dataset.title)}</b> <span>${esc(w)}</span></a>`).join('')}</div>` : ''}</div></div>`;
+    });
+    v.innerHTML = `<div class="card"><h2>🗺️ Kurs xəritəsi</h2><p class="lead">Dərslər yuxarıdan aşağı sıralanıb. Soldakı qövslər bir-birinə bağlı mövzuları birləşdirir: bir dərsdə öyrəndiyiniz anlayış sonrakında yenidən işlənir.</p>
+      <p class="fb">Dairəyə və ya “🔗 əlaqə” düyməsinə basın: həmin dərsin əlaqələri işıqlanacaq. Dərsin adına basanda dərs açılır. ✓ tamamlanmış dərslərdir.</p></div>
+      <div class="card mp" style="${cvars(c)}"><svg class="mp-arcs" aria-hidden="true"></svg>${rows}</div>`;
+    const box = v.querySelector('.mp'), svg = box.querySelector('.mp-arcs');
+    const draw = () => {
+      if (!box.isConnected) return;
+      const br = box.getBoundingClientRect(), pos = {};
+      box.querySelectorAll('.mp-dot').forEach(d => { const r = d.getBoundingClientRect(); pos[d.dataset.i] = [r.left - br.left, r.top - br.top + r.height / 2]; });
+      const x0 = pos[0] ? pos[0][0] : 40, maxW = Math.max(20, x0 - 6), span = lessonEls.length;
+      svg.setAttribute('width', br.width); svg.setAttribute('height', br.height); svg.setAttribute('viewBox', `0 0 ${br.width} ${br.height}`);
+      svg.innerHTML = `<line x1="${x0 + 14}" y1="${pos[0] ? pos[0][1] : 0}" x2="${x0 + 14}" y2="${pos[span - 1] ? pos[span - 1][1] : 0}" class="spine"/>` +
+        M.edges.map(([a, b, w]) => { if (!pos[a] || !pos[b]) return ''; const ya = pos[a][1], yb = pos[b][1], wd = Math.min(maxW, 10 + (b - a) / span * maxW * 1.6);
+          return `<path data-a="${a}" data-b="${b}" d="M${x0 + 2},${ya} C${x0 - wd},${ya} ${x0 - wd},${yb} ${x0 + 2},${yb}"><title>${esc(w)}</title></path>`; }).join('');
+    };
+    const focus = i => {
+      const on = box.dataset.f === String(i) ? null : String(i);
+      if (on == null) delete box.dataset.f; else box.dataset.f = on;
+      box.classList.toggle('focus', on != null);
+      svg.querySelectorAll('path').forEach(pth => pth.classList.toggle('on', on != null && (pth.dataset.a === on || pth.dataset.b === on)));
+      box.querySelectorAll('.mp-row').forEach(r => { const rel = on != null && (r.dataset.i === on || (links[on] || []).some(([j]) => String(j) === r.dataset.i)); r.classList.toggle('rel', rel); const l = r.querySelector('.mp-list'); if (l) l.hidden = r.dataset.i !== on; });
+      draw(); svg.querySelectorAll('path').forEach(pth => pth.classList.toggle('on', on != null && (pth.dataset.a === on || pth.dataset.b === on)));
+    };
+    box.querySelectorAll('.mp-dot, .mp-ln').forEach(b => b.onclick = () => focus(b.dataset.i));
+    draw();
+    if (mapRO) mapRO.disconnect();
+    if (window.ResizeObserver) { mapRO = new ResizeObserver(() => { draw(); if (box.dataset.f) svg.querySelectorAll('path').forEach(pth => pth.classList.toggle('on', pth.dataset.a === box.dataset.f || pth.dataset.b === box.dataset.f)); }); mapRO.observe(box); }
+  }
+
+  async function viewSummary(v, cid) {
+    const G = (await getJSON('data/glossary.json')).filter(g => g.c === cid);
+    if (curCid !== cid) return;
+    const c = byId[cid], p = prog[cid], HLN = { y: 'sarı', g: 'yaşıl', p: 'çəhrayı' };
+    const own = Object.entries(me.own).filter(([, o]) => o.c === cid);
+    let html = '', md = `# ${c.title}: konspekt\n\n_${new Date().toLocaleDateString('az')}_\n`, any = false;
+    lessonEls.forEach((s, i) => {
+      const note = p.notes[i], hl = (me.hl[cid + ':' + i] || []).slice().sort((a, b) => a.ts - b.ts), mk = me.marks.filter(m => m.c === cid && m.l === i);
+      if (!note && !hl.length && !mk.length) return;
+      any = true;
+      html += `<section class="ks"><h3><a href="#${cid}-${i + 1}">${i + 1}. ${esc(s.dataset.title)}</a></h3>
+        ${note ? `<div class="ks-note"><b>📝 Qeydim</b><pre>${esc(note.t)}</pre></div>` : ''}
+        ${hl.map(h => `<blockquote class="ks-hl hl-${h.c}">${esc(h.t)}</blockquote>`).join('')}
+        ${mk.map(m => `<div class="ks-mk">📌 <b>${esc(m.tag)}</b>: ${esc(m.s)}</div>`).join('')}</section>`;
+      md += `\n## ${i + 1}. ${s.dataset.title}\n`;
+      if (note) md += `\n**Qeydim:**\n\n${note.t}\n`;
+      hl.forEach(h => { md += `\n> ${h.t.replace(/\n/g, ' ')} _(${HLN[h.c]})_\n`; });
+      mk.forEach(m => { md += `\n- 📌 **${m.tag}**: ${m.s}\n`; });
+    });
+    if (own.length) { html += `<section class="ks"><h3>🃏 Kartlarım</h3>${own.map(([, o]) => `<div class="ks-mk"><b>${esc(o.q)}</b><br>${esc(o.a)}</div>`).join('')}</section>`; md += '\n## Kartlarım\n'; own.forEach(([, o]) => { md += `\n- **${o.q}**: ${o.a}\n`; }); }
+    if (G.length) { html += `<section class="ks"><h3>📖 Kursun lüğəti</h3><dl class="ks-gl">${G.map(g => `<dt>${esc(g.t)}</dt><dd>${esc(g.d)}</dd>`).join('')}</dl></section>`; md += '\n## Lüğət\n'; G.forEach(g => { md += `\n- **${g.t}**: ${g.d}\n`; }); }
+    v.innerHTML = `<div class="card no-print"><h2>📄 Konspekt</h2><p class="lead">Bu kursdakı qeydləriniz, vurğuladığınız cümlələr, əlfəcinləriniz, öz kartlarınız və kursun lüğəti bir səhifədə.</p>
+      <div class="row"><button class="btn" id="ksPrint">🖨️ Çap et / PDF</button><button class="btn ghost" id="ksCopy">📋 Kopyala (Markdown)</button>${inClaude ? '' : '<button class="btn ghost" id="ksDl">⬇️ .md faylı</button>'}</div>
+      <p class="fb">Kopyaladığınız mətni Word, Google Docs, Notion və ya Obsidian-a yapışdıra bilərsiniz. PDF üçün çap pəncərəsində “PDF kimi saxla” seçin.</p>
+      ${any ? '' : '<p>Hələ bu kursda qeyd, vurğu və ya əlfəcin yoxdur. Dərsləri oxuyarkən cümlələri seçib vurğulayın, ☆ ilə blokları saxlayın, aşağıda qeyd yazın: hamısı burada toplanacaq.</p>'}</div>
+      <div class="card konspekt"><h1 class="print-only">${esc(c.title)}: konspekt</h1>${html}</div>`;
+    $('#ksPrint').onclick = () => { try { window.print(); } catch (e) { toast('Çap bu görünüşdə əlçatan deyil. Mətni kopyalayın.'); } };
+    $('#ksCopy').onclick = async () => {
+      try { await navigator.clipboard.writeText(md); toast('📋 Konspekt kopyalandı'); }
+      catch (e) { const t = document.createElement('textarea'); t.value = md; document.body.appendChild(t); t.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (er) {} t.remove(); toast(ok ? '📋 Konspekt kopyalandı' : 'Kopyalamaq alınmadı'); }
+    };
+    const dl = $('#ksDl'); if (dl) dl.onclick = () => {
+      const url = URL.createObjectURL(new Blob([md], { type: 'text/markdown' })), a = document.createElement('a');
+      a.href = url; a.download = `konspekt-${cid}-${today()}.md`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000);
+    };
+  }
+
+  async function viewExtra(v, cid) {
+    const X = (await getJSON('data/extras.json'))[cid];
+    if (curCid !== cid) return;
+    if (!X) { v.innerHTML = '<div class="card"><p>Bu kurs üçün əlavə material hələ hazırlanmayıb.</p></div>'; return; }
+    const P = X.project, st = me.proj[cid] || (me.proj[cid] = { k: {}, n: '', done: 0 });
+    const KI = { kitab: ['📕', 'Kitablar'], onlayn: ['🌐', 'Onlayn kurslar və resurslar'], məqalə: ['📰', 'Məqalələr'], video: ['🎬', 'Videolar'] };
+    const groups = {}; X.reading.forEach(r => (groups[r.k] = groups[r.k] || []).push(r));
+    const nDone = () => P.c.filter((_, i) => st.k[i]).length;
+    v.innerHTML = `<div class="card proj" style="${cvars(byId[cid])}"><div class="proj-h"><span class="proj-ic">🛠️</span><div><div class="label">Praktiki layihə</div><h2>${esc(P.t)}</h2></div></div>
+      <p class="lead">${esc(P.g)}</p>
+      <h3>Addımlar</h3><ol class="proj-steps">${P.s.map(s => `<li>${esc(s)}</li>`).join('')}</ol>
+      <div class="note"><b>Nəticə:</b> ${esc(P.d)}</div>
+      <h3>Yoxlama siyahısı <span class="fb" id="pjN"></span></h3>
+      <div class="proj-chk">${P.c.map((t, i) => `<label><input type="checkbox" data-i="${i}" ${st.k[i] ? 'checked' : ''}> ${esc(t)}</label>`).join('')}</div>
+      <h3>Layihə qeydlərim</h3><textarea id="pjNote" placeholder="Gedişat, tapıntılar, linklər…">${esc(st.n || '')}</textarea>
+      <div class="row" style="margin-top:10px"><button class="btn" id="pjDone"></button><span class="fb" id="pjSt"></span></div></div>
+      <div class="card"><h2>📚 Əlavə oxu</h2><p class="lead">Kursu bitirdikdən sonra mövzunu dərinləşdirmək üçün seçilmiş mənbələr. Əksəriyyəti ingilis dilindədir.</p>
+      ${Object.entries(KI).filter(([k]) => groups[k]).map(([k, [ic, n]]) => `<h3>${ic} ${n}</h3>${groups[k].map(r => `<div class="rd">${r.u ? `<a href="${esc(r.u)}" target="_blank" rel="noopener"><b>${esc(r.t)}</b> ↗</a>` : `<b>${esc(r.t)}</b>`}<span class="fb">${esc(r.a)}</span><p>${esc(r.n)}</p></div>`).join('')}`).join('')}</div>`;
+    const upd = () => {
+      const n = nDone(), all = n === P.c.length;
+      $('#pjN').textContent = `${n} / ${P.c.length}`;
+      const b = $('#pjDone');
+      b.textContent = st.done ? '✅ Layihə tamamlanıb' : 'Layihəni tamamladım';
+      b.disabled = !!st.done || !all;
+      $('#pjSt').textContent = st.done ? new Date(st.done).toLocaleDateString('az') + ' tarixində tamamlandı' : all ? '' : 'Bütün bəndləri işarələyəndə aktiv olur';
+    };
+    v.querySelectorAll('.proj-chk input').forEach(i => i.onchange = () => { if (i.checked) st.k[i.dataset.i] = 1; else delete st.k[i.dataset.i]; logAct(); saveMe(); upd(); });
+    let nt; $('#pjNote').oninput = e => { clearTimeout(nt); nt = setTimeout(() => { st.n = e.target.value; saveMe(); }, 600); };
+    $('#pjDone').onclick = () => { st.done = Date.now(); logAct(3); saveMe(); upd(); celebrate(true); toast('🛠️ Təbriklər! Layihə tamamlandı'); checkBadges(); };
+    upd();
   }
 
   // ---------- şrift ölçüsü və səsli oxu ----------
@@ -580,7 +894,10 @@
     Object.assign(me.badges, o.badges || {}); Object.assign(me.perfect, o.perfect || {});
     (o.marks || []).forEach(m => { if (!me.marks.some(x => x.id === m.id)) me.marks.push(m); });
     me.reviews = Math.max(me.reviews || 0, o.reviews || 0);
-    saveMe();
+    for (const [id, x] of Object.entries(o.own || {})) if (!me.own[id] || x.ts > me.own[id].ts) me.own[id] = x;
+    for (const [k, a] of Object.entries(o.hl || {})) { const cur = me.hl[k] || (me.hl[k] = []); a.forEach(h => { if (!cur.some(x => x.id === h.id)) cur.push(h); }); }
+    for (const [cid, x] of Object.entries(o.proj || {})) { const cur = me.proj[cid] || (me.proj[cid] = { k: {}, n: '', done: 0 }); Object.assign(cur.k, x.k || {}); if ((x.n || '').length > (cur.n || '').length) cur.n = x.n; if (x.done && (!cur.done || x.done < cur.done)) cur.done = x.done; }
+    syncOwn(); saveMe();
   }
 
   // ---------- course mounting ----------
@@ -615,6 +932,7 @@
       mounted = cid;
       await loadScript(cid);
       registry[cid](makeApi(cid));
+      restoreHl(cid);
     })();
     mounting = { cid, p };
     return p.catch(e => {
@@ -802,7 +1120,7 @@
       <div class="meter"><i style="width:${pctOf(curCid)}%"></i></div>
       <div class="pct">${doneCount(curCid)} / ${c.lessons} dərs · ${pctOf(curCid)}%</div>
       <nav>${nav}</nav>
-      <a class="notes-link" href="#${curCid}-qeydler">📝 Qeydlərim (${nNotes})</a>`;
+      <div class="side-links">${[['xerite', '🗺️ Kurs xəritəsi'], ['konspekt', '📄 Konspekt'], ['elave', '🛠️ Layihə və əlavə oxu'], ['qeydler', `📝 Qeydlərim (${nNotes})`]].map(([k, n]) => `<a class="notes-link ${notesMode && location.hash === '#' + curCid + '-' + k ? 'on' : ''}" href="#${curCid}-${k}">${n}</a>`).join('')}</div>`;
     $('#side').querySelectorAll('[data-go]').forEach(b => { b.onclick = () => { location.hash = curCid + '-' + b.dataset.go; }; });
     const act = $('#side nav button.active');
     if (act && window.matchMedia('(max-width:860px)').matches) act.scrollIntoView({ block: 'nearest', inline: 'center' });
@@ -819,7 +1137,7 @@
     $('#noteText').value = (p.notes[i] && p.notes[i].t) || '';
     $('#noteState').textContent = 'Qeydlər avtomatik saxlanılır.';
     $('#pager').innerHTML = (i > 0 ? `<a class="btn ghost" href="#${curCid}-${i}">← Əvvəlki</a>` : '<span></span>') +
-      (i < lessonEls.length - 1 ? `<a class="btn" href="#${curCid}-${i + 2}">Növbəti →</a>` : `<a class="btn" href="#">Kurslara qayıt</a>`);
+      (i < lessonEls.length - 1 ? `<a class="btn" href="#${curCid}-${i + 2}">Növbəti →</a>` : `<a class="btn" href="#${curCid}-elave">Layihə və əlavə oxu →</a>`);
     $('#crumb').innerHTML = `<b>${esc(byId[curCid].title)}</b> · ${i + 1}. ${esc(lessonEls[i].dataset.title)}`;
     renderSide();
     window.scrollTo({ top: 0 });
@@ -857,14 +1175,15 @@
   function parseHash() {
     const h = decodeURIComponent(location.hash.slice(1));
     if (PAGES[h]) return { view: 'page', page: h };
-    const m = h.match(/^([a-z0-9]+)(?:-(\d+|qeydler))?$/);
+    const m = h.match(/^([a-z0-9]+)(?:-(\d+|qeydler|xerite|konspekt|elave))?$/);
     if (!m || !byId[m[1]]) return { view: 'home' };
-    if (m[2] === 'qeydler') return { view: 'notes', cid: m[1] };
+    if (AUX[m[2]]) return { view: 'notes', cid: m[1], kind: m[2] };
     return { view: 'course', cid: m[1], lesson: m[2] ? +m[2] - 1 : null };
   }
   async function route() {
     const r = parseHash();
-    stopSpeak();
+    stopSpeak(); hideBar();
+    if (mapRO) { mapRO.disconnect(); mapRO = null; }
     if (askCtl) askCtl.abort();
     if (r.view !== 'page' || r.page !== 'tekrar' || (rv && rv.finished)) rv = null;
     if (r.view === 'page') {
@@ -885,7 +1204,7 @@
     $('#courseView').setAttribute('style', cvars(byId[r.cid]));
     await mount(r.cid);
     if (mounted !== r.cid || curCid !== r.cid) return;
-    if (r.view === 'notes') { showNotes(); $('#askCard').hidden = true; return; }
+    if (r.view === 'notes') { $('#askCard').hidden = true; await showAux(r.kind); return; }
     showLesson(r.lesson == null ? prog[r.cid].last : r.lesson);
     setupAsk(current);
     if (pendingMark) {
@@ -928,7 +1247,7 @@
     route();
     connect();
     CARDS = await getJSON('data/cards.json');
-    CARD = {}; CARDS.forEach(c => { CARD[c.id] = c; });
+    CARD = {}; CARDS.forEach(c => { CARD[c.id] = c; }); syncOwn();
     catalog.forEach(c => Object.keys(prog[c.id].done).forEach(l => activateLesson(c.id, +l)));
     checkBadges();
     if (!$('#home').hidden) renderHome();

@@ -9,7 +9,7 @@ const APP_CACHE = VERSION + '-app';
 const FONT_CACHE = 'akd-fonts';
 const CORE = [
   './', 'index.html', 'lms.css', 'lms.js', 'illustrations.js', 'manifest.webmanifest', 'courses/catalog.json',
-  'data/cards.json', 'data/search.json', 'data/glossary.json',
+  'data/cards.json', 'data/search.json', 'data/glossary.json', 'data/extras.json', 'data/map.json',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-64.png',
 ];
 

@@ -47,6 +47,10 @@ akademiya/
 - **Səhvlərim** (`#sehvler`), **Əlfəcinlər** (`#elfecinler`, nümunə/qeyd bloklarındakı ☆), **Lüğət** (`#luget`, `data/glossary.json`), **Axtarış** (`#axtar`, `data/search.json`), **Statistika və nişanlar** (`#statistika`).
 - **Öyrənmə yolları**: `courses/catalog.json`-dakı `paths`.
 - **Şrift ölçüsü** (Aa), **səsli oxu** (🔊 Dinlə, brauzerin speechSynthesis-i; az səsi cihazdan asılıdır), **Claude-dan soruş** (yalnız claude.ai versiyasında).
+- **Vurğulama**: dərsdə mətni seçəndə aşağıda panel çıxır (3 rəng, “Kart”). **Öz kartlarım** (`#kartlarim`) təkrar sisteminə qoşulur.
+- Hər kursun yan panelində: **Kurs xəritəsi** (`#<kurs>-xerite`, `data/map.json`: `data/links.json`-dakı əl ilə yazılmış əlaqələr + lüğətdən çıxan əlaqələr), **Konspekt** (`#<kurs>-konspekt`: çap/PDF, Markdown), **Layihə və əlavə oxu** (`#<kurs>-elave`, `data/extras.json`).
+- Telefonda dərslər arasında sola/sağa sürüşdürərək keçmək olur.
+- Əlavə oxu linkləri: Actions → “Check reading links” (`tools/check_links.py`).
 - Bu vəziyyət `localStorage`-da `akademiya:me` açarında saxlanılır və yedək faylına daxildir.
 - Kurs məzmunu dəyişəndə: `node tools/build_index.mjs` (kartları və axtarış indeksini yeniləyir).
 
