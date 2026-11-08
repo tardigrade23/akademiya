@@ -221,6 +221,24 @@
     "13": "Yekun"
    },
    "added": "2026-11-08"
+  },
+  {
+   "id": "nefs",
+   "title": "Nəfs, iradə və vicdan",
+   "mark": "⚖️",
+   "color": "#6b2737",
+   "color2": "#2e7d6b",
+   "ill": "scales",
+   "lessons": 15,
+   "description": "İnsanın daxili aləmi: nəfs, şəhvət, iradə, azad seçim, vicdan, utanc, əxlaq, mədəniyyət, fəzilət, vərdiş, qəzəb və paxıllıq. Hər anlayışa üç baxış: filosoflar, dini və mədəni ənənələr və bugünkü psixologiya. Hansı məşhur təcrübə təsdiqlənib, hansı yox. Hər dərsdə Azərbaycan ədəbiyyatından və xalq hikmətindən nümunə: Nizami, Füzuli, Tusi, Axundzadə, Sabir, Bakuvi.",
+   "parts": {
+    "0": "I hissə · İnsan təbiəti",
+    "3": "II hissə · İradə",
+    "6": "III hissə · Vicdan və əxlaq",
+    "9": "IV hissə · Mədəniyyət və xarakter",
+    "14": "Yekun"
+   },
+   "added": "2026-11-09"
   }
  ],
  "paths": [
@@ -234,7 +252,8 @@
     "felsefe",
     "hikmet",
     "dinler",
-    "fantastika"
+    "fantastika",
+    "nefs"
    ]
   },
   {

@@ -1377,5 +1377,292 @@
   "felsefe",
   9,
   "Xarizmatik lider və ədalətli cəmiyyət."
+ ],
+ [
+  "nefs",
+  0,
+  "felsefe",
+  9,
+  "Hobbs və Russo: insan təbiəti və dövlət."
+ ],
+ [
+  "nefs",
+  0,
+  "dinler",
+  8,
+  "Menqtszı və Syuntszı: Konfutsi ənənəsində insan təbiəti."
+ ],
+ [
+  "nefs",
+  0,
+  "mentiq",
+  10,
+  "Körpə təcrübələri: təkrarlanma niyə vacibdir?"
+ ],
+ [
+  "nefs",
+  1,
+  "felsefe",
+  2,
+  "Platonun arabaçısı və iki at."
+ ],
+ [
+  "nefs",
+  1,
+  "dinler",
+  7,
+  "Buddizm: istək iztirabın səbəbidir."
+ ],
+ [
+  "nefs",
+  1,
+  "mentiq",
+  12,
+  "Fil qərar verir, sürücü sonradan əsas tapır."
+ ],
+ [
+  "nefs",
+  2,
+  "felsefe",
+  10,
+  "Epikur və stoiklər: istəklərlə necə yaşamaq."
+ ],
+ [
+  "nefs",
+  2,
+  "si",
+  2,
+  "Mükafat siqnalı: dopamin və maşın öyrənməsi."
+ ],
+ [
+  "nefs",
+  3,
+  "mentiq",
+  10,
+  "Marşmellou və iradə: təkrarlanma böhranı."
+ ],
+ [
+  "nefs",
+  3,
+  "hikmet",
+  5,
+  "Özünü idarə etmək: stoiklərdən psixologiyaya."
+ ],
+ [
+  "nefs",
+  3,
+  "hikmet",
+  9,
+  "Müəllifi bilinməyən hikmət: “Səbr acıdır...”"
+ ],
+ [
+  "nefs",
+  4,
+  "felsefe",
+  3,
+  "Aristotel: akrasiya və iradə zəifliyi."
+ ],
+ [
+  "nefs",
+  4,
+  "dinler",
+  4,
+  "Odissey və sirenlər: yunan mifi."
+ ],
+ [
+  "nefs",
+  4,
+  "mentiq",
+  16,
+  "Gözlənilən dəyər və hiperbolik endirim."
+ ],
+ [
+  "nefs",
+  5,
+  "dinler",
+  13,
+  "Azad iradə və şər problemi."
+ ],
+ [
+  "nefs",
+  5,
+  "fantastika",
+  7,
+  "Cinayətdən əvvəl cəza: azad iradə sualı."
+ ],
+ [
+  "nefs",
+  5,
+  "felsefe",
+  8,
+  "Sartr: insan azadlığa məhkumdur."
+ ],
+ [
+  "nefs",
+  5,
+  "mentiq",
+  9,
+  "Determinizm, amma proqnozlaşdırılmazlıq: xaos."
+ ],
+ [
+  "nefs",
+  6,
+  "felsefe",
+  1,
+  "Sokratın daimonionu: “dur” deyən səs."
+ ],
+ [
+  "nefs",
+  6,
+  "felsefe",
+  7,
+  "Kant: içimdəki əxlaq qanunu."
+ ],
+ [
+  "nefs",
+  6,
+  "fantastika",
+  5,
+  "Açarı çevirməkdən imtina edən zabitlər."
+ ],
+ [
+  "nefs",
+  6,
+  "agent",
+  7,
+  "“Yox” deyə bilən sistem: insan nəzarəti."
+ ],
+ [
+  "nefs",
+  7,
+  "dinler",
+  12,
+  "Din və əxlaq: həya və qızıl qayda."
+ ],
+ [
+  "nefs",
+  7,
+  "kiber",
+  9,
+  "Onlayn utandırma və sosial şəbəkə."
+ ],
+ [
+  "nefs",
+  8,
+  "felsefe",
+  7,
+  "Vaqon problemi və əxlaq nəzəriyyələri."
+ ],
+ [
+  "nefs",
+  8,
+  "dinler",
+  12,
+  "Evtifron dilemması: əxlaqın mənbəyi."
+ ],
+ [
+  "nefs",
+  8,
+  "si",
+  8,
+  "Pilotsuz avtomobil kimi qurban verməlidir?"
+ ],
+ [
+  "nefs",
+  9,
+  "mentiq",
+  8,
+  "Mədəniyyət də bir linzadır."
+ ],
+ [
+  "nefs",
+  9,
+  "si",
+  7,
+  "Modellər də WEIRD datadan öyrənir."
+ ],
+ [
+  "nefs",
+  9,
+  "dinler",
+  0,
+  "İçəridən və kənardan baxış."
+ ],
+ [
+  "nefs",
+  10,
+  "felsefe",
+  3,
+  "Aristotelin qızıl ortası."
+ ],
+ [
+  "nefs",
+  10,
+  "felsefe",
+  4,
+  "Tusi və “Əxlaqi-Nasiri”."
+ ],
+ [
+  "nefs",
+  10,
+  "dinler",
+  10,
+  "Mərhəmətli samariyalı məsəli."
+ ],
+ [
+  "nefs",
+  11,
+  "hikmet",
+  9,
+  "Dürantın cümləsi Aristotelə aid edilir."
+ ],
+ [
+  "nefs",
+  11,
+  "reqemsal",
+  8,
+  "Dəyişiklik vərdişlə gəlir."
+ ],
+ [
+  "nefs",
+  11,
+  "claudecode",
+  9,
+  "Hook-lar: avtomatik vərdiş."
+ ],
+ [
+  "nefs",
+  12,
+  "felsefe",
+  10,
+  "Seneka: qəzəbi gecikdirmək."
+ ],
+ [
+  "nefs",
+  12,
+  "dinler",
+  7,
+  "Buddizmin “üç zəhəri”."
+ ],
+ [
+  "nefs",
+  13,
+  "reqemsal",
+  3,
+  "Etik dizayn və müştəri təcrübəsi."
+ ],
+ [
+  "nefs",
+  13,
+  "si",
+  8,
+  "Tövsiyə alqoritmlərinin etikası."
+ ],
+ [
+  "nefs",
+  13,
+  "fantastika",
+  3,
+  "İnsanın zəif yerini bilən maşın."
  ]
 ]

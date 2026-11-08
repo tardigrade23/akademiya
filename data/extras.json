@@ -863,5 +863,72 @@
     "Esse yazılıb"
    ]
   }
+ },
+ "nefs": {
+  "reading": [
+   {
+    "k": "kitab",
+    "t": "The Happiness Hypothesis",
+    "a": "Conatan Haydt, 2006",
+    "n": "Fil və sürücü obrazı buradandır. Qədim hikməti müasir psixologiya ilə yoxlayan kitab."
+   },
+   {
+    "k": "kitab",
+    "t": "The Righteous Mind",
+    "a": "Conatan Haydt, 2012",
+    "n": "Əxlaqın altı təməli və insanların niyə bir-birini başa düşmədiyi."
+   },
+   {
+    "k": "kitab",
+    "t": "Nikomax etikası",
+    "a": "Aristotel, e.ə. IV əsr",
+    "n": "Fəzilət, vərdiş və akrasiya haqqında əsas mənbə. VII kitab iradə zəifliyinə həsr olunub."
+   },
+   {
+    "k": "kitab",
+    "t": "Qəzəb haqqında (De Ira)",
+    "a": "Seneka, I əsr",
+    "n": "Qəzəbi idarə etmək haqqında qısa və bu gün də aktual risalə."
+   },
+   {
+    "k": "kitab",
+    "t": "Obedience to Authority",
+    "a": "Stenli Milqram, 1974",
+    "n": "Təcrübənin bütün variasiyaları müəllifin öz təsvirində."
+   },
+   {
+    "k": "onlayn",
+    "t": "Moral Foundations",
+    "a": "Haydt və həmkarları",
+    "u": "https://moralfoundations.org",
+    "n": "Əxlaqi təməllər nəzəriyyəsinin rəsmi saytı və sorğular."
+   },
+   {
+    "k": "onlayn",
+    "t": "Moral Machine",
+    "a": "MIT Media Lab",
+    "u": "https://www.moralmachine.net",
+    "n": "Pilotsuz avtomobilin əxlaqi dilemmalarını özünüz həll edin."
+   }
+  ],
+  "project": {
+   "t": "Öz Franklin cədvəlim",
+   "g": "Bir aylıq şəxsi təcrübə: bir fəziləti və ya vərdişi seçib onu elmin tövsiyə etdiyi üsullarla inkişaf etdirmək və nəticəni təhlil etmək.",
+   "s": [
+    "Kursdakı anlayışlardan birini seçin: səbr, qəzəbi idarə, ölçülülük, səmimiyyət və ya bir vərdiş.",
+    "Onu ölçülə bilən davranışa çevirin: “hər gün nə edəcəyəm, nəyi etməyəcəyəm?”",
+    "“Əgər X olsa, Y edəcəyəm” planı yazın və mühitdə bir dəyişiklik edin (Odissey dirəyi).",
+    "30 gün Franklin kimi cədvəl aparın: hər axşam bir işarə.",
+    "Bir səhifəlik təhlil yazın: nə işlədi, nə işləmədi, kursdakı hansı təcrübə sizin təcrübənizi izah edir?"
+   ],
+   "d": "30 günlük cədvəl və bir səhifəlik təhlil.",
+   "c": [
+    "Anlayış seçilib və ölçülə bilən edilib",
+    "İcra niyyəti yazılıb",
+    "Mühitdə dəyişiklik edilib",
+    "30 günlük cədvəl doldurulub",
+    "Təhlil kursdakı təcrübələrlə əlaqələndirilib"
+   ]
+  }
  }
 }

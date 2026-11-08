@@ -76,7 +76,7 @@
   const openMiss = () => Object.keys(me.miss).filter(id => !me.miss[id].fixed && (CARD[id] || me.miss[id].d));
   const cardData = id => CARD[id] || (me.miss[id] && me.miss[id].d);
 
-  const COURSE_BADGES = { mentiq: ['🧩', 'Məntiqçi'], claudecode: ['❯', 'Claude ustası'], felsefe: ['🏛️', 'Filosof'], reqemsal: ['⚡', 'Transformator'], kvant: ['⚛️', 'Kvant düşüncəli'], si: ['🤖', 'Sİ bələdçisi'], agent: ['⚙️', 'Agent memarı'], caio: ['♛', 'Sİ lideri'], kripto: ['🔑', 'Kriptoqraf'], kiber: ['🛡️', 'Kiber qoruyucu'], hikmet: ['❝', 'Müdrik'], dinler: ['🕊️', 'Dinşünas'], fantastika: ['🚀', 'Gələcəkçi'] };
+  const COURSE_BADGES = { mentiq: ['🧩', 'Məntiqçi'], claudecode: ['❯', 'Claude ustası'], felsefe: ['🏛️', 'Filosof'], reqemsal: ['⚡', 'Transformator'], kvant: ['⚛️', 'Kvant düşüncəli'], si: ['🤖', 'Sİ bələdçisi'], agent: ['⚙️', 'Agent memarı'], caio: ['♛', 'Sİ lideri'], kripto: ['🔑', 'Kriptoqraf'], kiber: ['🛡️', 'Kiber qoruyucu'], hikmet: ['❝', 'Müdrik'], dinler: ['🕊️', 'Dinşünas'], fantastika: ['🚀', 'Gələcəkçi'], nefs: ['⚖️', 'Xarakter ustası'] };
   function badgeList() {
     const L = [
       ['ilk', '🌱', 'İlk addım', 'İlk dərsi tamamla', s => s.lessons >= 1],

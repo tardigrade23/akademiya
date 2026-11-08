@@ -683,5 +683,70 @@
 "t": "daxili təhdid",
 "en": "insider threat",
 "c": "fantastika"
+},
+{
+"t": "akrasiya",
+"en": "akrasia",
+"c": "nefs"
+},
+{
+"t": "hiperbolik endirim",
+"en": "hyperbolic discounting",
+"c": "nefs"
+},
+{
+"t": "kompatibilizm",
+"en": "compatibilism",
+"c": "nefs"
+},
+{
+"t": "determinizm",
+"en": "determinism",
+"c": "nefs"
+},
+{
+"t": "seçim korluğu",
+"en": "choice blindness",
+"c": "nefs"
+},
+{
+"t": "icra niyyəti",
+"en": "implementation intention",
+"c": "nefs"
+},
+{
+"t": "şərin bayağılığı",
+"en": "banality of evil",
+"c": "nefs"
+},
+{
+"t": "xarakter gücü",
+"en": "character strength",
+"c": "nefs"
+},
+{
+"t": "aldadıcı dizayn",
+"en": "dark patterns",
+"c": "nefs"
+},
+{
+"t": "gözlənilməz mükafat",
+"en": "variable reward",
+"c": "nefs"
+},
+{
+"t": "təkrarlanma",
+"en": "replication",
+"c": "nefs"
+},
+{
+"t": "hazırlıq potensialı",
+"en": "readiness potential",
+"c": "nefs"
+},
+{
+"t": "namus mədəniyyəti",
+"en": "culture of honor",
+"c": "nefs"
 }
 ]

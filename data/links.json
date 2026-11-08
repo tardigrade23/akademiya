@@ -705,5 +705,67 @@
    10,
    "sübut və inam"
   ]
+ ],
+ "nefs": [
+  [
+   0,
+   1,
+   "təbiətdən nəfsə"
+  ],
+  [
+   1,
+   2,
+   "nəfs və istək"
+  ],
+  [
+   2,
+   13,
+   "istəmək və sonsuz lent"
+  ],
+  [
+   3,
+   4,
+   "iradədən strategiyaya"
+  ],
+  [
+   4,
+   11,
+   "özünü bağlamaq və vərdiş"
+  ],
+  [
+   5,
+   6,
+   "azadlıq və məsuliyyət"
+  ],
+  [
+   6,
+   7,
+   "vicdan və utanc"
+  ],
+  [
+   7,
+   12,
+   "utanc və qürur"
+  ],
+  [
+   8,
+   9,
+   "əxlaq və mədəniyyət"
+  ],
+  [
+   10,
+   11,
+   "fəzilət vərdişlə qazanılır"
+  ],
+  [
+   3,
+   13,
+   "iradə və diqqət iqtisadiyyatı"
+  ],
+  [
+   1,
+   8,
+   "fil və sürücü"
+  ]
  ]
 }
