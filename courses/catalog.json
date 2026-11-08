@@ -50,6 +50,24 @@
         "11": "Yekun"
       },
       "added": "2026-11-08"
+    },
+    {
+      "id": "reqemsal",
+      "title": "Rəqəmsal transformasiya",
+      "mark": "⚡",
+      "color": "#2550e6",
+      "color2": "#0a9fb5",
+      "ill": "rocket",
+      "description": "Texnologiya ilə təşkilatın dəyər yaratma üsulunu dəyişmək: strategiya, müştəri təcrübəsi, data, bulud, avtomatlaşdırma, Agile, dəyişikliyin idarə edilməsi və kibertəhlükəsizlik. ASAN, Estoniya, Netflix və Kodak nümunələri, kalkulyatorlar və simulyasiyalarla.",
+      "lessons": 13,
+      "parts": {
+        "0": "I hissə · Əsaslar",
+        "3": "II hissə · Müştəri və data",
+        "5": "III hissə · Texnologiya və proseslər",
+        "8": "IV hissə · İnsanlar, risklər, nəticə",
+        "12": "Yekun"
+      },
+      "added": "2026-11-08"
     }
   ]
 }

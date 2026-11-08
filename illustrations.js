@@ -46,5 +46,10 @@ window.ILL = {
   boulder: '<path d="M8 108L84 32l28 28" /><path d="M8 108h104"/><circle cx="66" cy="38" r="16" class="f"/><path d="M50 60l-8-6M46 70l-10 6M44 60l-6 12"/><circle cx="54" cy="56" r="5"/>',
   crown: '<path d="M16 84l8-50 22 24 14-34 14 34 22-24 8 50z" class="f"/><path d="M16 84l8-50 22 24 14-34 14 34 22-24 8 50zM16 96h88"/><circle cx="24" cy="30" r="4"/><circle cx="60" cy="20" r="4"/><circle cx="96" cy="30" r="4"/>',
   anchor: '<circle cx="60" cy="22" r="9"/><path d="M60 31v74M38 48h44"/><path d="M18 70c0 22 18 36 42 36s42-14 42-36" class="f"/><path d="M18 70c0 22 18 36 42 36s42-14 42-36M18 70l-6 10M18 70l10 6M102 70l6 10M102 70l-10 6"/>',
+  phone: '<rect x="36" y="10" width="48" height="100" rx="10" class="f"/><rect x="36" y="10" width="48" height="100" rx="10"/><path d="M52 18h16M44 30h32v60H44z"/><circle cx="60" cy="100" r="4"/><path d="M90 40c8 6 8 26 0 32M98 32c14 10 14 38 0 48"/>',
+  users: '<circle cx="42" cy="40" r="14" class="f"/><circle cx="82" cy="44" r="12"/><path d="M14 98c0-18 12-30 28-30s28 12 28 30z" class="f"/><path d="M62 96c2-14 10-24 22-24 13 0 22 10 22 26"/>',
+  chart: '<path d="M16 104h92M16 104V16"/><rect x="26" y="70" width="16" height="34" class="f"/><rect x="50" y="52" width="16" height="52" class="f"/><rect x="74" y="34" width="16" height="70" class="f"/><path d="M26 58l24-16 24 6 26-30M90 18h10v10"/>',
+  cloud: '<path d="M34 86a20 20 0 0 1-2-40 26 26 0 0 1 50-6 20 20 0 0 1 8 46z" class="f"/><path d="M34 86a20 20 0 0 1-2-40 26 26 0 0 1 50-6 20 20 0 0 1 8 46z"/><path d="M48 100v-14M60 104V86M72 100V86"/>',
+  heart: '<path d="M60 100S16 74 16 44a22 22 0 0 1 44-6 22 22 0 0 1 44 6c0 30-44 56-44 56z" class="f"/><path d="M60 100S16 74 16 44a22 22 0 0 1 44-6 22 22 0 0 1 44 6c0 30-44 56-44 56z"/><path d="M30 60h16l6-12 10 24 6-12h22"/>',
   books: '<rect x="14" y="30" width="18" height="72" rx="3" class="f"/><rect x="34" y="20" width="18" height="82" rx="3"/><rect x="54" y="36" width="18" height="66" rx="3" class="f"/><path d="M76 42l17-5 19 64-17 5z"/><path d="M14 46h18M34 38h18M54 50h18"/>',
 };

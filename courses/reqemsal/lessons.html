@@ -1,0 +1,376 @@
+<style>
+/* Rəqəmsal transformasiya kursu */
+.sorter-item{font-size:1.05rem}
+.bins3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.bins3 .bin{border:2px dashed var(--line);border-radius:14px;padding:8px;min-height:80px}
+.bins3 .bin h4{margin:0 0 6px;font-size:.84rem}
+.bins3 .b1{background:var(--ex-blue);border-color:var(--ex-blue-b)}
+.bins3 .b2{background:var(--ex-amber);border-color:var(--ex-amber-b)}
+.bins3 .b3{background:var(--ex-green);border-color:var(--ex-green-b)}
+.chip{display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:.82rem}
+.mat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center}
+.mat .dim{margin:8px 0}
+.mat .dim label{display:flex;justify-content:space-between;font-weight:600;font-size:.92rem}
+.mat .dim small{display:block;color:var(--muted);font-size:.8rem;min-height:2.4em}
+.mat input{width:100%}
+svg.radar{width:100%;max-width:340px;justify-self:center}
+.ladder{display:grid;gap:8px;margin:10px 0}
+.ladder button{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;text-align:left;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer}
+.ladder button .lv{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#fff}
+.ladder button.on{border-color:var(--accent);background:var(--accent-soft)}
+.ladder button small{display:block;color:var(--muted)}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.calc label{display:grid;gap:4px;font-size:.88rem;font-weight:600}
+.calc input{font:15px var(--mono);padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px}
+.kpi{border-radius:14px;padding:12px 14px;background:var(--accent-soft)}
+.kpi .n{font:700 1.5rem var(--serif);font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.82rem;color:var(--muted)}
+.mail{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);font-size:.95rem}
+.mail .hd{background:var(--code);padding:10px 14px;display:grid;gap:2px;font-size:.88rem}
+.mail .bd{padding:14px}
+.mail .sus{cursor:pointer;border-radius:4px;padding:0 2px;transition:background .2s}
+.mail .sus:hover{background:var(--ex-amber)}
+.mail .sus.found{background:var(--ex-red);outline:2px solid var(--ex-red-b)}
+.okr .kr{display:grid;grid-template-columns:minmax(0,1fr) 30px;gap:8px;align-items:center;margin:6px 0}
+.okr input{width:100%}
+.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.road .ph{border-radius:14px;padding:12px;border-top:5px solid}
+.road .ph h4{margin:0 0 6px}
+.road .ph ul{margin:0;padding-left:18px;font-size:.9rem}
+.road .p1{background:var(--ex-blue);border-color:var(--ex-blue-b)} .road .p2{background:var(--ex-amber);border-color:var(--ex-amber-b)} .road .p3{background:var(--ex-green);border-color:var(--ex-green-b)}
+.sectors{display:flex;flex-wrap:wrap;gap:8px}
+.sectors button{border:1.5px solid var(--accent);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 16px;font:inherit;cursor:pointer}
+.sectors button.on{background:var(--accent);color:var(--on-accent)}
+.order button{text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:9px 12px;font:inherit;cursor:pointer;display:flex;gap:10px;align-items:center}
+.order button .n{width:24px;height:24px;flex:0 0 24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px}
+.order button.picked{border-color:var(--accent);background:var(--accent-soft)}
+.order button.picked .n{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+@media (max-width:640px){.mat{grid-template-columns:1fr}.bins3{grid-template-columns:1fr}.road{grid-template-columns:1fr}}
+</style>
+
+<!-- ============ I HİSSƏ: ƏSASLAR ============ -->
+<section class="lesson" data-title="Rəqəmsal transformasiya nədir?" data-ill="rocket">
+  <div class="card">
+    <h2>1. Rəqəmsal transformasiya nədir?</h2>
+    <p class="lead">Rəqəmsal transformasiya “kompüter almaq” deyil. Bu, texnologiyanın köməyi ilə təşkilatın <b>dəyər yaratma üsulunu</b> dəyişməkdir: müştəriyə xidmət etməyi, qərar qəbul etməyi və pul qazanmağı.</p>
+    <h3>Üç pillə</h3>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Pillə</th><th>Nə edir</th><th>Nümunə</th></tr>
+      <tr><td><b>1. Rəqəmə çevirmə</b><br><small>(digitization)</small></td><td>Kağızdakı məlumatı rəqəmsal formata keçirir</td><td>Arxivdəki sənədləri skan etmək</td></tr>
+      <tr><td><b>2. Proseslərin rəqəmsallaşması</b><br><small>(digitalization)</small></td><td>Mövcud prosesi rəqəmsal alətlərlə sürətləndirir</td><td>Onlayn növbə, elektron imza</td></tr>
+      <tr><td><b>3. Transformasiya</b></td><td>Biznes modelini, müştəri təcrübəsini, mədəniyyəti dəyişir</td><td>DVD icarəsindən striminq platformasına keçid</td></tr>
+    </table></div>
+    <figure class="pic"><img src="courses/reqemsal/img/eniac.jpg" alt="ENIAC kompüteri" data-credit="eniac" loading="lazy"><figcaption><b>ENIAC, 1946</b>İlk ümumi təyinatlı elektron kompüterlərdən biri bütöv bir otağı tuturdu. Bu gün cibimizdəki telefon ondan milyonlarla dəfə güclüdür. Texnologiya dəyişdi, transformasiya isə insanların bu imkanlardan necə istifadə etməsidir.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: Netflix və Blockbuster</span>
+      <p>Netflix 1997-ci ildə DVD-ləri poçtla göndərən şirkət kimi başladı. 2000-ci ildə təsisçilər şirkəti 50 milyon dollara Blockbuster-ə satmağı təklif etdilər. Blockbuster o vaxt videoicarə bazarının lideri idi və təklifi rədd etdi. 2007-ci ildə Netflix striminqə başladı. Blockbuster isə 2010-cu ildə müflis oldu.</p>
+      <figure class="pic" style="margin:10px 0"><img src="courses/reqemsal/img/netflix.jpg" alt="Netflix-in DVD zərfi" data-credit="netflix" loading="lazy"><figcaption><b>Netflix-in ilk biznesi</b>Qırmızı zərflərdə DVD-lər poçtla göndərilirdi. Şirkət öz uğurlu biznesini özü “öldürüb” striminqə keçməkdən qorxmadı.</figcaption></figure>
+      <p><b>Dərs:</b> Blockbuster-in də saytı və kompüterləri var idi (2-ci pillə). Netflix isə biznes modelini dəyişdi (3-cü pillə).</p>
+    </div>
+    <div class="ex warn"><span class="tag">⚠️ Real səhv: Kodak</span>
+      <p>İlk rəqəmsal fotoaparatı 1975-ci ildə <b>Kodak</b>-ın mühəndisi Stiv Sasson ixtira edib. Amma şirkət filmdən qazandığı gəliri itirməkdən qorxdu və ixtiranı rəfdə saxladı. 2012-ci ildə Kodak müflis olduğunu elan etdi. Texnologiyaya sahib olmaq kifayət deyil: onu biznes modelinə çevirmək cəsarəti lazımdır.</p>
+    </div>
+    <figure class="pic"><img src="courses/reqemsal/img/kodak.jpg" alt="Köhnə Kodak fotoaparatı" data-credit="kodak" loading="lazy"><figcaption><b>Kodak fotoaparatı</b>Kodak 100 ildən çox foto bazarının lideri olub. Rəqəmsal dövrə vaxtında uyğunlaşa bilmədiyi üçün liderliyi itirib.</figcaption></figure>
+  </div>
+  <div class="card">
+    <h3>🗂️ Məşq: hansı pillədir?</h3>
+    <p class="fb">Hər nümunəni düzgün pilləyə göndərin.</p>
+    <div id="lvItem"></div>
+    <div class="bins3"><div class="bin b1"><h4>1. Rəqəmə çevirmə</h4><div id="lvB1"></div></div><div class="bin b2"><h4>2. Proseslərin rəqəmsallaşması</h4><div id="lvB2"></div></div><div class="bin b3"><h4>3. Transformasiya</h4><div id="lvB3"></div></div></div>
+    <div id="lvMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="intro"></div></div>
+</section>
+
+<section class="lesson" data-title="Niyə indi? Dəyişikliyin sürücüləri" data-ill="phone">
+  <div class="card">
+    <h2>2. Niyə indi? Dəyişikliyin sürücüləri</h2>
+    <p class="lead">Rəqəmsal transformasiyanın sürətlənməsinin dörd əsas səbəbi var.</p>
+    <ol>
+      <li><b>Müştəri gözləntiləri:</b> taksi 3 dəqiqəyə gəlirsə, insan bankda 3 saat növbə gözləmək istəmir. Ən yaxşı rəqəmsal təcrübə hamı üçün standarta çevrilir.</li>
+      <li><b>Mobil internet:</b> xidmət artıq ofisdə deyil, cibdədir.</li>
+      <li><b>Bulud texnologiyaları:</b> kiçik şirkət də öz serveri olmadan güclü sistemlərdən aylıq abunəliklə istifadə edə bilir.</li>
+      <li><b>Data və süni intellekt:</b> qərarlar hiss əsasında deyil, data əsasında verilə bilir.</li>
+    </ol>
+    <figure class="pic"><img src="courses/reqemsal/img/telefon.jpg" alt="Smartfon" data-credit="telefon" loading="lazy"><figcaption><b>Ödəniş telefonla</b>Kassada telefonla ödəniş artıq adi haldır. Bu gün bir çox bank əməliyyatı, taksi sifarişi və dövlət xidməti telefondan edilir. Filialın açıq olduğu saatları gözləmək lazım deyil.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: Bakıda taksi</span>
+      <p>Bir neçə il əvvəl Bakıda taksi tutmaq üçün ya küçədə əl qaldırmaq, ya da dispetçerə zəng vurmaq lazım idi. Qiymət isə çox vaxt sürücü ilə bazarlıqla müəyyən olunurdu. Platformalar (Bolt, Uber və yerli tətbiqlər) üç şeyi dəyişdi: <b>qiymət əvvəlcədən məlumdur</b>, <b>maşının harada olduğu xəritədə görünür</b>, <b>sürücü və sərnişin bir-birini qiymətləndirir</b>. Dəyişən texnologiyadan çox biznes modeli idi: taksi şirkəti avtomobil parkı yox, platformadır.</p>
+    </div>
+    <div class="ex life"><span class="tag">✅ Tətbiq: “müştərim nəyə öyrəşib?”</span>
+      <p>Öz sahənizə baxın: müştəriniz başqa sahələrdə hansı rahatlıqlara öyrəşib (onlayn ödəniş, anında cavab, izləmə)? Sizdə bu rahatlıq yoxdursa, gec-tez kimsə onu təklif edəcək.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="drivers"></div></div>
+</section>
+
+<section class="lesson" data-title="Strategiya və rəqəmsal yetkinlik" data-ill="compass">
+  <div class="card">
+    <h2>3. Strategiya və rəqəmsal yetkinlik</h2>
+    <p class="lead">Transformasiya texnologiyadan deyil, <b>sualdan</b> başlayır: “Müştərimiz üçün hansı problemi daha yaxşı həll etmək istəyirik?”</p>
+    <h3>Strategiyanın 4 sualı</h3>
+    <ol>
+      <li><b>Haradayıq?</b> Hazırkı vəziyyət: yetkinlik qiymətləndirməsi (aşağıdakı alət).</li>
+      <li><b>Hara getmək istəyirik?</b> Vizyon: 3 il sonra müştəri bizimlə necə işləyəcək?</li>
+      <li><b>Hansı yolla?</b> Yol xəritəsi: prioritetlər, mərhələlər, büdcə.</li>
+      <li><b>Necə ölçəcəyik?</b> Hədəflər və göstəricilər (11-ci dərs).</li>
+    </ol>
+    <div class="ex warn"><span class="tag">⚠️ Tipik səhv: “parlaq obyekt” sindromu</span>
+      <p>“Rəqiblər süni intellekt işlədir, biz də alaq!” Məqsəd və problem müəyyən edilmədən alınan texnologiya çox vaxt bir ildən sonra heç kimin istifadə etmədiyi bahalı bir sistemə çevrilir. Düzgün ardıcıllıq belədir: <b>problem → məqsəd → həll → texnologiya</b>.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Real nümunə: kiçik klinika</span>
+      <p>Klinikanın problemi: zənglərin 40%-i cavabsız qalır, pasiyentlər rəqib klinikaya gedir. Strategiya “yeni sayt” deyil, belə qurulur: “Pasiyent 1 dəqiqəyə, istənilən vaxt, zəng etmədən qəbula yazıla bilsin.” Həll: onlayn qəbul + SMS xatırlatma. Ölçü: gəlməyən pasiyentlərin payı 25%-dən 10%-ə.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📊 Alət: rəqəmsal yetkinlik qiymətləndirməsi</h3>
+    <p class="fb">Öz təşkilatınızı (və ya tanıdığınız bir şirkəti) hər sahə üzrə 1-dən 5-ə qədər qiymətləndirin.</p>
+    <div class="mat"><div id="matDims"></div><svg class="radar" id="matRadar" viewBox="0 0 300 300" aria-label="Yetkinlik diaqramı"></svg></div>
+    <div id="matMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="strategy"></div></div>
+</section>
+
+<!-- ============ II HİSSƏ: MÜŞTƏRİ VƏ DATA ============ -->
+<section class="lesson" data-title="Müştəri təcrübəsi" data-ill="heart">
+  <div class="card">
+    <h2>4. Müştəri təcrübəsi: transformasiyanın mərkəzi</h2>
+    <p class="lead">Müştəri sizin daxili sistemlərinizi görmür. O, yalnız bir şeyi hiss edir: <b>sizinlə işləmək nə qədər asandır?</b></p>
+    <h3>Müştəri səyahəti xəritəsi</h3>
+    <p>Müştərinin xidmətlə tanış olmasından sona qədər keçdiyi bütün addımlar xəritəyə çəkilir. Hər addımda soruşulur: <i>müştəri nə edir, nə hiss edir, harada əziyyət çəkir?</i> Ən böyük “ağrı nöqtələri” transformasiyanın ilk hədəfləridir.</p>
+    <figure class="pic noimg"><figcaption>🏛️ <b>ASAN xidmət</b>2012-ci ildə yaradılıb. Onlarla dövlət qurumunun xidmətləri “bir pəncərə” prinsipi ilə bir binada toplanıb. 2015-ci ildə BMT-nin Dövlət Qulluğu Mükafatına layiq görülüb.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: ASAN xidmətin dərsi</span>
+      <p>Əvvəllər şəxsiyyət vəsiqəsi, notarial sənəd və ya arayış almaq üçün vətəndaş müxtəlif qurumlara getməli, növbə gözləməli, bəzən də “tanış” axtarmalı olurdu. ASAN xidmət əsas ideyanı vətəndaşın gözü ilə qurdu: <b>qurumlar bir yerə gəlsin, vətəndaş isə bir yerə getsin</b>. Elektron növbə, aydın qiymətlər və qiymətləndirmə sistemi texnologiyanın xidmətdə necə istifadə oluna biləcəyini göstərdi.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🗺️ Laboratoriya: bank kartı almaq, əvvəl və sonra</h3>
+    <p class="fb">Müştərinin hər addımdakı əhvalı. Düyməni basıb rəqəmsal versiya ilə müqayisə edin.</p>
+    <div class="row"><button class="btn" id="jmBefore">Əvvəl: filial</button><button class="btn ghost" id="jmAfter">Sonra: mobil tətbiq</button></div>
+    <svg class="diagram" id="jmSvg" viewBox="0 0 640 240" aria-label="Müştəri səyahəti"></svg>
+    <div id="jmTxt"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="cx"></div></div>
+</section>
+
+<section class="lesson" data-title="Data və analitika" data-ill="chart">
+  <div class="card">
+    <h2>5. Data və analitika: hissdən faktlara</h2>
+    <p class="lead">Rəqəmsal sistemlərin ən qiymətli məhsulu çox vaxt <b>data</b>dır. Amma data özü-özlüyündə dəyər deyil. Dəyəri ondan çıxan qərar yaradır.</p>
+    <h3>Analitikanın 4 pilləsi</h3>
+    <p>Pillələrə klikləyin:</p>
+    <div class="ladder" id="ladBox"></div>
+    <div class="ex"><span class="tag">📌 Real nümunə: mağaza şəbəkəsi</span>
+      <p>Supermarket şəbəkəsi satış datasına baxır və görür ki, yay aylarında bəzi filiallarda su tez qurtarır (1-ci pillə). Səbəbi: həmin filiallar çimərlik yolunun üstündədir (2-ci pillə). Hava proqnozu və keçən illərin datası ilə gələn həftənin tələbatı proqnozlaşdırılır (3-cü pillə). Sistem anbara avtomatik sifariş göndərir (4-cü pillə). Nəticədə rəflər boş qalmır, artıq mal da yığılmır.</p>
+    </div>
+    <div class="ex warn"><span class="tag">⚠️ “Zibil girir, zibil çıxır”</span>
+      <p>Müştəri bazasında eyni adam üç dəfə üç fərqli yazılışla (“Məmmədov”, “Mammadov”, “Memmedov”) varsa, ən bahalı analitika sistemi də səhv nəticə verəcək. Data keyfiyyəti, yəni dəqiqlik, tamlıq və vahid standartlar, transformasiyanın görünməyən, amma ən vacib işidir.</p>
+    </div>
+    <div class="note"><b>Məntiq kursu ilə əlaqə:</b> “Korrelyasiya səbəbiyyət deyil” (19-cu dərs) və Bayes düşüncəsi (17-ci dərs) data ilə işləyənlər üçün əsas qaydalardır.</div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="data"></div></div>
+</section>
+
+<!-- ============ III HİSSƏ: TEXNOLOGİYA VƏ PROSESLƏR ============ -->
+<section class="lesson" data-title="Əsas texnologiyalar" data-ill="cloud">
+  <div class="card">
+    <h2>6. Əsas texnologiyalar: hansı problem üçün hansı alət?</h2>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Texnologiya</th><th>Sadə dillə</th><th>Nə vaxt lazımdır</th></tr>
+      <tr><td>☁️ Bulud</td><td>Başqasının güclü kompüterlərini kirayə götürmək</td><td>Öz serverinizi saxlamaq bahalıdır, yükünüz isə dəyişir</td></tr>
+      <tr><td>🔌 API</td><td>Proqramların bir-biri ilə “danışma” qaydası</td><td>Sistemləri birləşdirmək: sayt, anbar, ödəniş</td></tr>
+      <tr><td>📱 Mobil tətbiq</td><td>Xidmət müştərinin cibində</td><td>Müştəri sizdən tez-tez istifadə edir</td></tr>
+      <tr><td>📡 IoT (əşyaların interneti)</td><td>Sensorlar fiziki dünyadan data göndərir</td><td>Avadanlığı, temperaturu, nəqliyyatı izləmək</td></tr>
+      <tr><td>🤖 Süni intellekt</td><td>Datadan nümunə öyrənib proqnoz verən və ya mətn, şəkil yaradan sistemlər</td><td>Çox data, təkrarlanan qərarlar, mətnlə iş</td></tr>
+      <tr><td>🧾 ERP / CRM</td><td>Şirkətin “onurğası”: maliyyə, anbar, müştərilər</td><td>Məlumat Excel faylları arasında itəndə</td></tr>
+    </table></div>
+    <figure class="pic"><img src="courses/reqemsal/img/data-merkezi.jpg" alt="Data mərkəzində server rəfləri" data-credit="data-merkezi" loading="lazy"><figcaption><b>Data mərkəzi</b>Bulud xidmətləri belə binalarda yerləşən minlərlə serverdə işləyir. Şirkətiniz bu gücdən istifadə etdiyi qədər pul ödəyir, elektrik pulu kimi.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: Estoniyanın X-Road sistemi</span>
+      <p>Estoniya 2001-ci ildə dövlət qurumlarının məlumat bazalarını <b>X-Road</b> adlı təhlükəsiz məlumat mübadiləsi sistemi (API-lər şəbəkəsi) ilə birləşdirdi. Nəticədə vətəndaş eyni məlumatı dövlətə iki dəfə vermir: bir qurum o biri qurumdan məlumatı özü alır. Bu gün Estoniyada dövlət xidmətlərinin demək olar ki, hamısı onlayndır. Rəqəmsal ID kart və elektron imza isə bunun açarıdır.</p>
+    </div>
+    <figure class="pic"><img src="courses/reqemsal/img/estoniya.jpg" alt="Estoniyanın şəxsiyyət vəsiqəsi" data-credit="estoniya" loading="lazy"><figcaption><b>Estoniyanın rəqəmsal ID kartı</b>Çipli şəxsiyyət vəsiqəsi ilə vətəndaş onlayn kimliyini təsdiqləyir, sənəd imzalayır və səs verir.</figcaption></figure>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq: problemə alət seçin</h3><div class="quiz" data-quiz="tech"></div></div>
+</section>
+
+<section class="lesson" data-title="Proseslər və avtomatlaşdırma" data-ill="chip">
+  <div class="card">
+    <h2>7. Proseslər və avtomatlaşdırma</h2>
+    <p class="lead">Qızıl qayda: <b>pis prosesi rəqəmsallaşdırsanız, sadəcə daha sürətli pis proses alarsınız.</b> Əvvəlcə prosesi sadələşdirin, sonra avtomatlaşdırın.</p>
+    <h3>3 addım</h3>
+    <ol>
+      <li><b>Xəritəyə çək:</b> proses hazırda necə işləyir? Kim, nə edir, nə qədər vaxt gedir?</li>
+      <li><b>Sadələşdir:</b> lazımsız imzaları, təkrarlanan məlumat daxil etməni, “kağızı masadan masaya daşımağı” çıxar.</li>
+      <li><b>Avtomatlaşdır:</b> qalan təkrarlanan addımları proqrama ver.</li>
+    </ol>
+    <figure class="pic"><img src="courses/reqemsal/img/skaner.jpg" alt="Ofisdə sənəd skaneri" data-credit="skaner" loading="lazy"><figcaption><b>Skan etmək transformasiya deyil</b>Kağızı skan edib PDF etmək birinci pillədir. Əgər sonra həmin PDF-i yenə çap edib imzalayırsınızsa, proses dəyişməyib.</figcaption></figure>
+    <div class="ex"><span class="tag">📌 Real nümunə: məzuniyyət ərizəsi</span>
+      <p><b>Əvvəl:</b> işçi ərizə yazır → rəhbərə imzaya aparır → kadrlar şöbəsinə aparır → mühasibatlığa surəti gedir. Bu, 3–5 gün çəkir, ərizə bəzən itir. <b>Sadələşdirmədən sonra:</b> mühasibatlığın surətə ehtiyacı yoxdur, məlumat sistemdən görünür. <b>Avtomatlaşdırmadan sonra:</b> işçi telefondan 30 saniyəyə müraciət edir, rəhbər bildirişlə təsdiqləyir, kadrlar və mühasibatlıq avtomatik məlumat alır.</p>
+    </div>
+    <div class="ex warn"><span class="tag">⚠️ Nəyi avtomatlaşdırmamalı?</span>
+      <p>Nadir hallarda baş verən, hər dəfə fərqli olan və insan mülahizəsi tələb edən işləri (məsələn, mürəkkəb şikayəti həll etmək) tam avtomatlaşdırmaq çox vaxt baha başa gəlir və müştərini əsəbiləşdirir. “Robotla danış” düyməsindən sonra insana çatmaq imkanı olmalıdır.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧮 Kalkulyator: avtomatlaşdırma özünü nə vaxt ödəyir?</h3>
+    <div class="calc">
+      <label>Ayda neçə dəfə təkrarlanır?<input type="number" id="roiN" value="400" min="0"></label>
+      <label>Hər dəfə neçə dəqiqə çəkir?<input type="number" id="roiM" value="12" min="0"></label>
+      <label>Avtomatlaşdırıla bilən hissə (%)<input type="number" id="roiP" value="75" min="0" max="100"></label>
+      <label>İşçinin saatlıq xərci (₼)<input type="number" id="roiH" value="8" min="0"></label>
+      <label>Avtomatlaşdırmanın birdəfəlik xərci (₼)<input type="number" id="roiC" value="6000" min="0"></label>
+      <label>Aylıq dəstək xərci (₼)<input type="number" id="roiS" value="100" min="0"></label>
+    </div>
+    <div class="kpis" id="roiOut"></div>
+    <div id="roiMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="process"></div></div>
+</section>
+
+<section class="lesson" data-title="Agile və məhsul düşüncəsi" data-ill="cycle">
+  <div class="card">
+    <h2>8. Agile və məhsul düşüncəsi</h2>
+    <p class="lead">Ənənəvi layihə belə qurulur: 1 il plan, 1 il icra, sonra təqdimat. Problem: bir ildən sonra müştərinin ehtiyacı dəyişmiş olur.</p>
+    <div class="grid2">
+      <div class="ex warn" style="margin:0"><span class="tag">Şəlalə (waterfall)</span><p>Bütün tələblər əvvəlcədən yazılır. Mərhələlər bir-birinin ardınca gedir. Müştəri nəticəni yalnız sonda görür. Dəyişiklik bahadır.</p></div>
+      <div class="ex life" style="margin:0"><span class="tag">Agile</span><p>Kiçik hissələrlə, 1–2 həftəlik dövrlərlə (sprint) işlənir. Hər dövrün sonunda işləyən nəticə göstərilir. Rəyə əsasən istiqamət dəyişir.</p></div>
+    </div>
+    <h3>MVP: minimum işlək məhsul</h3>
+    <p>Bütün funksiyaları bir anda qurmaq əvəzinə, əsas ideyanı yoxlayan ən kiçik versiya hazırlanır və real müştərilərə göstərilir. Sonra <b>qur → ölç → öyrən</b> dövrü təkrarlanır.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: restoranın çatdırılma xidməti</span>
+      <p>Restoran sahibi 6 aya mobil tətbiq hazırlatmaq istəyir. Agile yanaşma isə belədir: <b>1-ci həftə:</b> WhatsApp ilə sifariş + Instagram-da menyu (MVP). <b>1-ci ay:</b> ayda 300 sifariş gəlir, ən çox soruşulan şey “sifariş haradadır?” olur. <b>2-ci ay:</b> sadə sifariş saytı və SMS izləmə. <b>6-cı ay:</b> artıq data var, tətbiqə həqiqətən ehtiyac olub-olmadığı bəllidir. Pul təxmin üçün deyil, sübut olunmuş ehtiyac üçün xərclənir.</p>
+    </div>
+    <div class="note"><b>Məntiq kursu ilə əlaqə:</b> MVP elmi metodun biznes formasıdır: hipotez qur, ən ucuz yolla yoxla, nəticəyə görə yenilə (11-ci dərs). Bu həm də təkamül alqoritmidir (21-ci dərs): variasiya, seçmə, irsiyyət.</div>
+  </div>
+  <div class="card">
+    <h3>🔀 Məşq: Agile, yoxsa şəlalə?</h3>
+    <div id="agItem"></div><div id="agMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="agile"></div></div>
+</section>
+
+<!-- ============ IV HİSSƏ: İNSANLAR, RİSKLƏR, NƏTİCƏ ============ -->
+<section class="lesson" data-title="İnsanlar və dəyişikliyin idarə edilməsi" data-ill="users">
+  <div class="card">
+    <h2>9. İnsanlar və dəyişikliyin idarə edilməsi</h2>
+    <p class="lead">Transformasiya layihələrinin çoxu texnologiyaya görə deyil, insanlara görə uğursuz olur. Konsaltinq araşdırmalarında tez-tez sitat gətirilən rəqəmə görə, transformasiyaların təxminən <b>70%-i</b> məqsədinə tam çatmır.</p>
+    <h3>Müqavimətin səbəbləri</h3>
+    <ul>
+      <li><b>Qorxu:</b> “Sistem mənim işimi əlimdən alacaq.”</li>
+      <li><b>Bacarıq çatışmazlığı:</b> “Bunu necə edəcəyimi bilmirəm, gülünc görünmək istəmirəm.”</li>
+      <li><b>Mənasızlıq:</b> “Niyə dəyişməliyik? Köhnə üsul işləyirdi.”</li>
+      <li><b>Yorğunluq:</b> “Bu, son iki ildə üçüncü yeni sistemdir.”</li>
+    </ul>
+    <h3>Kotterin 8 addımı</h3>
+    <p>Harvard professoru Con Kotter (1996) dəyişikliyin idarə edilməsi üçün 8 addımlıq model təklif edib. Aşağıdakı məşqdə onları düzgün sıraya düzün.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: yeni CRM sistemi</span>
+      <p>Şirkət bahalı CRM sistemi alır, amma 6 aydan sonra satış menecerləri yenə Excel işlədir. Səbəb: sistem onlara heç nə qazandırmırdı, sadəcə rəhbərlik üçün hesabat yazmağa məcbur edirdi. Həll: menecerlərlə birlikdə sistemi elə qurmaq ki, <b>onların öz işini asanlaşdırsın</b> (zəng xatırlatmaları, hazır məktub şablonları), həm də uğurlu nümunə olacaq “çempion” işçilər seçmək.</p>
+    </div>
+    <div class="ex life"><span class="tag">✅ Tətbiq: “Mənə nə fayda?”</span>
+      <p>Hər dəyişiklikdə hər işçi qrupu üçün bir cümlə yazın: “Bu sistem <i>sənin</i> gündəlik işində nəyi asanlaşdıracaq?” Bu cümləni yaza bilmirsinizsə, müqavimət qaçılmazdır.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧩 Məşq: Kotterin 8 addımını sıraya düzün</h3>
+    <div class="order" id="ktBox" style="display:grid;gap:6px"></div>
+    <div class="row" style="margin-top:8px"><button class="btn" id="ktCheck">Yoxla</button><button class="btn ghost" id="ktReset">Sıfırla</button></div>
+    <div id="ktMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="people"></div></div>
+</section>
+
+<section class="lesson" data-title="Kibertəhlükəsizlik və məsuliyyət" data-ill="shield">
+  <div class="card">
+    <h2>10. Kibertəhlükəsizlik və məsuliyyət</h2>
+    <p class="lead">Rəqəmsallaşma imkanlarla yanaşı yeni riskləri də gətirir. Ən zəif halqa çox vaxt texnologiya deyil, <b>insandır</b>: hücumların böyük hissəsi saxta məktub və mesajlarla (fişinq) başlayır.</p>
+    <h3>Minimum qaydalar</h3>
+    <ul>
+      <li><b>İkiaddımlı doğrulama (MFA):</b> Microsoft-un məlumatına görə hesablara avtomatlaşdırılmış hücumların 99%-dən çoxunun qarşısını alır.</li>
+      <li><b>Yeniləmələr:</b> proqramları və sistemləri vaxtında yeniləyin.</li>
+      <li><b>Ehtiyat nüsxələr:</b> “3-2-1” qaydası: 3 nüsxə, 2 fərqli daşıyıcıda, 1-i başqa yerdə.</li>
+      <li><b>Ən az hüquq:</b> hər işçi yalnız öz işi üçün lazım olan məlumata çıxış əldə etsin.</li>
+    </ul>
+    <h3>Fərdi məlumatlar</h3>
+    <p>Müştəri məlumatı sizin deyil, müştərinindir: siz yalnız onu qorumaq öhdəliyi ilə saxlayırsınız. Azərbaycanda bu sahəni <b>“Fərdi məlumatlar haqqında” Qanun</b> (2010) tənzimləyir. Avropa İttifaqı ilə işləyən şirkətlər isə GDPR (2018) tələblərinə də əməl etməlidir.</p>
+    <div class="ex warn"><span class="tag">⚠️ Real ssenari: “mühasibə təcili ödəniş”</span>
+      <p>Mühasib direktorun adından məktub alır: “Təcili! Bu gün tərəfdaşa 18 000 ₼ köçür, mən iclasdayam, zəng etmə.” Ünvan tanış görünür, amma bir hərfi fərqlidir. Bu, ən geniş yayılmış fırıldaqçılıq növlərindən biridir (biznes e-poçtunun ələ keçirilməsi, BEC). Qayda: <b>pul köçürməsi haqqında e-poçtla gələn tələbi həmişə başqa kanalla, məsələn, telefonla təsdiqləyin.</b></p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🎣 Oyun: fişinq məktubunda 5 şübhəli əlaməti tapın</h3>
+    <p class="fb">Məktubdakı şübhəli hissələrə klikləyin.</p>
+    <div class="mail">
+      <div class="hd">
+        <div><b>Kimdən:</b> NümunəBank <span class="sus" data-s="0">&lt;destek@numunebank-az.co&gt;</span> <small class="fb">(bankın əsl ünvanı: numunebank.az)</small></div>
+        <div><b>Mövzu:</b> <span class="sus" data-s="1">TƏCİLİ: hesabınız 24 saat ərzində bloklanacaq!!!</span></div>
+      </div>
+      <div class="bd">
+        <p><span class="sus" data-s="2">Hörmətli müştəri,</span></p>
+        <p>Hesabınızda şübhəli əməliyyat aşkarlanıb. Hesabınızın bloklanmaması üçün <span class="sus" data-s="3">kart nömrənizi, CVV kodunu və SMS şifrəni</span> aşağıdakı linkdə təsdiqləyin:</p>
+        <p><span class="sus" data-s="4" style="color:var(--ex-blue-b);text-decoration:underline">http://bit.ly/hesab-tesdiq-az</span></p>
+        <p>Hörmətlə,<br>Təhlükəsizlik şöbəsi</p>
+      </div>
+    </div>
+    <div id="phMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="security"></div></div>
+</section>
+
+<section class="lesson" data-title="Ölçmə: OKR və KPI" data-ill="gauge">
+  <div class="card">
+    <h2>11. Ölçmə: transformasiya uğurludurmu?</h2>
+    <p class="lead">“Sistem quraşdırıldı” uğur deyil. Uğur <b>müştəri və biznes üçün nəyin dəyişdiyidir</b>.</p>
+    <div class="grid2">
+      <div class="ex warn" style="margin:0"><span class="tag">Fəaliyyət ölçüsü (zəif)</span><ul><li>Yeni sayt istifadəyə verildi</li><li>200 işçi təlim keçdi</li><li>3 sistem birləşdirildi</li></ul></div>
+      <div class="ex life" style="margin:0"><span class="tag">Nəticə ölçüsü (güclü)</span><ul><li>Onlayn sifarişlərin payı 10%-dən 35%-ə</li><li>Müraciətə cavab müddəti 2 gündən 2 saata</li><li>Müştəri məmnuniyyəti (NPS) +15</li></ul></div>
+    </div>
+    <h3>OKR: məqsəd və əsas nəticələr</h3>
+    <p><b>Məqsəd (Objective)</b> ilhamverici və keyfiyyət ifadəsidir: “Müştərilər bizimlə işləməyi sevsin.” <b>Əsas nəticələr (Key Results)</b> isə 2–4 ölçülə bilən göstəricidir: “Şikayətlərə orta cavab müddəti 24 saatdan 4 saata düşsün.” OKR-lər Intel-də yaranıb, sonra Google və bir çox digər şirkətdə yayılıb.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: KPI tələsi</span>
+      <p>Çağrı mərkəzində KPI “bir zəngin orta müddəti 3 dəqiqədən az olsun” kimi qoyulur. Operatorlar problemi həll etmədən zəngi tez bitirməyə başlayır və müştərilər təkrar zəng edir. Göstərici “yaxşılaşdı”, xidmət isə pisləşdi. Bu, <b>Qudhart qanunu</b>dur: göstərici hədəfə çevriləndə yaxşı göstərici olmaqdan çıxır. Həll: “ilk zəngdə həll olunan müraciətlərin payı” kimi nəticə göstəricisi.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🎯 Alət: OKR qurucusu</h3>
+    <div class="okr">
+      <label style="font-weight:600">Məqsəd<input type="text" id="okrO" value="Pasiyentlər bizə qəbula asanlıqla yazılsın" style="font-family:var(--sans)"></label>
+      <p class="fb" style="margin:10px 0 4px">Əsas nəticələr (rəqəm və hədəf olmalıdır):</p>
+      <div class="kr"><input type="text" class="okrK" value="Onlayn yazılışların payı 20%-dən 60%-ə qalxsın" style="font-family:var(--sans)"><span></span></div>
+      <div class="kr"><input type="text" class="okrK" value="Telefona cavab verilməyən zənglər azalsın" style="font-family:var(--sans)"><span></span></div>
+      <div class="kr"><input type="text" class="okrK" value="Gəlməyən pasiyentlər 25%-dən 10%-ə düşsün" style="font-family:var(--sans)"><span></span></div>
+    </div>
+    <div id="okrMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="measure"></div></div>
+</section>
+
+<section class="lesson" data-title="Öz yol xəritəniz" data-ill="star">
+  <div class="card">
+    <h2>12. Öz transformasiya yol xəritəniz</h2>
+    <p class="lead">Bütün kursu bir plana yığaq. Sektorunuzu seçin və üç mərhələli nümunə yol xəritəsinə baxın.</p>
+    <div class="sectors" id="rmSectors"></div>
+    <div class="road" id="rmRoad"></div>
+    <div class="ex"><span class="tag">📌 Yadda saxlamaq üçün 7 prinsip</span>
+      <ol>
+        <li>Texnologiyadan deyil, müştərinin problemindən başla.</li>
+        <li>Pis prosesi rəqəmsallaşdırma: əvvəlcə sadələşdir.</li>
+        <li>Kiçik başla, tez yoxla (MVP), sübut olunanı böyüt.</li>
+        <li>Datanın keyfiyyətinə əvvəlcədən sərmayə qoy.</li>
+        <li>İnsanlara “mənə nə fayda?” sualının cavabını ver.</li>
+        <li>Təhlükəsizliyi sonradan deyil, əvvəldən düşün.</li>
+        <li>Fəaliyyəti deyil, nəticəni ölç.</li>
+      </ol>
+    </div>
+    <div class="ex life"><span class="tag">✅ Tətbiq: bu həftə üçün tapşırıq</span>
+      <p>İş yerinizdə (və ya evinizdə) ən çox vaxt aparan, təkrarlanan bir prosesi seçin. 7-ci dərsdəki kalkulyatorla nə qədər vaxt itdiyini hesablayın, 3 addımlıq sadələşdirmə planı yazın və onu Akademiyanın “Qeydlərim” bölməsində saxlayın.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="road"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
+  <div class="card">
+    <h2>13. Yekun imtahan</h2>
+    <p class="lead">Bütün kursdan 15 sual. Ən azı 12 düzgün cavab (80%) verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>
