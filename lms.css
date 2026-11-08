@@ -554,3 +554,11 @@ mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box
 .ks-keys li{margin:3px 0}
 .ks-tg{display:flex;gap:8px;align-items:center;margin:0 0 10px}
 @media print{.keys-card,.ks-keys,.gl-ex{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+/* kursu sıfırlamaq */
+.btn.danger{background:var(--bad);color:#fff}
+.side .reset-link{color:var(--muted);border-style:dashed;font:inherit;font-size:.88rem;background:none;cursor:pointer;text-align:left}
+.side .reset-link:hover{color:var(--bad);border-color:var(--bad);background:var(--bad-soft)}
+.rs-o{display:flex;gap:10px;align-items:flex-start;margin:8px 0;cursor:pointer}
+.rs-o input{margin-top:5px;width:18px;height:18px;flex:0 0 18px}
+.rs-o input:disabled+span{opacity:.75}
