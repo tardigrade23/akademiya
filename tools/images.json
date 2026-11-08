@@ -25,5 +25,30 @@
     "data-merkezi": "File:Wikimedia Foundation Servers-8055 35.jpg",
     "skaner": "search:document scanner office",
     "telefon": "search:smartphone mobile banking app"
+  },
+  "mentiq": {
+    "boole": "File:George Boole color.jpg",
+    "turing": "File:Alan Turing Aged 16.jpg",
+    "godel": "search:Kurt Gödel portrait",
+    "bayes": "File:Thomas Bayes.gif",
+    "zadeh": "search:Lotfi Zadeh",
+    "lorenz": "File:Lorenz attractor yb.svg",
+    "wald": "File:Survivorship-bias.svg",
+    "aysberq": "search:iceberg Greenland",
+    "qara-qu": "search:black swan Cygnus atratus",
+    "galton": "search:Galton board",
+    "kobra": "search:Indian cobra Naja naja hood"
+  },
+  "claudecode": {
+    "lovelace": "File:Ada Lovelace portrait.jpg",
+    "vt100": "search:DEC VT100 terminal",
+    "bug": "File:First Computer Bug, 1945.jpg",
+    "hamilton": "File:Margaret Hamilton - restoration.jpg",
+    "qifil": "search:padlock closed",
+    "qarmaq": "search:fish hook",
+    "usb": "search:USB connectors types",
+    "defter": "search:notebook handwriting pen",
+    "konveyer": "search:assembly line robots automobile factory",
+    "estafet": "search:relay race baton exchange"
   }
 }
