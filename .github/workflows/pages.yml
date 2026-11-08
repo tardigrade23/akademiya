@@ -3,6 +3,16 @@ name: Deploy Akademiya to GitHub Pages
 # Publishes the installable app whenever the default branch changes.
 on:
   push:
+    # Only app files trigger a redeploy; docs and helper workflows don't.
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/site.yml'
+      - '.github/workflows/links.yml'
+      - '.github/workflows/images.yml'
+      - 'tools/check_links.py'
+      - 'tools/fetch_images.py'
+      - 'tools/images.json'
+      - 'data/links.json'
   workflow_dispatch:
 
 permissions:
