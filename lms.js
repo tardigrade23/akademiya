@@ -75,7 +75,6 @@
     else { c.b = 0; c.due = addDays(1); }
   }
   function recordAnswer(cid, id, ok, snap) {
-    if (CARD[id] && CARD[id].own) { schedule(id, ok); logAct(); saveMe(); checkBadges(); return; }
     const a = me.acc[cid] || (me.acc[cid] = [0, 0]); a[1]++; if (ok) a[0]++;
     if (CARD[id]) schedule(id, ok);
     if (!ok) me.miss[id] = Object.assign({ ts: Date.now(), fixed: false }, CARD[id] ? {} : { d: snap });
@@ -112,7 +111,6 @@
       ['fix10', '🩹', 'Səhvlərdən öyrənən', '10 səhvi düzəlt', s => s.fixed >= 10],
       ['mark', '🖍️', 'Kolleksiyaçı', 'İlk cümləni vurğula', s => s.hl >= 1],
       ['proj', '🛠️', 'Praktik', 'İlk praktiki layihəni tamamla', s => s.proj >= 1],
-      ['own10', '🃏', 'Kart ustası', '10 öz kartını yarat', s => s.own >= 10],
       ['hl10', '🖍️', 'Diqqətli oxucu', '10 cümləni vurğula', s => s.hl >= 10],
       ['kk', '🧩', 'Tapmaca ustası', 'Bütün cəngavər-yalançı tapmacalarını həll et', s => s.kk >= 5],
     ];
@@ -286,7 +284,7 @@
         : active ? `<div class="what">Bu gün üçün təkrar yoxdur 🎉</div><div class="sub">${active} kart yaddaşınızdadır. Növbəti təkrar: ${nextDue()}</div>`
         : '<div class="what">Hələ kart yoxdur</div><div class="sub">Dərsləri tamamladıqca və testləri cavablandırdıqca hər dərsdən 3–5 təkrar kartı yaranacaq.</div>'}</div>
       ${due ? '<a class="btn" href="#tekrar">Təkrara başla →</a>' : miss ? '<a class="btn ghost" href="#sehvler">Səhvləri təkrarla</a>' : ''}</div>`;
-    const tiles = [['kartlarim', '🃏', 'Kartlarım', Object.keys(me.own).length || ''], ['sehvler', '🩹', 'Səhvlərim', miss], ['vurgular', '🖍️', 'Vurğularım', Object.values(me.hl).reduce((n, a) => n + a.length, 0)], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : ''], ['axtar', '🔍', 'Axtarış', '']];
+    const tiles = [['sehvler', '🩹', 'Səhvlərim', miss], ['qeydlerim', '🖍️', 'Qeydlərim', Object.values(me.hl).reduce((n, a) => n + a.length, 0)], ['luget', '📖', 'Lüğət', ''], ['statistika', '📊', 'Statistika', Object.keys(me.badges).length ? Object.keys(me.badges).length + ' nişan' : ''], ['axtar', '🔍', 'Axtarış', '']];
     $('#quickBox').innerHTML = tiles.map(([h, ic, n, c]) => `<a class="qt" href="#${h}"><span class="qi">${ic}</span><span>${n}</span>${c ? `<b>${c}</b>` : ''}</a>`).join('');
   }
   function nextDue() {
@@ -310,7 +308,7 @@
   }
 
   // ---------- səhifələr: təkrar, səhvlər, əlfəcinlər, lüğət, statistika, axtarış ----------
-  const PAGES = { tekrar: 'Bugünkü təkrar', kartlarim: 'Kartlarım', sehvler: 'Səhvlərim', vurgular: 'Vurğularım', luget: 'Lüğət', statistika: 'Statistika', axtar: 'Axtarış' };
+  const PAGES = { tekrar: 'Bugünkü təkrar', sehvler: 'Səhvlərim', qeydlerim: 'Qeydlərim', luget: 'Lüğət', statistika: 'Statistika', axtar: 'Axtarış' };
   const loaded = {};
   const getJSON = f => loaded[f] || (loaded[f] = fetch(f).then(r => r.ok ? r.json() : []).catch(() => []));
   const chip = cid => byId[cid] ? `<span class="cchip" style="${cvars(byId[cid])}">${esc(byId[cid].title)}</span>` : '';
@@ -321,7 +319,7 @@
   function renderPage(page) {
     const v = $('#pageView');
     $('#crumb').innerHTML = `<b>${PAGES[page]}</b>`;
-    ({ tekrar: pageReview, kartlarim: pageOwn, sehvler: pageMistakes, vurgular: pageHls, luget: pageGlossary, statistika: pageStats, axtar: pageSearch })[page](v);
+    ({ tekrar: pageReview, sehvler: pageMistakes, qeydlerim: pageHls, luget: pageGlossary, statistika: pageStats, axtar: pageSearch })[page](v);
     window.scrollTo({ top: 0 });
   }
   function startReview(mode) { reviewMode = mode; rv = null; if (location.hash === '#tekrar') renderPage('tekrar'); else location.hash = 'tekrar'; }
@@ -355,7 +353,6 @@
     }
     const id = rv.ids[rv.i], c = cardData(id);
     if (!c) { rv.i++; return pageReview(v); }
-    if (c.own) return reviewOwn(v, id, c);
     const order = shuffle(c.o.map((t, k) => k));
     const lvl = me.cards[id] ? me.cards[id].b : 0;
     v.innerHTML = `<div class="rv-top"><span>${rv.i + 1} / ${rv.ids.length}</span><div class="meter"><i style="width:${rv.i / rv.ids.length * 100}%"></i></div><span>✓ ${rv.ok}</span></div>
@@ -379,32 +376,6 @@
     $('#rvGo').onclick = () => { rv.i++; rv.answered = false; pageReview(v); window.scrollTo({ top: 0 }); };
   }
 
-  function reviewOwn(v, id, c) {
-    const lvl = me.cards[id] ? me.cards[id].b : 0;
-    v.innerHTML = `<div class="rv-top"><span>${rv.i + 1} / ${rv.ids.length}</span><div class="meter"><i style="width:${rv.i / rv.ids.length * 100}%"></i></div><span>✓ ${rv.ok}</span></div>
-      <div class="card rv" style="${byId[c.c] ? cvars(byId[c.c]) : ''}">
-        <div class="rv-meta">${chip(c.c)}<span class="fb">🃏 öz kartım · səviyyə ${lvl}/5</span></div>
-        <div class="rv-q">${esc(c.q)}</div>
-        <div class="row" id="rvShowR"><button class="btn" id="rvShow">Cavabı göstər</button></div>
-        <div class="rv-ans" id="rvAns" hidden><div>${esc(c.a)}</div>
-          <p class="fb">Cavabı düzgün xatırladınızmı?</p>
-          <div class="row"><button class="btn ok" id="rvYes">✓ Bildim</button><button class="btn ghost" id="rvNo">✗ Bilmədim</button></div></div>
-        <div class="fb" id="rvFb"></div>
-        <div class="row" id="rvNext" hidden><button class="btn" id="rvGo">Növbəti →</button>${c.c && c.l >= 0 ? `<a class="btn ghost" href="#${c.c}-${c.l + 1}">Dərsə keç</a>` : ''}</div>
-      </div>`;
-    $('#rvShow').onclick = () => { $('#rvShowR').hidden = true; $('#rvAns').hidden = false; $('#rvYes').focus(); };
-    const grade = ok => {
-      if (rv.answered) return; rv.answered = true; if (ok) rv.ok++;
-      me.reviews = (me.reviews || 0) + 1; recordAnswer(c.c, id, ok, c);
-      $('#rvAns').querySelector('.row').hidden = true; $('#rvAns').querySelector('.fb').hidden = true;
-      const nb = me.cards[id];
-      $('#rvFb').innerHTML = `${ok ? '✅' : '🔁'} Növbəti dəfə: ${nb.due === addDays(1) ? 'sabah' : Math.round((new Date(nb.due + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 864e5) + ' gün sonra'}`;
-      $('#rvNext').hidden = false; $('#rvGo').focus();
-    };
-    $('#rvYes').onclick = () => grade(true); $('#rvNo').onclick = () => grade(false);
-    $('#rvGo').onclick = () => { rv.i++; rv.answered = false; pageReview(v); window.scrollTo({ top: 0 }); };
-  }
-
   function pageMistakes(v, showFixed) {
     const ids = Object.keys(me.miss).filter(id => cardData(id) && (showFixed || !me.miss[id].fixed)).sort((a, b) => me.miss[b].ts - me.miss[a].ts);
     const open = openMiss().length;
@@ -417,14 +388,14 @@
     $('#msFixed').onchange = e => pageMistakes(v, e.target.checked);
   }
 
-  // Vurğularım: bütün kurslarda vurğuladığınız cümlələr (əvvəlki əlfəcinlər də bura köçürülüb)
+  // Qeydlərim: bütün kurslarda vurğuladığınız cümlələr (əvvəlki əlfəcinlər də bura köçürülüb)
   function pageHls(v) {
     const all = Object.entries(me.hl).flatMap(([k, a]) => a.map(h => [k.split(':')[0], +k.split(':')[1], h])).filter(([c]) => byId[c]).sort((a, b) => b[2].ts - a[2].ts);
     const groups = {}; all.forEach(x => (groups[x[0]] = groups[x[0]] || []).push(x));
-    v.innerHTML = `<div class="card"><h2>🖍️ Vurğularım</h2><p class="lead">Dərsdə istənilən cümləni seçib rənglə vurğulayın: hamısı burada toplanır. Kurs üzrə tam konspekt üçün kursun yan panelindəki “📄 Konspekt”ə keçin.</p></div>` +
+    v.innerHTML = `<div class="card"><h2>🖍️ Qeydlərim</h2><p class="lead">Dərsdə vacib bildiyiniz cümləni seçib rənglə vurğulayın: hamısı burada toplanır. Kurs üzrə tam konspekt üçün kursun yan panelindəki “📄 Konspekt”ə keçin.</p></div>` +
       (all.length ? Object.entries(groups).map(([cid, list]) => `<div class="card"><h3>${chip(cid)} <span class="fb">${list.length}</span></h3>${list.map(([c, l, h]) => `<div class="mk"><div><span class="fb">${l + 1}. ${esc(h.lt || (lessonTitle(c, l)))}</span><blockquote class="ks-hl hl-${h.c}">${esc(h.t)}</blockquote></div>
         <div class="row"><button class="btn ghost hl-open" data-c="${c}" data-l="${l}" data-id="${esc(h.id)}">Aç</button><button class="iconbtn hl-del" data-k="${c}:${l}" data-id="${esc(h.id)}" title="Sil" aria-label="Vurğunu sil">✕</button></div></div>`).join('')}</div>`).join('')
-        : '<div class="card"><p>Hələ vurğu yoxdur. Dərsdə bir cümləni barmaqla (və ya siçanla) seçin, aşağıda rəng paneli çıxacaq.</p></div>');
+        : '<div class="card"><p>Hələ qeyd yoxdur. Dərsdə bir cümləni barmaqla (və ya siçanla) seçin, aşağıda rəng paneli çıxacaq.</p></div>');
     v.querySelectorAll('.hl-open').forEach(b => b.onclick = () => { pendingMark = b.dataset.id; location.hash = `${b.dataset.c}-${+b.dataset.l + 1}`; });
     v.querySelectorAll('.hl-del').forEach(b => b.onclick = () => {
       const k = b.dataset.k; me.hl[k] = (me.hl[k] || []).filter(x => x.id !== b.dataset.id); if (!me.hl[k].length) delete me.hl[k];
@@ -442,6 +413,12 @@
     me.marks = []; saveMe();
   }
   migrateMarks();
+  // öz kartlar ləğv olunub: təkrar cədvəlindən çıxarılır (bir dəfəlik)
+  if (Object.keys(me.own || {}).length || Object.keys(me.cards).some(id => id.startsWith('own:'))) {
+    Object.keys(me.cards).forEach(id => { if (id.startsWith('own:')) delete me.cards[id]; });
+    Object.keys(me.miss).forEach(id => { if (id.startsWith('own:')) delete me.miss[id]; });
+    me.own = {}; saveMe();
+  }
 
   const glRow = g => `<div class="gl"><b>${esc(g.t)}</b><span>${esc(g.d)}</span>${g.n ? `<em class="gl-ex"><b>Nümunə:</b> ${esc(g.n)}</em>` : ''}<a href="#${g.c}-${g.l + 1}">${chip(g.c)}</a></div>`;
   async function pageGlossary(v) {
@@ -502,54 +479,6 @@
   }
 
 
-  // ---------- öz kartlarım ----------
-  const ownCard = (id, o) => ({ id, own: true, c: o.c || '', l: o.l == null ? -1 : o.l, t: o.t || 'Öz kartım', q: o.q, a: o.a, ts: o.ts });
-  function syncOwn() { Object.entries(me.own).forEach(([id, o]) => { CARD[id] = ownCard(id, o); }); }
-  function cardDialog(pre, editId) {
-    const old = $('#cardDlg'); if (old) old.remove();
-    const o = editId ? me.own[editId] : (pre || {});
-    const d = document.createElement('div'); d.id = 'cardDlg'; d.className = 'ak-dlg';
-    d.innerHTML = `<div class="ak-dlg-box card" role="dialog" aria-modal="true" aria-labelledby="cdT"><h3 id="cdT">${editId ? '✏️ Kartı dəyiş' : '🃏 Yeni kart'}</h3>
-      <label class="fl">Sual və ya termin<textarea id="cdQ" placeholder="Məsələn: Entimem nədir?">${esc(o.q || '')}</textarea></label>
-      <label class="fl">Cavab<textarea id="cdA" placeholder="Qısa və aydın cavab">${esc(o.a || '')}</textarea></label>
-      <label class="fl">Kurs<select id="cdC"><option value="">Ümumi (kursa bağlı deyil)</option>${catalog.map(c => `<option value="${c.id}" ${o.c === c.id ? 'selected' : ''}>${esc(c.title)}</option>`).join('')}</select></label>
-      <div class="row"><button class="btn" id="cdSave">Saxla</button><button class="btn ghost" id="cdX">Ləğv et</button></div></div>`;
-    document.body.appendChild(d);
-    const close = () => d.remove();
-    d.onclick = e => { if (e.target === d) close(); };
-    d.onkeydown = e => { if (e.key === 'Escape') close(); };
-    $('#cdX').onclick = close;
-    $('#cdSave').onclick = () => {
-      const q = $('#cdQ').value.trim(), a = $('#cdA').value.trim(), c = $('#cdC').value;
-      if (!q || !a) { toast('Sual və cavabı yazın'); (!q ? $('#cdQ') : $('#cdA')).focus(); return; }
-      const keep = c && c === o.c && o.l != null && o.l >= 0;
-      const rec = { q: q.slice(0, 600), a: a.slice(0, 1200), c, l: keep ? o.l : -1, t: keep ? o.t : (c ? 'Öz kartım' : 'Ümumi'), ts: Date.now() };
-      const id = editId || 'own:' + Date.now().toString(36);
-      me.own[id] = rec; CARD[id] = ownCard(id, rec);
-      if (!me.cards[id]) me.cards[id] = { b: 0, due: today() };
-      saveMe(); checkBadges(); close();
-      toast(editId ? 'Kart yeniləndi' : '🃏 Kart əlavə olundu: sabah təkrara düşəcək');
-      if (!$('#pageView').hidden && location.hash === '#kartlarim') renderPage('kartlarim');
-    };
-    setTimeout(() => (o.q ? $('#cdA') : $('#cdQ')).focus(), 30);
-  }
-  function pageOwn(v) {
-    const ids = Object.keys(me.own).sort((a, b) => me.own[b].ts - me.own[a].ts);
-    v.innerHTML = `<div class="card"><h2>🃏 Kartlarım</h2><p class="lead">Kitabdan, işdən və ya dərslərdən öyrəndiyiniz hər şeyi kart edin. Kartlar digərləri kimi 1, 3, 7, 16, 35 gün aralıqla təkrara qayıdır.</p>
-      <div class="row"><button class="btn" id="ownNew">+ Yeni kart</button>${ids.length ? `<span class="fb">${ids.length} kart</span>` : ''}</div>
-      <p class="fb">İpucu: dərsdə istənilən cümləni seçib aşağıdakı paneldə “Kart” düyməsinə bassanız, kart həmin mətnlə hazır açılır.</p></div>` +
-      (ids.length ? `<div class="card">${ids.map(id => { const o = me.own[id], s = me.cards[id] || { b: 0, due: today() }; return `<div class="mk"><div>${o.c ? chip(o.c) + ' ' : ''}<b>${esc(o.q)}</b><p>${esc(o.a)}</p>
-        <span class="fb">səviyyə ${s.b}/5 · növbəti: ${s.due <= today() ? 'bu gün' : esc(s.due)}</span></div>
-        <div class="row"><button class="iconbtn own-ed" data-id="${id}" title="Dəyiş" aria-label="Dəyiş">✏️</button><button class="iconbtn own-del" data-id="${id}" title="Sil" aria-label="Sil">✕</button></div></div>`; }).join('')}</div>`
-        : '<div class="card"><p>Hələ öz kartınız yoxdur.</p></div>');
-    $('#ownNew').onclick = () => cardDialog();
-    v.querySelectorAll('.own-ed').forEach(b => b.onclick = () => cardDialog(null, b.dataset.id));
-    v.querySelectorAll('.own-del').forEach(b => b.onclick = () => {
-      if (!confirm('Bu kart silinsin?')) return;
-      const id = b.dataset.id; delete me.own[id]; delete me.cards[id]; delete me.miss[id]; delete CARD[id]; saveMe(); pageOwn(v);
-    });
-  }
-
   // ---------- mətndə vurğulama ----------
   const HL_SKIP = '.xl-card, .quiz, button, input, textarea, select, label, svg, script, style, .bm, .tts, .kicker, .credit, .out, .res, .msg, .fb, .score, [id]';
   const HL_COLORS = { y: 'Sarı', g: 'Yaşıl', p: 'Çəhrayı' };
@@ -587,7 +516,7 @@
   let hlState = null;
   const hlBar = document.createElement('div'); hlBar.className = 'hlbar'; hlBar.hidden = true;
   hlBar.innerHTML = Object.entries(HL_COLORS).map(([k, n]) => `<button class="sw hl-${k}" data-c="${k}" title="${n}" aria-label="${n} vurğula"></button>`).join('') +
-    '<button class="hb" data-act="card">🃏 Kart</button><button class="hb" data-act="del" hidden>🗑 Sil</button><button class="hb" data-act="x" aria-label="Bağla">✕</button>';
+    '<button class="hb" data-act="del" hidden>🗑 Sil</button><button class="hb" data-act="x" aria-label="Bağla">✕</button>';
   document.body.appendChild(hlBar);
   hlBar.addEventListener('mousedown', e => e.preventDefault());
   function showBar(st) { hlState = st; hlBar.hidden = false; hlBar.querySelector('[data-act="del"]').hidden = st.mode !== 'edit'; hlBar.querySelectorAll('.sw').forEach(b => b.classList.toggle('on', st.mode === 'edit' && st.h.c === b.dataset.c)); }
@@ -629,10 +558,6 @@
     } else if (b.dataset.act === 'del' && st.mode === 'edit') {
       me.hl[st.key] = me.hl[st.key].filter(x => x.id !== st.h.id); if (!me.hl[st.key].length) delete me.hl[st.key];
       unwrapHl(st.h.id); saveMe(); hideBar(); toast('Vurğu silindi');
-    } else if (b.dataset.act === 'card') {
-      const t = st.mode === 'new' ? st.t : st.h.t, l = st.mode === 'new' ? st.l : +st.key.split(':')[1];
-      window.getSelection().removeAllRanges(); hideBar();
-      cardDialog({ a: t, c: curCid, l, t: lessonEls[l] ? lessonEls[l].dataset.title : '' });
     } else { window.getSelection().removeAllRanges(); hideBar(); }
   };
 
@@ -658,17 +583,16 @@
   })();
 
   // ---------- kursun əlavə səhifələri: xəritə, konspekt, layihə ----------
-  const AUX = { qeydler: 'Qeydlər', xerite: 'Kurs xəritəsi', konspekt: 'Konspekt', elave: 'Layihə və əlavə oxu' };
+  const AUX = { qeydler: 'Konspekt', xerite: 'Kurs xəritəsi', konspekt: 'Konspekt', elave: 'Layihə və əlavə oxu' };
   async function showAux(kind) {
-    if (kind === 'qeydler') return showNotes();
     notesMode = true; hideBar();
     const cid = curCid, c = byId[cid];
-    $('#lessonHost').hidden = true; $('#notesCard').hidden = true; $('#askCard').hidden = true; $('#pager').innerHTML = '';
+    $('#lessonHost').hidden = true; $('#askCard').hidden = true; $('#pager').innerHTML = '';
     const v = $('#notesView'); v.hidden = false; v.innerHTML = '<div class="card">Yüklənir…</div>';
     $('#crumb').innerHTML = `<b>${esc(c.title)}</b> · ${AUX[kind]}`;
     renderSide(); window.scrollTo({ top: 0 });
     if (kind === 'xerite') await viewMap(v, cid);
-    else if (kind === 'konspekt') await viewSummary(v, cid);
+    else if (kind === 'konspekt' || kind === 'qeydler') await viewSummary(v, cid);
     else await viewExtra(v, cid);
   }
 
@@ -721,7 +645,6 @@
     if (curCid !== cid) return;
     const withKeys = lsGet('akademiya:ksKeys') !== false;
     const c = byId[cid], p = prog[cid], HLN = { y: 'sarı', g: 'yaşıl', p: 'çəhrayı' };
-    const own = Object.entries(me.own).filter(([, o]) => o.c === cid);
     let html = '', md = `# ${c.title}: konspekt\n\n_${new Date().toLocaleDateString('az')}_\n`, any = false;
     lessonEls.forEach((s, i) => {
       const note = p.notes[i], hl = (me.hl[cid + ':' + i] || []).slice().sort((a, b) => a.ts - b.ts), mk = [];
@@ -730,7 +653,7 @@
       if (note || hl.length || mk.length) any = true;
       html += `<section class="ks"><h3><a href="#${cid}-${i + 1}">${i + 1}. ${esc(s.dataset.title)}</a></h3>
         ${ky.length ? `<ul class="ks-keys">${ky.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
-        ${note ? `<div class="ks-note"><b>📝 Qeydim</b><pre>${esc(note.t)}</pre></div>` : ''}
+        ${note ? `<div class="ks-note"><b>📝 Köhnə qeydim</b><pre>${esc(note.t)}</pre></div>` : ''}
         ${hl.map(h => `<blockquote class="ks-hl hl-${h.c}">${esc(h.t)}</blockquote>`).join('')}
         ${mk.map(m => `<div class="ks-mk">📌 <b>${esc(m.tag)}</b>: ${esc(m.s)}</div>`).join('')}</section>`;
       md += `\n## ${i + 1}. ${s.dataset.title}\n`;
@@ -739,9 +662,8 @@
       hl.forEach(h => { md += `\n> ${h.t.replace(/\n/g, ' ')} _(${HLN[h.c]})_\n`; });
       mk.forEach(m => { md += `\n- 📌 **${m.tag}**: ${m.s}\n`; });
     });
-    if (own.length) { html += `<section class="ks"><h3>🃏 Kartlarım</h3>${own.map(([, o]) => `<div class="ks-mk"><b>${esc(o.q)}</b><br>${esc(o.a)}</div>`).join('')}</section>`; md += '\n## Kartlarım\n'; own.forEach(([, o]) => { md += `\n- **${o.q}**: ${o.a}\n`; }); }
     if (G.length) { html += `<section class="ks"><h3>📖 Kursun lüğəti</h3><dl class="ks-gl">${G.map(g => `<dt>${esc(g.t)}</dt><dd>${esc(g.d)}${g.n ? `<br><i>Nümunə: ${esc(g.n)}</i>` : ''}</dd>`).join('')}</dl></section>`; md += '\n## Lüğət\n'; G.forEach(g => { md += `\n- **${g.t}**: ${g.d}${g.n ? ` _Nümunə: ${g.n}_` : ''}\n`; }); }
-    v.innerHTML = `<div class="card no-print"><h2>📄 Konspekt</h2><p class="lead">Bu kursdakı qeydləriniz, vurğuladığınız cümlələr, əlfəcinləriniz, öz kartlarınız və kursun lüğəti bir səhifədə.</p>
+    v.innerHTML = `<div class="card no-print"><h2>📄 Konspekt</h2><p class="lead">Bu kursda vurğuladığınız cümlələr (qeydləriniz), hər dərsin əsas fikirləri və kursun lüğəti bir səhifədə.</p>
       <label class="fb ks-tg"><input type="checkbox" id="ksKeys" ${withKeys ? 'checked' : ''}> Hər dərsin “Əsas fikirlər”ini də daxil et</label>
       <div class="row"><button class="btn" id="ksPrint">🖨️ Çap et / PDF</button><button class="btn ghost" id="ksCopy">📋 Kopyala (Markdown)</button>${inClaude ? '' : '<button class="btn ghost" id="ksDl">⬇️ .md faylı</button>'}</div>
       <p class="fb">Kopyaladığınız mətni Word, Google Docs, Notion və ya Obsidian-a yapışdıra bilərsiniz. PDF üçün çap pəncərəsində “PDF kimi saxla” seçin.</p>
@@ -803,154 +725,6 @@
     c.querySelectorAll('.xl-card, .quiz, .quiz-card, button, svg, style, script, .bm, .tts, table, input, select, textarea, .credit, .kicker').forEach(e => e.remove());
     return c.textContent.replace(/\s+/g, ' ').trim();
   };
-  // ---------- səsli oxu: pleyer ----------
-  // Əsas mənbə: əvvəlcədən yaradılmış Azərbaycan dilində səs faylı (courses/<kurs>/audio/<dərs>.mp3, MMS-TTS).
-  // Fayl yoxdursa və cihazda Azərbaycan səsi varsa (məs. Microsoft Edge), brauzerin səsi ilə abzas-abzas oxunur.
-  const SPEEDS = [1, 1.15, 1.3, 1.5, 0.85];
-  const PLAY_SKIP = /laboratoriya|alət|simulyator|məşq|oyun|tapşırıq|kalkulyator|generator|yoxlayıcı|qurucu|kartlar|kətan|test/i;
-  const normT = t => String(t).replace(/[\u{1F000}-\u{1FAFF}☀-➿️]/gu, '').replace(/\s+/g, ' ').trim().toLocaleLowerCase('az');
-  let player = null;
-  const pbar = document.createElement('div'); pbar.className = 'player'; pbar.hidden = true;
-  pbar.innerHTML = `<div class="pl-top"><span class="pl-t" id="plT"></span><button class="pl-x" id="plX" aria-label="Bağla">✕</button></div>
-    <div class="pl-row"><button class="pl-b" id="plPrev" aria-label="Əvvəlki abzas">⏮</button><button class="pl-b pl-main" id="plPlay" aria-label="Oxut / dayandır">▶</button><button class="pl-b" id="plNext" aria-label="Növbəti abzas">⏭</button>
-    <input type="range" id="plSeek" min="0" max="1000" value="0" aria-label="Mövqe"><span class="pl-time" id="plTime">0:00</span><button class="pl-sp" id="plSp" aria-label="Sürət">1×</button></div>
-    <div class="pl-msg" id="plMsg" hidden></div>`;
-  document.body.appendChild(pbar);
-  const fmt = s => { s = Math.max(0, Math.round(s || 0)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
-  const speed = () => lsGet('akademiya:speed') || 1;
-  function readableEls(sec) {
-    const out = [], hero = sec.querySelector('.hero h2'); if (hero) out.push(hero);
-    sec.querySelectorAll('.card').forEach((card, ci) => {
-      if (card.classList.contains('xl-card')) return;
-      const h = card.querySelector('h2, h3');
-      if (card !== sec.querySelector('.card') && !card.classList.contains('keys-card') && (card.querySelector('.quiz') || (h && PLAY_SKIP.test(h.textContent)))) return;
-      card.querySelectorAll('h3, p, li, .note, .ex > .tag').forEach(el => {
-        if (el.closest('table, figure, button, label, pre, svg, .quiz, .hlbar') || (el.closest('[id]') && el.closest('[id]') !== card && card.contains(el.closest('[id]')))) return;
-        if (el.matches('li') && el.querySelector('p')) return;
-        if (el.matches('p, li, .tag') && el.closest('.note')) return;
-        if (normT(el.textContent).length > 1) out.push(el);
-      });
-    });
-    return out;
-  }
-  function markOn(el) {
-    document.querySelectorAll('.pl-on').forEach(e => e.classList.remove('pl-on'));
-    if (!el) return; el.classList.add('pl-on');
-    const r = el.getBoundingClientRect(); if (r.top < 80 || r.bottom > innerHeight - 140) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-  function stopSpeak() {
-    if (!player) return;
-    if (player.audio) { player.audio.pause(); player.audio.src = ''; }
-    if (window.speechSynthesis) speechSynthesis.cancel();
-    markOn(null); player = null; pbar.hidden = true; document.body.classList.remove('playing');
-    document.querySelectorAll('.tts.on').forEach(b => { b.classList.remove('on'); b.textContent = '🔊 Dinlə'; });
-  }
-  async function speak(sec, btn) {
-    if (player && player.sec === sec) { togglePlay(); return; }
-    stopSpeak();
-    const cid = curCid, l = lessonEls.indexOf(sec), idx = (await getJSON(`courses/${cid}/audio/index.json`)) || {};
-    const meta = !Array.isArray(idx) && idx[l];
-    player = { sec, cid, l, btn, playing: false };
-    btn.classList.add('on'); btn.textContent = '🔊 Oxunur…';
-    pbar.hidden = false; document.body.classList.add('playing');
-    $('#plT').textContent = `${l + 1}. ${sec.dataset.title}`; $('#plMsg').hidden = true; $('#plSp').textContent = speed() + '×';
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({ title: sec.dataset.title, artist: byId[cid].title, album: 'Şəxsi Akademiya' });
-      navigator.mediaSession.setActionHandler('play', () => togglePlay(true));
-      navigator.mediaSession.setActionHandler('pause', () => togglePlay(false));
-      navigator.mediaSession.setActionHandler('previoustrack', () => jump(-1));
-      navigator.mediaSession.setActionHandler('nexttrack', () => jump(1));
-    }
-    if (meta) {
-      // abzasların vaxtını dərsdəki elementlərə bağlayırıq (mətnin əvvəlinə görə, ardıcıl)
-      const els = readableEls(sec); let k = 0;
-      player.marks = meta.s.map(([t0, t1, txt]) => {
-        const sq = x => normT(x).replace(/\s+/g, ''), want = sq(txt).slice(0, 22);
-        for (let j = k; j < els.length; j++) { const have = sq(els[j].textContent); if (have.startsWith(want) || want.startsWith(have.slice(0, 22))) { k = j + 1; return { t0, t1, el: els[j] }; } }
-        return { t0, t1, el: null };
-      });
-      const a = player.audio = new Audio(`courses/${cid}/audio/${l}.mp3`);
-      a.preload = 'auto'; a.playbackRate = speed();
-      a.ontimeupdate = () => {
-        if (!player || player.audio !== a) return;
-        const t = a.currentTime, d = a.duration || meta.d;
-        $('#plSeek').value = Math.round(t / d * 1000); $('#plTime').textContent = `${fmt(t)} / ${fmt(d)}`;
-        const m = player.marks.find(x => t >= x.t0 && t < x.t1 + 0.4);
-        if (m && m !== player.cur) { player.cur = m; markOn(m.el); }
-      };
-      a.onended = () => finished();
-      a.onerror = () => { if (player && player.audio === a) { $('#plMsg').textContent = 'Səs faylı açılmadı. İnternet bağlantısını yoxlayın.'; $('#plMsg').hidden = false; setPlaying(false); } };
-      togglePlay(true);
-      return;
-    }
-    // ehtiyat variant: cihazdakı Azərbaycan səsi
-    const voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
-    const v = voices.find(x => /^az/i.test(x.lang));
-    if (!v) {
-      $('#plMsg').innerHTML = 'Bu dərsin Azərbaycan dilində səs yazısı hələ hazır deyil və cihazınızda Azərbaycan səsi yoxdur. Türk səsi ilə oxumuram, çünki tələffüz səhv olur.';
-      $('#plMsg').hidden = false; setPlaying(false); return;
-    }
-    player.voice = v; player.els = readableEls(sec); player.i = 0; player.marks = null;
-    togglePlay(true);
-  }
-  function setPlaying(on) {
-    if (!player) return; player.playing = on;
-    $('#plPlay').textContent = on ? '⏸' : '▶';
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = on ? 'playing' : 'paused';
-  }
-  function sayFrom(i) {
-    if (!player || !player.els) return;
-    speechSynthesis.cancel(); player.i = Math.max(0, Math.min(player.els.length - 1, i));
-    const run = j => {
-      if (!player || !player.playing) return;
-      if (j >= player.els.length) return finished();
-      player.i = j; markOn(player.els[j]);
-      $('#plSeek').value = Math.round(j / player.els.length * 1000); $('#plTime').textContent = `${j + 1} / ${player.els.length}`;
-      const u = new SpeechSynthesisUtterance(player.els[j].textContent.replace(/\s+/g, ' '));
-      u.voice = player.voice; u.lang = player.voice.lang; u.rate = speed();
-      u.onend = () => { if (player && player.playing && player.i === j) run(j + 1); };
-      speechSynthesis.speak(u);
-    };
-    run(player.i);
-  }
-  function togglePlay(force) {
-    if (!player) return;
-    const on = force === undefined ? !player.playing : force;
-    setPlaying(on);
-    if (player.audio) { if (on) player.audio.play().catch(() => setPlaying(false)); else player.audio.pause(); }
-    else if (player.els) { if (on) sayFrom(player.i); else speechSynthesis.cancel(); }
-  }
-  function jump(d) {
-    if (!player) return;
-    if (player.audio && player.marks) {
-      const t = player.audio.currentTime, ms = player.marks;
-      let i = ms.findIndex(m => t < m.t1 + 0.4); if (i < 0) i = ms.length - 1;
-      if (d < 0 && t - ms[i].t0 < 1.5) i--; else if (d > 0) i++;
-      i = Math.max(0, Math.min(ms.length - 1, i)); player.audio.currentTime = ms[i].t0;
-    } else if (player.els) { player.i += d; if (player.playing) sayFrom(player.i); else markOn(player.els[Math.max(0, Math.min(player.els.length - 1, player.i))]); }
-  }
-  function finished() {
-    if (!player) return;
-    setPlaying(false); markOn(null);
-    const next = player.l + 1 < lessonEls.length ? player.l + 1 : -1;
-    $('#plMsg').innerHTML = next >= 0 ? `Dərs bitdi. <a href="#${player.cid}-${next + 1}" id="plNextL">Növbəti dərsə keç →</a>` : 'Kursun son dərsi bitdi. 🎓';
-    $('#plMsg').hidden = false;
-  }
-  $('#plPlay').onclick = () => togglePlay();
-  $('#plPrev').onclick = () => jump(-1);
-  $('#plNext').onclick = () => jump(1);
-  $('#plX').onclick = stopSpeak;
-  $('#plSp').onclick = () => {
-    const nx = SPEEDS[(SPEEDS.indexOf(speed()) + 1) % SPEEDS.length]; lsSet('akademiya:speed', nx); $('#plSp').textContent = nx + '×';
-    if (player && player.audio) player.audio.playbackRate = nx;
-    else if (player && player.els && player.playing) sayFrom(player.i);
-  };
-  $('#plSeek').oninput = e => {
-    if (!player) return;
-    if (player.audio && player.audio.duration) player.audio.currentTime = e.target.value / 1000 * player.audio.duration;
-    else if (player.els) { player.i = Math.round(e.target.value / 1000 * (player.els.length - 1)); if (player.playing) sayFrom(player.i); }
-  };
-
   // ---------- Claude-dan soruş (yalnız claude.ai versiyasında) ----------
   let sampleFn = null, askCtl = null;
   function setupAsk(i) {
@@ -1043,10 +817,9 @@
     Object.assign(me.badges, o.badges || {}); Object.assign(me.perfect, o.perfect || {});
     (o.marks || []).forEach(m => { if (!me.marks.some(x => x.id === m.id)) me.marks.push(m); });
     me.reviews = Math.max(me.reviews || 0, o.reviews || 0);
-    for (const [id, x] of Object.entries(o.own || {})) if (!me.own[id] || x.ts > me.own[id].ts) me.own[id] = x;
     for (const [k, a] of Object.entries(o.hl || {})) { const cur = me.hl[k] || (me.hl[k] = []); a.forEach(h => { if (!cur.some(x => x.id === h.id)) cur.push(h); }); }
     for (const [cid, x] of Object.entries(o.proj || {})) { const cur = me.proj[cid] || (me.proj[cid] = { k: {}, n: '', done: 0 }); Object.assign(cur.k, x.k || {}); if ((x.n || '').length > (cur.n || '').length) cur.n = x.n; if (x.done && (!cur.done || x.done < cur.done)) cur.done = x.done; }
-    syncOwn(); saveMe(); migrateMarks();
+    saveMe(); migrateMarks();
   }
 
   // ---------- kursu sıfırlamaq ----------
@@ -1058,7 +831,6 @@
       notes: Object.keys(prog[cid].notes).length,
       hl: Object.entries(me.hl).filter(([k]) => k.startsWith(pre)).reduce((n, [, a]) => n + a.length, 0),
       marks: me.marks.filter(m => m.c === cid).length,
-      own: Object.values(me.own).filter(o => o.c === cid).length,
       proj: me.proj[cid] ? Object.keys(me.proj[cid].k || {}).length + (me.proj[cid].n ? 1 : 0) + (me.proj[cid].done ? 1 : 0) : 0,
     };
   }
@@ -1071,9 +843,7 @@
       <p class="fb">Kurs ilk dəfə açılmış kimi olacaq. Nə silinsin?</p>
       <label class="rs-o"><input type="checkbox" checked disabled> <span>İrəliləyiş: tamamlanmış dərslər, test və laboratoriya nəticələri <span class="fb">(${dn} dərs)</span></span></label>
       ${opt('rsCards', 'Təkrar kartları, səhvlər və dəqiqlik statistikası', f.cards + f.miss, true)}
-      ${opt('rsNotes', 'Qeydlərim', f.notes, false)}
-      ${opt('rsHl', 'Vurğular', f.hl, false)}
-      ${opt('rsOwn', 'Bu kursa bağlı öz kartlarım', f.own, false)}
+      ${opt('rsHl', 'Qeydlərim (vurğular)', f.hl, false)}
       ${opt('rsProj', 'Praktiki layihə (yoxlama siyahısı və qeydlər)', f.proj, false)}
       <p class="fb">Qazanılmış nişanlar və aktivlik tarixçəsi (ardıcıl günlər) silinmir. Bu əməliyyatı geri qaytarmaq olmur; əvvəlcə ana səhifədən yedək fayl saxlaya bilərsiniz.</p>
       <div class="row"><button class="btn danger" id="rsGo">Sıfırla</button><button class="btn ghost" id="rsX">Ləğv et</button></div></div>`;
@@ -1085,7 +855,7 @@
     let armed = false;
     $('#rsGo').onclick = () => {
       if (!armed) { armed = true; $('#rsGo').textContent = 'Əminəm, sıfırla'; return; }
-      resetCourse(cid, { cards: $('#rsCards').checked, notes: $('#rsNotes').checked, hl: $('#rsHl').checked, own: $('#rsOwn').checked, proj: $('#rsProj').checked });
+      resetCourse(cid, { cards: $('#rsCards').checked, notes: false, hl: $('#rsHl').checked, proj: $('#rsProj').checked });
       close();
     };
     setTimeout(() => $('#rsX').focus(), 30);
@@ -1102,7 +872,6 @@
     }
     delete me.perfect[cid];
     if (o.hl) { Object.keys(me.hl).forEach(k => { if (k.startsWith(pre)) delete me.hl[k]; }); me.marks = me.marks.filter(m => m.c !== cid); }
-    if (o.own) Object.keys(me.own).forEach(id => { if (me.own[id].c === cid) { delete me.own[id]; delete me.cards[id]; delete me.miss[id]; delete CARD[id]; } });
     if (o.proj) delete me.proj[cid];
     saveMe();
     toast('↺ Kurs sıfırlandı');
@@ -1185,13 +954,6 @@
       else if (/addım|həll/.test(t)) ex.classList.add('step');
       else if (/tətbiq|həyatda|praktik|məşq|siz bunu|gündəlik/.test(t)) ex.classList.add('life');
       else if (/düşüncə təcrübəsi|tarix|rəvayət|hekayə/.test(t)) ex.classList.add('hist');
-    });
-    lessonEls.forEach((s, i) => {
-      const ht = s.querySelector('.hero-txt');
-      if (ht && keys && keys[i]) {
-        const t = document.createElement('button'); t.className = 'tts'; t.type = 'button'; t.textContent = '🔊 Dinlə';
-        t.onclick = () => speak(s, t); ht.appendChild(t);
-      }
     });
     // Laboratoriya sahələrinə ekran oxuyucu üçün ad: əlaqəli <label> yoxdursa, yanındakı yazıdan götürülür.
     host.querySelectorAll('input:not([type=hidden]), select, textarea').forEach(el => {
@@ -1320,7 +1082,6 @@
   function renderSide() {
     if (!curCid || !lessonEls.length) return;
     const c = byId[curCid], p = prog[curCid], parts = c.parts || {};
-    const nNotes = Object.keys(p.notes).length;
     let nav = '';
     lessonEls.forEach((s, i) => {
       if (parts[i]) nav += `<div class="part">${esc(parts[i])}</div>`;
@@ -1331,7 +1092,7 @@
       <div class="meter"><i style="width:${pctOf(curCid)}%"></i></div>
       <div class="pct">${doneCount(curCid)} / ${c.lessons} dərs · ${pctOf(curCid)}%</div>
       <nav>${nav}</nav>
-      <div class="side-links">${[['xerite', '🗺️ Kurs xəritəsi'], ['konspekt', '📄 Konspekt'], ['elave', '🛠️ Layihə və əlavə oxu'], ['qeydler', `📝 Qeydlərim (${nNotes})`]].map(([k, n]) => `<a class="notes-link ${notesMode && location.hash === '#' + curCid + '-' + k ? 'on' : ''}" href="#${curCid}-${k}">${n}</a>`).join('')}<button class="notes-link reset-link" id="resetBtn" type="button">↺ Kursu sıfırla</button></div>`;
+      <div class="side-links">${[['xerite', '🗺️ Kurs xəritəsi'], ['konspekt', '📄 Konspekt'], ['elave', '🛠️ Layihə və əlavə oxu']].map(([k, n]) => `<a class="notes-link ${notesMode && location.hash === '#' + curCid + '-' + k ? 'on' : ''}" href="#${curCid}-${k}">${n}</a>`).join('')}<button class="notes-link reset-link" id="resetBtn" type="button">↺ Kursu sıfırla</button></div>`;
     $('#resetBtn').onclick = () => resetDialog(curCid);
     $('#side').querySelectorAll('[data-go]').forEach(b => { b.onclick = () => { location.hash = curCid + '-' + b.dataset.go; }; });
     const act = $('#side nav button.active');
@@ -1343,11 +1104,9 @@
     i = Math.max(0, Math.min(lessonEls.length - 1, i));
     current = i;
     lessonEls.forEach((s, j) => s.classList.toggle('show', j === i));
-    $('#lessonHost').hidden = false; $('#notesView').hidden = true; $('#notesCard').hidden = false;
+    $('#lessonHost').hidden = false; $('#notesView').hidden = true;
     const p = prog[curCid];
     if (p.last !== i) { p.last = i; touch(curCid); }
-    $('#noteText').value = (p.notes[i] && p.notes[i].t) || '';
-    $('#noteState').textContent = 'Qeydlər avtomatik saxlanılır.';
     $('#pager').innerHTML = (i > 0 ? `<a class="btn ghost" href="#${curCid}-${i}">← Əvvəlki</a>` : '<span></span>') +
       (i < lessonEls.length - 1 ? `<a class="btn" href="#${curCid}-${i + 2}">Növbəti →</a>` : `<a class="btn" href="#${curCid}-elave">Layihə və əlavə oxu →</a>`);
     $('#crumb').innerHTML = `<b>${esc(byId[curCid].title)}</b> · ${i + 1}. ${esc(lessonEls[i].dataset.title)}`;
@@ -1355,38 +1114,10 @@
     window.scrollTo({ top: 0 });
   }
 
-  function showNotes() {
-    notesMode = true;
-    const p = prog[curCid];
-    $('#lessonHost').hidden = true; $('#notesCard').hidden = true; $('#pager').innerHTML = '';
-    const items = lessonEls.map((s, i) => p.notes[i] ? `<div class="note-item"><a href="#${curCid}-${i + 1}"><b>${i + 1}. ${esc(s.dataset.title)}</b></a>
-        <span class="fb">· ${new Date(p.notes[i].ts).toLocaleDateString('az')}</span><pre>${esc(p.notes[i].t)}</pre></div>` : '').join('');
-    const v = $('#notesView'); v.hidden = false;
-    v.innerHTML = `<div class="card"><h2>Qeydlərim</h2><p class="lead">${esc(byId[curCid].title)} kursu üzrə bütün qeydlərin. Qeydi dəyişmək üçün dərsə keç.</p>
-      ${items || '<p>Hələ qeyd yoxdur. Hər dərsin altında “Qeydlərim” bölməsi var. Dərsi öz sözlərinlə 2–3 cümlədə yazmaq onu yadda saxlamağın ən yaxşı yoludur.</p>'}</div>`;
-    $('#crumb').innerHTML = `<b>${esc(byId[curCid].title)}</b> · Qeydlər`;
-    renderSide();
-    window.scrollTo({ top: 0 });
-  }
-
-  let noteT;
-  $('#noteText').addEventListener('input', () => {
-    $('#noteState').textContent = 'Yazılır…';
-    clearTimeout(noteT);
-    const cid = curCid, i = current;
-    noteT = setTimeout(() => {
-      const t = $('#noteText').value.trim();
-      if (t) prog[cid].notes[i] = { t, ts: Date.now() }; else delete prog[cid].notes[i];
-      touch(cid);
-      $('#noteState').textContent = 'Saxlanıldı ✓';
-      renderSide();
-    }, 700);
-  });
-
   // ---------- routing ----------
   function parseHash() {
     const h = decodeURIComponent(location.hash.slice(1));
-    if (h === 'elfecinler') return { view: 'page', page: 'vurgular' };
+    if (h === 'elfecinler' || h === 'vurgular') return { view: 'page', page: 'qeydlerim' };
     if (PAGES[h]) return { view: 'page', page: h };
     const m = h.match(/^([a-z0-9]+)(?:-(\d+|qeydler|xerite|konspekt|elave))?$/);
     if (!m || !byId[m[1]]) return { view: 'home' };
@@ -1395,7 +1126,7 @@
   }
   async function route() {
     const r = parseHash();
-    stopSpeak(); hideBar();
+    hideBar();
     if (mapRO) { mapRO.disconnect(); mapRO = null; }
     if (askCtl) askCtl.abort();
     if (r.view !== 'page' || r.page !== 'tekrar' || (rv && rv.finished)) rv = null;
@@ -1462,7 +1193,7 @@
     connect();
     await route();
     CARDS = await getJSON('data/cards.json');
-    CARD = {}; CARDS.forEach(c => { CARD[c.id] = c; }); syncOwn();
+    CARD = {}; CARDS.forEach(c => { CARD[c.id] = c; });
     catalog.forEach(c => Object.keys(prog[c.id].done).forEach(l => activateLesson(c.id, +l)));
     checkBadges();
     if (!$('#home').hidden) renderHome();

@@ -13,8 +13,6 @@ on:
       - 'tools/fetch_images.py'
       - 'tools/images.json'
       - 'data/links.json'
-      - '.github/workflows/tts.yml'
-      - 'tools/tts/**'
   workflow_dispatch:
 
 permissions:

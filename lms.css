@@ -95,11 +95,6 @@ a{color:var(--accent)}
 .reading,.side{min-width:0}
 section.lesson{display:none}
 section.lesson.show{display:block}
-.notes-card textarea{min-height:110px;font-family:var(--sans)}
-.notes-card .fb{margin-top:6px}
-.note-item{border-top:1px solid var(--line);padding:12px 0}
-.note-item:first-of-type{border-top:0}
-.note-item pre{white-space:pre-wrap;font:inherit;margin:6px 0 0}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:.92rem;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 
@@ -418,8 +413,6 @@ mark{background:color-mix(in srgb,#f0b44c 45%,transparent);color:inherit;border-
 .bdg small{font-size:.75rem;color:var(--muted)}
 .ak-flash{animation:ak-flash 2s ease}
 @keyframes ak-flash{0%,40%{box-shadow:0 0 0 4px color-mix(in srgb,#f0b44c 70%,transparent)}100%{box-shadow:0 0 0 0 transparent}}
-.tts{position:relative;margin-top:12px;background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:5px 14px;font:inherit;font-size:.85rem;cursor:pointer}
-.tts:hover{background:rgba(255,255,255,.32)}
 .ask-card textarea{min-height:70px;font-family:var(--sans)}
 .ask-out{white-space:pre-wrap;margin-top:10px}
 .ask-out:empty{display:none}
@@ -517,14 +510,14 @@ mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box
 .rd a{color:var(--accent);text-decoration:none}
 .rd .fb{display:block;margin:2px 0 0}
 .rd p{margin:4px 0 0;font-size:.93rem}
-@media (min-width:861px){ .quick{grid-template-columns:repeat(6,minmax(0,1fr))} }
+@media (min-width:861px){ .quick{grid-template-columns:repeat(5,minmax(0,1fr))} }
 @media (max-width:860px){
   .side-links{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
   .side .side-links .notes-link{flex:0 0 auto;white-space:nowrap;font-size:.85rem;padding:6px 10px}
 }
 @media (max-width:640px){
-  .quick{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .qt{font-size:.8rem}
+  .quick{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+  .qt{font-size:.72rem;padding:10px 2px}
   .mp{padding-left:62px}
 }
 @media print{
@@ -573,21 +566,3 @@ mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box
 .xl-h{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .xl-w{color:var(--muted);font-size:.9rem}
 
-/* səsli oxu pleyeri */
-.player{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:29;width:min(560px,calc(100vw - 20px));
-  background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:8px 12px 10px}
-.pl-top{display:flex;align-items:center;gap:8px}
-.pl-t{flex:1;min-width:0;font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pl-x{border:0;background:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px 6px;border-radius:8px}
-.pl-row{display:flex;align-items:center;gap:6px;margin-top:4px}
-.pl-b{width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:1rem;cursor:pointer;display:grid;place-items:center;padding:0}
-.pl-main{width:46px;height:46px;flex-basis:46px;background:var(--accent);color:var(--on-accent);border:0;font-size:1.15rem}
-.pl-row input[type=range]{flex:1;min-width:40px;accent-color:var(--accent)}
-.pl-time{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.pl-sp{border:1px solid var(--line);background:none;color:var(--ink);border-radius:999px;padding:4px 8px;font:inherit;font-size:.8rem;cursor:pointer;min-width:46px}
-.pl-msg{font-size:.85rem;color:var(--muted);margin-top:6px}
-.pl-on{background:color-mix(in srgb,#f0b44c 22%,transparent);border-radius:6px;box-shadow:0 0 0 4px color-mix(in srgb,#f0b44c 22%,transparent);transition:background .3s}
-body.playing{padding-bottom:120px}
-body.playing .hlbar{bottom:calc(120px + env(safe-area-inset-bottom,0px))}
-.tts.on{background:rgba(255,255,255,.38)}
-@media print{.player{display:none!important}}

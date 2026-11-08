@@ -57,7 +57,6 @@ self.addEventListener('fetch', event => {
   }
 
   if (!req.url.startsWith(self.registration.scope)) return;
-  if (url.pathname.includes('/audio/') && url.pathname.endsWith('.mp3')) return; // səs faylları (Range sorğuları) birbaşa şəbəkədən
 
   // Şəbəkə cavab vermirsə və ya xəta qaytarırsa (məsələn, GitHub Pages yenilənərkən qısa müddətlik 404),
   // keşdəki versiya göstərilir. Belə olmasa, tətbiq yerinə GitHub-un 404 səhifəsi açılır.
