@@ -430,12 +430,13 @@
   function unwrapHl(id) { document.querySelectorAll(`mark.hl[data-hl="${id}"]`).forEach(m => { const p = m.parentNode; while (m.firstChild) p.insertBefore(m.firstChild, m); m.remove(); p.normalize(); }); }
   let hlState = null;
   const hlBar = document.createElement('div'); hlBar.className = 'hlbar'; hlBar.hidden = true;
-  hlBar.innerHTML = Object.entries(HL_COLORS).map(([k, n]) => `<button class="sw hl-${k}" data-c="${k}" title="${n}" aria-label="${n} vurğula"></button>`).join('') +
+  hlBar.innerHTML = '<span class="hl-lbl" id="hlLbl">📝 Qeyd et:</span>' + Object.entries(HL_COLORS).map(([k, n]) => `<button class="sw hl-${k}" data-c="${k}" title="${n}" aria-label="${n} vurğula"></button>`).join('') +
     '<button class="hb" data-act="del" hidden>🗑 Sil</button><button class="hb" data-act="x" aria-label="Bağla">✕</button>';
   document.body.appendChild(hlBar);
   hlBar.addEventListener('mousedown', e => e.preventDefault());
-  function showBar(st) { hlState = st; hlBar.hidden = false; hlBar.querySelector('[data-act="del"]').hidden = st.mode !== 'edit'; hlBar.querySelectorAll('.sw').forEach(b => b.classList.toggle('on', st.mode === 'edit' && st.h.c === b.dataset.c)); }
-  function hideBar() { hlBar.hidden = true; hlState = null; }
+  function showBar(st) { hlState = st; hlBar.hidden = false; document.body.classList.add('hl-open'); clearTimeout(hideT); $('#hlLbl').textContent = st.mode === 'edit' ? 'Rəngi dəyiş:' : '📝 Qeyd et:'; hlBar.querySelector('[data-act="del"]').hidden = st.mode !== 'edit'; hlBar.querySelectorAll('.sw').forEach(b => b.classList.toggle('on', st.mode === 'edit' && st.h.c === b.dataset.c)); }
+  let hideT;
+  function hideBar() { hlBar.hidden = true; hlState = null; clearTimeout(hideT); document.body.classList.remove('hl-open'); }
   function selInfo() {
     const sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount || !curCid || notesMode) return null;
     const r = sel.getRangeAt(0), sec = lessonEls[current];
@@ -454,11 +455,15 @@
     return { mode: 'new', sec, l: current, start, end, t, p: text.slice(Math.max(0, start - 24), start) };
   }
   let selT;
-  document.addEventListener('selectionchange', () => { clearTimeout(selT); selT = setTimeout(() => { const s = selInfo(); if (s) showBar(s); else if (hlState && hlState.mode === 'new') hideBar(); }, 220); });
+  document.addEventListener('selectionchange', () => { clearTimeout(selT); selT = setTimeout(() => {
+    const s = selInfo();
+    if (s) showBar(s);
+    else if (hlState && hlState.mode === 'new') { const st = hlState; clearTimeout(hideT); hideT = setTimeout(() => { if (hlState === st) hideBar(); }, 6000); }
+  }, 220); });
   document.addEventListener('click', e => {
     const m = e.target.closest && e.target.closest('mark.hl');
     if (m && curCid) { const key = curCid + ':' + current, h = (me.hl[key] || []).find(x => x.id === m.dataset.hl); if (h) { showBar({ mode: 'edit', h, key }); return; } }
-    if (hlState && hlState.mode === 'edit' && !e.target.closest('.hlbar')) hideBar();
+    if (hlState && !e.target.closest('.hlbar') && (hlState.mode === 'edit' || window.getSelection().isCollapsed)) hideBar();
   });
   hlBar.onclick = e => {
     const b = e.target.closest('button'); if (!b || !hlState) return;
@@ -467,7 +472,7 @@
       if (st.mode === 'new') {
         const key = curCid + ':' + st.l, h = { id: 'h' + Date.now().toString(36), t: st.t, p: st.p, c: b.dataset.c, ts: Date.now(), lt: st.sec.dataset.title || '' };
         (me.hl[key] = me.hl[key] || []).push(h); wrapHl(st.sec, st.start, st.end, h);
-        window.getSelection().removeAllRanges(); logAct(); toast('🖍️ Vurğulandı');
+        window.getSelection().removeAllRanges(); logAct(); toast('📝 Qeydlərimə əlavə olundu');
       } else { st.h.c = b.dataset.c; document.querySelectorAll(`mark.hl[data-hl="${st.h.id}"]`).forEach(m => { m.className = 'hl hl-' + st.h.c; }); }
       saveMe(); checkBadges(); hideBar();
     } else if (b.dataset.act === 'del' && st.mode === 'edit') {
