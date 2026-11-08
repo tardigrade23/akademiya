@@ -85,5 +85,21 @@
   },
   "kiber": {
     "usb": "search:USB flash drive"
+  },
+  "fantastika": {
+    "metropolis": "search:Metropolis 1927 Maschinenmensch",
+    "aya": "search:Le Voyage dans la Lune Méliès",
+    "rur": "search:R.U.R. Čapek 1921 robots",
+    "norad": "search:Cheyenne Mountain NORAD command center",
+    "m87": "search:Black hole Messier 87 Event Horizon Telescope",
+    "gps": "search:GPS IIR satellite",
+    "arecibo": "search:Arecibo message",
+    "sagan": "search:Carl Sagan Planetary Society",
+    "thorne": "search:Kip Thorne",
+    "adleman": "search:Leonard Adleman",
+    "velociraptor": "search:Velociraptor size comparison",
+    "kepler16": "search:Kepler-16b artist",
+    "oregon": "search:Oregon Dunes National Recreation Area",
+    "eliza": "search:ELIZA chatbot conversation"
   }
 }
