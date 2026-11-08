@@ -6,7 +6,26 @@
       "mark": "∴",
       "description": "Klassik məntiqdən xaos, ehtimal, qeyri-səlis məntiq və sistem düşüncəsinə qədər. Real nümunələr, simulyatorlar və testlər.",
       "lessons": 23,
-      "parts": { "0": "I hissə · Klassik məntiq", "8": "II hissə · Müasir düşüncə", "22": "Yekun" },
+      "parts": {
+        "0": "I hissə · Klassik məntiq",
+        "8": "II hissə · Müasir düşüncə",
+        "22": "Yekun"
+      },
+      "added": "2026-11-08"
+    },
+    {
+      "id": "claudecode",
+      "title": "Claude Code: süni intellektlə proqramlaşdırma",
+      "mark": "❯",
+      "description": "Claude Code ilə işləməyi sıfırdan öyrənin: yaxşı tapşırıq yazmaq, plan rejimi, icazələr, CLAUDE.md, skill-lər, subagentlər, hook-lar, MCP və avtomatlaşdırma. Terminal simulyatoru və real nümunələrlə.",
+      "lessons": 14,
+      "parts": {
+        "0": "I hissə · Əsaslar",
+        "4": "II hissə · Nəzarət və yaddaş",
+        "7": "III hissə · Genişləndirmə",
+        "11": "IV hissə · Praktika",
+        "13": "Yekun"
+      },
       "added": "2026-11-08"
     }
   ]

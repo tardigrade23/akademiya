@@ -1,6 +1,6 @@
 # Şəxsi Akademiya
 
-Şəxsi LMS (öyrənmə platforması). claude.ai-da şəxsi Artifact kimi dərc olunub:
+Şəxsi LMS (öyrənmə platforması). Kurslar: `mentiq` (Məntiq, 23 dərs), `claudecode` (Claude Code, 14 dərs). claude.ai-da şəxsi Artifact kimi dərc olunub:
 https://claude.ai/artifact/HmmZdg8oyvjiBU14uva5Kk
 
 ## Quruluş

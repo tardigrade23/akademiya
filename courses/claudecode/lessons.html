@@ -1,0 +1,499 @@
+<style>
+/* Claude Code kursu: terminal, kod blokları, kartlar, sıralama */
+pre.code{font:13.5px/1.55 var(--mono);background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;margin:10px 0;white-space:pre}
+kbd{font:12.5px var(--mono);background:var(--panel);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px}
+.term{background:#0f1614;color:#d5e2de;border-radius:12px;border:1px solid #23302d;overflow:hidden;font:13.5px/1.55 var(--mono)}
+.term .bar{display:flex;gap:6px;align-items:center;padding:8px 12px;background:#18211f;border-bottom:1px solid #23302d;color:#7f918c;font-size:12px}
+.term .bar i{width:10px;height:10px;border-radius:50%;background:#3a4643;display:inline-block}
+.term .out{height:300px;overflow-y:auto;padding:10px 12px;white-space:pre-wrap;word-break:break-word}
+.term .out .u{color:#ffffff}
+.term .out .c{color:#4fc3b2}
+.term .out .d{color:#7f918c}
+.term .out .w{color:#f0b44c}
+.term .out .e{color:#ff8a7a}
+.term .in{display:flex;align-items:center;gap:8px;border-top:1px solid #23302d;padding:8px 12px}
+.term .in span{color:#4fc3b2;white-space:nowrap}
+.term .in input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font:inherit;outline:none;padding:4px 0}
+.term .mode{font-size:12px;color:#7f918c;padding:0 12px 8px}
+.missions{list-style:none;padding:0;margin:10px 0;display:grid;gap:6px}
+.missions li{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.missions li .ck{width:22px;height:22px;flex:0 0 22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px}
+.missions li.ok{border-color:var(--ok);background:var(--ok-soft)}
+.missions li.ok .ck{background:var(--ok);border-color:var(--ok);color:var(--panel)}
+.checklist{list-style:none;padding:0;margin:10px 0;display:grid;gap:4px}
+.checklist li{padding:4px 0}
+.flash{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}
+.flash button{min-height:110px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;cursor:pointer;padding:12px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.flash button .front{font:600 1rem var(--mono);color:var(--accent)}
+.flash button.open{background:var(--accent-soft);border-color:var(--accent)}
+.flash button.open .front{font-size:.82rem}
+.flash button .back{font-size:.92rem}
+.order{display:grid;gap:6px;margin:10px 0}
+.order button{text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:9px 12px;font:inherit;cursor:pointer;display:flex;gap:10px;align-items:center}
+.order button .n{width:24px;height:24px;flex:0 0 24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px}
+.order button.picked{border-color:var(--accent);background:var(--accent-soft)}
+.order button.picked .n{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.ctxbar{height:26px;border-radius:8px;background:var(--line);overflow:hidden;position:relative;margin:10px 0}
+.ctxbar i{display:block;height:100%;background:var(--accent);transition:width .35s,background .35s}
+.ctxbar b{position:absolute;inset:0;display:grid;place-items:center;font:600 .82rem var(--mono);color:var(--ink)}
+.formgrid{display:grid;gap:10px}
+.formgrid label{display:grid;gap:4px;font-size:.92rem;font-weight:600}
+.formgrid textarea{min-height:64px}
+.card h2 + h3{margin-top:12px}
+select{font:15px var(--sans);padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+</style>
+
+<!-- ============ I HİSSƏ: ƏSASLAR ============ -->
+<section class="lesson" data-title="Claude Code nədir?">
+  <div class="card">
+    <h2>1. Claude Code nədir?</h2>
+    <p class="lead">Claude Code proqram yazmaq üçün <b>agent</b>dir. Siz ona tapşırıq verirsiniz, o isə layihənizin fayllarını oxuyur, kodu dəyişir, əmrləri işə salır və nəticəni yoxlayır.</p>
+    <p>Adi çat ilə fərq böyükdür. Çatda siz kodu kopyalayıb göndərirsiniz, cavabı da özünüz geri köçürürsünüz. Claude Code isə birbaşa sizin layihənizin içində işləyir:</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Adi çat</th><th>Claude Code</th></tr>
+      <tr><td>Kodu siz kopyalayıb yapışdırırsınız</td><td>Lazım olan faylları özü tapıb oxuyur</td></tr>
+      <tr><td>Təklif verir, tətbiq etmək sizdədir</td><td>Faylları özü redaktə edir (icazənizlə)</td></tr>
+      <tr><td>Kodun işlədiyini bilmir</td><td>Testləri, build-i işə salıb nəticəyə baxır</td></tr>
+      <tr><td>Hər dəfə konteksti izah etməlisiniz</td><td>Layihənin qaydalarını <span class="sym">CLAUDE.md</span> faylından xatırlayır</td></tr>
+    </table></div>
+    <h3 style="margin-top:14px">Harada işləyir?</h3>
+    <ul>
+      <li><b>Terminal (CLI):</b> əsas forma. Layihə qovluğunda <span class="sym">claude</span> yazırsınız.</li>
+      <li><b>IDE:</b> VS Code və JetBrains üçün genişlənmələr var. Dəyişiklikləri redaktorun özündə görürsünüz.</li>
+      <li><b>Masaüstü tətbiq</b> və <b>veb</b> (claude.ai/code): bulud sessiyaları. Kompüteriniz söndürülü olsa belə, iş buludda davam edir.</li>
+      <li><b>GitHub:</b> issue və ya PR-da <span class="sym">@claude</span> yazmaqla tapşırıq vermək olar.</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Real nümunə: bu Akademiya</span>
+      <p>İndi oxuduğunuz bu tətbiq Claude Code ilə, bulud sessiyasında quruldu. Siz Azərbaycan dilində yazdınız: “mənə məntiq kursu hazırla”, “LMS platforması yarat”, “telefona quraşdırılsın”. Claude Code isə faylları yaratdı, brauzerdə test etdi, ikonları çəkdi, GitHub-a göndərdi və dərcin uğurlu olduğunu yoxladı. Siz bir sətir də kod yazmadınız, amma <b>hər vacib qərarı siz verdiniz</b>: Digital Nation-a toxunmamaq, reponu public etmək və s.</p>
+    </div>
+    <div class="note"><b>Əsas fikir:</b> Claude Code bacarıqlı bir köməkçi proqramçıdır. Ona yaxşı tapşırıq vermək, işini yoxlamaq və vacib qərarları özündə saxlamaq sizin işinizdir. Bu kurs məhz bunu öyrədir.</div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="intro"></div></div>
+</section>
+
+<section class="lesson" data-title="Quraşdırma və ilk sessiya">
+  <div class="card">
+    <h2>2. Quraşdırma və ilk sessiya</h2>
+    <h3>Quraşdırma</h3>
+    <p>macOS və Linux üçün rəsmi quraşdırıcı:</p>
+    <pre class="code">curl -fsSL https://claude.ai/install.sh | bash</pre>
+    <p>Windows (PowerShell):</p>
+    <pre class="code">irm https://claude.ai/install.ps1 | iex</pre>
+    <p>Node.js quraşdırılıbsa, npm ilə də olar:</p>
+    <pre class="code">npm install -g @anthropic-ai/claude-code</pre>
+    <p>İlk açılışda hesabınıza daxil olmağınız istənir. Claude abunəliyi (Pro, Max, Team və s.) və ya API açarı ilə daxil olmaq mümkündür.</p>
+    <h3>İlk sessiya</h3>
+    <pre class="code">cd ~/layiheler/menim-saytim
+claude</pre>
+    <p>Claude Code həmişə <b>olduğunuz qovluqda</b> işləyir. Ona görə əvvəlcə layihənin qovluğuna keçin. Sonra adi dildə yazın:</p>
+    <pre class="code">&gt; bu layihə nə edir? əsas fayllar hansılardır?</pre>
+    <h3>Ən vacib düymələr</h3>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Düymə / əmr</th><th>Nə edir</th></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Claude-u dayandırır (səhv istiqamətə gedəndə)</td></tr>
+      <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Geri qayıtmaq: əvvəlki mesajı redaktə etmək və ya kodu əvvəlki vəziyyətə qaytarmaq</td></tr>
+      <tr><td><kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>İş rejimini dəyişir (adi → redaktələri avtomatik qəbul → plan)</td></tr>
+      <tr><td><span class="sym">@fayl</span></td><td>Faylı birbaşa tapşırığa əlavə edir</td></tr>
+      <tr><td><span class="sym">!əmr</span></td><td>Terminal əmrini birbaşa işə salır (məs. <span class="sym">!git status</span>)</td></tr>
+      <tr><td><span class="sym">/</span></td><td>Əmrlər siyahısı (<span class="sym">/help</span>, <span class="sym">/clear</span> …)</td></tr>
+      <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd> və ya <span class="sym">/exit</span></td><td>Çıxış</td></tr>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>🖥️ Terminal simulyatoru</h3>
+    <p class="fb">Bu, sadələşdirilmiş təqliddir: əsl Claude Code deyil, amma əmrlər və reaksiyalar həqiqiyə oxşayır. Tapşırıqları yerinə yetirin. Kömək üçün <span class="sym">/help</span> yazın.</p>
+    <ul class="missions" id="ccMissions"></ul>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span style="margin-left:6px">~/layiheler/menim-saytim</span></div>
+      <div class="out" id="ccOut"></div>
+      <div class="mode" id="ccMode"></div>
+      <div class="in"><span id="ccPrompt">$</span><input id="ccIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="əmr yazın və Enter basın…"></div>
+    </div>
+    <div class="row" style="margin-top:8px"><button class="btn ghost" id="ccST">Shift+Tab</button><button class="btn ghost" id="ccEsc">Esc</button><button class="btn ghost" id="ccReset">Yenidən başla</button></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="setup"></div></div>
+</section>
+
+<section class="lesson" data-title="Yaxşı tapşırıq yazmaq">
+  <div class="card">
+    <h2>3. Yaxşı tapşırıq (prompt) yazmaq</h2>
+    <p class="lead">Claude Code-un nəticəsinin keyfiyyəti çox vaxt tapşırığın keyfiyyətindən asılıdır. Claude sizin beyninizi oxuya bilmir: bildiyiniz, amma yazmadığınız hər şey onun üçün yoxdur.</p>
+    <h3>Yaxşı tapşırığın 6 elementi</h3>
+    <ol>
+      <li><b>Məqsəd:</b> nə etmək lazımdır? (“düzəlt”, “əlavə et”, “yenidən yaz”)</li>
+      <li><b>Yer:</b> hansı fayl, hansı hissə? <span class="sym">@src/login.js</span></li>
+      <li><b>Səbəb və kontekst:</b> niyə? Problem nədir, xəta mesajı nədir?</li>
+      <li><b>Məhdudiyyətlər:</b> nəyə toxunmamalı, hansı kitabxananı işlətməməli?</li>
+      <li><b>Uğur meyarı:</b> iş bitəndə nə görməliyik?</li>
+      <li><b>Yoxlama:</b> “testləri işə sal”, “brauzerdə yoxla”.</li>
+    </ol>
+    <div class="ex"><span class="tag">📌 Real nümunə: zəif və güclü tapşırıq</span>
+      <p><b>Zəif:</b> “login işləmir, düzəlt”</p>
+      <p><b>Güclü:</b> “<span class="sym">@src/auth/login.js</span> faylında istifadəçi düzgün parolla daxil olanda 'Invalid token' xətası çıxır (log aşağıdadır). Problem dünənki commit-dən sonra başlayıb. Səbəbi tap və düzəlt. Verilənlər bazası sxeminə toxunma. Sonra <span class="sym">npm test</span> işə sal və login testlərinin keçdiyini göstər.”</p>
+      <p>İkinci tapşırıqda Claude-un təxmin etməli olduğu heç nə qalmır: harada axtarmaq, nəyə toxunmamaq, işin bitdiyini necə bilmək.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Real nümunə: şəkil ilə</span>
+      <p>Dizayn problemi varsa, ekran şəklini terminala yapışdırın (və ya faylı sürüyüb atın) və yazın: “Mobil görünüşdə menyu bu şəkildəki kimi üst-üstə düşür. Elə düzəlt ki, 390px enində də düzgün görünsün.” Bu Akademiyada da belə edildi: ekran şəkillərinə baxıb düzəlişlər edildi.</p>
+    </div>
+    <div class="note"><b>Qızıl qayda:</b> tapşırığı yeni işə başlamış bacarıqlı bir həmkara verdiyinizi təsəvvür edin. Ona nə izah edərdinizsə, Claude-a da onu yazın.</div>
+  </div>
+  <div class="card">
+    <h3>🔍 Alət: tapşırığınızı yoxlayın</h3>
+    <p class="fb">Tapşırığınızı yazın (Azərbaycan və ya ingilis dilində), alət hansı elementlərin olduğunu və hansılarının çatışmadığını göstərəcək.</p>
+    <textarea id="pcIn" style="font-family:var(--sans)">login işləmir, düzəlt</textarea>
+    <div class="row" style="margin-top:8px"><button class="btn" id="pcBtn">Yoxla</button><button class="btn ghost" id="pcGood">Güclü nümunəni göstər</button></div>
+    <div id="pcOut"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="prompt"></div></div>
+</section>
+
+<section class="lesson" data-title="İş axını: kəşf → plan → kod → yoxla">
+  <div class="card">
+    <h2>4. İş axını: kəşf → plan → kod → yoxla → commit</h2>
+    <p class="lead">Ən çox yayılmış səhv Claude-dan dərhal kod yazmasını istəməkdir. Mürəkkəb işlərdə ən yaxşı nəticəni bu ardıcıllıq verir:</p>
+    <ol>
+      <li><b>Kəşf:</b> “Ödəniş modulunu oxu və necə işlədiyini izah et. Hələ heç nə dəyişmə.”</li>
+      <li><b>Plan:</b> “İndi PayPal əlavə etmək üçün plan qur. Hansı faylları dəyişəcəksən?” Planı oxuyun, lazım olsa düzəldin.</li>
+      <li><b>Kod:</b> “Planı tətbiq et.”</li>
+      <li><b>Yoxlama:</b> “Testləri işə sal, uğursuz olanları düzəlt.” Və ya: “Brauzerdə aç və ödəniş formasının işlədiyini yoxla.”</li>
+      <li><b>Commit:</b> “Dəyişiklikləri aydın mesajla commit et və PR aç.”</li>
+    </ol>
+    <h3>Plan rejimi</h3>
+    <p><kbd>Shift</kbd>+<kbd>Tab</kbd> ilə <b>plan rejiminə</b> keçəndə Claude yalnız oxuyur və təhlil edir, heç bir faylı dəyişmir. Sonda planı sizə təqdim edir. Siz razılaşandan sonra kod yazılır. Bu rejim böyük dəyişikliklərdən əvvəl çox faydalıdır.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: test əsaslı iş (TDD)</span>
+      <p>“Əvvəlcə <span class="sym">calculateDiscount</span> funksiyası üçün testlər yaz: 10%, 0%, mənfi məbləğ və 100%-dən çox endirim halları. Testləri işə sal və uğursuz olduqlarını göstər. Testləri commit et. Sonra funksiyanı elə yaz ki, bütün testlər keçsin. Testləri dəyişmə.”</p>
+      <p>Claude-un aydın hədəfi (testlər) olanda o, özü yoxlayıb özü düzəldir, siz isə nəticəyə əmin olursunuz.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Real nümunə: bu Akademiyada yoxlama</span>
+      <p>Hər dəyişiklikdən sonra Claude Code tətbiqi görünməyən (headless) brauzerdə açıb testləri işə saldı: telefon enində səhifənin yana sürüşməsi, testlərin işləməsi, oflayn rejim. Bir dəfə məhz bu yoxlama mobil görünüşdə bir xətanı tapdı: ana səhifə dərsin üstündə qalırdı. Xəta sizə çatmamış düzəldildi. <b>Yoxlama olmadan “hazırdır” demək olmaz.</b></p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧩 Tapşırıq: addımları düzgün sıraya qoyun</h3>
+    <p class="fb">Addımlara düzgün ardıcıllıqla klikləyin.</p>
+    <div class="order" id="ordBox"></div>
+    <div class="row"><button class="btn" id="ordCheck">Yoxla</button><button class="btn ghost" id="ordReset">Sıfırla</button></div>
+    <div id="ordMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="flow"></div></div>
+</section>
+
+<!-- ============ II HİSSƏ: NƏZARƏT VƏ YADDAŞ ============ -->
+<section class="lesson" data-title="İcazələr və təhlükəsizlik">
+  <div class="card">
+    <h2>5. İcazələr və təhlükəsizlik</h2>
+    <p class="lead">Claude Code kompüterinizdə əmr işə sala və faylları dəyişə bilir. Ona görə də standart olaraq riskli addımlardan əvvəl sizdən <b>icazə soruşur</b>.</p>
+    <h3>İş rejimləri</h3>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Rejim</th><th>Nə edir</th><th>Nə vaxt</th></tr>
+      <tr><td>Adi (default)</td><td>Fayl redaktəsi və əmrlərdən əvvəl soruşur</td><td>Yeni layihə, tanımadığınız kod</td></tr>
+      <tr><td>Redaktələri qəbul et (acceptEdits)</td><td>Fayl dəyişikliklərini avtomatik qəbul edir, əmrləri soruşur</td><td>Claude-a güvəndiyiniz rutin işlər</td></tr>
+      <tr><td>Plan</td><td>Yalnız oxuyur və plan qurur, heç nə dəyişmir</td><td>Böyük dəyişiklikdən əvvəl</td></tr>
+      <tr><td>bypassPermissions</td><td>Heç nə soruşmur</td><td>Yalnız təcrid olunmuş mühitdə (konteyner, sınaq maşını)</td></tr>
+    </table></div>
+    <p>Rejimlər arasında <kbd>Shift</kbd>+<kbd>Tab</kbd> ilə keçilir. Yeni versiyalarda “auto” kimi əlavə rejimlər də ola bilər: təhlükəsiz addımları özü edir, riskli olanlarda soruşur.</p>
+    <h3>İcazə qaydaları</h3>
+    <p>Hər dəfə eyni sualı cavablandırmamaq üçün qaydaları <span class="sym">settings.json</span>-da yazmaq olar:</p>
+    <pre class="code">{
+  "permissions": {
+    "allow": ["Bash(npm run test:*)", "Bash(git status)"],
+    "deny":  ["Read(./.env)", "Bash(rm -rf:*)"]
+  }
+}</pre>
+    <ul>
+      <li><span class="sym">~/.claude/settings.json</span>: bütün layihələriniz üçün</li>
+      <li><span class="sym">.claude/settings.json</span>: layihə üçün, komanda ilə paylaşılır (git-ə düşür)</li>
+      <li><span class="sym">.claude/settings.local.json</span>: yalnız sizin üçün (git-ə düşmür)</li>
+    </ul>
+    <p>İcazələri <span class="sym">/permissions</span> əmri ilə də idarə etmək olar.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: “Digital Nation-a toxunma”</span>
+      <p>Akademiyanı telefona quraşdırmaq üçün Claude Code dəyişiklikləri Digital Nation-ın əsas branch-ına göndərmək istədi, amma əvvəlcə sizdən soruşdu. Siz “Xeyr, ayrıca repo yarat” dediniz və Claude dərhal öz dəyişikliyini geri aldı. <b>Geri qaytarılması çətin olan, başqalarına təsir edən addımlar həmişə insanın təsdiqi ilə atılmalıdır.</b></p>
+    </div>
+    <div class="note"><b>Təhlükəsizlik qaydaları:</b> 1) <span class="sym">.env</span> və parollar olan faylları <span class="sym">deny</span> siyahısına salın. 2) “Heç nə soruşma” rejimini yalnız təcrid olunmuş mühitdə işlədin. 3) Kənar mənbələrdən (veb səhifə, issue mətni) gələn təlimatlara kor-koranə əməl etdirməyin.</div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq: hansı rejim?</h3><div class="quiz" data-quiz="perm"></div></div>
+</section>
+
+<section class="lesson" data-title="Yaddaş: CLAUDE.md">
+  <div class="card">
+    <h2>6. Yaddaş: CLAUDE.md</h2>
+    <p class="lead">Hər yeni sessiyada Claude layihəniz haqqında heç nə xatırlamır. <span class="sym">CLAUDE.md</span> faylı onun “işə başlama təlimatı”dır: hər sessiyanın əvvəlində avtomatik oxunur.</p>
+    <h3>Harada yerləşir?</h3>
+    <ul>
+      <li><span class="sym">./CLAUDE.md</span> (və ya <span class="sym">./.claude/CLAUDE.md</span>): layihə üçün, git-ə əlavə edilir və komanda ilə paylaşılır.</li>
+      <li><span class="sym">~/.claude/CLAUDE.md</span>: şəxsi, bütün layihələriniz üçün (“cavabları Azərbaycanca yaz” kimi).</li>
+      <li>Alt qovluqlarda: <span class="sym">frontend/CLAUDE.md</span>. Claude həmin qovluqda işləyəndə oxunur.</li>
+    </ul>
+    <p><span class="sym">/init</span> əmri layihəni təhlil edib ilkin <span class="sym">CLAUDE.md</span> yaradır. <span class="sym">/memory</span> isə yaddaş fayllarını redaktə etməyə imkan verir.</p>
+    <h3>Nə yazmalı?</h3>
+    <ul>
+      <li>Build, test, lint əmrləri (<span class="sym">npm run test</span>, <span class="sym">pytest -q</span>)</li>
+      <li>Kod üslubu (“TypeScript strict”, “funksional komponentlər”)</li>
+      <li>Layihənin quruluşu: nə haradadır</li>
+      <li>Qadağalar: “migrations qovluğuna əl ilə toxunma”</li>
+      <li>Komandanın xüsusi qaydaları: commit mesajı formatı, branch adları</li>
+    </ul>
+    <h3>Nə yazmamalı?</h3>
+    <ul>
+      <li>Parollar, açarlar (CLAUDE.md git-ə düşür!)</li>
+      <li>Kodun özündən aydın olan şeylər. Fayl qısa və konkret olmalıdır, çünki hər sessiyada kontekstdə yer tutur.</li>
+    </ul>
+    <div class="ex"><span class="tag">📌 Real nümunə: Akademiyanın README faylı</span>
+      <p>Bu Akademiyanın reposunda <span class="sym">README.md</span> var: tətbiqin quruluşu, yeni kursun necə əlavə olunduğu, dərcin necə işlədiyi. Siz yeni sessiyada “Claude Code kursu əlavə et” yazanda Claude-un bilməli olduğu hər şey orada idi. Bu fayl təxminən CLAUDE.md rolunu oynayır: <b>keçmiş sessiyanın biliyini növbəti sessiyaya ötürür.</b></p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🛠️ Alət: CLAUDE.md qurucusu</h3>
+    <div class="formgrid">
+      <label>Layihə nədir?<input type="text" id="cmDesc" value="Onlayn çiçək mağazası: Next.js + PostgreSQL"></label>
+      <label>Əsas əmrlər (hər sətirdə bir)<textarea id="cmCmds">npm run dev — lokal server
+npm test — testlər
+npm run lint — kod yoxlaması</textarea></label>
+      <label>Kod üslubu<textarea id="cmStyle">TypeScript strict rejimdə
+Komponentlər src/components qovluğunda, hər biri öz faylında</textarea></label>
+      <label>Qadağalar və vacib qaydalar<textarea id="cmRules">prisma/migrations qovluğunu əl ilə dəyişmə
+.env faylını oxuma və commit etmə
+Hər dəyişiklikdən sonra npm test işə sal</textarea></label>
+    </div>
+    <h3 style="margin-top:14px">Nəticə</h3>
+    <pre class="code" id="cmOut"></pre>
+    <button class="btn ghost" id="cmCopy">Kopyala</button>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="mem"></div></div>
+</section>
+
+<section class="lesson" data-title="Kontekst idarəsi">
+  <div class="card">
+    <h2>7. Kontekst idarəsi</h2>
+    <p class="lead">Claude-un “iş masası”nın, yəni <b>kontekst pəncərəsinin</b> ölçüsü məhduddur. Oxunan hər fayl, hər əmr nəticəsi, hər mesaj orada yer tutur.</p>
+    <p>Kontekst doluşduqca köhnə detallar unudulur, cavablar zəifləyir. Ona görə konteksti idarə etmək lazımdır:</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Əmr</th><th>Nə edir</th><th>Nə vaxt</th></tr>
+      <tr><td><span class="sym">/clear</span></td><td>Söhbəti tamamilə təmizləyir</td><td>Tamam yeni tapşırığa keçəndə</td></tr>
+      <tr><td><span class="sym">/compact</span></td><td>Söhbəti qısa xülasəyə çevirir, vacib olanı saxlayır</td><td>Uzun iş davam edir, amma kontekst dolub</td></tr>
+      <tr><td><span class="sym">/context</span></td><td>Kontekstin nə qədər dolu olduğunu göstərir</td><td>Yoxlamaq üçün</td></tr>
+      <tr><td><span class="sym">claude --continue</span></td><td>Sonuncu söhbəti davam etdirir</td><td>Ertəsi gün işə qayıdanda</td></tr>
+      <tr><td><span class="sym">claude --resume</span> / <span class="sym">/resume</span></td><td>Köhnə söhbətlərdən birini seçir</td><td>Əvvəlki tapşırığa qayıdanda</td></tr>
+    </table></div>
+    <div class="ex"><span class="tag">📌 Real nümunə: bir sessiya, bir mövzu</span>
+      <p>Səhər login xətasını düzəltdiniz, sonra eyni sessiyada “indi hesabat səhifəsi üçün qrafik əlavə et” yazırsınız. Kontekstdə yüzlərlə sətir login kodu və xəta logu qalıb, bunlar yeni işə lazım deyil. Daha yaxşısı: <span class="sym">/clear</span> edib yeni tapşırığa təmiz başlamaq. <b>Bir sessiya, bir mövzu.</b></p>
+    </div>
+    <div class="ex"><span class="tag">📌 Real nümunə: böyük logu birbaşa yapışdırmayın</span>
+      <p>5000 sətirlik log faylını mesajın içinə yapışdırmaq konteksti bir anda doldurur. Bunun əvəzinə yazın: “<span class="sym">logs/error.log</span> faylında 'Timeout' sözünü axtar və son 20 halı təhlil et.” Claude lazım olan hissəni özü tapacaq.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📊 Simulyator: kontekst pəncərəsi</h3>
+    <p class="fb">Düymələrə basaraq iş gününü təqlid edin və kontekstin necə dolduğuna baxın.</p>
+    <div class="ctxbar"><i id="cxBar"></i><b id="cxTxt">0%</b></div>
+    <div class="row">
+      <button class="btn ghost" data-cx="6|Kiçik faylı oxudu">Kiçik fayl oxu</button>
+      <button class="btn ghost" data-cx="15|Böyük faylı oxudu">Böyük fayl oxu</button>
+      <button class="btn ghost" data-cx="10|Testləri işə saldı">Testləri işə sal</button>
+      <button class="btn ghost" data-cx="35|5000 sətirlik log yapışdırıldı">Böyük log yapışdır</button>
+      <button class="btn" data-cx="compact">/compact</button>
+      <button class="btn" data-cx="clear">/clear</button>
+    </div>
+    <div id="cxMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="ctx"></div></div>
+</section>
+
+<!-- ============ III HİSSƏ: GENİŞLƏNDİRMƏ ============ -->
+<section class="lesson" data-title="Əmrlər və skill-lər">
+  <div class="card">
+    <h2>8. Slash əmrləri və skill-lər</h2>
+    <p class="lead">Tez-tez təkrarladığınız tapşırıqları bir dəfə yazıb sonra bir sözlə çağırmaq olar.</p>
+    <h3>Daxili əmrlər</h3>
+    <p><span class="sym">/help</span>, <span class="sym">/init</span>, <span class="sym">/clear</span>, <span class="sym">/compact</span>, <span class="sym">/context</span>, <span class="sym">/model</span> (model seçimi), <span class="sym">/permissions</span>, <span class="sym">/memory</span>, <span class="sym">/agents</span>, <span class="sym">/mcp</span>, <span class="sym">/hooks</span>, <span class="sym">/resume</span>, <span class="sym">/config</span>. Tam siyahını <span class="sym">/help</span> göstərir.</p>
+    <h3>Öz skill-iniz</h3>
+    <p><b>Skill</b> Claude-a müəyyən işi necə görəcəyini öyrədən qovluqdur. Əsas faylı <span class="sym">SKILL.md</span>-dir:</p>
+    <pre class="code">.claude/skills/kurs-elave-et/SKILL.md</pre>
+    <pre class="code">---
+name: kurs-elave-et
+description: Akademiyaya yeni kurs əlavə edəndə istifadə et
+---
+1. courses/&lt;id&gt;/lessons.html faylını yarat: hər dərs bir &lt;section class="lesson"&gt;.
+2. Hər dərsdə real nümunələr (.ex blokları) və test olsun.
+3. courses/&lt;id&gt;/course.js-də LMS.registerCourse çağır.
+4. catalog.json-a kursu əlavə et.
+5. Brauzerdə yoxla: telefon enində yana sürüşmə olmasın.</pre>
+    <p>Skill-i <span class="sym">/kurs-elave-et</span> yazaraq özünüz çağıra bilərsiniz. Claude da tapşırıq onun təsvirinə uyğun gələndə onu özü işə sala bilər. Skill qovluğunda köməkçi skriptlər və şablonlar da saxlamaq olar.</p>
+    <p>Köhnə üsul olan <span class="sym">.claude/commands/ad.md</span> faylları da işləyir. Mətndə <span class="sym">$ARGUMENTS</span> yazsanız, əmrdən sonra yazdığınız mətn ora qoyulur: <span class="sym">/fix-issue 123</span>.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: komanda üçün “PR yoxlaması”</span>
+      <p>Komandanızda hər PR yoxlanılarkən eyni şeylərə baxılır: testlər var, xəta mesajları istifadəçiyə aydındır, gizli açar yoxdur. Bunları bir dəfə <span class="sym">.claude/skills/pr-yoxla/SKILL.md</span>-də yazıb git-ə əlavə edirsiniz. İndi komandanın hər üzvü <span class="sym">/pr-yoxla</span> yazıb eyni keyfiyyətdə yoxlama alır.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🃏 Kartlar: əmrləri əzbərləyin</h3>
+    <p class="fb">Karta basın, cavaba baxın. Hamısını açanda dərs tamamlanır.</p>
+    <div class="flash" id="flashBox"></div>
+    <div class="score" id="flashScore"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="cmds"></div></div>
+</section>
+
+<section class="lesson" data-title="Subagentlər">
+  <div class="card">
+    <h2>9. Subagentlər</h2>
+    <p class="lead"><b>Subagent</b> Claude-un tapşırığın bir hissəsini öz ayrıca konteksti olan köməkçiyə verməsidir. Köməkçi işi görüb yalnız nəticəni qaytarır.</p>
+    <h3>Niyə lazımdır?</h3>
+    <ul>
+      <li><b>Kontekst təmiz qalır:</b> 50 faylı axtarmaq subagentin kontekstini doldurur, əsas söhbətə isə yalnız qısa cavab qayıdır.</li>
+      <li><b>İxtisaslaşma:</b> hər subagentin öz təlimatı, alətləri və modeli ola bilər.</li>
+      <li><b>Paralellik:</b> bir neçə müstəqil iş eyni anda gedə bilər.</li>
+    </ul>
+    <p>Daxili subagentlər var, məsələn kodda axtarış üçün <b>Explore</b>, planlaşdırma üçün <b>Plan</b>. Özünüz də yarada bilərsiniz: <span class="sym">/agents</span> əmri ilə və ya fayl kimi:</p>
+    <pre class="code">.claude/agents/test-yazan.md</pre>
+    <pre class="code">---
+name: test-yazan
+description: Yeni funksiyalar üçün unit testlər yazır. Kod dəyişəndən sonra istifadə et.
+tools: Read, Grep, Glob, Write, Bash
+model: sonnet
+---
+Sən test mütəxəssisisən. Hər funksiya üçün normal hal, sərhəd halları
+və xəta halları üçün test yaz. Mövcud test üslubuna uy. Testləri işə sal.</pre>
+    <div class="ex"><span class="tag">📌 Real nümunə: böyük kod bazasında axtarış</span>
+      <p>“Bu layihədə istifadəçi məlumatları harada şifrələnir?” Əsas Claude 200 faylı özü oxusa, kontekst dolar. Bunun əvəzinə axtarışı Explore subagentinə verir. O, faylları gəzib qaytarır: “3 yerdə: <span class="sym">crypto/aes.ts</span>, <span class="sym">db/hooks.ts</span>, <span class="sym">api/export.ts</span>.” Əsas kontekstə yalnız bu 3 sətir düşür.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Real nümunə: ikinci göz</span>
+      <p>Claude kodu yazandan sonra “code-reviewer” subagenti işə salınır. Onun konteksti təmizdir, kodu yazan deyil. Ona görə də əsas Claude-un “gözdən qaçırdığı” səhvləri tapmaq ehtimalı daha yüksəkdir, insan komandalarındakı kod yoxlaması kimi.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="agents"></div></div>
+</section>
+
+<section class="lesson" data-title="Hook-lar: avtomatik qaydalar">
+  <div class="card">
+    <h2>10. Hook-lar: avtomatik qaydalar</h2>
+    <p class="lead">CLAUDE.md-dəki qayda bir <b>xahişdir</b>: Claude onu unuda bilər. <b>Hook</b> isə həmişə işləyən avtomatik əmrdir. Müəyyən hadisə baş verəndə Claude Code onu özü işə salır.</p>
+    <h3>Əsas hadisələr</h3>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Hadisə</th><th>Nə vaxt</th><th>Nümunə</th></tr>
+      <tr><td><span class="sym">PreToolUse</span></td><td>Alət işə düşməzdən əvvəl</td><td>Təhlükəli əmri bloklamaq</td></tr>
+      <tr><td><span class="sym">PostToolUse</span></td><td>Alət işini bitirəndən sonra</td><td>Redaktədən sonra kodu formatlamaq</td></tr>
+      <tr><td><span class="sym">UserPromptSubmit</span></td><td>Siz mesaj göndərəndə</td><td>Mesaja əlavə kontekst qoşmaq</td></tr>
+      <tr><td><span class="sym">Stop</span></td><td>Claude cavabı bitirəndə</td><td>Bildiriş göndərmək</td></tr>
+      <tr><td><span class="sym">SessionStart</span></td><td>Sessiya başlayanda</td><td>Asılılıqları yükləmək</td></tr>
+      <tr><td><span class="sym">Notification</span></td><td>Claude sizdən nəsə gözləyəndə</td><td>Səs və ya bildiriş</td></tr>
+    </table></div>
+    <p>Hook <span class="sym">settings.json</span>-da yazılır. <span class="sym">matcher</span> hansı alətə aid olduğunu göstərir. Hook əmri hadisə haqqında məlumatı JSON şəklində alır. <span class="sym">PreToolUse</span> hook-u <b>2 kodu ilə</b> çıxarsa, əməliyyat bloklanır və səbəb Claude-a çatdırılır. Hook-ları <span class="sym">/hooks</span> əmri ilə də idarə etmək olar.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: “həmişə formatla”</span>
+      <p>Komanda Prettier işlədir, amma Claude bəzən formatlamağı unudur. CLAUDE.md-yə “formatla” yazmaq əvəzinə <span class="sym">PostToolUse</span> hook-u qoyulur: hər <span class="sym">Edit</span> və ya <span class="sym">Write</span> əməliyyatından sonra <span class="sym">npx prettier --write</span> avtomatik işləyir. Artıq unutmaq mümkün deyil.</p>
+    </div>
+    <div class="note"><b>Diqqət:</b> hook-lar kompüterinizdə sizin hüquqlarınızla işləyir. Başqasının yazdığı hook-u əvvəlcə oxuyun, nə etdiyini anlayın.</div>
+  </div>
+  <div class="card">
+    <h3>🛠️ Alət: hook qurucusu</h3>
+    <div class="formgrid">
+      <label>Hazır nümunə<select id="hkPreset">
+        <option value="fmt">Redaktədən sonra Prettier ilə formatla</option>
+        <option value="env">.env fayllarının redaktəsini blokla</option>
+        <option value="done">Claude işi bitirəndə bildiriş</option>
+        <option value="custom">Öz hook-um</option>
+      </select></label>
+      <label>Hadisə<select id="hkEvent">
+        <option>PreToolUse</option><option>PostToolUse</option><option>UserPromptSubmit</option><option>Stop</option><option>SessionStart</option><option>Notification</option>
+      </select></label>
+      <label>Matcher (alət adı, məs. <span class="sym">Edit|Write</span> və ya <span class="sym">Bash</span>)<input type="text" id="hkMatch"></label>
+      <label>Əmr<input type="text" id="hkCmd"></label>
+    </div>
+    <p class="fb" id="hkWhy"></p>
+    <pre class="code" id="hkOut"></pre>
+    <button class="btn ghost" id="hkCopy">Kopyala</button>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="hooks"></div></div>
+</section>
+
+<section class="lesson" data-title="MCP: xarici alətlər">
+  <div class="card">
+    <h2>11. MCP: Claude-u xarici alətlərə qoşmaq</h2>
+    <p class="lead"><b>MCP</b> (Model Context Protocol) Claude-u kənar sistemlərə qoşmaq üçün açıq standartdır: GitHub, verilənlər bazası, Figma, Slack, brauzer və s.</p>
+    <p>MCP serveri əlavə etmək:</p>
+    <pre class="code"># kompüterdə işləyən server
+claude mcp add playwright -- npx @playwright/mcp@latest
+
+# internetdəki (HTTP) server
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+
+# siyahı
+claude mcp list</pre>
+    <h3>Əhatə dairəsi (scope)</h3>
+    <ul>
+      <li><b>local</b> (standart): yalnız sizin üçün, bu layihədə.</li>
+      <li><b>project</b>: <span class="sym">.mcp.json</span> faylına yazılır və komanda ilə paylaşılır.</li>
+      <li><b>user</b>: sizin bütün layihələrinizdə.</li>
+    </ul>
+    <p>Sessiya daxilində <span class="sym">/mcp</span> serverlərin vəziyyətini göstərir və giriş (login) tələb edən serverlərə qoşulmağa kömək edir.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: bu kursun dərci</span>
+      <p>Bu Akademiya dərc olunanda Claude Code GitHub-a MCP vasitəsilə qoşulmuşdu: dərcin (GitHub Actions) nəticəsinə baxdı, xəta logunu oxudu (“Pages aktiv deyil”) və səbəbi sizə izah etdi. Siz Pages-i aktiv edəndə dərci yenidən özü işə saldı. Brauzerdə GitHub-ı açmağa ehtiyac qalmadı.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Real nümunə: verilənlər bazası</span>
+      <p>Postgres MCP serveri qoşulubsa, yaza bilərsiniz: “Son 30 gündə qeydiyyatdan keçib heç bir sifariş verməyən istifadəçilərin sayını tap.” Claude sorğunu özü yazıb işə salır. <b>Təhlükəsizlik:</b> belə serverlərə yalnız oxumaq hüququ olan istifadəçi ilə qoşulun.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="mcp"></div></div>
+</section>
+
+<!-- ============ IV HİSSƏ: PRAKTİKA ============ -->
+<section class="lesson" data-title="Avtomatlaşdırma və bulud">
+  <div class="card">
+    <h2>12. Avtomatlaşdırma: skriptlər, CI və bulud sessiyaları</h2>
+    <h3>Headless rejim: <span class="sym">claude -p</span></h3>
+    <p><span class="sym">-p</span> (print) bayrağı ilə Claude Code interaktiv söhbətsiz işləyir: tapşırığı alır, işi görür, nəticəni çap edir. Bu, onu skriptlərə qoşmağa imkan verir:</p>
+    <pre class="code"># tək sual
+claude -p "bu layihədə istifadə olunmayan asılılıqları sadala"
+
+# başqa əmrin çıxışını ötürmək
+cat error.log | claude -p "bu xətaların ən çox rast gəlinən 3 səbəbini izah et"
+
+# maşın üçün JSON çıxışı
+claude -p "testləri işə sal və nəticəni xülasə et" --output-format json</pre>
+    <h3>GitHub ilə</h3>
+    <p>Claude-un GitHub tətbiqini quraşdırsanız (terminalda <span class="sym">/install-github-app</span>), issue və ya PR şərhində <span class="sym">@claude</span> yazıb tapşırıq verə bilərsiniz: “@claude bu bug-ı düzəlt”. O, branch yaradıb dəyişiklik edir və PR açır.</p>
+    <h3>Bulud sessiyaları</h3>
+    <p>claude.ai/code və ya Claude tətbiqində sessiya Anthropic-in buludundakı təcrid olunmuş konteynerdə işləyir: repo ora klonlanır, iş orada görülür, nəticə branch-a göndərilir. Kompüteriniz söndürülü olsa belə, iş davam edir. Telefondan da izləmək olar.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: siz bunu artıq etmisiniz</span>
+      <p>Bu Akademiya məhz bulud sessiyasında quruldu. Siz yazırdınız, Claude Code isə konteynerdə faylları yaradır, headless brauzerdə test edir və GitHub-a göndərirdi. GitHub Actions isə hər göndərişdən sonra saytı avtomatik yeniləyirdi. Bu, <b>“söhbət → kod → test → dərc”</b> zəncirinin tam avtomatlaşdırılmasıdır.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Real nümunə: gecə hesabatı</span>
+      <p>Hər gecə CI-də belə bir addım işə düşür: <span class="sym">claude -p "dünən birləşdirilmiş PR-ları oxu və komanda üçün 5 bəndlik dəyişiklik xülasəsi yaz" &gt; xulase.md</span>. Səhər komanda hazır xülasəni görür.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="auto"></div></div>
+</section>
+
+<section class="lesson" data-title="Real layihə: Akademiyanın hekayəsi">
+  <div class="card">
+    <h2>13. Real layihə: Akademiyanın hekayəsi</h2>
+    <p class="lead">Kursun bütün mövzuları bir layihədə: bu tətbiqin necə qurulduğu. Hər addımda hansı prinsipin işlədiyinə baxın.</p>
+    <ol>
+      <li><b>Fikir:</b> “Bu saytdan ilhamlanaraq məntiq kursu hazırla, interaktiv olsun.” Sayt açılmadı, Claude bunu açıq dedi və öz bilikləri ilə davam etdi. <i>Prinsip: problemi gizlətmə, hesabat ver.</i></li>
+      <li><b>İterasiya:</b> “Real nümunələr əlavə et”, “fayl açılmadı”. Hər rəydən sonra yeni versiya hazırlandı. <i>Prinsip: qısa dövrlər, tez rəy.</i></li>
+      <li><b>Arxitektura:</b> “LMS yarat, gələcəkdə başqa kurslar da olacaq.” Kurs qabıqdan (shell) ayrıldı və hər kurs ayrıca modula çevrildi. <i>Prinsip: dekompozisiya, gələcəyi nəzərə alan dizayn.</i></li>
+      <li><b>Yoxlama:</b> hər addımda headless brauzerdə test aparıldı. Mobil görünüşdəki xəta istifadəçiyə çatmamış tapıldı. <i>Prinsip: yoxlamadan “hazırdır” demə.</i></li>
+      <li><b>İcazə:</b> “Digital Nation-ın əsas branch-ına göndərim?” sualına cavab “Xeyr” oldu və Claude öz dəyişikliyini geri aldı. <i>Prinsip: geri qaytarılmaz addımlarda insan qərar verir.</i></li>
+      <li><b>Məhdudiyyət:</b> Claude yeni repo yarada bilmirdi və bunu açıq dedi. Sizə yalnız sizin edə biləcəyiniz addımlar qaldı. <i>Prinsip: imkanların sərhədini dürüst göstər.</i></li>
+      <li><b>Diaqnostika:</b> dərc uğursuz oldu. Claude logu oxudu, səbəbi tapdı (private repo və Pages), seçimləri izah etdi, qərarı sizə buraxdı. <i>Prinsip: xətanı oxu, təxmin etmə.</i></li>
+      <li><b>Bilik ötürmə:</b> README-də yeni kursun necə əlavə olunduğu yazıldı. Bu kurs da həmin təlimata əsasən əlavə edildi. <i>Prinsip: yaddaş (CLAUDE.md / README).</i></li>
+    </ol>
+    <div class="note"><b>Nəticə:</b> Claude Code ilə uğurlu iş “sehrli bir prompt” deyil, bir prosesdir: aydın məqsəd, qısa dövrlər, mütləq yoxlama, vacib qərarlarda insanın nəzarəti və yaddaşın saxlanması.</div>
+    <h3>Sizin növbəti layihəniz üçün plan</h3>
+    <ol>
+      <li>Kiçik, bir axşamlıq layihə seçin (şəxsi büdcə cədvəli, ailə üçün resept saytı, telegram botu).</li>
+      <li>Boş qovluq yaradın, <span class="sym">claude</span> işə salın və məqsədi 5–6 cümlə ilə izah edin.</li>
+      <li>Plan rejimində plan istəyin, oxuyun, düzəldin.</li>
+      <li>Hər hissədən sonra “işə sal və yoxla” deyin.</li>
+      <li>İş bitəndə <span class="sym">/init</span> ilə CLAUDE.md yaradın, növbəti dəfə üçün.</li>
+    </ol>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="case"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan">
+  <div class="card">
+    <h2>14. Yekun imtahan</h2>
+    <p class="lead">Bütün mövzulardan 15 sual. Ən azı 12 düzgün cavab (80%) verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>
