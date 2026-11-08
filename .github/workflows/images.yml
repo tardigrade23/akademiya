@@ -1,0 +1,24 @@
+name: Fetch course images
+
+# Downloads free-licensed images listed in tools/images.json from Wikimedia
+# Commons and commits them with their credits. Run it by hand from the Actions tab.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download images
+        run: python3 tools/fetch_images.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add courses/*/img
+          git diff --cached --quiet || git commit -m "Update course images from Wikimedia Commons"
+          git push
