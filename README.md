@@ -49,6 +49,7 @@ akademiya/
 - **Vurğulama**: dərsdə mətni seçəndə aşağıda rəng paneli çıxır; vurğular “Qeydlərim”də və kursun Konspektində toplanır.
 - Hər kursun yan panelində: **Kurs xəritəsi** (`#<kurs>-xerite`, `data/map.json`: `data/links.json`-dakı əl ilə yazılmış əlaqələr + lüğətdən çıxan əlaqələr), **Konspekt** (`#<kurs>-konspekt`: çap/PDF, Markdown), **Layihə və əlavə oxu** (`#<kurs>-elave`, `data/extras.json`).
 - **Kurslar arası əlaqələr**: `data/xlinks.json` (`[kurs, dərs, kurs, dərs, izah]`, 0-dan sayılır) → `node tools/build_index.mjs` → `data/xmap.json`; hər dərsin sonunda “🔗 Digər kurslarla əlaqə”.
+- **İngilis qarşılıqları**: `data/glossary.json`-da `en` sahəsi və `data/terms.json` (`{t, en, c}`) — dərsdə hər termin öz kursunda, ilk işləndiyi yerdə “(english)” ilə göstərilir (`annotateTerms` in `lms.js`).
 - Şəkillərin lisenziya məlumatı `courses/<kurs>/img/credits.json`-da saxlanılır, tətbiqdə göstərilmir.
 - **Əsas fikirlər**: hər dərsin sonunda 3–4 bənd (`data/keys.json`, kurs id → dərs indeksi → bəndlər; yekun imtahanda `null`). Konspektdə də göstərilir. Lüğətdə hər terminin nümunəsi `n` sahəsindədir.
 - **Kursu sıfırla** (yan paneldə): irəliləyiş həmişə, kartlar/qeydlər/vurğular/öz kartlar/layihə seçimlə silinir. `reset` və `resetNotes` vaxt nişanları `merge()`-də köhnə (bulud) nüsxələrin irəliləyişi geri gətirməsinə imkan vermir; fayldan bərpa isə təzə sayılır.

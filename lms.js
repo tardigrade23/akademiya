@@ -305,8 +305,9 @@
     const all = Object.entries(me.hl).flatMap(([k, a]) => a.map(h => [k.split(':')[0], +k.split(':')[1], h])).filter(([c]) => byId[c]).sort((a, b) => b[2].ts - a[2].ts);
     const groups = {}; all.forEach(x => (groups[x[0]] = groups[x[0]] || []).push(x));
     v.innerHTML = `<div class="card"><h2>🖍️ Qeydlərim</h2><p class="lead">Dərsdə vacib bildiyiniz cümləni seçib rənglə vurğulayın: hamısı burada toplanır. Kurs üzrə tam konspekt üçün kursun yan panelindəki “📄 Konspekt”ə keçin.</p></div>` +
-      (all.length ? Object.entries(groups).map(([cid, list]) => `<div class="card"><h3>${chip(cid)} <span class="fb">${list.length}</span></h3>${list.map(([c, l, h]) => `<div class="mk"><div><span class="fb">${l + 1}. ${esc(h.lt || (lessonTitle(c, l)))}</span><blockquote class="ks-hl hl-${h.c}">${esc(h.t)}</blockquote></div>
-        <div class="row"><button class="btn ghost hl-open" data-c="${c}" data-l="${l}" data-id="${esc(h.id)}">Aç</button><button class="iconbtn hl-del" data-k="${c}:${l}" data-id="${esc(h.id)}" title="Sil" aria-label="Vurğunu sil">✕</button></div></div>`).join('')}</div>`).join('')
+      (all.length ? Object.entries(groups).map(([cid, list]) => `<div class="card"><h3>${chip(cid)} <span class="fb">${list.length}</span></h3>${list.map(([c, l, h]) => `<div class="hlk"><div class="hlk-h"><span class="fb">${l + 1}. ${esc(h.lt || (lessonTitle(c, l)))}</span>
+        <span class="row"><button class="btn ghost hl-open" data-c="${c}" data-l="${l}" data-id="${esc(h.id)}">Aç</button><button class="iconbtn hl-del" data-k="${c}:${l}" data-id="${esc(h.id)}" title="Sil" aria-label="Qeydi sil">✕</button></span></div>
+        <blockquote class="ks-hl hl-${h.c}${h.t.length > 140 ? ' jl' : ''}">${esc(h.t)}</blockquote></div>`).join('')}</div>`).join('')
         : '<div class="card"><p>Hələ qeyd yoxdur. Dərsdə bir cümləni barmaqla (və ya siçanla) seçin, aşağıda rəng paneli çıxacaq.</p></div>');
     v.querySelectorAll('.hl-open').forEach(b => b.onclick = () => { pendingMark = b.dataset.id; location.hash = `${b.dataset.c}-${+b.dataset.l + 1}`; });
     v.querySelectorAll('.hl-del').forEach(b => b.onclick = () => {
@@ -333,7 +334,7 @@
     me.own = {}; saveMe();
   }
 
-  const glRow = g => `<div class="gl"><b>${esc(g.t)}</b><span>${esc(g.d)}</span>${g.n ? `<em class="gl-ex"><b>Nümunə:</b> ${esc(g.n)}</em>` : ''}<a href="#${g.c}-${g.l + 1}">${chip(g.c)}</a></div>`;
+  const glRow = g => `<div class="gl"><b>${esc(g.t)}${g.en ? ` <span class="en">(${esc(g.en)})</span>` : ''}</b><span>${esc(g.d)}</span>${g.n ? `<em class="gl-ex"><b>Nümunə:</b> ${esc(g.n)}</em>` : ''}<a href="#${g.c}-${g.l + 1}">${chip(g.c)}</a></div>`;
   async function pageGlossary(v) {
     v.innerHTML = '<div class="card">Lüğət yüklənir…</div>';
     const G = (await getJSON('data/glossary.json')).slice().sort((a, b) => a.t.localeCompare(b.t, 'az'));
@@ -395,7 +396,7 @@
 
 
   // ---------- mətndə vurğulama ----------
-  const HL_SKIP = '.xl-card, .quiz, button, input, textarea, select, label, svg, script, style, .bm, .tts, .kicker, .credit, .out, .res, .msg, .fb, .score, [id]';
+  const HL_SKIP = '.en, .xl-card, .quiz, button, input, textarea, select, label, svg, script, style, .bm, .tts, .kicker, .credit, .out, .res, .msg, .fb, .score, [id]';
   const HL_COLORS = { y: 'Sarı', g: 'Yaşıl', p: 'Çəhrayı' };
   function textNodes(sec) {
     const out = [], w = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT, {
@@ -574,7 +575,7 @@
       html += `<section class="ks"><h3><a href="#${cid}-${i + 1}">${i + 1}. ${esc(s.dataset.title)}</a></h3>
         ${ky.length ? `<ul class="ks-keys">${ky.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
         ${note ? `<div class="ks-note"><b>📝 Köhnə qeydim</b><pre>${esc(note.t)}</pre></div>` : ''}
-        ${hl.map(h => `<blockquote class="ks-hl hl-${h.c}">${esc(h.t)}</blockquote>`).join('')}
+        ${hl.map(h => `<blockquote class="ks-hl hl-${h.c}${h.t.length > 140 ? ' jl' : ''}">${esc(h.t)}</blockquote>`).join('')}
         ${mk.map(m => `<div class="ks-mk">📌 <b>${esc(m.tag)}</b>: ${esc(m.s)}</div>`).join('')}</section>`;
       md += `\n## ${i + 1}. ${s.dataset.title}\n`;
       if (ky.length) md += '\n**Əsas fikirlər:**\n\n' + ky.map(t => `- ${t}`).join('\n') + '\n';
@@ -582,7 +583,7 @@
       hl.forEach(h => { md += `\n> ${h.t.replace(/\n/g, ' ')} _(${HLN[h.c]})_\n`; });
       mk.forEach(m => { md += `\n- 📌 **${m.tag}**: ${m.s}\n`; });
     });
-    if (G.length) { html += `<section class="ks"><h3>📖 Kursun lüğəti</h3><dl class="ks-gl">${G.map(g => `<dt>${esc(g.t)}</dt><dd>${esc(g.d)}${g.n ? `<br><i>Nümunə: ${esc(g.n)}</i>` : ''}</dd>`).join('')}</dl></section>`; md += '\n## Lüğət\n'; G.forEach(g => { md += `\n- **${g.t}**: ${g.d}${g.n ? ` _Nümunə: ${g.n}_` : ''}\n`; }); }
+    if (G.length) { html += `<section class="ks"><h3>📖 Kursun lüğəti</h3><dl class="ks-gl">${G.map(g => `<dt>${esc(g.t)}${g.en ? ` <span class="en">(${esc(g.en)})</span>` : ''}</dt><dd>${esc(g.d)}${g.n ? `<br><i>Nümunə: ${esc(g.n)}</i>` : ''}</dd>`).join('')}</dl></section>`; md += '\n## Lüğət\n'; G.forEach(g => { md += `\n- **${g.t}**: ${g.d}${g.n ? ` _Nümunə: ${g.n}_` : ''}\n`; }); }
     v.innerHTML = `<div class="card no-print"><h2>📄 Konspekt</h2><p class="lead">Bu kursda vurğuladığınız cümlələr (qeydləriniz), hər dərsin əsas fikirləri və kursun lüğəti bir səhifədə.</p>
       <label class="fb ks-tg"><input type="checkbox" id="ksKeys" ${withKeys ? 'checked' : ''}> Hər dərsin “Əsas fikirlər”ini də daxil et</label>
       <div class="row"><button class="btn" id="ksPrint">🖨️ Çap et / PDF</button><button class="btn ghost" id="ksCopy">📋 Kopyala (Markdown)</button>${inClaude ? '' : '<button class="btn ghost" id="ksDl">⬇️ .md faylı</button>'}</div>
@@ -823,8 +824,9 @@
       host.innerHTML = await r.text();
       lessonEls = [...host.querySelectorAll('section.lesson')];
       lessonEls.forEach((s, i) => { s.dataset.idx = i; });
-      const [K, X] = await Promise.all([getJSON('data/keys.json'), getJSON('data/xmap.json')]);
+      const [K, X, G, T] = await Promise.all([getJSON('data/keys.json'), getJSON('data/xmap.json'), getJSON('data/glossary.json'), getJSON('data/terms.json')]);
       decorate(cid, K[cid] || [], X[cid] || {});
+      annotateTerms(cid, G, T);
       mounted = cid;
       await loadScript(cid);
       registry[cid](makeApi(cid));
@@ -887,6 +889,49 @@
     imgs.forEach(img => {
       const fail = () => img.closest('figure').classList.add('noimg');
       if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) fail(); else img.addEventListener('error', fail, { once: true });
+    });
+  }
+
+  // Terminlərin yanında ingilis qarşılığı: hər termin bir dərsdə yalnız ilk dəfə, öz kursunda.
+  const EN_SKIP = '.en, .quiz, button, input, textarea, select, label, svg, script, style, .kicker, .hero, h2, h3, h4, table, pre, code, .sym, figure, .tag, .xl-card, .keys-card, a, [id]';
+  const foldAz = t => { let o = ''; for (const ch of t) { const l = ch === 'İ' ? 'i' : ch === 'I' ? 'ı' : ch.toLowerCase(); o += l.length === 1 ? l : ch; } return o; };
+  const reEsc = t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  function termStem(t) {
+    const w = foldAz(t).split(/\s+/); let last = w.pop();
+    if (last.length > 5) last = last.replace(/[aıoueəiöü]+$/, '');
+    if (last.length > 4) last = last.replace(/[qk]$/, '');
+    return w.concat(last).map(reEsc).join('\\s+');
+  }
+  function annotateTerms(cid, G, T) {
+    const seen = new Set(), list = [];
+    [...(G || []).filter(g => g.c === cid && g.en).map(g => ({ t: g.t === 'Neyron (süni)' ? 'süni neyron' : g.t.replace(/\s*\([^)]*\)/g, '').trim(), en: g.en })), ...(T || []).filter(x => x.c === cid)]
+      .forEach(x => { const k = foldAz(x.t); if (!seen.has(k)) { seen.add(k); list.push(x); } });
+    list.sort((a, b) => b.t.length - a.t.length);
+    const rx = list.map(x => ({ en: x.en, t: foldAz(x.t), re: new RegExp('(?<![\\p{L}\\p{N}])' + termStem(x.t) + '\\p{L}*', 'gu') }));
+    lessonEls.forEach(sec => {
+      const nodes = []; let text = '';
+      const w = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT, { acceptNode: n => { const k = n.parentElement && n.parentElement.closest(EN_SKIP); return n.parentElement && !(k && sec.contains(k)) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; } });
+      let n; while ((n = w.nextNode())) { nodes.push([n, text.length]); text += n.nodeValue; }
+      const f = foldAz(text), used = [], ins = [];
+      rx.forEach(({ en, t, re }) => {
+        re.lastIndex = 0; let m;
+        while ((m = re.exec(f))) {
+          const a = m.index, b = a + m[0].length;
+          if (used.some(([x, y]) => a < y && b > x)) continue;
+          if (/s[ıiuü]z/.test(m[0].slice(t.length - 2)) && !/s[ıiuü]z/.test(t)) continue; // -siz/-sız: mənanı tərsinə çevirir
+          const before = text.slice(Math.max(0, a - 80), a);
+          if (before.lastIndexOf('(') > before.lastIndexOf(')')) continue; // termin artıq mötərizə içindədir
+          used.push([a, b]);
+          if (!/^\s*\(/.test(text.slice(b, b + 4))) ins.push([b, en]); // ingiliscəsi artıq mötərizədə yazılıbsa, əlavə etmirik
+          break;
+        }
+      });
+      ins.sort((x, y) => y[0] - x[0]).forEach(([b, en]) => {
+        const hit = nodes.find(([nd, off]) => b > off && b <= off + nd.nodeValue.length); if (!hit) return;
+        const [nd, off] = hit; if (b < off + nd.nodeValue.length) nd.splitText(b - off);
+        const sp = document.createElement('span'); sp.className = 'en'; sp.lang = 'en'; sp.textContent = ` (${en})`;
+        nd.parentNode.insertBefore(sp, nd.nextSibling);
+      });
     });
   }
 

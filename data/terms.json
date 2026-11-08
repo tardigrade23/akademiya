@@ -1,0 +1,532 @@
+[
+{
+"t": "inkar",
+"en": "negation",
+"c": "mentiq"
+},
+{
+"t": "dizyunksiya",
+"en": "disjunction",
+"c": "mentiq"
+},
+{
+"t": "ekvivalentlik",
+"en": "equivalence",
+"c": "mentiq"
+},
+{
+"t": "ziddiyyət",
+"en": "contradiction",
+"c": "mentiq"
+},
+{
+"t": "predikat",
+"en": "predicate",
+"c": "mentiq"
+},
+{
+"t": "deduksiya",
+"en": "deduction",
+"c": "mentiq"
+},
+{
+"t": "induksiya",
+"en": "induction",
+"c": "mentiq"
+},
+{
+"t": "arqument",
+"en": "argument",
+"c": "mentiq"
+},
+{
+"t": "determinizm",
+"en": "determinism",
+"c": "mentiq"
+},
+{
+"t": "dekompozisiya",
+"en": "decomposition",
+"c": "mentiq"
+},
+{
+"t": "inversiya",
+"en": "inversion",
+"c": "mentiq"
+},
+{
+"t": "metaməntiq",
+"en": "metalogic",
+"c": "mentiq"
+},
+{
+"t": "təsdiq meyli",
+"en": "confirmation bias",
+"c": "mentiq"
+},
+{
+"t": "sağ qalanların xətası",
+"en": "survivorship bias",
+"c": "mentiq"
+},
+{
+"t": "korrelyasiya",
+"en": "correlation",
+"c": "mentiq"
+},
+{
+"t": "səbəbiyyət",
+"en": "causation",
+"c": "mentiq"
+},
+{
+"t": "nəticənin təsdiqi",
+"en": "affirming the consequent",
+"c": "mentiq"
+},
+{
+"t": "əsasın inkarı",
+"en": "denying the antecedent",
+"c": "mentiq"
+},
+{
+"t": "kontrapozisiya",
+"en": "contraposition",
+"c": "mentiq"
+},
+{
+"t": "ehtimal",
+"en": "probability",
+"c": "mentiq"
+},
+{
+"t": "sistem düşüncəsi",
+"en": "systems thinking",
+"c": "mentiq"
+},
+{
+"t": "təkamül alqoritmi",
+"en": "evolutionary algorithm",
+"c": "mentiq"
+},
+{
+"t": "kontekst",
+"en": "context",
+"c": "claudecode"
+},
+{
+"t": "icazə",
+"en": "permission",
+"c": "claudecode"
+},
+{
+"t": "plan rejimi",
+"en": "plan mode",
+"c": "claudecode"
+},
+{
+"t": "etika",
+"en": "ethics",
+"c": "felsefe"
+},
+{
+"t": "ekzistensializm",
+"en": "existentialism",
+"c": "felsefe"
+},
+{
+"t": "stoisizm",
+"en": "stoicism",
+"c": "felsefe"
+},
+{
+"t": "deontologiya",
+"en": "deontology",
+"c": "felsefe"
+},
+{
+"t": "fəzilət etikası",
+"en": "virtue ethics",
+"c": "felsefe"
+},
+{
+"t": "rasionalizm",
+"en": "rationalism",
+"c": "felsefe"
+},
+{
+"t": "rasionalist",
+"en": "rationalist",
+"c": "felsefe"
+},
+{
+"t": "dualizm",
+"en": "dualism",
+"c": "felsefe"
+},
+{
+"t": "fizikalizm",
+"en": "physicalism",
+"c": "felsefe"
+},
+{
+"t": "ictimai müqavilə",
+"en": "social contract",
+"c": "felsefe"
+},
+{
+"t": "autentiklik",
+"en": "authenticity",
+"c": "felsefe"
+},
+{
+"t": "fəzilət",
+"en": "virtue",
+"c": "felsefe"
+},
+{
+"t": "induksiya problemi",
+"en": "problem of induction",
+"c": "felsefe"
+},
+{
+"t": "müştəri təcrübəsi",
+"en": "customer experience",
+"c": "reqemsal"
+},
+{
+"t": "rəqəmə çevirmə",
+"en": "digitization",
+"c": "reqemsal"
+},
+{
+"t": "ağrı nöqtəsi",
+"en": "pain point",
+"c": "reqemsal"
+},
+{
+"t": "dəyişikliyin idarə edilməsi",
+"en": "change management",
+"c": "reqemsal"
+},
+{
+"t": "şəlalə",
+"en": "waterfall",
+"c": "reqemsal"
+},
+{
+"t": "əşyaların interneti",
+"en": "Internet of Things",
+"c": "reqemsal"
+},
+{
+"t": "yol xəritəsi",
+"en": "roadmap",
+"c": "reqemsal"
+},
+{
+"t": "analitika",
+"en": "analytics",
+"c": "reqemsal"
+},
+{
+"t": "kvant qapısı",
+"en": "quantum gate",
+"c": "kvant"
+},
+{
+"t": "kvant qapıları",
+"en": "quantum gates",
+"c": "kvant"
+},
+{
+"t": "amplitud",
+"en": "amplitude",
+"c": "kvant"
+},
+{
+"t": "faza",
+"en": "phase",
+"c": "kvant"
+},
+{
+"t": "ölçmə",
+"en": "measurement",
+"c": "kvant"
+},
+{
+"t": "kvant üstünlüyü",
+"en": "quantum advantage",
+"c": "kvant"
+},
+{
+"t": "kvant açar paylanması",
+"en": "quantum key distribution",
+"c": "kvant"
+},
+{
+"t": "superkeçirici",
+"en": "superconducting",
+"c": "kvant"
+},
+{
+"t": "ion tələsi",
+"en": "ion trap",
+"c": "kvant"
+},
+{
+"t": "kvant mexanikası",
+"en": "quantum mechanics",
+"c": "kvant"
+},
+{
+"t": "süni intellekt",
+"en": "artificial intelligence",
+"c": "si"
+},
+{
+"t": "nəzarətsiz öyrənmə",
+"en": "unsupervised learning",
+"c": "si"
+},
+{
+"t": "möhkəmləndirmə ilə öyrənmə",
+"en": "reinforcement learning",
+"c": "si"
+},
+{
+"t": "neyron şəbəkə",
+"en": "neural network",
+"c": "si"
+},
+{
+"t": "xəta funksiyası",
+"en": "loss function",
+"c": "si"
+},
+{
+"t": "qərəz",
+"en": "bias",
+"c": "si"
+},
+{
+"t": "dar Sİ",
+"en": "narrow AI",
+"c": "si"
+},
+{
+"t": "əvvəlcədən öyrədilmə",
+"en": "pre-training",
+"c": "si"
+},
+{
+"t": "geri yayılma",
+"en": "backpropagation",
+"c": "si"
+},
+{
+"t": "tokenləşdirmə",
+"en": "tokenization",
+"c": "si"
+},
+{
+"t": "məxfilik",
+"en": "privacy",
+"c": "si"
+},
+{
+"t": "alət",
+"en": "tool",
+"c": "agent"
+},
+{
+"t": "yaddaş",
+"en": "memory",
+"c": "agent"
+},
+{
+"t": "planlaşdırma",
+"en": "planning",
+"c": "agent"
+},
+{
+"t": "çoxagentli",
+"en": "multi-agent",
+"c": "agent"
+},
+{
+"t": "qoruyucu",
+"en": "guardrail",
+"c": "agent"
+},
+{
+"t": "biznes keysi",
+"en": "business case",
+"c": "caio"
+},
+{
+"t": "Mükəmməllik Mərkəzi",
+"en": "Centre of Excellence",
+"c": "caio"
+},
+{
+"t": "Sİ strategiyası",
+"en": "AI strategy",
+"c": "caio"
+},
+{
+"t": "portfel",
+"en": "portfolio",
+"c": "caio"
+},
+{
+"t": "şifrələmə",
+"en": "encryption",
+"c": "kripto"
+},
+{
+"t": "deşifrələmə",
+"en": "decryption",
+"c": "kripto"
+},
+{
+"t": "açıq açar",
+"en": "public key",
+"c": "kripto"
+},
+{
+"t": "gizli açar",
+"en": "private key",
+"c": "kripto"
+},
+{
+"t": "simmetrik şifrələmə",
+"en": "symmetric encryption",
+"c": "kripto"
+},
+{
+"t": "asimmetrik",
+"en": "asymmetric",
+"c": "kripto"
+},
+{
+"t": "kobud güc",
+"en": "brute force",
+"c": "kripto"
+},
+{
+"t": "birdəfəlik bloknot",
+"en": "one-time pad",
+"c": "kripto"
+},
+{
+"t": "kriptoanaliz",
+"en": "cryptanalysis",
+"c": "kripto"
+},
+{
+"t": "autentiklik",
+"en": "authenticity",
+"c": "kripto"
+},
+{
+"t": "inkar edilməzlik",
+"en": "non-repudiation",
+"c": "kripto"
+},
+{
+"t": "bütövlük",
+"en": "integrity",
+"c": "kripto"
+},
+{
+"t": "məxfilik",
+"en": "confidentiality",
+"c": "kripto"
+},
+{
+"t": "açar mübadiləsi",
+"en": "key exchange",
+"c": "kripto"
+},
+{
+"t": "parol meneceri",
+"en": "password manager",
+"c": "kripto"
+},
+{
+"t": "açar",
+"en": "key",
+"c": "kripto"
+},
+{
+"t": "əlçatanlıq",
+"en": "availability",
+"c": "kiber"
+},
+{
+"t": "bütövlük",
+"en": "integrity",
+"c": "kiber"
+},
+{
+"t": "məxfilik",
+"en": "confidentiality",
+"c": "kiber"
+},
+{
+"t": "sosial mühəndislik",
+"en": "social engineering",
+"c": "kiber"
+},
+{
+"t": "zərərli proqram",
+"en": "malware",
+"c": "kiber"
+},
+{
+"t": "ehtiyat nüsxə",
+"en": "backup",
+"c": "kiber"
+},
+{
+"t": "insidentə reaksiya",
+"en": "incident response",
+"c": "kiber"
+},
+{
+"t": "ən az hüquq",
+"en": "least privilege",
+"c": "kiber"
+},
+{
+"t": "parol meneceri",
+"en": "password manager",
+"c": "kiber"
+},
+{
+"t": "ikiaddımlı doğrulama",
+"en": "two-factor authentication",
+"c": "kiber"
+},
+{
+"t": "təhdid",
+"en": "threat",
+"c": "kiber"
+},
+{
+"t": "zəiflik",
+"en": "vulnerability",
+"c": "kiber"
+},
+{
+"t": "fidyə",
+"en": "ransom",
+"c": "kiber"
+},
+{
+"t": "Sİ idarəetməsi",
+"en": "AI governance",
+"c": "caio"
+}
+]

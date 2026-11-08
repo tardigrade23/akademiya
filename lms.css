@@ -568,3 +568,13 @@ mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box
 .sr-link:hover{border-color:var(--accent)}
 .hlbar .hl-lbl{font-size:.82rem;color:var(--muted);white-space:nowrap;padding:0 4px 0 6px}
 body.hl-open .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+
+/* Qeydlərim: başlıq sətri + tam enli, iki tərəfə hizalanmış mətn */
+.hlk{border-top:1px solid var(--line);padding:12px 0}
+.hlk:first-of-type{border-top:0}
+.hlk-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hlk-h .fb{margin:0;min-width:0}
+.hlk-h .row{flex:0 0 auto;flex-wrap:nowrap;gap:6px}
+.ks-hl.jl{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+/* ingilis qarşılıqları */
+.en{color:var(--muted);font-weight:400;font-style:italic;font-size:.92em}
