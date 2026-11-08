@@ -47,5 +47,17 @@
     "qifil": "search:padlock closed",
     "usb": "search:USB connectors types",
     "defter": "search:notebook handwriting pen"
+  },
+  "kvant": {
+    "solvay": "File:Solvay conference 1927.jpg",
+    "einstein": "File:Albert Einstein 1921 by F Schmutzer - restoration.jpg",
+    "bohr": "File:Niels Bohr.jpg",
+    "schrodinger": "File:Erwin Schrödinger (1933).jpg",
+    "pishik": "File:Schrodingers cat.svg",
+    "yariq": "search:double slit experiment electron interference pattern",
+    "ibm-q": "search:IBM Q System One",
+    "kriostat": "search:dilution refrigerator quantum computer",
+    "cip": "search:Google Sycamore quantum processor",
+    "ion": "search:ion trap quantum computer chip"
   }
 }
