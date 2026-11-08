@@ -1,0 +1,50 @@
+{
+ "eniac": {
+  "title": "Eniac.jpg",
+  "artist": "Unknown authorUnknown author",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Glen_Beck_and_Betty_Snyder_program_the_ENIAC_in_building_328_at_the_Ballistic_Research_Laboratory.jpg"
+ },
+ "asan": {
+  "title": "Azerbaijani and Turkish presidents attended opening of Baku “ASAN xidmet” center No7 and “Bilim Baku” center 01.jpg",
+  "artist": "Press Service of the President of the Republic of Azerbaijan",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Azerbaijani_and_Turkish_presidents_attended_opening_of_Baku_%E2%80%9CASAN_xidmet%E2%80%9D_center_No7_and_%E2%80%9CBilim_Baku%E2%80%9D_center_01.jpg"
+ },
+ "kodak": {
+  "title": "Kodak Brownie 127.jpg",
+  "artist": "多多123",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Kodak_Brownie_127.jpg"
+ },
+ "netflix": {
+  "title": "Netflixenvelope.jpg",
+  "artist": "The original uploader was BlueMint at English Wikipedia.",
+  "license": "CC BY 2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:Netflixenvelope.jpg"
+ },
+ "estoniya": {
+  "title": "Estonian identity card, 2007.jpg",
+  "artist": "",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Estonian_identity_card,_2007.jpg"
+ },
+ "data-merkezi": {
+  "title": "Duga-1 radar data center inside empty server racks 2018.jpg",
+  "artist": "Joël van der Loo",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Duga-1_radar_data_center_inside_empty_server_racks_2018.jpg"
+ },
+ "skaner": {
+  "title": "SilverCreations - model \"sceyeX\" 10MP Document Scanner 03-2013.jpg",
+  "artist": "JamesMoorey",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:SilverCreations_-_model_%22sceyeX%22_10MP_Document_Scanner_03-2013.jpg"
+ },
+ "telefon": {
+  "title": "Mobile payment 03.JPG",
+  "artist": "HLundgaard",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Mobile_payment_03.JPG"
+ }
+}
