@@ -1,0 +1,26 @@
+{
+ "deep-blue": {
+  "title": "Deep Blue.jpg",
+  "artist": "James the photographer",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Deep_Blue.jpg"
+ },
+ "alphago": {
+  "title": "Lee Sedol (B) vs AlphaGo (W) - Game 4.jpg",
+  "artist": "Wesalius",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Lee_Sedol_(B)_vs_AlphaGo_(W)_-_Game_4.jpg"
+ },
+ "perseptron": {
+  "title": "Mark I Perceptron, Figure 2 of operator's manual.png",
+  "artist": "John C. Hay, Albert E. Murray",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Mark_I_Perceptron,_Figure_2_of_operator%27s_manual.png"
+ },
+ "mccarthy": {
+  "title": "John McCarthy Stanford.jpg",
+  "artist": "\"null0\"",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:John_McCarthy_Stanford.jpg"
+ }
+}

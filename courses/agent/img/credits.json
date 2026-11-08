@@ -1,0 +1,20 @@
+{
+ "shakey": {
+  "title": "SRI Shakey robot, 1969, Computer History Museum.jpg",
+  "artist": "The wub",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:SRI_Shakey_robot,_1969,_Computer_History_Museum.jpg"
+ },
+ "rover": {
+  "title": "Curiosity rover first selfie at Rocknest Sol 85 (53095922486).jpg",
+  "artist": "semeion.photo",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Curiosity_rover_first_selfie_at_Rocknest_Sol_85_(53095922486).jpg"
+ },
+ "dispetcer": {
+  "title": "Air Traffic Control Plays a Key Role at MCAS Iwakuni (9602424).jpg",
+  "artist": "U.S. Marines MCAS-I by Lance Cpl. Donald Dugger",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Air_Traffic_Control_Plays_a_Key_Role_at_MCAS_Iwakuni_(9602424).jpg"
+ }
+}

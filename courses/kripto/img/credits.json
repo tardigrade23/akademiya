@@ -1,0 +1,32 @@
+{
+ "enigma": {
+  "title": "Enigma-IMG 0487-black.jpg",
+  "artist": "Rama",
+  "license": "CC BY-SA 2.0 fr",
+  "source": "https://commons.wikimedia.org/wiki/File:Enigma-IMG_0487-black.jpg"
+ },
+ "bletchley": {
+  "title": "Bletchley Park Mansion.jpg",
+  "artist": "DeFacto",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Bletchley_Park_Mansion.jpg"
+ },
+ "skitala": {
+  "title": "A.scytale.jpg",
+  "artist": "Leo.paudeleux",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:A.scytale.jpg"
+ },
+ "sezar": {
+  "title": "The \"Tusculum portrait\", a rare bust of Julius Caesar in his lifetime, 45 - 43 BC, Moi, Auguste, Empereur de Rome exhibition, Grand Palais, Paris - 14628246546.jpg",
+  "artist": "Following Hadrian",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:The_%22Tusculum_portrait%22,_a_rare_bust_of_Julius_Caesar_in_his_lifetime,_45_-_43_BC,_Moi,_Auguste,_Empereur_de_Rome_exhibition,_Grand_Palais,_Paris_-_14628246546.jpg"
+ },
+ "alkindi": {
+  "title": "Al-kindi cryptographic.png",
+  "artist": "unknown, uploader en:User:Jidan",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Al-kindi_cryptographic.png"
+ }
+}
