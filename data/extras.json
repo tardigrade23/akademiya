@@ -668,5 +668,66 @@
     "İnsident kartı yazılıb"
    ]
   }
+ },
+ "hikmet": {
+  "reading": [
+   {
+    "k": "kitab",
+    "t": "Təcrübələr (Essais)",
+    "a": "Mişel de Monten, 1580",
+    "n": "Esse janrının başlanğıcı. Pişik haqqındakı sual II kitabın 12-ci fəslindədir."
+   },
+   {
+    "k": "kitab",
+    "t": "Düşüncələr (Pensées)",
+    "a": "Blez Paskal, 1670",
+    "n": "Qısa qeydlər toplusu: “otaqda sakit otura bilməmək” buradandır."
+   },
+   {
+    "k": "kitab",
+    "t": "Həyatın qısalığı haqqında",
+    "a": "Seneka, təqr. 49",
+    "n": "Bir oturuma oxunan kiçik risalə."
+   },
+   {
+    "k": "kitab",
+    "t": "Surely You’re Joking, Mr. Feynman!",
+    "a": "Riçard Feynman, 1985",
+    "n": "Fizikin hekayələri. “Yük kultu elmi” nitqi kitabın sonundadır."
+   },
+   {
+    "k": "onlayn",
+    "t": "Quote Investigator",
+    "a": "Qarson O’Tul",
+    "u": "https://quoteinvestigator.com",
+    "n": "Məşhur sitatların mənbəyini araşdıran sayt. “Heç vaxt deyilməyən sözlər” dərsinin davamı."
+   },
+   {
+    "k": "onlayn",
+    "t": "Wikiquote",
+    "a": "Vikimedia",
+    "u": "https://en.wikiquote.org",
+    "n": "Sitatlar mənbə ilə; “Misattributed” (səhv aid edilən) bölmələrinə xüsusi baxın."
+   }
+  ],
+  "project": {
+   "t": "Öz hikmət dəftərim",
+   "g": "Sizə təsir edən 15 hikmətli sözü toplayıb hər birinin həqiqi mənbəyini tapmaq və onları öz həyatınıza və Akademiyanın dərslərinə bağlamaq.",
+   "s": [
+    "Kitablardan, filmlərdən və ya sosial şəbəkələrdən sizə təsir etmiş 15 hikmətli söz toplayın.",
+    "Hər biri üçün mənbəni tapın: kim, hansı əsərdə, hansı ildə. Tapa bilmirsinizsə, bunu qeyd edin.",
+    "Ən azı birində “heç vaxt deyilməmiş” və ya səhv şəxsə aid edilmiş söz tapın.",
+    "Hər sözü Akademiyadakı bir dərslə əlaqələndirin: hansı fikrin başqa formasıdır?",
+    "Ən sevdiyiniz söz haqqında bir səhifə yazın: niyə, həyatınızda harada özünü göstərib?"
+   ],
+   "d": "Mənbələri yoxlanılmış 15 sözlük şəxsi dəftər və bir səhifəlik esse.",
+   "c": [
+    "15 söz toplanıb",
+    "Hər birinin mənbəyi yoxlanıb",
+    "Ən azı 1 saxta sitat tapılıb",
+    "Hər söz bir dərslə əlaqələndirilib",
+    "Bir səhifəlik esse yazılıb"
+   ]
+  }
  }
 }

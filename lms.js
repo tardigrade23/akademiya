@@ -76,7 +76,7 @@
   const openMiss = () => Object.keys(me.miss).filter(id => !me.miss[id].fixed && (CARD[id] || me.miss[id].d));
   const cardData = id => CARD[id] || (me.miss[id] && me.miss[id].d);
 
-  const COURSE_BADGES = { mentiq: ['🧩', 'Məntiqçi'], claudecode: ['❯', 'Claude ustası'], felsefe: ['🏛️', 'Filosof'], reqemsal: ['⚡', 'Transformator'], kvant: ['⚛️', 'Kvant düşüncəli'], si: ['🤖', 'Sİ bələdçisi'], agent: ['⚙️', 'Agent memarı'], caio: ['♛', 'Sİ lideri'], kripto: ['🔑', 'Kriptoqraf'], kiber: ['🛡️', 'Kiber qoruyucu'] };
+  const COURSE_BADGES = { mentiq: ['🧩', 'Məntiqçi'], claudecode: ['❯', 'Claude ustası'], felsefe: ['🏛️', 'Filosof'], reqemsal: ['⚡', 'Transformator'], kvant: ['⚛️', 'Kvant düşüncəli'], si: ['🤖', 'Sİ bələdçisi'], agent: ['⚙️', 'Agent memarı'], caio: ['♛', 'Sİ lideri'], kripto: ['🔑', 'Kriptoqraf'], kiber: ['🛡️', 'Kiber qoruyucu'], hikmet: ['❝', 'Müdrik'] };
   function badgeList() {
     const L = [
       ['ilk', '🌱', 'İlk addım', 'İlk dərsi tamamla', s => s.lessons >= 1],
@@ -1009,14 +1009,15 @@
       const d = document.createElement('div'); d.className = 'q';
       d.innerHTML = `<div><b>${qi + 1}.</b> ${esc(it.q)}</div><div class="opts"></div><div class="fb"></div>`;
       const opts = d.querySelector('.opts'), fb = d.querySelector('.fb');
-      it.o.forEach((o, oi) => {
-        const b = document.createElement('button'); b.textContent = o;
+      // variantlar hər dəfə qarışdırılır: düzgün cavab həmişə eyni yerdə olmasın
+      shuffle(it.o.map((o, oi) => oi)).forEach(oi => {
+        const o = it.o[oi], b = document.createElement('button'); b.textContent = o; b.dataset.oi = oi;
         b.onclick = () => {
           if (d.dataset.done) return; d.dataset.done = 1; answered++;
           const ok = oi === it.a; if (ok) right++;
           const lt = (el.closest('section') || {}).dataset ? el.closest('section').dataset.title : '';
           recordAnswer(api.cid, `${api.cid}:${key}:${qi}`, ok, { q: it.q, o: it.o, a: it.a, e: it.e, c: api.cid, l: section, t: lt });
-          b.classList.add(ok ? 'right' : 'wrong'); opts.children[it.a].classList.add('right');
+          b.classList.add(ok ? 'right' : 'wrong'); opts.querySelector(`[data-oi="${it.a}"]`).classList.add('right');
           fb.innerHTML = (ok ? '✅ Düzgün! ' : '❌ Səhv. ') + esc(it.e);
           if (answered === qs.length) finish();
         };

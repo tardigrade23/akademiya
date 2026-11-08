@@ -1,232 +1,250 @@
 {
-  "courses": [
-    {
-      "id": "mentiq",
-      "title": "Məntiq: düşüncənin təməli",
-      "mark": "∴",
-      "description": "Klassik məntiqdən xaos, ehtimal, qeyri-səlis məntiq və sistem düşüncəsinə qədər. Real nümunələr, simulyatorlar və testlər.",
-      "lessons": 23,
-      "parts": {
-        "0": "I hissə · Klassik məntiq",
-        "8": "II hissə · Müasir düşüncə",
-        "22": "Yekun"
-      },
-      "added": "2026-11-08",
-      "color": "#0e7a6e",
-      "color2": "#2d55b3",
-      "ill": "brain"
-    },
-    {
-      "id": "claudecode",
-      "title": "Claude Code: süni intellektlə proqramlaşdırma",
-      "mark": "❯",
-      "description": "Claude Code ilə işləməyi sıfırdan öyrənin: yaxşı tapşırıq yazmaq, plan rejimi, icazələr, CLAUDE.md, skill-lər, subagentlər, hook-lar, MCP və avtomatlaşdırma. Terminal simulyatoru və real nümunələrlə.",
-      "lessons": 14,
-      "parts": {
-        "0": "I hissə · Əsaslar",
-        "4": "II hissə · Nəzarət və yaddaş",
-        "7": "III hissə · Genişləndirmə",
-        "11": "IV hissə · Praktika",
-        "13": "Yekun"
-      },
-      "added": "2026-11-08",
-      "color": "#c8553a",
-      "color2": "#a8336f",
-      "ill": "terminal"
-    },
-    {
-      "id": "felsefe",
-      "title": "Fəlsəfə: böyük suallar",
-      "mark": "Φ",
-      "color": "#5b3fc2",
-      "color2": "#2a6fb5",
-      "ill": "column",
-      "description": "Sokratdan süni intellektə qədər: Platonun mağarası, Aristotelin qızıl ortası, Şərq və Azərbaycan mütəfəkkirləri, bilik, şüur, etika, həyatın mənası, ədalətli cəmiyyət və stoisizm. Portretlər və interaktiv düşüncə təcrübələri ilə.",
-      "lessons": 12,
-      "parts": {
-        "0": "I hissə · Qədim Yunanıstan",
-        "4": "II hissə · Şərq və bilik",
-        "7": "III hissə · Necə yaşamalı?",
-        "11": "Yekun"
-      },
-      "added": "2026-11-08"
-    },
-    {
-      "id": "reqemsal",
-      "title": "Rəqəmsal transformasiya",
-      "mark": "⚡",
-      "color": "#2550e6",
-      "color2": "#0a9fb5",
-      "ill": "rocket",
-      "description": "Texnologiya ilə təşkilatın dəyər yaratma üsulunu dəyişmək: strategiya, müştəri təcrübəsi, data, bulud, avtomatlaşdırma, Agile, dəyişikliyin idarə edilməsi və kibertəhlükəsizlik. ASAN, Estoniya, Netflix və Kodak nümunələri, kalkulyatorlar və simulyasiyalarla.",
-      "lessons": 13,
-      "parts": {
-        "0": "I hissə · Əsaslar",
-        "3": "II hissə · Müştəri və data",
-        "5": "III hissə · Texnologiya və proseslər",
-        "8": "IV hissə · İnsanlar, risklər, nəticə",
-        "12": "Yekun"
-      },
-      "added": "2026-11-08"
-    },
-    {
-      "id": "kvant",
-      "title": "Kvant hesablamaları",
-      "mark": "ψ",
-      "color": "#6a11cb",
-      "color2": "#d6307a",
-      "ill": "atom",
-      "description": "Kubit, superpozisiya, dolaşıqlıq və interferensiya sadə dillə: Blox sferası, bir və iki kubitlik kvant simulyatoru, Qrover alqoritmi, BB84 kvant kriptoqrafiyası, kvant kompüterlərinin qurulması, mif və reallıq. İlk Qiskit proqramınızla.",
-      "lessons": 13,
-      "parts": {
-        "0": "I hissə · Kvant dünyası",
-        "4": "II hissə · Kvant hesablamaları",
-        "8": "III hissə · Tətbiq və gələcək",
-        "12": "Yekun"
-      },
-      "added": "2026-11-08"
-    },
-    {
-      "id": "si",
-      "title": "Süni intellekt",
-      "mark": "AI",
-      "color": "#e8590c",
-      "color2": "#c2255c",
-      "ill": "chip",
-      "lessons": 11,
-      "description": "Sİ nədir, maşın necə öyrənir, neyron şəbəkələr və böyük dil modelləri necə işləyir. Prompt yazmaq, halüsinasiya və qərəz, AB Sİ Aktı, Sİ iş yerində. Öz modelinizi öyrədin, bir neyronu proqramlaşdırın, kiçik dil modeli ilə mətn yaradın.",
-      "parts": {
-        "0": "I hissə · Əsaslar",
-        "3": "II hissə · Neyron şəbəkələr və dil modelləri",
-        "6": "III hissə · Praktika və məsuliyyət",
-        "10": "Yekun"
-      },
-      "added": "2026-11-08"
-    },
-    {
-      "id": "agent",
-      "title": "Agentic AI: Sİ agentləri",
-      "mark": "⚙",
-      "color": "#1d3a8a",
-      "color2": "#0aa2a2",
-      "ill": "nodes",
-      "lessons": 10,
-      "description": "Çatbotdan agentə: düşün → hərəkət et → müşahidə et dövrü, alətlər, yaddaş və RAG, planlaşdırma, çoxagentli sistemlər, MCP və A2A, prompt injeksiyası və qoruyucular. Agentin daxili monoloqu, kiçik RAG və agent dizayn kətanı ilə.",
-      "parts": {
-        "0": "I hissə · Agentin anatomiyası",
-        "4": "II hissə · Mürəkkəb agentlər",
-        "7": "III hissə · Etibarlılıq və dizayn",
-        "9": "Yekun"
-      },
-      "added": "2026-11-08"
-    },
-    {
-      "id": "caio",
-      "title": "Chief AI Officer",
-      "mark": "♛",
-      "color": "#2b2d6e",
-      "color2": "#c2902b",
-      "ill": "crown",
-      "lessons": 10,
-      "description": "Təşkilatda Sİ-yə rəhbərlik: strategiya və use-case portfeli, biznes keysi, qurmaq və ya almaq, idarəetmə (AB Sİ Aktı, NIST AI RMF, ISO/IEC 42001), komanda modelləri, Sİ savadlılığı, pilotdan dəyərə keçid və ilk 100 gün.",
-      "parts": {
-        "0": "I hissə · Rol və strategiya",
-        "4": "II hissə · İdarəetmə və insanlar",
-        "7": "III hissə · Nəticə",
-        "9": "Yekun"
-      },
-      "added": "2026-11-08"
-    },
-    {
-      "id": "kripto",
-      "title": "Kriptoqrafiya",
-      "mark": "🔑",
-      "color": "#0f6b4f",
-      "color2": "#3a9d23",
-      "ill": "key",
-      "lessons": 12,
-      "description": "Sezar şifrəsindən HTTPS-ə qədər: tezlik analizi, Vijener və Enigma, XOR və AES, SHA-256, Diffie-Hellman, RSA və rəqəmsal imza, parollar, blokçeyn və kvanta davamlı gələcək. Bütün şifrələri brauzerdə özünüz sınayın və sındırın.",
-      "parts": {
-        "0": "I hissə · Klassik şifrələr",
-        "4": "II hissə · Müasir kriptoqrafiya",
-        "8": "III hissə · Gündəlik həyatda",
-        "11": "Yekun"
-      },
-      "added": "2026-11-08"
-    },
-    {
-      "id": "kiber",
-      "title": "Praktiki kibertəhlükəsizlik",
-      "mark": "🛡",
-      "color": "#a51d2d",
-      "color2": "#5b2a86",
-      "ill": "shield",
-      "lessons": 11,
-      "description": "Özünüzü, ailənizi və biznesinizi qoruyun: parol menecerləri və MFA, fişinq və sosial mühəndislik, ehtiyat nüsxələr, Wi-Fi və router, SQL injeksiyası, ransomware, insidentə reaksiya, kiçik biznes və sosial şəbəkə məxfiliyi. Özünüyoxlama alətləri ilə.",
-      "parts": {
-        "0": "I hissə · Şəxsi təhlükəsizlik",
-        "4": "II hissə · Şəbəkə və tətbiqlər",
-        "7": "III hissə · İnsident və biznes",
-        "10": "Yekun"
-      },
-      "added": "2026-11-08"
-    }
-  ],
-  "paths": [
-    {
-      "id": "dusunce",
-      "icon": "🧠",
-      "title": "Düşüncənin təməli",
-      "desc": "Aydın düşünmək, arqumenti yoxlamaq və böyük suallar üzərində düşünmək.",
-      "courses": [
-        "mentiq",
-        "felsefe"
-      ]
-    },
-    {
-      "id": "silider",
-      "icon": "♛",
-      "title": "Sİ lideri",
-      "desc": "Sİ-ni anlamaqdan təşkilatda ona rəhbərlik etməyə qədər.",
-      "courses": [
-        "si",
-        "agent",
-        "caio",
-        "reqemsal"
-      ]
-    },
-    {
-      "id": "siproq",
-      "icon": "❯",
-      "title": "Sİ ilə proqramlaşdırma",
-      "desc": "Sİ-nin necə işlədiyini anlayıb onunla real layihələr qurmaq.",
-      "courses": [
-        "si",
-        "claudecode",
-        "agent"
-      ]
-    },
-    {
-      "id": "tehlukesizlik",
-      "icon": "🛡",
-      "title": "Təhlükəsizlik",
-      "desc": "Şifrələmənin riyaziyyatından gündəlik praktik müdafiəyə və kvant gələcəyinə.",
-      "courses": [
-        "kripto",
-        "kiber",
-        "kvant"
-      ]
-    },
-    {
-      "id": "gelecek",
-      "icon": "🚀",
-      "title": "Gələcəyin texnologiyaları",
-      "desc": "Kvant hesablamaları, kriptoqrafiya və süni intellekt bir yolda.",
-      "courses": [
-        "kvant",
-        "kripto",
-        "si"
-      ]
-    }
-  ]
+ "courses": [
+  {
+   "id": "mentiq",
+   "title": "Məntiq: düşüncənin təməli",
+   "mark": "∴",
+   "description": "Klassik məntiqdən xaos, ehtimal, qeyri-səlis məntiq və sistem düşüncəsinə qədər. Real nümunələr, simulyatorlar və testlər.",
+   "lessons": 23,
+   "parts": {
+    "0": "I hissə · Klassik məntiq",
+    "8": "II hissə · Müasir düşüncə",
+    "22": "Yekun"
+   },
+   "added": "2026-11-08",
+   "color": "#0e7a6e",
+   "color2": "#2d55b3",
+   "ill": "brain"
+  },
+  {
+   "id": "claudecode",
+   "title": "Claude Code: süni intellektlə proqramlaşdırma",
+   "mark": "❯",
+   "description": "Claude Code ilə işləməyi sıfırdan öyrənin: yaxşı tapşırıq yazmaq, plan rejimi, icazələr, CLAUDE.md, skill-lər, subagentlər, hook-lar, MCP və avtomatlaşdırma. Terminal simulyatoru və real nümunələrlə.",
+   "lessons": 14,
+   "parts": {
+    "0": "I hissə · Əsaslar",
+    "4": "II hissə · Nəzarət və yaddaş",
+    "7": "III hissə · Genişləndirmə",
+    "11": "IV hissə · Praktika",
+    "13": "Yekun"
+   },
+   "added": "2026-11-08",
+   "color": "#c8553a",
+   "color2": "#a8336f",
+   "ill": "terminal"
+  },
+  {
+   "id": "felsefe",
+   "title": "Fəlsəfə: böyük suallar",
+   "mark": "Φ",
+   "color": "#5b3fc2",
+   "color2": "#2a6fb5",
+   "ill": "column",
+   "description": "Sokratdan süni intellektə qədər: Platonun mağarası, Aristotelin qızıl ortası, Şərq və Azərbaycan mütəfəkkirləri, bilik, şüur, etika, həyatın mənası, ədalətli cəmiyyət və stoisizm. Portretlər və interaktiv düşüncə təcrübələri ilə.",
+   "lessons": 12,
+   "parts": {
+    "0": "I hissə · Qədim Yunanıstan",
+    "4": "II hissə · Şərq və bilik",
+    "7": "III hissə · Necə yaşamalı?",
+    "11": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "reqemsal",
+   "title": "Rəqəmsal transformasiya",
+   "mark": "⚡",
+   "color": "#2550e6",
+   "color2": "#0a9fb5",
+   "ill": "rocket",
+   "description": "Texnologiya ilə təşkilatın dəyər yaratma üsulunu dəyişmək: strategiya, müştəri təcrübəsi, data, bulud, avtomatlaşdırma, Agile, dəyişikliyin idarə edilməsi və kibertəhlükəsizlik. ASAN, Estoniya, Netflix və Kodak nümunələri, kalkulyatorlar və simulyasiyalarla.",
+   "lessons": 13,
+   "parts": {
+    "0": "I hissə · Əsaslar",
+    "3": "II hissə · Müştəri və data",
+    "5": "III hissə · Texnologiya və proseslər",
+    "8": "IV hissə · İnsanlar, risklər, nəticə",
+    "12": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "kvant",
+   "title": "Kvant hesablamaları",
+   "mark": "ψ",
+   "color": "#6a11cb",
+   "color2": "#d6307a",
+   "ill": "atom",
+   "description": "Kubit, superpozisiya, dolaşıqlıq və interferensiya sadə dillə: Blox sferası, bir və iki kubitlik kvant simulyatoru, Qrover alqoritmi, BB84 kvant kriptoqrafiyası, kvant kompüterlərinin qurulması, mif və reallıq. İlk Qiskit proqramınızla.",
+   "lessons": 13,
+   "parts": {
+    "0": "I hissə · Kvant dünyası",
+    "4": "II hissə · Kvant hesablamaları",
+    "8": "III hissə · Tətbiq və gələcək",
+    "12": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "si",
+   "title": "Süni intellekt",
+   "mark": "AI",
+   "color": "#e8590c",
+   "color2": "#c2255c",
+   "ill": "chip",
+   "lessons": 11,
+   "description": "Sİ nədir, maşın necə öyrənir, neyron şəbəkələr və böyük dil modelləri necə işləyir. Prompt yazmaq, halüsinasiya və qərəz, AB Sİ Aktı, Sİ iş yerində. Öz modelinizi öyrədin, bir neyronu proqramlaşdırın, kiçik dil modeli ilə mətn yaradın.",
+   "parts": {
+    "0": "I hissə · Əsaslar",
+    "3": "II hissə · Neyron şəbəkələr və dil modelləri",
+    "6": "III hissə · Praktika və məsuliyyət",
+    "10": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "agent",
+   "title": "Agentic AI: Sİ agentləri",
+   "mark": "⚙",
+   "color": "#1d3a8a",
+   "color2": "#0aa2a2",
+   "ill": "nodes",
+   "lessons": 10,
+   "description": "Çatbotdan agentə: düşün → hərəkət et → müşahidə et dövrü, alətlər, yaddaş və RAG, planlaşdırma, çoxagentli sistemlər, MCP və A2A, prompt injeksiyası və qoruyucular. Agentin daxili monoloqu, kiçik RAG və agent dizayn kətanı ilə.",
+   "parts": {
+    "0": "I hissə · Agentin anatomiyası",
+    "4": "II hissə · Mürəkkəb agentlər",
+    "7": "III hissə · Etibarlılıq və dizayn",
+    "9": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "caio",
+   "title": "Chief AI Officer",
+   "mark": "♛",
+   "color": "#2b2d6e",
+   "color2": "#c2902b",
+   "ill": "crown",
+   "lessons": 10,
+   "description": "Təşkilatda Sİ-yə rəhbərlik: strategiya və use-case portfeli, biznes keysi, qurmaq və ya almaq, idarəetmə (AB Sİ Aktı, NIST AI RMF, ISO/IEC 42001), komanda modelləri, Sİ savadlılığı, pilotdan dəyərə keçid və ilk 100 gün.",
+   "parts": {
+    "0": "I hissə · Rol və strategiya",
+    "4": "II hissə · İdarəetmə və insanlar",
+    "7": "III hissə · Nəticə",
+    "9": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "kripto",
+   "title": "Kriptoqrafiya",
+   "mark": "🔑",
+   "color": "#0f6b4f",
+   "color2": "#3a9d23",
+   "ill": "key",
+   "lessons": 12,
+   "description": "Sezar şifrəsindən HTTPS-ə qədər: tezlik analizi, Vijener və Enigma, XOR və AES, SHA-256, Diffie-Hellman, RSA və rəqəmsal imza, parollar, blokçeyn və kvanta davamlı gələcək. Bütün şifrələri brauzerdə özünüz sınayın və sındırın.",
+   "parts": {
+    "0": "I hissə · Klassik şifrələr",
+    "4": "II hissə · Müasir kriptoqrafiya",
+    "8": "III hissə · Gündəlik həyatda",
+    "11": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "kiber",
+   "title": "Praktiki kibertəhlükəsizlik",
+   "mark": "🛡",
+   "color": "#a51d2d",
+   "color2": "#5b2a86",
+   "ill": "shield",
+   "lessons": 11,
+   "description": "Özünüzü, ailənizi və biznesinizi qoruyun: parol menecerləri və MFA, fişinq və sosial mühəndislik, ehtiyat nüsxələr, Wi-Fi və router, SQL injeksiyası, ransomware, insidentə reaksiya, kiçik biznes və sosial şəbəkə məxfiliyi. Özünüyoxlama alətləri ilə.",
+   "parts": {
+    "0": "I hissə · Şəxsi təhlükəsizlik",
+    "4": "II hissə · Şəbəkə və tətbiqlər",
+    "7": "III hissə · İnsident və biznes",
+    "10": "Yekun"
+   },
+   "added": "2026-11-08"
+  },
+  {
+   "id": "hikmet",
+   "title": "Hikmət",
+   "mark": "❝",
+   "color": "#5b2a86",
+   "color2": "#c2902b",
+   "ill": "speech",
+   "lessons": 11,
+   "description": "Dünyanın gözlənilməz hikmətli sözləri: Sokrat və Konfutsidən Feynman və Türinqə, Nəsimi və Füzulidən Oruellə. Hər sözün mənbəyi, arxasındakı hekayə, Akademiyanın digər dərsləri ilə əlaqəsi və heç vaxt deyilməmiş məşhur sitatlar.",
+   "parts": {
+    "0": "I hissə · Düşüncə",
+    "4": "II hissə · Həyat",
+    "7": "III hissə · Fərqli baxışlar",
+    "10": "Yekun"
+   },
+   "added": "2026-11-08"
+  }
+ ],
+ "paths": [
+  {
+   "id": "dusunce",
+   "icon": "🧠",
+   "title": "Düşüncənin təməli",
+   "desc": "Aydın düşünmək, arqumenti yoxlamaq və böyük suallar üzərində düşünmək.",
+   "courses": [
+    "mentiq",
+    "felsefe",
+    "hikmet"
+   ]
+  },
+  {
+   "id": "silider",
+   "icon": "♛",
+   "title": "Sİ lideri",
+   "desc": "Sİ-ni anlamaqdan təşkilatda ona rəhbərlik etməyə qədər.",
+   "courses": [
+    "si",
+    "agent",
+    "caio",
+    "reqemsal"
+   ]
+  },
+  {
+   "id": "siproq",
+   "icon": "❯",
+   "title": "Sİ ilə proqramlaşdırma",
+   "desc": "Sİ-nin necə işlədiyini anlayıb onunla real layihələr qurmaq.",
+   "courses": [
+    "si",
+    "claudecode",
+    "agent"
+   ]
+  },
+  {
+   "id": "tehlukesizlik",
+   "icon": "🛡",
+   "title": "Təhlükəsizlik",
+   "desc": "Şifrələmənin riyaziyyatından gündəlik praktik müdafiəyə və kvant gələcəyinə.",
+   "courses": [
+    "kripto",
+    "kiber",
+    "kvant"
+   ]
+  },
+  {
+   "id": "gelecek",
+   "icon": "🚀",
+   "title": "Gələcəyin texnologiyaları",
+   "desc": "Kvant hesablamaları, kriptoqrafiya və süni intellekt bir yolda.",
+   "courses": [
+    "kvant",
+    "kripto",
+    "si"
+   ]
+  }
+ ]
 }
