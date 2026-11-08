@@ -250,8 +250,7 @@
         <p>${esc(c.description || '')}</p>
         <div class="meter"><i style="width:${pc}%"></i></div>
         <div class="foot"><span>${doneCount(c.id)} / ${c.lessons} dərs</span><span>${pc === 100 ? '🎓 bitib' : pc + '%'}</span></div></div></a>`;
-    }).join('') + `<div class="course-card add"><div class="cover">${art('star')}</div><div class="body"><h3>Yeni kurs</h3>
-        <p>Claude ilə yeni sessiyada yaz: “Akademiyama … kursu əlavə et”. Kurs bu rəfdə görünəcək və irəliləyişin ayrıca saxlanılacaq.</p></div></div>`;
+    }).join('');
     renderQuick(); renderPaths();
     $('#home').classList.add('ready');
     renderAppBox();
