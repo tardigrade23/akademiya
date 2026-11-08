@@ -69,6 +69,10 @@ def normalize(t):
     return t
 
 
+def az_lower(t):
+    return t.replace('I', 'ı').replace('İ', 'i').lower()
+
+
 def segments(section, title, keys):
     segs = [(title, 'title')]
     cards = section.select('.card')
@@ -130,7 +134,7 @@ def main():
                 spoken = normalize(txt)
                 if not re.search(r'\w', spoken): continue
                 with torch.no_grad():
-                    wav = model(**tok(spoken.lower(), return_tensors='pt')).waveform[0].numpy()
+                    wav = model(**tok(az_lower(spoken), return_tensors='pt')).waveform[0].numpy()
                 gap = 0.6 if kind in ('title', 'h3') else 0.35
                 pcm.append(wav); pcm.append(np.zeros(int(sr * gap), dtype=np.float32))
                 d = len(wav) / sr
