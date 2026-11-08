@@ -1,0 +1,253 @@
+{
+  "mentiq": {
+    "reading": [
+      {"k": "kitab", "t": "Thinking, Fast and Slow (Tez və yavaş düşünmək)", "a": "Daniel Kahneman, 2011", "n": "İki düşüncə sistemi və beynimizin sistemli səhvləri. “Siqnal və küy”, “Ehtimal məntiqi” dərslərinin davamı."},
+      {"k": "kitab", "t": "Thinking in Systems: A Primer", "a": "Donella Meadows, 2008", "n": "Sistem düşüncəsinə ən aydın giriş: əks-əlaqə dövrələri, gecikmələr, təsir nöqtələri."},
+      {"k": "kitab", "t": "Chaos: Making a New Science (Xaos)", "a": "James Gleick, 1987", "n": "Kəpənək effektinin və xaos nəzəriyyəsinin necə kəşf olunduğunun canlı hekayəsi."},
+      {"k": "kitab", "t": "Gödel, Escher, Bach", "a": "Douglas Hofstadter, 1979", "n": "Gödel teoremi, özünəistinad və şüur haqqında klassik. Ağır, amma unudulmaz."},
+      {"k": "onlayn", "t": "Logica Chaos kursu", "a": "logicachaos.com", "u": "https://go.logicachaos.com/", "n": "Bu kursun ilham mənbəyi."},
+      {"k": "onlayn", "t": "Classical Logic: Stanford Fəlsəfə Ensiklopediyası", "a": "plato.stanford.edu", "u": "https://plato.stanford.edu/entries/logic-classical/", "n": "Formal məntiqin dəqiq, akademik təsviri (ingiliscə)."},
+      {"k": "video", "t": "3Blue1Brown kanalı", "a": "Grant Sanderson", "u": "https://www.youtube.com/@3blue1brown", "n": "Bayes teoremi, ehtimal və riyazi düşüncə haqqında vizual videolar."}
+    ],
+    "project": {
+      "t": "Bir mübahisənin məntiqi auditi",
+      "g": "Real bir mübahisəni (xəbər məqaləsi, sosial şəbəkə postu, iş yazışması) kursdakı alətlərlə təhlil edib bir səhifəlik rəy yazmaq.",
+      "s": [
+        "Fikir bildirən, nəyisə sübut etməyə çalışan real bir mətn seçin: 300–800 söz kifayətdir.",
+        "Əsas iddianı bir cümlə ilə yazın. Sonra onu dəstəkləyən bütün əsasları nömrələyin.",
+        "Gizli əsasları (entimem) tapın: müəllif nəyi deməsə də qəbul etdirir?",
+        "Arqumentin quruluşunu yoxlayın: nəticə əsaslardan məntiqi olaraq çıxırmı? Hansı səhv (məsələn, nəticənin təsdiqi) var?",
+        "Faktiki iddialar üçün ehtimal düşünün: nə qədər inandırıcıdır, hansı məlumat fikrinizi dəyişdirərdi?",
+        "Mövzunu sistem kimi təsvir edin: hansı əks-əlaqə dövrələri və gecikmələr nəzərdən qaçırılıb?",
+        "Bir səhifəlik nəticə yazın: arqumentin güclü tərəfi, zəif tərəfi və onu necə gücləndirmək olar."
+      ],
+      "d": "Bir səhifəlik “məntiqi audit” sənədi: iddia, əsaslar, gizli əsaslar, səhvlər, ehtimal qiymətləndirməsi, tövsiyə.",
+      "c": ["Əsas iddia bir cümlə ilə yazılıb", "Ən azı 3 əsas nömrələnib", "Ən azı 1 gizli əsas tapılıb", "Ən azı 1 məntiqi səhv adlandırılıb", "Ehtimal qiymətləndirməsi var", "Nəticə və tövsiyə yazılıb"]
+    }
+  },
+  "claudecode": {
+    "reading": [
+      {"k": "onlayn", "t": "Claude Code rəsmi sənədləri", "a": "Anthropic", "u": "https://code.claude.com/docs/en/overview", "n": "Quraşdırma, əmrlər, hook-lar, MCP: ən aktual məlumat buradadır."},
+      {"k": "məqalə", "t": "Claude Code: Best practices for agentic coding", "a": "Anthropic Engineering", "u": "https://www.anthropic.com/engineering/claude-code-best-practices", "n": "Kəşf → plan → kod → yoxla iş axınının müəlliflərdən izahı."},
+      {"k": "məqalə", "t": "Building effective agents", "a": "Anthropic Engineering, 2024", "u": "https://www.anthropic.com/engineering/building-effective-agents", "n": "Agentlərin və iş axınlarının sadə nümunələri. Subagent dərsinin davamı."},
+      {"k": "onlayn", "t": "Model Context Protocol", "a": "modelcontextprotocol.io", "u": "https://modelcontextprotocol.io", "n": "MCP spesifikasiyası və hazır serverlər."},
+      {"k": "kitab", "t": "The Pragmatic Programmer", "a": "David Thomas, Andrew Hunt, 1999 (20-ci il nəşri 2019)", "n": "Sİ ilə də, onsuz da yaxşı proqramçı vərdişləri: kiçik addımlar, test, avtomatlaşdırma."}
+    ],
+    "project": {
+      "t": "Öz alətinizi Claude Code ilə qurun",
+      "g": "Gündəlik işinizdə lazım olan kiçik bir aləti (xərc izləyici, fayl təmizləyici, hesabat generatoru və s.) sıfırdan Claude Code ilə yaratmaq və GitHub-a yükləmək.",
+      "s": [
+        "Problemi seçin: həftədə ən azı bir dəfə əl ilə etdiyiniz təkrarlanan iş.",
+        "Boş qovluqda Claude Code-u açın və əvvəlcə plan rejimində tələbləri birlikdə yazın.",
+        "/init ilə CLAUDE.md yaradın: layihənin məqsədini, qaydaları və test əmrini əlavə edin.",
+        "Kiçik addımlarla qurun: hər addımdan sonra işə salıb yoxlayın.",
+        "Claude-dan testlər yazmasını istəyin və hamısının keçdiyinə əmin olun.",
+        "Bir hook əlavə edin, məsələn, hər dəyişiklikdən sonra formatlayıcı və ya testlər işləsin.",
+        "Layihəni GitHub-a yükləyin və README-ni Claude ilə yazın."
+      ],
+      "d": "GitHub-da işləyən kiçik alət: README, CLAUDE.md, testlər və ən azı bir hook.",
+      "c": ["Problem və tələblər yazılıb", "CLAUDE.md yaradılıb", "Alət işləyir", "Testlər keçir", "Ən azı 1 hook qurulub", "GitHub-a yüklənib"]
+    }
+  },
+  "felsefe": {
+    "reading": [
+      {"k": "kitab", "t": "Sofinin dünyası", "a": "Jostein Gaarder, 1991", "n": "Fəlsəfə tarixinə roman şəklində ən sevilən giriş."},
+      {"k": "kitab", "t": "Sokratın müdafiəsi (Apologiya) və Dövlət", "a": "Platon", "n": "Sokratın məhkəmədəki nitqi və mağara alleqoriyasının orijinal mətni."},
+      {"k": "kitab", "t": "Düşüncələr (Meditasiyalar)", "a": "Mark Avreli", "n": "Roma imperatorunun özü üçün yazdığı stoik qeydlər. Hər gün bir neçə səhifə."},
+      {"k": "kitab", "t": "Əxlaqi-Nasiri", "a": "Nəsirəddin Tusi, XIII əsr", "n": "Əxlaq, ailə və cəmiyyət haqqında Şərq fəlsəfəsinin əsas əsərlərindən."},
+      {"k": "kitab", "t": "Sirlər xəzinəsi (Məxzənül-əsrar)", "a": "Nizami Gəncəvi, XII əsr", "n": "Ədalət, hikmət və insan haqqında fəlsəfi poema."},
+      {"k": "kitab", "t": "İnsan mənə axtarışında (Man's Search for Meaning)", "a": "Viktor Frankl, 1946", "n": "Ekzistensializm və həyatın mənası dərsinin ən təsirli davamı."},
+      {"k": "onlayn", "t": "Stoicism: Stanford Fəlsəfə Ensiklopediyası", "a": "plato.stanford.edu", "u": "https://plato.stanford.edu/entries/stoicism/", "n": "Stoisizmin dərin və etibarlı təsviri (ingiliscə)."},
+      {"k": "video", "t": "Crash Course Philosophy", "a": "CrashCourse", "u": "https://www.youtube.com/@crashcourse", "n": "Qısa, canlı videolar: etika, bilik, ağıl fəlsəfəsi."}
+    ],
+    "project": {
+      "t": "Öz həyat fəlsəfəniz",
+      "g": "Kursdakı fikirləri öz həyatınıza tətbiq edərək bir həftəlik stoik gündəlik aparmaq və iki səhifəlik şəxsi esse yazmaq.",
+      "s": [
+        "7 gün ərzində hər axşam stoik gündəlik yazın: bu gün nə mənim nəzarətimdə idi, nə yox? Necə reaksiya verdim?",
+        "Həyatınızda real bir etik dilemma seçin (iş, ailə, dostluq).",
+        "Dilemmanı üç baxışla təhlil edin: nəticələr (utilitarizm), vəzifə (Kant) və xarakter (Aristotel).",
+        "Sokrat üsulu ilə özünüzə ən azı 5 “niyə?” sualı verin: həqiqətən nəyə inanırsınız?",
+        "Şərq mütəfəkkirlərindən (Nizami, Tusi, Bəhmənyar) bir fikri seçib öz həyatınıza bağlayın.",
+        "İki səhifəlik esse yazın: “Mənim üçün yaxşı həyat nədir?”"
+      ],
+      "d": "7 günlük gündəlik və iki səhifəlik “Mənim həyat fəlsəfəm” essesi.",
+      "c": ["7 günlük gündəlik yazılıb", "Etik dilemma seçilib", "Üç etik nəzəriyyə ilə təhlil edilib", "5 Sokrat sualı cavablandırılıb", "Şərq mütəfəkkirindən bir fikir əlavə olunub", "Esse yazılıb"]
+    }
+  },
+  "reqemsal": {
+    "reading": [
+      {"k": "kitab", "t": "Leading Digital", "a": "George Westerman, Didier Bonnet, Andrew McAfee, 2014", "n": "Rəqəmsal yetkinlik modelinin mənbəyi: rəqəmsal imkanlar və liderlik imkanları."},
+      {"k": "kitab", "t": "The Digital Transformation Playbook", "a": "David L. Rogers, 2016", "n": "Müştəri, rəqabət, data, innovasiya və dəyər: transformasiyanın beş sahəsi."},
+      {"k": "kitab", "t": "Measure What Matters", "a": "John Doerr, 2018", "n": "OKR-ın Intel və Google-dakı tarixi və praktik tətbiqi."},
+      {"k": "kitab", "t": "The Lean Startup", "a": "Eric Ries, 2011", "n": "MVP, ölçmə və öyrənmə dövrü: məhsul düşüncəsinin əsasları."},
+      {"k": "kitab", "t": "Leading Change", "a": "John P. Kotter, 1996", "n": "Dəyişikliyin idarə edilməsinin 8 addımı. İnsanlar dərsinin davamı."},
+      {"k": "kitab", "t": "Inspired", "a": "Marty Cagan, 2008 (2-ci nəşr 2017)", "n": "Güclü məhsul komandaları necə işləyir."}
+    ],
+    "project": {
+      "t": "Bir prosesin transformasiya planı",
+      "g": "İşinizdəki real bir prosesi seçib onun rəqəmsal transformasiyası üçün 90 günlük plan hazırlamaq.",
+      "s": [
+        "Çox vaxt aparan, səhvə meylli və ya müştərinin narazı qaldığı bir proses seçin.",
+        "Hazırkı vəziyyəti (as-is) addım-addım çəkin: kim, nə edir, nə qədər vaxt gedir?",
+        "Ən böyük 3 problemi müəyyən edin və ölçün (vaxt, xərc, səhv faizi, müştəri məmnuniyyəti).",
+        "Gələcək vəziyyəti (to-be) təsvir edin: hansı texnologiya, data və avtomatlaşdırma kömək edər?",
+        "Bir OKR yazın: 1 məqsəd və 2–3 ölçülə bilən əsas nəticə.",
+        "Riskləri və insan amilini qeyd edin: kim müqavimət göstərə bilər, onları necə cəlb edərsiniz?",
+        "90 günlük yol xəritəsi qurun: pilot, ölçmə, genişləndirmə."
+      ],
+      "d": "Bir səhifəlik plan: as-is və to-be sxemi, OKR, risklər və 90 günlük yol xəritəsi.",
+      "c": ["Proses seçilib", "As-is sxemi çəkilib", "3 problem ölçülüb", "To-be təsvir edilib", "OKR yazılıb", "Risklər və insanlar nəzərə alınıb", "90 günlük yol xəritəsi var"]
+    }
+  },
+  "kvant": {
+    "reading": [
+      {"k": "onlayn", "t": "Quantum Country", "a": "Andy Matuschak, Michael Nielsen", "u": "https://quantum.country", "n": "Kvant hesablamalarına aralıqlı təkrarla qurulmuş pulsuz esse-kurs."},
+      {"k": "onlayn", "t": "Quirk: kvant dövrə simulyatoru", "a": "Craig Gidney", "u": "https://algassert.com/quirk", "n": "Brauzerdə sürüklə-burax ilə kvant dövrələri qurun, quraşdırma lazım deyil."},
+      {"k": "onlayn", "t": "IBM Quantum Learning", "a": "IBM", "u": "https://quantum.cloud.ibm.com/learning", "n": "Pulsuz kurslar və real kvant kompüterində dövrə işə salmaq imkanı."},
+      {"k": "kitab", "t": "Quantum Computing for Everyone", "a": "Chris Bernhardt, 2019", "n": "Yalnız orta məktəb riyaziyyatı ilə kubit, dolaşıqlıq və alqoritmlər."},
+      {"k": "kitab", "t": "Quantum Computing Since Democritus", "a": "Scott Aaronson, 2013", "n": "Kvant hesablamalarının fəlsəfəsi və hüdudları haqqında zəkalı kitab."},
+      {"k": "kitab", "t": "Quantum Computation and Quantum Information", "a": "Michael Nielsen, Isaac Chuang, 2000", "n": "Sahənin əsas dərsliyi. Dərinə getmək istəyənlər üçün."}
+    ],
+    "project": {
+      "t": "İlk kvant dövrələriniz",
+      "g": "Simulyatorda superpozisiya, dolaşıqlıq və Qrover axtarışını öz əlinizlə qurmaq və nəticələri izah etmək.",
+      "s": [
+        "Quirk və ya IBM Quantum-da bir kubitə H qapısı tətbiq edin və 100 dəfə ölçün: 0 və 1 təxminən yarı-yarıyadırmı?",
+        "İki dəfə H tətbiq edin və ölçün: niyə həmişə 0 alınır? İnterferensiya ilə izah edin.",
+        "H + CNOT ilə Bell vəziyyəti qurun və ölçün: niyə yalnız 00 və 11 alınır?",
+        "Bir kubitə X, Z və fazanı dəyişən qapılar tətbiq edib Blox sferasında hərəkəti müşahidə edin.",
+        "2 kubitlik Qrover alqoritmini qurun və axtarılan elementin bir addımda tapıldığını yoxlayın.",
+        "Hər təcrübə üçün 2–3 cümləlik izah yazın: nə gözləyirdiniz, nə alındı, niyə?"
+      ],
+      "d": "4–5 dövrənin ekran görüntüləri və hər biri üçün qısa izah.",
+      "c": ["Superpozisiya ölçülüb", "İnterferensiya göstərilib", "Bell vəziyyəti qurulub", "Blox sferasında qapılar sınanıb", "Qrover alqoritmi işləyib", "İzahlar yazılıb"]
+    }
+  },
+  "si": {
+    "reading": [
+      {"k": "onlayn", "t": "Elements of AI", "a": "Helsinki Universiteti", "u": "https://www.elementsofai.com", "n": "Proqramlaşdırmasız, pulsuz Sİ kursu. Milyonlarla insan keçib."},
+      {"k": "onlayn", "t": "Practical Deep Learning for Coders", "a": "fast.ai", "u": "https://course.fast.ai", "n": "Proqramlaşdırma bilənlər üçün pulsuz, praktik dərin öyrənmə kursu."},
+      {"k": "video", "t": "3Blue1Brown: neyron şəbəkələr seriyası", "a": "Grant Sanderson", "u": "https://www.youtube.com/@3blue1brown", "n": "Neyron şəbəkələr, geri yayılma və transformerlərin ən yaxşı vizual izahı."},
+      {"k": "video", "t": "Andrej Karpathy kanalı", "a": "Andrej Karpathy", "u": "https://www.youtube.com/@AndrejKarpathy", "n": "Böyük dil modellərinin necə işlədiyini əsasdan izah edən videolar."},
+      {"k": "kitab", "t": "Artificial Intelligence: A Guide for Thinking Humans", "a": "Melanie Mitchell, 2019", "n": "Sİ-nin bacardıqlarını və bacarmadıqlarını ayıq gözlə izah edir."},
+      {"k": "kitab", "t": "Co-Intelligence", "a": "Ethan Mollick, 2024", "n": "Sİ ilə gündəlik işdə necə əməkdaşlıq etmək olar."},
+      {"k": "kitab", "t": "Human Compatible", "a": "Stuart Russell, 2019", "n": "Sİ-ni insan dəyərlərinə uyğunlaşdırma problemi."}
+    ],
+    "project": {
+      "t": "Şəxsi Sİ iş axınınız",
+      "g": "Gündəlik işinizdəki 3 təkrarlanan tapşırıq üçün Sİ ilə iş axını qurmaq, sınamaq və qazancı ölçmək.",
+      "s": [
+        "Həftə ərzində ən çox vaxt aparan 3 yazı və ya analiz tapşırığını seçin.",
+        "Hər biri üçün yaxşı prompt yazın: rol, kontekst, nümunə, formatı və yoxlama meyarları.",
+        "Hər tapşırığı ən azı 3 dəfə Sİ ilə edin və promptu yaxşılaşdırın.",
+        "Nəticələri yoxlayın: hansı faktlar səhv və ya uydurma idi? Necə yoxladınız?",
+        "Qənaət olunan vaxtı ölçün: əvvəl nə qədər çəkirdi, indi nə qədər?",
+        "Özünüz üçün qaydalar yazın: hansı məlumatı Sİ-yə vermirəm, nəyi mütləq yoxlayıram."
+      ],
+      "d": "3 hazır prompt şablonu, vaxt qənaəti cədvəli və şəxsi Sİ istifadə qaydaları.",
+      "c": ["3 tapşırıq seçilib", "3 prompt şablonu yazılıb", "Hər biri ən azı 3 dəfə sınanıb", "Səhvlər və uydurmalar qeyd olunub", "Vaxt qənaəti ölçülüb", "Şəxsi qaydalar yazılıb"]
+    }
+  },
+  "agent": {
+    "reading": [
+      {"k": "məqalə", "t": "Building effective agents", "a": "Anthropic Engineering, 2024", "u": "https://www.anthropic.com/engineering/building-effective-agents", "n": "İş axını və agent nümunələri: nə vaxt agent lazımdır, nə vaxt yox."},
+      {"k": "məqalə", "t": "ReAct: Synergizing Reasoning and Acting in Language Models", "a": "Shunyu Yao və həmmüəlliflər, 2022", "u": "https://arxiv.org/abs/2210.03629", "n": "Agent dövrünün əsasını qoyan elmi məqalə."},
+      {"k": "məqalə", "t": "LLM Powered Autonomous Agents", "a": "Lilian Weng, 2023", "u": "https://lilianweng.github.io/posts/2023-06-23-agent/", "n": "Planlaşdırma, yaddaş və alətlər haqqında ətraflı icmal."},
+      {"k": "onlayn", "t": "Model Context Protocol", "a": "modelcontextprotocol.io", "u": "https://modelcontextprotocol.io", "n": "MCP spesifikasiyası, SDK-lar və hazır serverlər."},
+      {"k": "onlayn", "t": "Agent2Agent (A2A) protokolu", "a": "a2a-protocol.org", "u": "https://a2a-protocol.org", "n": "Agentlərin bir-biri ilə danışması üçün açıq protokol."},
+      {"k": "onlayn", "t": "OWASP Top 10 for LLM Applications", "a": "OWASP", "u": "https://genai.owasp.org", "n": "Prompt injection və digər agent risklərinin siyahısı."}
+    ],
+    "project": {
+      "t": "Agent dizayn sənədi",
+      "g": "İşinizdəki real bir tapşırıq üçün agent layihələndirmək: məqsəddən təhlükəsizliyə və qiymətləndirməyə qədər.",
+      "s": [
+        "Çoxaddımlı, amma aydın nəticəsi olan bir tapşırıq seçin (məsələn, müştəri sorğularını çeşidləmək, həftəlik hesabat hazırlamaq).",
+        "Əvvəlcə soruşun: sadə iş axını kifayətdirmi? Agent niyə lazımdır?",
+        "Alətləri siyahıya alın: hər alətin adı, nə etdiyi, giriş və çıxışı.",
+        "Yaddaş və bilik mənbələrini təyin edin: RAG lazımdırmı, nəyi yadda saxlamalıdır?",
+        "Qoruyucu tədbirləri yazın: hansı addımlar insan təsdiqi tələb edir, hansı məlumata çıxış yoxdur?",
+        "10 test ssenarisi hazırlayın, o cümlədən 3 çətin və 1 prompt injection cəhdi.",
+        "İstəsəniz, sadə versiyanı Claude Code və ya no-code alətlə qurub test edin."
+      ],
+      "d": "2–3 səhifəlik agent dizayn sənədi: məqsəd, alətlər, yaddaş, qoruyucular, 10 test ssenarisi.",
+      "c": ["Tapşırıq və məqsəd yazılıb", "Agentin niyə lazım olduğu əsaslandırılıb", "Alətlər təsvir edilib", "Yaddaş və bilik mənbələri təyin edilib", "Qoruyucu tədbirlər yazılıb", "10 test ssenarisi hazırdır"]
+    }
+  },
+  "caio": {
+    "reading": [
+      {"k": "onlayn", "t": "AI Risk Management Framework", "a": "NIST", "u": "https://www.nist.gov/itl/ai-risk-management-framework", "n": "Sİ risklərinin idarə edilməsi üçün geniş istifadə olunan çərçivə."},
+      {"k": "onlayn", "t": "EU AI Act", "a": "artificialintelligenceact.eu", "u": "https://artificialintelligenceact.eu", "n": "Avropa İttifaqının Sİ qanununun mətni və izahları."},
+      {"k": "onlayn", "t": "ISO/IEC 42001: Sİ idarəetmə sistemi", "a": "ISO", "u": "https://www.iso.org/standard/81230.html", "n": "Sİ idarəetməsi üçün beynəlxalq standart."},
+      {"k": "kitab", "t": "Competing in the Age of AI", "a": "Marco Iansiti, Karim Lakhani, 2020", "n": "Sİ-nin şirkətin əməliyyat modelini necə dəyişdiyi."},
+      {"k": "kitab", "t": "Prediction Machines", "a": "Ajay Agrawal, Joshua Gans, Avi Goldfarb, 2018", "n": "Sİ-yə iqtisadi baxış: ucuzlaşan proqnoz biznes qərarlarını necə dəyişir."},
+      {"k": "kitab", "t": "Co-Intelligence", "a": "Ethan Mollick, 2024", "n": "İşçilərin Sİ ilə işləməsini təşkil etmək üçün praktik fikirlər."},
+      {"k": "onlayn", "t": "AI Transformation Playbook", "a": "Andrew Ng, Landing AI", "u": "https://landing.ai/ai-transformation-playbook", "n": "Şirkəti Sİ-yə hazırlamaq üçün 5 addım."}
+    ],
+    "project": {
+      "t": "Təşkilatınız üçün Sİ strategiyası",
+      "g": "Öz təşkilatınız (və ya tanıdığınız şirkət) üçün Sİ portfeli, biznes keysi və 100 günlük plan hazırlamaq.",
+      "s": [
+        "Şöbələrlə danışaraq və ya müşahidə edərək ən azı 10 Sİ istifadə ssenarisi toplayın.",
+        "Hər birini dəyər və icra imkanı üzrə 1–5 bal ilə qiymətləndirib matrisə yerləşdirin.",
+        "Ən yaxşı 3 ssenari üçün qısa biznes keysi yazın: xərc, gəlir, risk, ölçmə göstəricisi.",
+        "Hər biri üçün qərar verin: qurmaq, almaq, yoxsa tərəfdaş?",
+        "Bir səhifəlik Sİ istifadə siyasəti yazın: icazə verilən alətlər, data qaydaları, insan nəzarəti.",
+        "100 günlük plan qurun: ilk 30, 60 və 100 gündə nələr olacaq?"
+      ],
+      "d": "Sİ portfeli matrisi, 3 biznes keysi, istifadə siyasəti və 100 günlük plan (5–6 slayd və ya 3 səhifə).",
+      "c": ["10 istifadə ssenarisi toplanıb", "Dəyər və icra imkanı matrisi qurulub", "3 biznes keysi yazılıb", "Qurmaq, almaq və ya tərəfdaş qərarları verilib", "Sİ istifadə siyasəti yazılıb", "100 günlük plan var"]
+    }
+  },
+  "kripto": {
+    "reading": [
+      {"k": "kitab", "t": "The Code Book (Kodlar kitabı)", "a": "Simon Singh, 1999", "n": "Sezardan Enigmaya, RSA-dan kvanta: kriptoqrafiyanın ən maraqlı tarixi."},
+      {"k": "kitab", "t": "Serious Cryptography", "a": "Jean-Philippe Aumasson, 2017 (2-ci nəşr 2024)", "n": "Müasir kriptoqrafiyanın praktik, riyaziyyatı yüngül izahı."},
+      {"k": "onlayn", "t": "Cryptography I", "a": "Dan Boneh, Stanford / Coursera", "u": "https://www.coursera.org/learn/crypto", "n": "Sahənin ən məşhur pulsuz onlayn kursu."},
+      {"k": "onlayn", "t": "Cryptopals tapşırıqları", "a": "cryptopals.com", "u": "https://cryptopals.com", "n": "Real kriptoqrafik hücumları kodla öyrənmək üçün tapşırıqlar."},
+      {"k": "onlayn", "t": "CrypTool", "a": "cryptool.org", "u": "https://www.cryptool.org", "n": "Klassik və müasir şifrələri brauzerdə sınamaq üçün alətlər."},
+      {"k": "onlayn", "t": "The Illustrated TLS 1.3 Connection", "a": "Michael Driscoll", "u": "https://tls13.xargs.org", "n": "HTTPS bağlantısının hər baytının izahı."}
+    ],
+    "project": {
+      "t": "Kriptoqrafiya laboratoriyası",
+      "g": "Kursdakı əsas ideyaları öz əlinizlə sınamaq: şifri sındırmaq, faylı yoxlamaq, sertifikata baxmaq və hesablarınızı qorumaq.",
+      "s": [
+        "Dostunuzdan Vijener şifrəsi ilə 2–3 cümlə şifrələməsini istəyin. Tezlik analizi ilə açmağa çalışın.",
+        "Bir proqram yükləyin və onun SHA-256 hash-ini rəsmi saytdakı ilə müqayisə edin (Windows-da certutil, Mac/Linux-da shasum).",
+        "Bankınızın saytında kilid işarəsinə basıb sertifikata baxın: kim verib, nə vaxt bitir, hansı alqoritm?",
+        "Parol menecerinə keçin və ən vacib 5 hesabda unikal parol və iki addımlı doğrulama qurun.",
+        "Mümkünsə, ən vacib hesabınızda passkey yaradın.",
+        "Bir faylı açıq açarla (məsələn, GPG və ya age) şifrələyib dostunuza göndərin və onun açdığını yoxlayın."
+      ],
+      "d": "Laboratoriya jurnalı: hər təcrübənin addımları, nəticəsi və nə öyrəndiyiniz.",
+      "c": ["Vijener şifrəsi açılıb", "Faylın hash-i yoxlanıb", "Sertifikat təhlil edilib", "Parol meneceri qurulub", "5 hesabda iki addımlı doğrulama var", "Açıq açarla şifrələmə sınanıb"]
+    }
+  },
+  "kiber": {
+    "reading": [
+      {"k": "onlayn", "t": "Have I Been Pwned", "a": "Troy Hunt", "u": "https://haveibeenpwned.com", "n": "E-poçtunuzun sızmış bazalarda olub-olmadığını yoxlayın."},
+      {"k": "onlayn", "t": "Small Business Guide", "a": "NCSC (Böyük Britaniya)", "u": "https://www.ncsc.gov.uk/collection/small-business-guide", "n": "Kiçik biznes üçün 5 sadə addımda kibertəhlükəsizlik."},
+      {"k": "onlayn", "t": "OWASP Top 10", "a": "OWASP", "u": "https://owasp.org/www-project-top-ten/", "n": "Veb tətbiqlərin ən çox rast gəlinən 10 zəifliyi."},
+      {"k": "onlayn", "t": "OverTheWire: Bandit", "a": "overthewire.org", "u": "https://overthewire.org/wargames/bandit/", "n": "Linux və təhlükəsizlik əsaslarını oyunla öyrənmək üçün pulsuz tapşırıqlar."},
+      {"k": "onlayn", "t": "CERT.GOV.AZ", "a": "Azərbaycan", "u": "https://cert.gov.az", "n": "Azərbaycanda kiber insidentlərə cavab verən dövlət mərkəzi."},
+      {"k": "kitab", "t": "The Art of Deception", "a": "Kevin Mitnick, 2002", "n": "Sosial mühəndisliyin ustadından real hekayələr."},
+      {"k": "kitab", "t": "Sandworm", "a": "Andy Greenberg, 2019", "n": "NotPetya və enerji şəbəkəsinə hücumların araşdırması."}
+    ],
+    "project": {
+      "t": "Ev və şəxsi təhlükəsizlik auditi",
+      "g": "Evinizin Wi-Fi şəbəkəsini, cihazlarınızı və hesablarınızı yoxlayıb zəiflikləri aradan qaldırmaq.",
+      "s": [
+        "Routerin idarə panelinə daxil olun: standart admin parolunu dəyişin, proqram təminatını (firmware) yeniləyin.",
+        "Wi-Fi şifrələməsini yoxlayın: WPA3 və ya ən azı WPA2. WPS-i söndürün.",
+        "Qonaqlar və ağıllı cihazlar (TV, kamera) üçün ayrıca qonaq şəbəkəsi yaradın.",
+        "Have I Been Pwned-də e-poçtlarınızı yoxlayın və sızmış hesabların parollarını dəyişin.",
+        "Ən vacib hesablarda (e-poçt, bank, sosial şəbəkə) iki addımlı doğrulamanı yoxlayın.",
+        "3-2-1 qaydası ilə ehtiyat nüsxə qurun və bir faylı bərpa edərək sınayın.",
+        "Telefonda tətbiq icazələrini nəzərdən keçirin: məkan, mikrofon, kontaktlar.",
+        "Bir səhifəlik insident kartı yazın: hesab sındırılsa və ya fidyə proqramı gəlsə, ilk 5 addım nədir?"
+      ],
+      "d": "Audit cədvəli (nə yoxlanıldı, nə tapıldı, nə düzəldildi) və insident kartı.",
+      "c": ["Router parolu və firmware yenilənib", "Wi-Fi şifrələməsi yoxlanıb, WPS söndürülüb", "Qonaq şəbəkəsi qurulub", "Sızmalar yoxlanıb", "İki addımlı doğrulama aktivdir", "Ehtiyat nüsxə bərpa ilə sınanıb", "Telefon icazələri yoxlanıb", "İnsident kartı yazılıb"]
+    }
+  }
+}
