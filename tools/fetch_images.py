@@ -30,6 +30,21 @@ missing = []
 for course, items in spec.items():
     outdir = os.path.join(ROOT, "courses", course, "img")
     os.makedirs(outdir, exist_ok=True)
+    # "search:<sorğu>" dəyərləri Commons-da axtarılır və ilk şəkil götürülür
+    for name, title in list(items.items()):
+        if title.startswith("search:"):
+            sq = urllib.parse.urlencode({"action": "query", "list": "search", "srsearch": title[7:] + " filetype:bitmap",
+                                         "srnamespace": "6", "srlimit": "1", "format": "json"})
+            hits = json.loads(get("https://commons.wikimedia.org/w/api.php?" + sq))["query"]["search"]
+            if hits: items[name] = hits[0]["title"]
+            else: missing.append(title); del items[name]
+            time.sleep(1)
+    # artıq yüklənmiş şəkilləri ötür
+    items = {k: v for k, v in items.items() if not os.path.exists(os.path.join(outdir, k + ".jpg"))}
+    old = os.path.join(outdir, "credits.json")
+    credits = json.load(open(old, encoding="utf-8")) if os.path.exists(old) else {}
+    if not items:
+        continue
     q = urllib.parse.urlencode({
         "action": "query", "titles": "|".join(items.values()), "prop": "imageinfo",
         "iiprop": "url|extmetadata", "iiurlwidth": "520", "format": "json",
@@ -37,7 +52,6 @@ for course, items in spec.items():
     data = json.loads(get("https://commons.wikimedia.org/w/api.php?" + q))
     norm = {n["from"]: n["to"] for n in data["query"].get("normalized", [])}
     pages = {p["title"]: p for p in data["query"]["pages"].values()}
-    credits = {}
     for name, title in items.items():
         p = pages.get(norm.get(title, title))
         if not p or "imageinfo" not in p:

@@ -16,5 +16,15 @@
     "mark-avreli": "File:Marcus Aurelius Glyptothek Munich.jpg",
     "kyerkeqor": "File:Kierkegaard.jpg",
     "axundzade": "File:Mirza Fatali Akhundov.jpg"
+  },
+  "reqemsal": {
+    "eniac": "File:Eniac.jpg",
+    "asan": "search:ASAN xidmət Baku",
+    "kodak": "search:Kodak Brownie camera",
+    "netflix": "search:Netflix DVD envelope",
+    "estoniya": "search:Estonian ID card",
+    "data-merkezi": "search:data center server racks",
+    "skaner": "search:document scanner office",
+    "telefon": "search:smartphone mobile banking app"
   }
 }
