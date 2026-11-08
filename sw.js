@@ -8,7 +8,7 @@ const VERSION = 'akd-__BUILD__';
 const APP_CACHE = VERSION + '-app';
 const FONT_CACHE = 'akd-fonts';
 const CORE = [
-  './', 'index.html', 'lms.css', 'lms.js', 'manifest.webmanifest', 'courses/catalog.json',
+  './', 'index.html', 'lms.css', 'lms.js', 'illustrations.js', 'manifest.webmanifest', 'courses/catalog.json',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-64.png',
 ];
 

@@ -44,7 +44,7 @@ select{font:15px var(--sans);padding:8px 10px;border-radius:8px;border:1px solid
 </style>
 
 <!-- ============ I HİSSƏ: ƏSASLAR ============ -->
-<section class="lesson" data-title="Claude Code nədir?">
+<section class="lesson" data-title="Claude Code nədir?" data-ill="terminal">
   <div class="card">
     <h2>1. Claude Code nədir?</h2>
     <p class="lead">Claude Code proqram yazmaq üçün <b>agent</b>dir. Siz ona tapşırıq verirsiniz, o isə layihənizin fayllarını oxuyur, kodu dəyişir, əmrləri işə salır və nəticəni yoxlayır.</p>
@@ -71,7 +71,7 @@ select{font:15px var(--sans);padding:8px 10px;border-radius:8px;border:1px solid
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="intro"></div></div>
 </section>
 
-<section class="lesson" data-title="Quraşdırma və ilk sessiya">
+<section class="lesson" data-title="Quraşdırma və ilk sessiya" data-ill="download">
   <div class="card">
     <h2>2. Quraşdırma və ilk sessiya</h2>
     <h3>Quraşdırma</h3>
@@ -114,7 +114,7 @@ claude</pre>
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="setup"></div></div>
 </section>
 
-<section class="lesson" data-title="Yaxşı tapşırıq yazmaq">
+<section class="lesson" data-title="Yaxşı tapşırıq yazmaq" data-ill="pen">
   <div class="card">
     <h2>3. Yaxşı tapşırıq (prompt) yazmaq</h2>
     <p class="lead">Claude Code-un nəticəsinin keyfiyyəti çox vaxt tapşırığın keyfiyyətindən asılıdır. Claude sizin beyninizi oxuya bilmir: bildiyiniz, amma yazmadığınız hər şey onun üçün yoxdur.</p>
@@ -147,7 +147,7 @@ claude</pre>
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="prompt"></div></div>
 </section>
 
-<section class="lesson" data-title="İş axını: kəşf → plan → kod → yoxla">
+<section class="lesson" data-title="İş axını: kəşf → plan → kod → yoxla" data-ill="cycle">
   <div class="card">
     <h2>4. İş axını: kəşf → plan → kod → yoxla → commit</h2>
     <p class="lead">Ən çox yayılmış səhv Claude-dan dərhal kod yazmasını istəməkdir. Mürəkkəb işlərdə ən yaxşı nəticəni bu ardıcıllıq verir:</p>
@@ -158,6 +158,18 @@ claude</pre>
       <li><b>Yoxlama:</b> “Testləri işə sal, uğursuz olanları düzəlt.” Və ya: “Brauzerdə aç və ödəniş formasının işlədiyini yoxla.”</li>
       <li><b>Commit:</b> “Dəyişiklikləri aydın mesajla commit et və PR aç.”</li>
     </ol>
+    <svg class="diagram" viewBox="0 0 640 200" role="img" aria-label="İş axını dövrü">
+      <g font-family="Noto Sans, sans-serif" font-size="14" text-anchor="middle" font-weight="700">
+        <defs><marker id="arW" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+        <g stroke="var(--muted)" stroke-width="3" fill="none" marker-end="url(#arW)"><path d="M118 80h30M246 80h30M374 80h30M502 80h30"/><path d="M460 118Q400 180 320 180T200 120" stroke-dasharray="6 6"/></g>
+        <rect x="20" y="56" width="98" height="48" rx="24" fill="var(--ex-blue)" stroke="var(--ex-blue-b)" stroke-width="2"/><text x="69" y="85" fill="var(--ink)">🔍 Kəşf</text>
+        <rect x="148" y="56" width="98" height="48" rx="24" fill="var(--ex-violet)" stroke="var(--ex-violet-b)" stroke-width="2"/><text x="197" y="85" fill="var(--ink)">🗺️ Plan</text>
+        <rect x="276" y="56" width="98" height="48" rx="24" fill="var(--ex-amber)" stroke="var(--ex-amber-b)" stroke-width="2"/><text x="325" y="85" fill="var(--ink)">⌨️ Kod</text>
+        <rect x="404" y="56" width="98" height="48" rx="24" fill="var(--ex-green)" stroke="var(--ex-green-b)" stroke-width="2"/><text x="453" y="85" fill="var(--ink)">✅ Yoxla</text>
+        <rect x="532" y="56" width="98" height="48" rx="24" fill="var(--ex-red)" stroke="var(--ex-red-b)" stroke-width="2"/><text x="581" y="85" fill="var(--ink)">📦 Commit</text>
+        <text x="330" y="168" fill="var(--muted)" font-weight="400" font-size="13">test keçmədi? → yenidən koda qayıt</text>
+      </g>
+    </svg>
     <h3>Plan rejimi</h3>
     <p><kbd>Shift</kbd>+<kbd>Tab</kbd> ilə <b>plan rejiminə</b> keçəndə Claude yalnız oxuyur və təhlil edir, heç bir faylı dəyişmir. Sonda planı sizə təqdim edir. Siz razılaşandan sonra kod yazılır. Bu rejim böyük dəyişikliklərdən əvvəl çox faydalıdır.</p>
     <div class="ex"><span class="tag">📌 Real nümunə: test əsaslı iş (TDD)</span>
@@ -179,7 +191,7 @@ claude</pre>
 </section>
 
 <!-- ============ II HİSSƏ: NƏZARƏT VƏ YADDAŞ ============ -->
-<section class="lesson" data-title="İcazələr və təhlükəsizlik">
+<section class="lesson" data-title="İcazələr və təhlükəsizlik" data-ill="shield">
   <div class="card">
     <h2>5. İcazələr və təhlükəsizlik</h2>
     <p class="lead">Claude Code kompüterinizdə əmr işə sala və faylları dəyişə bilir. Ona görə də standart olaraq riskli addımlardan əvvəl sizdən <b>icazə soruşur</b>.</p>
@@ -214,7 +226,7 @@ claude</pre>
   <div class="card"><h3>✍️ Tapşırıq: hansı rejim?</h3><div class="quiz" data-quiz="perm"></div></div>
 </section>
 
-<section class="lesson" data-title="Yaddaş: CLAUDE.md">
+<section class="lesson" data-title="Yaddaş: CLAUDE.md" data-ill="doc">
   <div class="card">
     <h2>6. Yaddaş: CLAUDE.md</h2>
     <p class="lead">Hər yeni sessiyada Claude layihəniz haqqında heç nə xatırlamır. <span class="sym">CLAUDE.md</span> faylı onun “işə başlama təlimatı”dır: hər sessiyanın əvvəlində avtomatik oxunur.</p>
@@ -262,7 +274,7 @@ Hər dəyişiklikdən sonra npm test işə sal</textarea></label>
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="mem"></div></div>
 </section>
 
-<section class="lesson" data-title="Kontekst idarəsi">
+<section class="lesson" data-title="Kontekst idarəsi" data-ill="gauge">
   <div class="card">
     <h2>7. Kontekst idarəsi</h2>
     <p class="lead">Claude-un “iş masası”nın, yəni <b>kontekst pəncərəsinin</b> ölçüsü məhduddur. Oxunan hər fayl, hər əmr nəticəsi, hər mesaj orada yer tutur.</p>
@@ -300,7 +312,7 @@ Hər dəyişiklikdən sonra npm test işə sal</textarea></label>
 </section>
 
 <!-- ============ III HİSSƏ: GENİŞLƏNDİRMƏ ============ -->
-<section class="lesson" data-title="Əmrlər və skill-lər">
+<section class="lesson" data-title="Əmrlər və skill-lər" data-ill="slash">
   <div class="card">
     <h2>8. Slash əmrləri və skill-lər</h2>
     <p class="lead">Tez-tez təkrarladığınız tapşırıqları bir dəfə yazıb sonra bir sözlə çağırmaq olar.</p>
@@ -333,7 +345,7 @@ description: Akademiyaya yeni kurs əlavə edəndə istifadə et
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="cmds"></div></div>
 </section>
 
-<section class="lesson" data-title="Subagentlər">
+<section class="lesson" data-title="Subagentlər" data-ill="nodes">
   <div class="card">
     <h2>9. Subagentlər</h2>
     <p class="lead"><b>Subagent</b> Claude-un tapşırığın bir hissəsini öz ayrıca konteksti olan köməkçiyə verməsidir. Köməkçi işi görüb yalnız nəticəni qaytarır.</p>
@@ -343,6 +355,15 @@ description: Akademiyaya yeni kurs əlavə edəndə istifadə et
       <li><b>İxtisaslaşma:</b> hər subagentin öz təlimatı, alətləri və modeli ola bilər.</li>
       <li><b>Paralellik:</b> bir neçə müstəqil iş eyni anda gedə bilər.</li>
     </ul>
+    <svg class="diagram" viewBox="0 0 640 210" role="img" aria-label="Subagentlər">
+      <g font-family="Noto Sans, sans-serif" font-size="13" text-anchor="middle">
+        <rect x="230" y="14" width="180" height="56" rx="14" fill="var(--accent)"/><text x="320" y="38" fill="var(--on-accent)" font-weight="700">Əsas Claude</text><text x="320" y="56" fill="var(--on-accent)" font-size="11">sizin söhbətiniz · təmiz kontekst</text>
+        <g stroke="var(--muted)" stroke-width="2.5" fill="none"><path d="M270 70L110 130M320 70v60M370 70l160 60"/></g>
+        <rect x="30" y="130" width="160" height="62" rx="12" fill="var(--ex-blue)" stroke="var(--ex-blue-b)" stroke-width="2"/><text x="110" y="154" fill="var(--ink)" font-weight="700">Explore</text><text x="110" y="174" fill="var(--muted)" font-size="11">200 fayl oxuyur → 3 sətir</text>
+        <rect x="240" y="130" width="160" height="62" rx="12" fill="var(--ex-green)" stroke="var(--ex-green-b)" stroke-width="2"/><text x="320" y="154" fill="var(--ink)" font-weight="700">test-yazan</text><text x="320" y="174" fill="var(--muted)" font-size="11">testləri yazır və işə salır</text>
+        <rect x="450" y="130" width="160" height="62" rx="12" fill="var(--ex-violet)" stroke="var(--ex-violet-b)" stroke-width="2"/><text x="530" y="154" fill="var(--ink)" font-weight="700">code-reviewer</text><text x="530" y="174" fill="var(--muted)" font-size="11">“ikinci göz” kimi yoxlayır</text>
+      </g>
+    </svg>
     <p>Daxili subagentlər var, məsələn kodda axtarış üçün <b>Explore</b>, planlaşdırma üçün <b>Plan</b>. Özünüz də yarada bilərsiniz: <span class="sym">/agents</span> əmri ilə və ya fayl kimi:</p>
     <pre class="code">.claude/agents/test-yazan.md</pre>
     <pre class="code">---
@@ -363,7 +384,7 @@ və xəta halları üçün test yaz. Mövcud test üslubuna uy. Testləri işə 
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="agents"></div></div>
 </section>
 
-<section class="lesson" data-title="Hook-lar: avtomatik qaydalar">
+<section class="lesson" data-title="Hook-lar: avtomatik qaydalar" data-ill="hook">
   <div class="card">
     <h2>10. Hook-lar: avtomatik qaydalar</h2>
     <p class="lead">CLAUDE.md-dəki qayda bir <b>xahişdir</b>: Claude onu unuda bilər. <b>Hook</b> isə həmişə işləyən avtomatik əmrdir. Müəyyən hadisə baş verəndə Claude Code onu özü işə salır.</p>
@@ -405,7 +426,7 @@ və xəta halları üçün test yaz. Mövcud test üslubuna uy. Testləri işə 
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="hooks"></div></div>
 </section>
 
-<section class="lesson" data-title="MCP: xarici alətlər">
+<section class="lesson" data-title="MCP: xarici alətlər" data-ill="plug">
   <div class="card">
     <h2>11. MCP: Claude-u xarici alətlərə qoşmaq</h2>
     <p class="lead"><b>MCP</b> (Model Context Protocol) Claude-u kənar sistemlərə qoşmaq üçün açıq standartdır: GitHub, verilənlər bazası, Figma, Slack, brauzer və s.</p>
@@ -436,7 +457,7 @@ claude mcp list</pre>
 </section>
 
 <!-- ============ IV HİSSƏ: PRAKTİKA ============ -->
-<section class="lesson" data-title="Avtomatlaşdırma və bulud">
+<section class="lesson" data-title="Avtomatlaşdırma və bulud" data-ill="rocket">
   <div class="card">
     <h2>12. Avtomatlaşdırma: skriptlər, CI və bulud sessiyaları</h2>
     <h3>Headless rejim: <span class="sym">claude -p</span></h3>
@@ -463,7 +484,7 @@ claude -p "testləri işə sal və nəticəni xülasə et" --output-format json<
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="auto"></div></div>
 </section>
 
-<section class="lesson" data-title="Real layihə: Akademiyanın hekayəsi">
+<section class="lesson" data-title="Real layihə: Akademiyanın hekayəsi" data-ill="star">
   <div class="card">
     <h2>13. Real layihə: Akademiyanın hekayəsi</h2>
     <p class="lead">Kursun bütün mövzuları bir layihədə: bu tətbiqin necə qurulduğu. Hər addımda hansı prinsipin işlədiyinə baxın.</p>
@@ -490,7 +511,7 @@ claude -p "testləri işə sal və nəticəni xülasə et" --output-format json<
   <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="case"></div></div>
 </section>
 
-<section class="lesson" data-title="Yekun imtahan">
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
   <div class="card">
     <h2>14. Yekun imtahan</h2>
     <p class="lead">Bütün mövzulardan 15 sual. Ən azı 12 düzgün cavab (80%) verəndə kurs tamamlanır 🎓</p>

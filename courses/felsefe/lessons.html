@@ -1,0 +1,360 @@
+<style>
+/* Fəlsəfə kursu: dialoq, mağara, zaman xətti, gəmi, dilemmalar */
+.dlg{display:grid;gap:10px;margin:10px 0}
+.bubble{max-width:88%;padding:10px 14px;border-radius:16px;line-height:1.5}
+.bubble.s{background:var(--ex-violet);border:1px solid var(--ex-violet-b);border-bottom-left-radius:4px}
+.bubble.s b{color:var(--ex-violet-b)}
+.bubble.u{justify-self:end;background:var(--accent);color:var(--on-accent);border-bottom-right-radius:4px}
+.choices{display:grid;gap:8px;margin-top:6px}
+.choices button{text-align:left;border:1.5px solid var(--accent);background:var(--panel);color:var(--ink);border-radius:12px;padding:9px 14px;font:inherit;cursor:pointer}
+.choices button:hover{background:var(--accent-soft)}
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.stepper button{border:1.5px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;cursor:pointer}
+.stepper button.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+svg.scene{width:100%;height:auto;display:block;border-radius:12px;background:var(--code)}
+svg.scene .hl{transition:opacity .35s}
+.tl{position:relative;margin:24px 0 10px;height:70px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:30px;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--ex-amber-b),var(--accent),var(--ex-violet-b))}
+.tl button{position:absolute;top:18px;width:28px;height:28px;margin-left:-14px;border-radius:50%;border:3px solid var(--panel);background:var(--accent);cursor:pointer;box-shadow:0 0 0 2px var(--accent)}
+.tl button.on{background:var(--ex-amber-b);box-shadow:0 0 0 3px var(--ex-amber-b);transform:scale(1.15)}
+.tl span{position:absolute;top:52px;transform:translateX(-50%);font-size:.72rem;color:var(--muted);white-space:nowrap}
+.tl-card{border-radius:14px;padding:14px 16px;background:var(--ex-amber);border-left:4px solid var(--ex-amber-b)}
+.tl-card h4{margin:0 0 4px;font:600 1.1rem var(--serif)}
+.vbar{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;margin:6px 0}
+.vbar .track{height:16px;border-radius:8px;background:var(--line);overflow:hidden}
+.vbar .track i{display:block;height:100%;border-radius:8px;transition:width .5s}
+.mean{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.mean .ends{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted)}
+.mean input{width:100%}
+.mean .verdict{font-weight:600;margin-top:4px}
+.doubt{display:grid;gap:8px;margin:10px 0}
+.doubt .row2{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel)}
+.doubt .row2.gone{opacity:.55;text-decoration:line-through}
+.doubt .row2.cogito{border-color:var(--ex-green-b);background:var(--ex-green);text-decoration:none;opacity:1}
+.ctl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.ctl .bin{border:2px dashed var(--line);border-radius:14px;padding:10px;min-height:90px}
+.ctl .bin h4{margin:0 0 6px;font-size:.92rem}
+.ctl .bin.in{border-color:var(--ex-green-b);background:var(--ex-green)}
+.ctl .bin.out{border-color:var(--ex-blue-b);background:var(--ex-blue)}
+.chip{display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:.86rem}
+@media (max-width:560px){.vbar{grid-template-columns:96px 1fr 40px}.ctl{grid-template-columns:1fr}}
+</style>
+
+<!-- ============ I HİSSƏ: QƏDİM YUNANISTAN ============ -->
+<section class="lesson" data-title="Fəlsəfə nədir?" data-ill="column">
+  <div class="card">
+    <h2>1. Fəlsəfə nədir?</h2>
+    <p class="lead">“Fəlsəfə” yunanca <i>philo</i> (sevgi) və <i>sophia</i> (müdriklik) sözlərindən yaranıb: <b>müdrikliyə sevgi</b>. Fəlsəfə hazır cavabları əzbərləmək deyil, ən əsas suallar üzərində dərindən düşünmək sənətidir.</p>
+    <figure class="pic wide"><img src="courses/felsefe/img/afina-mektebi.jpg" alt="Rafaelin “Afina məktəbi” freskası" data-credit="afina-mektebi" loading="lazy"><figcaption><b>“Afina məktəbi”</b>Rafael, 1509–1511, Vatikan. Mərkəzdə Platon (barmağı yuxarıya, ideyalar aləminə) və Aristotel (əli yerə, real dünyaya) dayanıb. Bu iki jest fəlsəfənin iki böyük yolunu simvolizə edir.</figcaption></figure>
+    <h3>Fəlsəfənin əsas sahələri</h3>
+    <svg class="scene" viewBox="0 0 640 230" role="img" aria-label="Fəlsəfənin sahələri">
+      <g font-family="Noto Sans, sans-serif" font-size="14" text-anchor="middle">
+        <circle cx="320" cy="115" r="52" fill="var(--accent)"/><text x="320" y="111" fill="var(--on-accent)" font-weight="700">FƏLSƏFƏ</text><text x="320" y="129" fill="var(--on-accent)" font-size="11">müdrikliyə sevgi</text>
+        <g stroke="var(--line)" stroke-width="3"><path d="M272 95 160 45M272 135 160 185M368 95 480 45M368 135 480 185M268 115H130M372 115H510"/></g>
+        <g><rect x="60" y="22" width="150" height="46" rx="23" fill="var(--ex-blue)" stroke="var(--ex-blue-b)" stroke-width="2"/><text x="135" y="42" fill="var(--ink)" font-weight="700">Metafizika</text><text x="135" y="58" fill="var(--muted)" font-size="11">Nə mövcuddur?</text></g>
+        <g><rect x="30" y="92" width="150" height="46" rx="23" fill="var(--ex-green)" stroke="var(--ex-green-b)" stroke-width="2"/><text x="105" y="112" fill="var(--ink)" font-weight="700">Epistemologiya</text><text x="105" y="128" fill="var(--muted)" font-size="11">Nəyi bilə bilərik?</text></g>
+        <g><rect x="60" y="162" width="150" height="46" rx="23" fill="var(--ex-red)" stroke="var(--ex-red-b)" stroke-width="2"/><text x="135" y="182" fill="var(--ink)" font-weight="700">Etika</text><text x="135" y="198" fill="var(--muted)" font-size="11">Necə yaşamalı?</text></g>
+        <g><rect x="430" y="22" width="150" height="46" rx="23" fill="var(--ex-amber)" stroke="var(--ex-amber-b)" stroke-width="2"/><text x="505" y="42" fill="var(--ink)" font-weight="700">Məntiq</text><text x="505" y="58" fill="var(--muted)" font-size="11">Necə düzgün düşünək?</text></g>
+        <g><rect x="460" y="92" width="150" height="46" rx="23" fill="var(--ex-violet)" stroke="var(--ex-violet-b)" stroke-width="2"/><text x="535" y="112" fill="var(--ink)" font-weight="700">Estetika</text><text x="535" y="128" fill="var(--muted)" font-size="11">Gözəllik nədir?</text></g>
+        <g><rect x="430" y="162" width="150" height="46" rx="23" fill="var(--ex-blue)" stroke="var(--ex-blue-b)" stroke-width="2"/><text x="505" y="182" fill="var(--ink)" font-weight="700">Siyasi fəlsəfə</text><text x="505" y="198" fill="var(--muted)" font-size="11">Ədalətli cəmiyyət?</text></g>
+      </g>
+    </svg>
+    <div class="ex"><span class="tag">📌 Real nümunə: fəlsəfi suallar gündəlik həyatda</span>
+      <ul>
+        <li>“Süni intellektin şüuru ola bilərmi?” Bu, <b>ağıl fəlsəfəsi</b> (metafizika) sualıdır.</li>
+        <li>“Sosial şəbəkədəki xəbərə necə inanım?” Bu, <b>epistemologiya</b> sualıdır.</li>
+        <li>“Pulu tapdım. Sahibini axtarım, yoxsa özümə saxlayım?” Bu, <b>etika</b> sualıdır.</li>
+        <li>“Vergilər varlılardan daha çox alınmalıdırmı?” Bu, <b>siyasi fəlsəfə</b> sualıdır.</li>
+      </ul>
+      <p>Hər birimiz hər gün fəlsəfə ilə məşğul oluruq. Sadəcə bunu sistemli şəkildə etmirik. Bu kurs onu sistemli etməyi öyrədir.</p>
+    </div>
+    <div class="note"><b>Fəlsəfə və məntiq kursu:</b> Məntiq kursunda düzgün nəticə çıxarmağı öyrəndiniz. Fəlsəfədə isə bu aləti ən böyük suallara tətbiq edirik: həqiqət, ədalət, azadlıq, mənalı həyat.</div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq: bu sual hansı sahəyə aiddir?</h3><div class="quiz" data-quiz="branches"></div></div>
+</section>
+
+<section class="lesson" data-title="Sokrat: sual vermə sənəti" data-ill="question">
+  <div class="card">
+    <h2>2. Sokrat: sual vermə sənəti</h2>
+    <figure class="pic"><img src="courses/felsefe/img/sokrat.jpg" alt="Sokratın büstü" data-credit="sokrat" loading="lazy"><figcaption><b>Sokrat</b>e.ə. 470–399, Afina. Heç bir kitab yazmayıb. Onun fikirlərini tələbəsi Platon dialoqlarda yazıya köçürüb. Afina məhkəməsi onu “gəncləri yoldan çıxarmaqda” günahlandırıb ölümə məhkum edib.</figcaption></figure>
+    <p><b>“Bildiyim yeganə şey heç nə bilmədiyimdir.”</b> Sokrat özünü müdrik saymırdı. Amma insanlarla danışanda gördü ki, onlar bilmədikləri şeyi bildiklərini zənn edirlər. O isə heç olmasa bilmədiyini bilir.</p>
+    <h3>Sokrat metodu (elenxus)</h3>
+    <ol>
+      <li>Həmsöhbət bir tərif verir: “Cəsarət qorxmamaqdır.”</li>
+      <li>Sokrat sual verir: “Dərin suya qorxmadan tullanan, amma üzə bilməyən adam cəsurdur, yoxsa ağılsız?”</li>
+      <li>Həmsöhbət görür ki, tərifi öz başqa fikirləri ilə ziddiyyət təşkil edir.</li>
+      <li>Tərif düzəldilir, sonra yenidən yoxlanılır…</li>
+    </ol>
+    <p>Bu, məntiq kursundakı <b>əks-nümunə</b> üsuludur: ümumi tərifi bir dənə əks-nümunə ilə yoxlamaq.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: iş yerində Sokrat</span>
+      <p>Menecer deyir: “Yaxşı işçi həmişə gec saatlara qədər işləyən işçidir.” Sokratsayağı sual: “Bəs işini 6 saata bitirib keyfiyyətli nəticə verən işçi? Və ya 12 saat işləyib səhvlərlə dolu iş təhvil verən?” Tərif dəyişir: “Yaxşı işçi keyfiyyətli nəticə verəndir.” Bir sual daha yaxşı siyasətə yol açdı.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Tətbiq: Sokrat metodu valideyn üçün</span>
+      <p>Uşağa “Bu səhvdir!” demək əvəzinə soruşun: “Sən belə etsən, nə olar? Bəs hamı belə etsə?” Uşaq nəticəyə özü gəlir. Belə nəticə xatirədə daha uzun qalır.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>💬 Sokratla dialoq</h3>
+    <p class="fb">Sokrat sizə suallar verəcək. Cavabınızı seçin və fikrin necə dəyişdiyini izləyin.</p>
+    <div class="dlg" id="socDlg"></div>
+    <button class="btn ghost" id="socReset" style="margin-top:10px">Dialoqu yenidən başla</button>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="socrates"></div></div>
+</section>
+
+<section class="lesson" data-title="Platon: mağara alleqoriyası" data-ill="cave">
+  <div class="card">
+    <h2>3. Platon: ideyalar və mağara alleqoriyası</h2>
+    <figure class="pic"><img src="courses/felsefe/img/platon.jpg" alt="Platonun büstü" data-credit="platon" loading="lazy"><figcaption><b>Platon</b>e.ə. 427–347, Afina. Sokratın tələbəsi, Akademiyanın banisi. Akademiya Avropada ilk ali məktəb sayılır və təxminən 900 il fəaliyyət göstərib.</figcaption></figure>
+    <p>Platona görə gördüyümüz dünya dəyişkən və natamamdır. Hər şeyin mükəmməl, əbədi “nümunəsi” olan <b>ideyalar aləmi</b> var. Dünyada minlərlə müxtəlif dairə var, heç biri mükəmməl deyil. Amma biz “mükəmməl dairə” ideyasını ağılla dərk edirik.</p>
+    <h3>Mağara alleqoriyası</h3>
+    <p>Platonun “Dövlət” əsərindəki ən məşhur obraz. Addımlara klikləyin:</p>
+    <div class="stepper" id="caveSteps"></div>
+    <svg class="scene" viewBox="0 0 640 260" id="caveSvg" role="img" aria-label="Platonun mağarası">
+      <defs><radialGradient id="fireG"><stop offset="0" stop-color="#ffcf5a"/><stop offset="1" stop-color="#ff7a3d" stop-opacity="0"/></radialGradient></defs>
+      <path d="M0 260V70Q0 10 120 10H470Q520 10 540 60L640 60V260Z" fill="var(--line)" opacity=".5"/>
+      <rect x="540" y="0" width="100" height="60" fill="#ffd36b" opacity=".35"/>
+      <g id="cv-wall"><rect x="10" y="40" width="110" height="200" rx="8" fill="var(--panel)" stroke="var(--muted)"/>
+        <g fill="var(--ink)" opacity=".75"><ellipse cx="45" cy="120" rx="14" ry="22"/><path d="M78 150l14-40 14 40z"/><circle cx="62" cy="185" r="12"/></g></g>
+      <g id="cv-prisoners" fill="var(--accent)"><circle cx="200" cy="190" r="12"/><rect x="190" y="202" width="20" height="34" rx="6"/><circle cx="240" cy="190" r="12"/><rect x="230" y="202" width="20" height="34" rx="6"/><path d="M180 236h90" stroke="var(--muted)" stroke-width="4"/></g>
+      <g id="cv-objects"><rect x="290" y="150" width="160" height="10" fill="var(--muted)"/><g fill="var(--ex-violet-b)"><ellipse cx="330" cy="128" rx="10" ry="16"/><path d="M360 146l12-30 12 30z"/><circle cx="410" cy="134" r="10"/></g></g>
+      <g id="cv-fire"><circle cx="500" cy="190" r="50" fill="url(#fireG)"/><path d="M500 220c-14-10-10-30 0-44 10 14 14 34 0 44z" fill="#ff8a3d"/></g>
+      <g id="cv-free"><circle cx="590" cy="40" r="10" fill="var(--ex-green-b)"/><rect x="582" y="50" width="16" height="26" rx="5" fill="var(--ex-green-b)"/><circle cx="620" cy="20" r="14" fill="#ffd36b"/></g>
+      <g font-family="Noto Sans, sans-serif" font-size="12" fill="var(--ink)"><text x="16" y="34">divar: kölgələr</text><text x="180" y="256">dustaqlar</text><text x="300" y="176">əşyalar</text><text x="470" y="250">od</text><text x="548" y="96">çıxış: günəş</text></g>
+    </svg>
+    <div class="msg info" id="caveTxt"></div>
+    <div class="ex"><span class="tag">📌 Real nümunə: sosial şəbəkədəki “kölgələr”</span>
+      <p>Lentimizi alqoritm qurur: onun göstərdiyi xəbərlər, rəylər və “trendlər” reallığın özü deyil, onun kölgələridir. Kimsə başqa mənbələrə baxıb “Dünya göründüyü kimi deyil” deyəndə, mağaradakı dustaqlar kimi çox vaxt ona gülürük. Platonun sualı bu gün də aktualdır: <b>biz hansı kölgələrə baxırıq və bu kölgələri kim yaradır?</b></p>
+    </div>
+    <div class="ex"><span class="tag">📌 Tətbiq: öz mağaranızdan çıxmaq</span>
+      <p>Bu həftə əsas mövzulardan birində bilərəkdən əks fikirli bir mənbəni oxuyun. Məqsəd fikrinizi dəyişmək deyil, kölgəni yaradan “odu” görməkdir.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="plato"></div></div>
+</section>
+
+<section class="lesson" data-title="Aristotel: qızıl orta" data-ill="scales">
+  <div class="card">
+    <h2>4. Aristotel: xoşbəxtlik və qızıl orta</h2>
+    <figure class="pic"><img src="courses/felsefe/img/aristotel.jpg" alt="Aristotelin büstü" data-credit="aristotel" loading="lazy"><figcaption><b>Aristotel</b>e.ə. 384–322. Platonun tələbəsi, Makedoniyalı İsgəndərin müəllimi. Məntiq, biologiya, etika, siyasət, poetika sahələrində əsər yazıb. Şərqdə ona “Birinci müəllim” deyilib.</figcaption></figure>
+    <p>Aristotel müəllimi Platondan fərqli olaraq diqqətini bu dünyaya yönəldirdi. Onun sualı belədir: <b>insan həyatının məqsədi nədir?</b> Cavabı <i>evdemoniya</i>dır: xoşbəxtlik, daha dəqiq desək, “yaxşı yaşanmış, çiçəklənən həyat”.</p>
+    <p>Bu həyata <b>fəzilətlər</b> vasitəsilə çatılır. Fəzilət isə iki ifrat arasındakı <b>qızıl orta</b>dır:</p>
+    <div class="scroll"><table class="tt" style="font-family:inherit">
+      <tr><th>Çatışmazlıq</th><th>Fəzilət (orta)</th><th>İfrat</th></tr>
+      <tr><td>Qorxaqlıq</td><td class="res"><b>Cəsarət</b></td><td>Ehtiyatsızlıq</td></tr>
+      <tr><td>Xəsislik</td><td class="res"><b>Səxavət</b></td><td>İsrafçılıq</td></tr>
+      <tr><td>Özünü kiçiltmə</td><td class="res"><b>Ləyaqət</b></td><td>Lovğalıq</td></tr>
+      <tr><td>Kinsizlik, laqeydlik</td><td class="res"><b>Səbir</b></td><td>Hirslilik</td></tr>
+    </table></div>
+    <p>Orta riyazi orta deyil: o, <b>vəziyyətdən asılıdır</b>. Yanğında uşağı xilas etmək cəsarətdir, amma fırtınada sırf maraq üçün dənizə girmək ehtiyatsızlıqdır. Ortanı tapmaq üçün <i>praktik müdriklik</i> (phronesis) lazımdır. O isə təcrübə ilə gəlir.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: vərdiş və xarakter</span>
+      <p>Aristotel deyirdi: “Biz təkrar etdiyimiz şeylərik.” Hər gün kiçik dürüst addımlar atan insan zamanla dürüst insana çevrilir. Müasir psixologiyanın vərdiş araşdırmaları bu fikirlə üst-üstə düşür: xarakter bir anda deyil, gündəlik seçimlərlə formalaşır.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>⚖️ Laboratoriya: öz qızıl ortanızı tapın</h3>
+    <p class="fb">Hər fəzilət üçün sürüşkəni öz adi davranışınıza uyğun yerə çəkin.</p>
+    <div id="meanBox"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="aristotle"></div></div>
+</section>
+
+<!-- ============ II HİSSƏ: ŞƏRQ VƏ BİLİK ============ -->
+<section class="lesson" data-title="Şərq və Azərbaycan mütəfəkkirləri" data-ill="crescent">
+  <div class="card">
+    <h2>5. Şərq və Azərbaycan mütəfəkkirləri</h2>
+    <p class="lead">Avropa orta əsrlərdə antik fəlsəfəni böyük ölçüdə unutmuşdu. Bu dövrdə yunan fəlsəfəsini Şərq alimləri tərcümə etdi, şərh etdi və inkişaf etdirdi. Aristotel Avropaya yenidən ərəbcə şərhlər vasitəsilə qayıtdı.</p>
+    <h3>Zaman xətti: nöqtələrə klikləyin</h3>
+    <div class="tl" id="tl"></div>
+    <div class="tl-card" id="tlCard"></div>
+    <div class="ex"><span class="tag">📌 Düşüncə təcrübəsi: İbn Sinanın “uçan adamı”</span>
+      <p>Təsəvvür edin ki, bir insan havada, tam qaranlıqda yaradılıb. Gözləri bağlıdır, əl-ayağı bir-birinə toxunmur, heç nə eşitmir, bədənini hiss etmir. İbn Sina soruşur: o, öz mövcudluğunu bilərmi? Cavabı belədir: <b>bəli</b>. Heç bir hiss olmasa da, insan “mən varam” deyə bilər. Deməli, “mən” (nəfs) bədəndən fərqli bir şeydir.</p>
+      <p>Bu ideya altı əsr sonra Dekartın məşhur “Düşünürəm, deməli varam” fikrinə çox bənzəyir. Bunu növbəti dərsdə görəcəyik.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Tətbiq: Tusinin “Əxlaqi-Nasiri”si bu gün</span>
+      <p>Tusi əxlaqı üç səviyyəyə bölürdü: <b>şəxsi</b> (özünü tərbiyə), <b>ailə</b> (ev idarəsi, uşaq tərbiyəsi) və <b>cəmiyyət</b> (şəhər və dövlət). Bu gün də yaxşı yaşamağın üç dairəsi eynidir: özünüz, yaxınlarınız və cəmiyyət. Biri digərsiz tam olmur.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="east"></div></div>
+</section>
+
+<section class="lesson" data-title="Bilik nədir?" data-ill="eye">
+  <div class="card">
+    <h2>6. Bilik nədir? Dekart, empiristlər və Kant</h2>
+    <figure class="pic"><img src="courses/felsefe/img/dekart.jpg" alt="Rene Dekartın portreti" data-credit="dekart" loading="lazy"><figcaption><b>Rene Dekart</b>1596–1650, Fransa. Riyaziyyatçı (koordinat sistemi onun adını daşıyır: “Dekart koordinatları”) və yeni dövr fəlsəfəsinin atası.</figcaption></figure>
+    <p>Dekart əmin olmaq istəyirdi: <b>şübhə etmək mümkün olmayan bir həqiqət varmı?</b> Bunun üçün o, şübhə doğura bilən hər şeyi kənara qoydu: hissləri (onlar aldada bilər), yuxuları (yuxuda olduğumu necə bilim?), hətta riyaziyyatı (bəlkə məni aldadan “şər cin” var?). Sonda yalnız bir şey qaldı: <b>şübhə edən mən özüm</b>. <i>Cogito, ergo sum</i>: “Düşünürəm, deməli varam.”</p>
+  </div>
+  <div class="card">
+    <h3>🌀 Dekartın şübhə oyunu</h3>
+    <p class="fb">Hər inanc üçün “Şübhə et” düyməsini basın. Görək, sonda nə qalır.</p>
+    <div class="doubt" id="doubtBox"></div>
+  </div>
+  <div class="card">
+    <h3>İki məktəb: rasionalizm və empirizm</h3>
+    <div class="grid2">
+      <figure class="pic wide" style="margin:0"><img src="courses/felsefe/img/lokk.jpg" alt="Con Lokk" data-credit="lokk" loading="lazy"><figcaption><b>Con Lokk</b> (1632–1704): “Ağıl doğuşda <i>tabula rasa</i>, yəni boş lövhədir. Bütün biliklər təcrübədən gəlir.”</figcaption></figure>
+      <figure class="pic wide" style="margin:0"><img src="courses/felsefe/img/yum.jpg" alt="Devid Yum" data-credit="yum" loading="lazy"><figcaption><b>Devid Yum</b> (1711–1776): “Günəşin sabah doğacağını məntiqlə isbat edə bilmərik. Biz sadəcə buna öyrəşmişik.” (induksiya problemi)</figcaption></figure>
+    </div>
+    <ul>
+      <li><b>Rasionalistlər</b> (Dekart, Spinoza, Leybnis): əsas biliklər ağıldan gəlir (riyaziyyat, məntiq).</li>
+      <li><b>Empiristlər</b> (Lokk, Berkli, Yum): bilik təcrübədən, hisslərdən gəlir.</li>
+      <li><b>Kant</b> (1724–1804) bu iki məktəbi birləşdirdi: “Məzmunsuz düşüncə boşdur, anlayışsız seyr kordur.” Təcrübə materialı verir, ağıl isə onu məkan, zaman və səbəbiyyət kimi formalara salır.</li>
+    </ul>
+    <div class="ex warn"><span class="tag">⚠️ Gettier problemi: dayanmış saat</span>
+      <p>Klassik tərifə görə bilik <b>əsaslandırılmış doğru inanc</b>dır. 1963-cü ildə Edmund Gettier bunu sual altına aldı. Ən sadə nümunəni hələ ondan əvvəl Bertran Rassel vermişdi: siz həmişə dəqiq işləyən saata baxırsınız, saat 15:00-ı göstərir və həqiqətən də saat 15:00-dır. Amma saat dünən məhz 15:00-da dayanıb. İnancınız doğrudur və əsaslıdır (saat həmişə düz işləyirdi), amma bunu <b>bilirdinizmi</b>? Çoxları “yox, sadəcə şanslı idiniz” deyir. Deməli, bilik üçün “əsaslı + doğru” hələ kifayət etmir.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Tətbiq: Yum və xəbərlər</span>
+      <p>“Bu şirkətin səhmləri 5 ildir artır, deməli artmağa davam edəcək.” Yum deyərdi: keçmiş müşahidələr gələcəyə zəmanət vermir. Bu, Məntiq kursundakı xaos və ehtimal dərsləri ilə birbaşa bağlıdır.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="knowledge"></div></div>
+</section>
+
+<section class="lesson" data-title="Ağıl, kimlik və süni intellekt" data-ill="brain">
+  <div class="card">
+    <h2>7. Ağıl, kimlik və süni intellekt</h2>
+    <h3>Teseyin gəmisi: “mən” nədir?</h3>
+    <p>Qədim yunan rəvayəti: qəhrəman Teseyin gəmisini afinalılar illərlə saxlayırlar. Çürüyən taxtaları bir-bir yenisi ilə əvəz edirlər. Bir gün gəminin bütün taxtaları dəyişdirilmiş olur. <b>Bu, hələ də Teseyin gəmisidirmi?</b></p>
+  </div>
+  <div class="card">
+    <h3>⛵ Laboratoriya: taxtaları dəyişin</h3>
+    <div class="row"><label style="min-width:200px">Dəyişdirilmiş taxta: <b id="shipN">0</b> / 100</label><input type="range" id="shipIn" min="0" max="100" value="0" style="flex:1"></div>
+    <svg class="scene" viewBox="0 0 640 200" id="shipSvg" aria-label="Gəmi"></svg>
+    <div id="shipQ"></div>
+  </div>
+  <div class="card">
+    <div class="ex"><span class="tag">📌 Real nümunə: sizin bədəniniz</span>
+      <p>Bədənimizin hüceyrələri daim yenilənir. Dəri hüceyrələri bir neçə həftəyə dəyişir, sümük toxuması isə illər ərzində yenilənir. 10 il əvvəlki sizdən bədəninizdə çox az şey qalıb. Bəs siz yenə də eyni insansınızmı? Əksər filosoflar deyir ki, kimliyi maddə deyil, <b>davamlılıq</b> yaradır: yaddaş, xarakter, həyat hekayəsi.</p>
+    </div>
+    <h3>Ağıl-bədən problemi</h3>
+    <p>Dekart ruhu və bədəni iki ayrı substansiya sayırdı (dualizm). Bəs onda düşüncə necə olur ki, bədəni hərəkətə gətirir? Müasir elmdə əksər alimlər <b>fizikalizmə</b> meyl edir: şüur beynin fəaliyyətidir. Amma “qırmızını görmək necə bir hissdir?” sualı, yəni qavrayışın daxili, subyektiv tərəfi hələ də izah olunmayıb. Bu, şüurun “çətin problemi” adlanır.</p>
+    <h3>Çin otağı: süni intellekt düşünürmü?</h3>
+    <svg class="scene" viewBox="0 0 640 170" role="img" aria-label="Çin otağı">
+      <g font-family="Noto Sans, sans-serif" font-size="13" fill="var(--ink)">
+        <rect x="200" y="20" width="240" height="130" rx="12" fill="var(--panel)" stroke="var(--accent)" stroke-width="3"/>
+        <text x="320" y="44" text-anchor="middle" font-weight="700">Otaq</text>
+        <circle cx="290" cy="90" r="16" fill="var(--accent)"/><rect x="276" y="106" width="28" height="34" rx="8" fill="var(--accent)"/>
+        <rect x="320" y="80" width="80" height="54" rx="6" fill="var(--ex-amber)" stroke="var(--ex-amber-b)"/><text x="360" y="104" text-anchor="middle" font-size="11">qaydalar</text><text x="360" y="120" text-anchor="middle" font-size="11">kitabı</text>
+        <rect x="30" y="64" width="110" height="44" rx="8" fill="var(--ex-blue)" stroke="var(--ex-blue-b)"/><text x="85" y="84" text-anchor="middle">你好吗?</text><text x="85" y="100" text-anchor="middle" font-size="11">sual girir</text>
+        <rect x="500" y="64" width="110" height="44" rx="8" fill="var(--ex-green)" stroke="var(--ex-green-b)"/><text x="555" y="84" text-anchor="middle">我很好</text><text x="555" y="100" text-anchor="middle" font-size="11">cavab çıxır</text>
+        <path d="M140 86h56M444 86h52" stroke="var(--muted)" stroke-width="3"/><path d="M188 80l8 6-8 6M488 80l8 6-8 6" stroke="var(--muted)" stroke-width="3" fill="none"/>
+      </g>
+    </svg>
+    <p>Filosof Con Sörl (1980): otaqda çincə bilməyən bir adam oturub. Ona çincə suallar verilir. O, qalın qaydalar kitabından istifadə edərək (“bu simvollar gəlsə, bu simvolları qaytar”) mükəmməl cavablar verir. Kənardan elə görünür ki, o, çincə bilir. Amma o, heç nə <b>anlamır</b>. Sörl deyir: kompüter də belədir, simvolları qaydalarla emal edir, amma anlamır.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: söhbət botları</span>
+      <p>Bu gün süni intellekt modelləri çox təbii danışır. Sual belədir: onlar Çin otağındakı adam kimidirlər, yoxsa həqiqətən anlayırlar? Filosoflar arasında konsensus yoxdur. Bəziləri deyir ki, “anlama” sistemin bütöv davranışıdır (sistem cavabı). Bu, bizim nəslin ən vacib fəlsəfi suallarından biridir.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="mind"></div></div>
+</section>
+
+<!-- ============ III HİSSƏ: NECƏ YAŞAMALI? ============ -->
+<section class="lesson" data-title="Etika: düzgün olan nədir?" data-ill="trolley">
+  <div class="card">
+    <h2>8. Etika: düzgün olan nədir?</h2>
+    <p class="lead">Nəyin düzgün olduğunu necə müəyyən edirik? Üç böyük nəzəriyyə var.</p>
+    <div class="grid2">
+      <figure class="pic wide" style="margin:0"><img src="courses/felsefe/img/mill.jpg" alt="Con Stüart Mill" data-credit="mill" loading="lazy"><figcaption><b>Utilitarizm</b>: Bentam və Mill. Düzgün hərəkət <b>ən çox insan üçün ən çox xoşbəxtlik</b> gətirəndir. Nəticələrə baxılır.</figcaption></figure>
+      <figure class="pic wide" style="margin:0"><img src="courses/felsefe/img/kant.jpg" alt="İmmanuel Kant" data-credit="kant" loading="lazy"><figcaption><b>Deontologiya</b>: Kant. Bəzi hərəkətlər nəticəsindən asılı olmayaraq <b>borcdur və ya qadağandır</b>. İnsana heç vaxt yalnız vasitə kimi baxmaq olmaz.</figcaption></figure>
+    </div>
+    <p><b>Fəzilət etikası</b> (Aristotel) isə başqa sual verir: “Nə etməliyəm?” yox, <b>“Necə insan olmalıyam?”</b> Yaxşı insan nə edərdisə, o düzgündür.</p>
+    <div class="note"><b>Kantın kateqorik imperativi:</b> “Elə hərəkət et ki, sənin hərəkətinin qaydası hamı üçün ümumi qanuna çevrilə bilsin.” Yoxlama sualı: <i>hamı belə etsə nə olar?</i> Hamı borcunu qaytarmayacağına söz versə, “söz vermək” anlayışı yox olar. Deməli, yalan vəd vermək qadağandır.</p>
+    <h3>Trolleybus dilemması</h3>
+    <svg class="scene" viewBox="0 0 640 200" role="img" aria-label="Trolleybus dilemması">
+      <g font-family="Noto Sans, sans-serif" font-size="13" fill="var(--ink)">
+        <path d="M20 120H300L620 50M300 120L620 170" stroke="var(--muted)" stroke-width="6" fill="none"/>
+        <rect x="60" y="92" width="80" height="40" rx="8" fill="var(--ex-red-b)"/><circle cx="80" cy="136" r="8" fill="var(--ink)"/><circle cx="120" cy="136" r="8" fill="var(--ink)"/><text x="100" y="86" text-anchor="middle">idarəsiz vaqon</text>
+        <rect x="270" y="130" width="12" height="40" fill="var(--accent)"/><circle cx="276" cy="126" r="9" fill="var(--accent)"/><text x="250" y="190">qol: siz</text>
+        <g fill="var(--ex-blue-b)"><circle cx="520" cy="62" r="9"/><circle cx="545" cy="58" r="9"/><circle cx="570" cy="52" r="9"/><circle cx="595" cy="47" r="9"/><circle cx="610" cy="66" r="9"/></g><text x="520" y="34">5 nəfər</text>
+        <circle cx="560" cy="152" r="9" fill="var(--ex-amber-b)"/><text x="575" y="190">1 nəfər</text>
+      </g>
+    </svg>
+    <p>Vaqon 5 nəfərə doğru gedir. Qolu çəksəniz, vaqon digər yola keçəcək və orada 1 nəfər öləcək. Araşdırmalarda insanların böyük əksəriyyəti qolu çəkəcəyini deyir. Amma ssenarini belə dəyişəndə: “5 nəfəri xilas etmək üçün körpüdən bir nəfəri vaqonun qarşısına itələmək lazımdır” (nəticə eynidir: 1 ölür, 5 sağ qalır), əksəriyyət bunu etməyəcəyini deyir. Niyə? Burada Kantın intuisiyası işə düşür: insanı birbaşa vasitə kimi istifadə etmək başqa şeydir.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: sürücüsüz avtomobillər</span>
+      <p>Trolleybus dilemması artıq nəzəri sual deyil. Sürücüsüz avtomobilin proqramçısı əvvəlcədən qərar verməlidir: qaçılmaz qəzada maşın sərnişini qorusun, yoxsa piyadaları? MIT-in “Moral Machine” layihəsi bu suala dünyanın müxtəlif ölkələrindən milyonlarla insanın cavabını topladı. Cavablar mədəniyyətlərə görə fərqli çıxdı.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧭 Sizin etik kompasınız</h3>
+    <p class="fb">6 dilemma. Hər birində sizə ən yaxın cavabı seçin. Burada düzgün və ya səhv cavab yoxdur.</p>
+    <div id="ethBox"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="ethics"></div></div>
+</section>
+
+<section class="lesson" data-title="Ekzistensializm: həyatın mənası" data-ill="boulder">
+  <div class="card">
+    <h2>9. Ekzistensializm: həyatın mənası</h2>
+    <figure class="pic"><img src="courses/felsefe/img/kyerkeqor.jpg" alt="Syoren Kyerkeqor" data-credit="kyerkeqor" loading="lazy"><figcaption><b>Syoren Kyerkeqor</b>1813–1855, Danimarka. Ekzistensializmin sələfi. “Narahatlıq azadlığın başgicəllənməsidir.” Seçim qarşısında narahat olmağımızın səbəbi seçimin azad olmasıdır.</figcaption></figure>
+    <p>XX əsrdə Jan-Pol Sartr ekzistensializmin əsas fikrini belə ifadə etdi: <b>“Varlıq mahiyyətdən öndə gəlir.”</b> Bıçaq bir məqsəd üçün düzəldilir: mahiyyəti (kəsmək) əvvəlcədən var. İnsan isə əvvəlcə mövcud olur, sonra seçimləri ilə özünü yaradır. Hazır “mahiyyət” yoxdur, siz nə edirsinizsə, osunuz.</p>
+    <ul>
+      <li><b>Azadlıq və məsuliyyət:</b> “İnsan azad olmağa məhkumdur.” Seçməmək də bir seçimdir.</li>
+      <li><b>Pis niyyət</b> (mauvaise foi): öz azadlığını inkar etmək. “Başqa yolum yox idi”, “mən belə doğulmuşam”, “hamı belə edir”.</li>
+      <li><b>Autentiklik:</b> başqalarının gözləntilərinə görə deyil, öz dəyərlərinizə əsasən yaşamaq.</li>
+    </ul>
+    <figure class="pic"><img src="courses/felsefe/img/sizif.jpg" alt="Titsianın Sizif tablosu" data-credit="sizif" loading="lazy"><figcaption><b>Sizif</b>Titsian, 1548–1549. Yunan mifində tanrılar Sizifi daşı dağa qaldırmağa məhkum edir. Daş hər dəfə zirvədən geri yuvarlanır, o isə əbədi olaraq yenidən başlayır.</figcaption></figure>
+    <p>Alber Kamyu bu miflə “absurd” anlayışını izah edir: biz həyatda məna axtarırıq, kainat isə susur. Bəs nə etməli? Kamyunun cavabı belədir: <b>üsyan etmək, yəni yaşamağa davam edib mənanı özün yaratmaq</b>. “Sizifi xoşbəxt təsəvvür etmək lazımdır.”</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: karyera seçimi</span>
+      <p>Ailəniz həkim olmağınızı istəyir, siz isə dizaynı sevirsiniz. “Valideynlərim məcbur etdi” demək ekzistensialistə görə pis niyyətdir. Siz razılaşmağı da seçə bilərsiniz, amma bunun <b>sizin seçiminiz</b> olduğunu qəbul edin. Bu, sizə qərarınıza sahib çıxmaq gücü verir.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Tətbiq: “Sizif” işinizi yenidən düşünün</span>
+      <p>Hər gün təkrarlanan işlər (qab yumaq, yol, hesabatlar) Sizifin daşına bənzəyir. Kamyuya görə məna işin özündə deyil, ona necə yanaşdığınızdadır. Uşağına yemək bişirən ana ilə məcburən bişirən aşpazın işi eynidir, amma onların həyatı fərqlidir.</p>
+    </div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq: pis niyyəti tapın</h3><div class="quiz" data-quiz="exist"></div></div>
+</section>
+
+<section class="lesson" data-title="Ədalətli cəmiyyət" data-ill="crown">
+  <div class="card">
+    <h2>10. Ədalətli cəmiyyət: Hobbs, Lokk, Russo, Roulz</h2>
+    <figure class="pic"><img src="courses/felsefe/img/leviafan.jpg" alt="Hobbsun Leviafan kitabının üz qabığı" data-credit="leviafan" loading="lazy"><figcaption><b>“Leviafan”</b> (1651), Tomas Hobbs. Üz qabığında nəhəng hökmdarın bədəni minlərlə kiçik insandan ibarətdir: dövlətin gücü vətəndaşların razılığından gəlir.</figcaption></figure>
+    <p><b>İctimai müqavilə</b> ideyası belədir: dövlət təbii deyil, insanların razılaşması ilə yaranır. Amma nə üçün?</p>
+    <ul>
+      <li><b>Tomas Hobbs</b> (1588–1679): dövlətsiz “təbii vəziyyət” hamının hamıya qarşı müharibəsidir, həyat isə “tənha, kasıb, çirkin, vəhşi və qısa” olur. İnsanlar təhlükəsizlik üçün azadlıqlarının bir hissəsini güclü hökmdara verirlər.</li>
+      <li><b>Con Lokk</b> (1632–1704): insanın <b>təbii hüquqları</b> var: həyat, azadlıq, mülkiyyət. Dövlət bu hüquqları qorumaq üçün yaranır. Hüquqları pozan hakimiyyəti dəyişmək olar. Bu ideyalar ABŞ-ın İstiqlal Bəyannaməsinə təsir edib.</li>
+      <li><b>Jan-Jak Russo</b> (1712–1778): “İnsan azad doğulur, amma hər yerdə zəncirdədir.” Qanunlar <b>ümumi iradəni</b> ifadə etməlidir.</li>
+    </ul>
+    <figure class="pic"><img src="courses/felsefe/img/russo.jpg" alt="Jan-Jak Russo" data-credit="russo" loading="lazy"><figcaption><b>Jan-Jak Russo</b>“İctimai müqavilə” (1762). Onun ideyaları Fransa inqilabına ilham verib.</figcaption></figure>
+    <h3>Con Roulz və “cəhalət pərdəsi”</h3>
+    <p>Amerikalı filosof Roulz (1971) belə bir düşüncə təcrübəsi təklif etdi: təsəvvür edin ki, cəmiyyətin qaydalarını <b>cəhalət pərdəsi</b> arxasında seçirsiniz. Varlı, yoxsa kasıb, sağlam, yoxsa xəstə, hansı ailədə doğulacağınızı bilmirsiniz. Belə şəraitdə hansı cəmiyyəti seçərdiniz? Roulz deyir ki, ağıllı insan ən pis vəziyyətdə olanların həyatını mümkün qədər yaxşılaşdıran cəmiyyəti seçər.</p>
+  </div>
+  <div class="card">
+    <h3>🎲 Oyun: cəhalət pərdəsi</h3>
+    <p class="fb">Üç cəmiyyətdən birini seçin. Sonra pərdə qalxacaq və sizə təsadüfi bir həyat düşəcək. Rəqəmlər hər cəmiyyətdə 5 qrupun aylıq gəliridir (₼).</p>
+    <div id="veilBox"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="politics"></div></div>
+</section>
+
+<section class="lesson" data-title="Stoisizm: gündəlik həyat üçün fəlsəfə" data-ill="anchor">
+  <div class="card">
+    <h2>11. Stoisizm: gündəlik həyat üçün fəlsəfə</h2>
+    <figure class="pic"><img src="courses/felsefe/img/mark-avreli.jpg" alt="Mark Avreli" data-credit="mark-avreli" loading="lazy"><figcaption><b>Mark Avreli</b>121–180, Roma imperatoru. Yürüşlər zamanı özü üçün qeydlər yazırdı. Bu qeydlər sonradan “Özümə düşüncələr” adı ilə nəşr olunub. Dünyanın ən güclü adamı hər axşam özünü təvazökarlığa çağırırdı.</figcaption></figure>
+    <p>Stoisizm e.ə. III əsrdə Afinada Zenon tərəfindən yaradılıb. Romada qul olmuş Epiktet və imperator Mark Avreli onu inkişaf etdirib. Bu fəlsəfə bu gün yenidən çox populyardır, çünki praktikdir.</p>
+    <h3>Nəzarət dixotomiyası</h3>
+    <p>Epiktet: <b>“Bəzi şeylər bizdən asılıdır, bəziləri isə yox.”</b> Bizdən asılı olanlar: fikirlərimiz, qərarlarımız, səyimiz, davranışımız. Asılı olmayanlar: başqalarının fikri, hava, iqtisadiyyat, keçmiş, bədənimizin bəzi halları. Narahatlığın böyük hissəsi ikinci qrupu idarə etməyə çalışmaqdan yaranır.</p>
+    <div class="ex"><span class="tag">📌 Real nümunə: iş müsahibəsi</span>
+      <p>Siz müsahibənin nəticəsinə nəzarət etmirsiniz: başqa namizədlər, müsahibin əhvalı, büdcə. Amma hazırlığınıza, vaxtında gəlməyinizə və dürüst cavablarınıza tam nəzarət edirsiniz. Stoik məqsəd belədir: “Mən əlimdən gələni etdim.” Nəticə isə xarici hadisədir. Bu yanaşma narahatlığı azaldır, hazırlığı isə artırır.</p>
+    </div>
+    <div class="ex"><span class="tag">📌 Tətbiq: stoik axşam sualları</span>
+      <p>Seneka hər axşam özündən soruşurdu: 1) Bu gün hansı pis vərdişimə qalib gəldim? 2) Harada səhv etdim? 3) Sabah nəyi daha yaxşı edə bilərəm? Bu sualları Akademiyanın “Qeydlərim” bölməsində özünüz üçün yaza bilərsiniz.</p>
+    </div>
+    <div class="note"><b>Məntiq kursu ilə əlaqə:</b> “Premeditatio malorum” (bəlaları əvvəlcədən düşünmək) stoiklərin məşqidir. Onu Məntiq kursunun 12-ci dərsində “premortem” kimi tətbiq etmişdik.</div>
+  </div>
+  <div class="card">
+    <h3>🎯 Məşq: nəzarət dairəsi</h3>
+    <p class="fb">Hər maddəni “Məndən asılıdır” və ya “Məndən asılı deyil” qutusuna göndərin.</p>
+    <div id="ctlItem"></div>
+    <div class="ctl"><div class="bin in"><h4>✅ Məndən asılıdır</h4><div id="ctlIn"></div></div><div class="bin out"><h4>🌧️ Məndən asılı deyil</h4><div id="ctlOut"></div></div></div>
+    <div id="ctlMsg"></div>
+  </div>
+  <div class="card"><h3>✍️ Tapşırıq</h3><div class="quiz" data-quiz="stoic"></div></div>
+</section>
+
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
+  <div class="card">
+    <h2>12. Yekun imtahan</h2>
+    <p class="lead">Bütün kursdan 15 sual. Ən azı 12 düzgün cavab (80%) verəndə kurs tamamlanır 🎓</p>
+    <div class="quiz" data-quiz="final"></div>
+  </div>
+</section>

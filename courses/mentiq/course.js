@@ -507,6 +507,9 @@ function bayes(){
    • sağlam: ${Math.round(N-sick)}, onlardan test yalançı müsbət: <span class="F">${Math.round(fp)}</span><br>
    Müsbət nəticə alan ${Math.round(tp+fp)} nəfərdən yalnız ${Math.round(tp)} nəfəri həqiqətən xəstədir.</div>
    <div class="msg ${post<0.5?'bad':'ok'}" style="font-size:18px">P(xəstə | test +) = <b>${(post*100).toFixed(1)}%</b></div>
+   <p class="fb" style="margin-bottom:4px">Testi müsbət çıxan hər 100 nəfərdən:</p>
+   <div style="display:grid;grid-template-columns:repeat(20,1fr);gap:3px;max-width:420px">${Array.from({length:100},(_,k)=>`<i style="aspect-ratio:1;border-radius:50%;background:${k<Math.round(post*100)?'var(--ex-green-b)':'var(--ex-red-b)'}"></i>`).join('')}</div>
+   <p class="fb" style="margin-top:4px"><span style="color:var(--ex-green-b)">●</span> həqiqətən xəstə: ${Math.round(post*100)} &nbsp; <span style="color:var(--ex-red-b)">●</span> sağlam, amma test səhv müsbət çıxıb: ${100-Math.round(post*100)}</p>
    <p class="fb">Yayılmanı 1%-dən 20%-ə qaldır və nəticənin necə dəyişdiyinə bax. Həkimlər buna görə ikinci, müstəqil test təyin edirlər.</p>`;
 }
 const byPin=document.getElementById('byPin'), bySin=document.getElementById('bySin'), byFin=document.getElementById('byFin'), byP=document.getElementById('byP'), byS=document.getElementById('byS'), byF=document.getElementById('byF'), byOut=document.getElementById('byOut');

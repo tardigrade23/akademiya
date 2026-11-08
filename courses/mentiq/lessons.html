@@ -1,9 +1,10 @@
 <!-- 1 -->
-<section class="lesson" data-title="Mülahizə nədir?">
+<section class="lesson" data-title="Mülahizə nədir?" data-ill="bulb">
   <div class="card">
     <h2>1. Mülahizə nədir?</h2>
     <p class="lead">Məntiq düzgün düşünmənin qaydalarını öyrənən elmdir. Onun “atomu” mülahizədir.</p>
     <div class="note"><b>Bir az tarix.</b> Orta əsrlərdə təhsil <i>trivium</i> ilə başlayırdı. Bu, üç əsas elmdən ibarət idi: <b>qrammatika</b> (mətni anlamaq), <b>ritorika</b> (inandırmaq) və <b>məntiq</b> (düzgün düşünmək). Digər elmlərə yalnız bundan sonra keçirdilər, çünki məntiq hər bir biliyin təməli sayılırdı. Bu kurs da eyni yolla gedir. <b>I hissədə</b> klassik məntiqin “qrammatikasını” öyrənəcəyik. <b>II hissədə</b> isə qeyri-müəyyənlik, mürəkkəb sistemlər və informasiya küyü şəraitində düşünmək üçün müasir alətlərə keçəcəyik.</div>
+    <figure class="pic wide"><img src="courses/felsefe/img/afina-mektebi.jpg" alt="Rafaelin “Afina məktəbi” freskası" data-credit="felsefe/afina-mektebi" loading="lazy"><figcaption><b>“Afina məktəbi”</b>Rafael, 1509–1511. Antik dövrün filosofları bir yerdə: mərkəzdə Platon və məntiqin banisi Aristotel. Məntiq 2400 ildən çoxdur ki, düşüncənin əsas alətidir.</figcaption></figure>
     <p><b>Mülahizə</b> ya <span class="T">doğru (D)</span>, ya da <span class="F">yalan (Y)</span> olan nəqli cümlədir. Üçüncü hal yoxdur. Buna <i>üçüncünün istisnası qanunu</i> deyilir.</p>
     <ul>
       <li>“Bakı Azərbaycanın paytaxtıdır.” — mülahizədir (D)</li>
@@ -27,7 +28,7 @@
 </section>
 
 <!-- 2 -->
-<section class="lesson" data-title="Məntiqi bağlayıcılar">
+<section class="lesson" data-title="Məntiqi bağlayıcılar" data-ill="gates">
   <div class="card">
     <h2>2. Məntiqi bağlayıcılar</h2>
     <p class="lead">Sadə mülahizələri birləşdirib mürəkkəb mülahizələr qururuq.</p>
@@ -62,7 +63,7 @@
 </section>
 
 <!-- 3 -->
-<section class="lesson" data-title="Doğruluq cədvəlləri">
+<section class="lesson" data-title="Doğruluq cədvəlləri" data-ill="grid">
   <div class="card">
     <h2>3. Doğruluq cədvəlləri</h2>
     <p class="lead">Mürəkkəb mülahizənin bütün mümkün hallarda qiymətini göstərən cədvəl.</p>
@@ -101,7 +102,7 @@
 </section>
 
 <!-- 4 -->
-<section class="lesson" data-title="Qanunlar və ekvivalentlik">
+<section class="lesson" data-title="Qanunlar və ekvivalentlik" data-ill="scales">
   <div class="card">
     <h2>4. Tavtologiya, ziddiyyət və ekvivalentlik</h2>
     <ul>
@@ -147,7 +148,7 @@
 </section>
 
 <!-- 5 -->
-<section class="lesson" data-title="Nəticəçıxarma">
+<section class="lesson" data-title="Nəticəçıxarma" data-ill="arrows">
   <div class="card">
     <h2>5. Nəticəçıxarma qaydaları</h2>
     <p class="lead">Arqument əsaslardan (premisalardan) və nəticədən ibarətdir. Əsaslar doğru olduqda nəticə də <b>mütləq</b> doğrudursa, arqument <b>düzgündür</b> (valid).</p>
@@ -192,7 +193,7 @@
 </section>
 
 <!-- 6 -->
-<section class="lesson" data-title="Predikatlar və kvantorlar">
+<section class="lesson" data-title="Predikatlar və kvantorlar" data-ill="forall">
   <div class="card">
     <h2>6. Predikatlar və kvantorlar</h2>
     <p class="lead">“x tələbədir” özü-özlüyündə nə doğru, nə yalandır. Bu, <b>predikatdır</b>: P(x). x-in yerinə konkret obyekt qoyanda mülahizə alınır.</p>
@@ -230,7 +231,7 @@
 </section>
 
 <!-- 7 -->
-<section class="lesson" data-title="Aristotel sillogizmi">
+<section class="lesson" data-title="Aristotel sillogizmi" data-ill="venn">
   <div class="card">
     <h2>7. Aristotel sillogizmi</h2>
     <p class="lead">Klassik məntiqdə dörd növ hökm var:</p>
@@ -243,6 +244,19 @@
     </table></div>
     <p><b>Sillogizm</b> iki əsas və bir nəticədən ibarətdir:</p>
     <div class="note">Bütün insanlar ölümlüdür. (A)<br>Sokrat insandır.<br><b>Deməli, Sokrat ölümlüdür.</b></div>
+    <svg class="diagram" viewBox="0 0 640 230" role="img" aria-label="Sillogizmin Venn diaqramı">
+      <g font-family="Noto Sans, sans-serif" font-size="14">
+        <circle cx="320" cy="115" r="100" fill="var(--ex-blue)" stroke="var(--ex-blue-b)" stroke-width="3"/>
+        <circle cx="300" cy="125" r="55" fill="var(--ex-green)" stroke="var(--ex-green-b)" stroke-width="3"/>
+        <circle cx="300" cy="140" r="8" fill="var(--ex-red-b)"/>
+        <text x="320" y="38" text-anchor="middle" fill="var(--ink)" font-weight="700">ölümlülər</text>
+        <text x="300" y="112" text-anchor="middle" fill="var(--ink)" font-weight="700">insanlar</text>
+        <text x="300" y="166" text-anchor="middle" fill="var(--ink)">Sokrat</text>
+        <text x="470" y="80" fill="var(--muted)">1) Bütün insanlar ölümlüdür:</text><text x="470" y="98" fill="var(--muted)">yaşıl dairə mavinin içindədir</text>
+        <text x="470" y="140" fill="var(--muted)">2) Sokrat insandır:</text><text x="470" y="158" fill="var(--muted)">nöqtə yaşılın içindədir</text>
+        <text x="20" y="200" fill="var(--ink)" font-weight="700">⇒ Nöqtə mütləq mavi dairənin də içindədir.</text>
+      </g>
+    </svg>
     <h3>Yoxlama qaydaları</h3>
     <ul>
       <li>Orta termin (iki əsasda təkrarlanan və nəticədə olmayan termin) ən azı bir əsasda tam həcmdə (“bütün” və ya “heç bir” ilə) işlənməlidir.</li>
@@ -266,7 +280,7 @@
 </section>
 
 <!-- 8 -->
-<section class="lesson" data-title="Məntiq tapmacaları">
+<section class="lesson" data-title="Məntiq tapmacaları" data-ill="masks">
   <div class="card">
     <h2>8. Cəngavərlər və Yalançılar adası</h2>
     <p class="lead">Adada iki cür insan yaşayır: <b>cəngavərlər</b> həmişə doğru danışır, <b>yalançılar</b> həmişə yalan danışır.</p>
@@ -289,7 +303,7 @@
 
 <!-- ============ II HİSSƏ ============ -->
 <!-- 9 -->
-<section class="lesson" data-title="Dünya mənzərəsi və linza">
+<section class="lesson" data-title="Dünya mənzərəsi və linza" data-ill="lens">
   <div class="card">
     <h2>9. Dünya mənzərəsi: məntiq hansı “linza” ilə işləyir?</h2>
     <p class="lead">Çox məntiqli düşünüb yenə də səhv nəticəyə gəlmək olar. Çünki problem çox vaxt nəticə çıxarmaqda deyil, <b>əsaslardadır</b>.</p>
@@ -320,7 +334,7 @@
 </section>
 
 <!-- 10 -->
-<section class="lesson" data-title="Xaos nəzəriyyəsi">
+<section class="lesson" data-title="Xaos nəzəriyyəsi" data-ill="butterfly">
   <div class="card">
     <h2>10. Xaos nəzəriyyəsi: qeyri-müəyyənlik şəraitində düşünmək</h2>
     <p class="lead">Hər addımı ciddi qaydaya tabe olan sistem də uzunmüddətli perspektivdə proqnozlaşdırılmaz ola bilər.</p>
@@ -354,7 +368,7 @@
 </section>
 
 <!-- 11 -->
-<section class="lesson" data-title="Elmi metod">
+<section class="lesson" data-title="Elmi metod" data-ill="flask">
   <div class="card">
     <h2>11. Elmi metod və falsifikasiya</h2>
     <p class="lead">Elmi metod yalnız laboratoriyalar üçün deyil. Bu, gündəlik həyat üçün düşünmə protokoludur.</p>
@@ -400,7 +414,7 @@
 </section>
 
 <!-- 12 -->
-<section class="lesson" data-title="İnkar və inversiya">
+<section class="lesson" data-title="İnkar və inversiya" data-ill="mirror">
   <div class="card">
     <h2>12. İnkar və inversiya: mümkün olanda tərsinə çevir!</h2>
     <p class="lead">Bəzən aydınlığa çatmağın ən qısa yolu yeni şey əlavə etmək yox, artıq olanı çıxarmaqdır.</p>
@@ -439,7 +453,7 @@
 </section>
 
 <!-- 13 -->
-<section class="lesson" data-title="Entimem və gizli əsaslar">
+<section class="lesson" data-title="Entimem və gizli əsaslar" data-ill="speech">
   <div class="card">
     <h2>13. Sillogizm dünən və bu gün: entimem və gizli əsaslar</h2>
     <p class="lead">Aristotel sillogizmi demaqogiyaya və sofistikaya cavab olaraq yaratdı. Məqsəd arqumentin gücünü səsin gücündən ayırmaq idi.</p>
@@ -473,7 +487,7 @@
 </section>
 
 <!-- 14 -->
-<section class="lesson" data-title="Dekompozisiya">
+<section class="lesson" data-title="Dekompozisiya" data-ill="blocks">
   <div class="card">
     <h2>14. Dekompozisiya: tapşırıq siyahısı deyil, sistem</h2>
     <p class="lead">“Fili” hissələrə bölmək lazımdır. Amma onu tapşırıqlara deyil, <b>sistemlərə</b> böl və onların arasındakı əlaqələrə bax.</p>
@@ -505,7 +519,7 @@
 </section>
 
 <!-- 15 -->
-<section class="lesson" data-title="Gödel və Tarski">
+<section class="lesson" data-title="Gödel və Tarski" data-ill="loop">
   <div class="card">
     <h2>15. Gödel və Tarski teoremləri: biliyin sərhədləri</h2>
     <p class="lead">Təxminən yüz il əvvəl məntiq öz sərhədlərini kəşf etdi. Bundan sonra dünyaya baxış artıq əvvəlki kimi ola bilməzdi.</p>
@@ -537,7 +551,7 @@
 </section>
 
 <!-- 16 -->
-<section class="lesson" data-title="Sistem düşüncəsi">
+<section class="lesson" data-title="Sistem düşüncəsi" data-ill="cycle">
   <div class="card">
     <h2>16. Sistem düşüncəsi: bütöv mənzərəni görmək</h2>
     <p class="lead">Niyə yaxşı niyyətli qərarlar tez-tez yeni problemlər yaradır? Çünki biz hissələri görürük, onların arasındakı əlaqələri isə görmürük.</p>
@@ -547,6 +561,21 @@
       <li><b>Balanslaşdırıcı halqa (B):</b> sistem hədəfə qayıdır. Termostat, aclıq və yemək, bazarda qiymət və tələb.</li>
       <li><b>Gecikmə:</b> səbəb ilə nəticə arasındakı vaxt. Gecikmə balanslaşdırıcı halqanı <b>rəqsə</b> çevirir. Bunu aşağıdakı “duş” simulyatorunda özün görəcəksən.</li>
     </ul>
+    <svg class="diagram" viewBox="0 0 640 220" role="img" aria-label="Gücləndirici və balanslaşdırıcı halqalar">
+      <g font-family="Noto Sans, sans-serif" font-size="13" fill="var(--ink)">
+        <defs><marker id="arR" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ex-red-b)"/></marker><marker id="arB" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ex-blue-b)"/></marker></defs>
+        <rect x="20" y="70" width="110" height="40" rx="10" fill="var(--ex-red)" stroke="var(--ex-red-b)"/><text x="75" y="95" text-anchor="middle">Pul</text>
+        <rect x="190" y="70" width="110" height="40" rx="10" fill="var(--ex-red)" stroke="var(--ex-red-b)"/><text x="245" y="95" text-anchor="middle">Faiz</text>
+        <path d="M130 80Q160 40 190 80" fill="none" stroke="var(--ex-red-b)" stroke-width="3" marker-end="url(#arR)"/><path d="M190 100Q160 140 130 100" fill="none" stroke="var(--ex-red-b)" stroke-width="3" marker-end="url(#arR)"/>
+        <circle cx="160" cy="90" r="16" fill="var(--ex-red-b)"/><text x="160" y="95" text-anchor="middle" fill="#fff" font-weight="700">R</text>
+        <text x="160" y="170" text-anchor="middle" fill="var(--muted)">Gücləndirici: böyüdükcə daha tez böyüyür</text>
+        <rect x="340" y="70" width="120" height="40" rx="10" fill="var(--ex-blue)" stroke="var(--ex-blue-b)"/><text x="400" y="95" text-anchor="middle">Otaq istiliyi</text>
+        <rect x="510" y="70" width="110" height="40" rx="10" fill="var(--ex-blue)" stroke="var(--ex-blue-b)"/><text x="565" y="95" text-anchor="middle">Kondisioner</text>
+        <path d="M460 80Q485 40 510 80" fill="none" stroke="var(--ex-blue-b)" stroke-width="3" marker-end="url(#arB)"/><path d="M510 100Q485 140 460 100" fill="none" stroke="var(--ex-blue-b)" stroke-width="3" marker-end="url(#arB)"/>
+        <circle cx="485" cy="90" r="16" fill="var(--ex-blue-b)"/><text x="485" y="95" text-anchor="middle" fill="#fff" font-weight="700">B</text>
+        <text x="480" y="170" text-anchor="middle" fill="var(--muted)">Balanslaşdırıcı: sistemi hədəfə qaytarır</text>
+      </g>
+    </svg>
     <div class="note"><b>Aysberq modeli:</b> səthdə <i>hadisələr</i> görünür (“bu ay satış düşdü”). Altında <i>qanunauyğunluqlar</i> (“hər yay düşür”), daha dərində <i>strukturlar</i> (“yayda komandanın yarısı məzuniyyətdə olur”), ən dibində isə <i>zehni modellər</i> durur (“yayda heç kim alış-veriş etmir”). Ən böyük təsiri dərin qatlarda etmək olar.</div>
     <p><b>“Kobra effekti”</b>: rəvayətə görə, müstəmləkə Hindistanında hakimiyyət ölü kobralar üçün mükafat təyin edir. İnsanlar mükafat almaq üçün kobra yetişdirməyə başlayır. Proqram ləğv olunanda isə kobraları buraxırlar. Nəticədə kobra daha da çox olur. Gizli bir halqanı nəzərə almamaq bu cür nəticə verir.</p>
     <div class="ex"><span class="tag">📌 Real nümunə: satış planı</span>
@@ -572,7 +601,7 @@
 </section>
 
 <!-- 17 -->
-<section class="lesson" data-title="Ehtimal məntiqi">
+<section class="lesson" data-title="Ehtimal məntiqi" data-ill="dice">
   <div class="card">
     <h2>17. Ehtimal məntiqi: qərar bir mərcdir</h2>
     <p class="lead">Klassik məntiqdə mülahizə ya D, ya Y olur. Real həyatda isə çox vaxt deyə bilərik: “Bu, 70% ehtimalla doğrudur.”</p>
@@ -612,7 +641,7 @@
 </section>
 
 <!-- 18 -->
-<section class="lesson" data-title="Qeyri-səlis məntiq">
+<section class="lesson" data-title="Qeyri-səlis məntiq" data-ill="slider">
   <div class="card">
     <h2>18. Qeyri-səlis məntiq: açar deyil, sürüşkən</h2>
     <p class="lead">“Hava istidir.” 25°C-də bu doğrudurmu? 22°C-də? Klassik məntiq burada məcburən sərhəd çəkir. Qeyri-səlis məntiq isə (Lütfi Zadə, 1965) <b>doğruluq dərəcəsi</b> ilə işləyir: 0-dan 1-ə qədər istənilən qiymətlə.</p>
@@ -649,7 +678,7 @@
 </section>
 
 <!-- 19 -->
-<section class="lesson" data-title="Siqnal və küy">
+<section class="lesson" data-title="Siqnal və küy" data-ill="wave">
   <div class="card">
     <h2>19. Siqnal və küy</h2>
     <p class="lead">Xəbər axını bir okeandır. Məqsəd onu tamamilə izləmək deyil, <b>siqnal/küy nisbətini</b> (SNR) artırmaqdır.</p>
@@ -702,7 +731,7 @@
 </section>
 
 <!-- 20 -->
-<section class="lesson" data-title="Məntiq və Süni İntellekt">
+<section class="lesson" data-title="Məntiq və Süni İntellekt" data-ill="chip">
   <div class="card">
     <h2>20. Məntiq və Süni İntellekt</h2>
     <p class="lead">Süni intellekt mətn yazır, kod yaradır, məlumatı təhlil edir. Amma bu, daha az düşünmək lazım olduğu demək deyil. Sadəcə düşünmə funksiyalarını onunla <b>bölüşmək</b> mümkün olur.</p>
@@ -733,7 +762,7 @@
 </section>
 
 <!-- 21 -->
-<section class="lesson" data-title="Təkamül alqoritmləri">
+<section class="lesson" data-title="Təkamül alqoritmləri" data-ill="dna">
   <div class="card">
     <h2>21. Təkamül alqoritmləri: plan yox, idarə olunan təkamül</h2>
     <p class="lead">Xətti plan sabit mühitdə yaxşı işləyir. Mühit planından tez dəyişəndə isə ən intizamlılar deyil, ən <b>uyğunlaşa bilənlər</b> qalib gəlir.</p>
@@ -765,7 +794,7 @@
 </section>
 
 <!-- 22 -->
-<section class="lesson" data-title="Metaməntiq: alətlər qutusu">
+<section class="lesson" data-title="Metaməntiq: alətlər qutusu" data-ill="compass">
   <div class="card">
     <h2>22. Metaməntiq: hansı məsələyə hansı alət?</h2>
     <p class="lead">Akademik mənada <b>metaməntiq</b> məntiqi sistemlərin özünü öyrənir: onların ziddiyyətsizliyini, tamlığını, sərhədlərini (15-ci dərs). Bu kursda isə “meta-səviyyə” dedikdə bir sualı nəzərdə tuturuq: <b>bu məsələni hansı düşünmə üsulu ilə həll etmək lazımdır?</b></p>
@@ -810,7 +839,7 @@
 </section>
 
 <!-- 23 -->
-<section class="lesson" data-title="Yekun imtahan">
+<section class="lesson" data-title="Yekun imtahan" data-ill="trophy">
   <div class="card">
     <h2>23. Yekun imtahan</h2>
     <p class="lead">Hər iki hissədən 18 sual. 80% və daha çox düzgün cavab (15+) = kurs tamamlandı 🎓</p>

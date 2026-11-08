@@ -11,7 +11,10 @@
         "8": "II hissə · Müasir düşüncə",
         "22": "Yekun"
       },
-      "added": "2026-11-08"
+      "added": "2026-11-08",
+      "color": "#0e7a6e",
+      "color2": "#2d55b3",
+      "ill": "brain"
     },
     {
       "id": "claudecode",
@@ -25,6 +28,26 @@
         "7": "III hissə · Genişləndirmə",
         "11": "IV hissə · Praktika",
         "13": "Yekun"
+      },
+      "added": "2026-11-08",
+      "color": "#c8553a",
+      "color2": "#a8336f",
+      "ill": "terminal"
+    },
+    {
+      "id": "felsefe",
+      "title": "Fəlsəfə: böyük suallar",
+      "mark": "Φ",
+      "color": "#5b3fc2",
+      "color2": "#2a6fb5",
+      "ill": "column",
+      "description": "Sokratdan süni intellektə qədər: Platonun mağarası, Aristotelin qızıl ortası, Şərq və Azərbaycan mütəfəkkirləri, bilik, şüur, etika, həyatın mənası, ədalətli cəmiyyət və stoisizm. Portretlər və interaktiv düşüncə təcrübələri ilə.",
+      "lessons": 12,
+      "parts": {
+        "0": "I hissə · Qədim Yunanıstan",
+        "4": "II hissə · Şərq və bilik",
+        "7": "III hissə · Necə yaşamalı?",
+        "11": "Yekun"
       },
       "added": "2026-11-08"
     }

@@ -132,6 +132,27 @@
     clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600);
   }
 
+  // ---------- visuals ----------
+  const art = (name, cls) => `<svg class="art ${cls || ''}" viewBox="0 0 120 120" aria-hidden="true">${(window.ILL && (ILL[name] || ILL.books)) || ''}</svg>`;
+  const cvars = c => `--c:${c.color || '#0e6b62'};--c2:${c.color2 || '#2d55b3'}`;
+  function celebrate(big) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = document.createElement('div'); box.className = 'confetti';
+    const cols = ['#f0b44c', '#4fc3b2', '#ff8a7a', '#6ea8ff', '#a68bff', '#5bd08f'];
+    for (let i = 0; i < (big ? 90 : 40); i++) {
+      const e = document.createElement('i');
+      e.style.left = Math.random() * 100 + 'vw';
+      e.style.background = cols[i % cols.length];
+      e.style.setProperty('--dx', (Math.random() * 160 - 80) + 'px');
+      e.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+      e.style.animationDelay = Math.random() * 0.4 + 's';
+      e.style.animationDuration = 1.3 + Math.random() * 1.1 + 's';
+      box.appendChild(e);
+    }
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 3200);
+  }
+
   // ---------- home ----------
   function renderHome() {
     const h = new Date().getHours();
@@ -143,7 +164,7 @@
     const box = $('#continueBox');
     if (cont) {
       const p = prog[cont.id], started = !!p.updated;
-      box.innerHTML = `<div class="continue"><div class="mark">${esc(cont.mark || 'A')}</div>
+      box.innerHTML = `<div class="continue" style="${cvars(cont)}"><div class="mark">${art(cont.ill)}</div>
         <div><div class="label">${started ? 'Davam et' : 'Başla'}</div>
         <div class="what">${esc(cont.title)}</div>
         <div class="sub">${started ? `Dərs ${p.last + 1} · ${doneCount(cont.id)} / ${cont.lessons} tamamlanıb` : `${cont.lessons} dərs · ilk dərsdən başla`}</div></div>
@@ -154,21 +175,23 @@
     const all = catalog.reduce((s, c) => s + (c.lessons || 0), 0);
     const st = streak();
     $('#stats').innerHTML = [
-      [total + ' / ' + all, 'tamamlanmış dərs'],
-      [st, 'gün ardıcıl'],
-      [catalog.filter(c => doneCount(c.id) >= c.lessons).length + ' / ' + catalog.length, 'bitirilmiş kurs'],
-    ].map(([n, l]) => `<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+      [total + ' / ' + all, 'tamamlanmış dərs', '📘', 'blue'],
+      [st, 'gün ardıcıl', '🔥', 'amber'],
+      [catalog.filter(c => doneCount(c.id) >= c.lessons).length + ' / ' + catalog.length, 'bitirilmiş kurs', '🎓', 'green'],
+    ].map(([n, l, ic, col]) => `<div class="stat ${col}"><div class="ic">${ic}</div><div><div class="n">${n}</div><div class="l">${l}</div></div></div>`).join('');
+    $('#greetArt').innerHTML = art('books');
 
     $('#shelfCount').textContent = catalog.length + ' kurs';
     $('#shelf').innerHTML = catalog.map(c => {
       const pc = pctOf(c.id);
-      return `<a class="course-card" href="#${c.id}-${prog[c.id].last + 1}">
-        <div class="top"><div class="mark">${esc(c.mark || 'A')}</div><h3>${esc(c.title)}</h3></div>
+      return `<a class="course-card" href="#${c.id}-${prog[c.id].last + 1}" style="${cvars(c)}">
+        <div class="cover">${art(c.ill)}<span class="badge">${c.lessons} dərs</span></div>
+        <div class="body"><h3>${esc(c.title)}</h3>
         <p>${esc(c.description || '')}</p>
         <div class="meter"><i style="width:${pc}%"></i></div>
-        <div class="foot"><span>${doneCount(c.id)} / ${c.lessons} dərs</span><span>${pc}%</span></div></a>`;
-    }).join('') + `<div class="course-card add"><div class="top"><div class="mark">+</div><h3>Yeni kurs</h3></div>
-        <p>Claude ilə yeni sessiyada yaz: “Akademiyama … kursu əlavə et”. Kurs bu rəfdə görünəcək və irəliləyişin ayrıca saxlanılacaq.</p></div>`;
+        <div class="foot"><span>${doneCount(c.id)} / ${c.lessons} dərs</span><span>${pc === 100 ? '🎓 bitib' : pc + '%'}</span></div></div></a>`;
+    }).join('') + `<div class="course-card add"><div class="cover">${art('star')}</div><div class="body"><h3>Yeni kurs</h3>
+        <p>Claude ilə yeni sessiyada yaz: “Akademiyama … kursu əlavə et”. Kurs bu rəfdə görünəcək və irəliləyişin ayrıca saxlanılacaq.</p></div></div>`;
     renderAppBox();
   }
 
@@ -259,6 +282,7 @@
       host.innerHTML = await r.text();
       lessonEls = [...host.querySelectorAll('section.lesson')];
       lessonEls.forEach((s, i) => { s.dataset.idx = i; });
+      decorate(cid);
       mounted = cid;
       await loadScript(cid);
       registry[cid](makeApi(cid));
@@ -270,13 +294,61 @@
     }).finally(() => { mounting = null; });
   }
 
+  // Lesson headers become coloured, illustrated heroes; example blocks get a colour by kind;
+  // pictures get their licence credits and a graceful fallback when the file is missing.
+  function decorate(cid) {
+    const c = byId[cid], parts = c.parts || {}, host = $('#lessonHost');
+    let part = '';
+    lessonEls.forEach((s, i) => {
+      if (parts[i]) part = parts[i];
+      const card = s.querySelector('.card'), h2 = card && card.querySelector('h2');
+      if (!h2) return;
+      const hero = document.createElement('div'); hero.className = 'hero';
+      hero.innerHTML = `<div class="hero-txt"><div class="kicker"><span>Dərs ${i + 1} / ${lessonEls.length}</span>${part ? `<span>${esc(part)}</span>` : ''}</div>
+        <h2>${esc(h2.textContent.replace(/^\s*\d+\.\s*/, ''))}</h2></div>${art(s.dataset.ill || c.ill)}`;
+      h2.remove();
+      s.insertBefore(hero, s.firstChild);
+    });
+    host.querySelectorAll('.ex').forEach(ex => {
+      const t = ((ex.querySelector('.tag') || {}).textContent || '').toLowerCase();
+      if (ex.classList.contains('warn') || /⚠/.test(t)) ex.classList.add('warn');
+      else if (/addım|həll/.test(t)) ex.classList.add('step');
+      else if (/tətbiq|həyatda|praktik|məşq|siz bunu|gündəlik/.test(t)) ex.classList.add('life');
+      else if (/düşüncə təcrübəsi|tarix|rəvayət|hekayə/.test(t)) ex.classList.add('hist');
+    });
+    host.querySelectorAll('.quiz').forEach(q => { const card = q.closest('.card'); if (card) card.classList.add('quiz-card'); });
+    const imgs = [...host.querySelectorAll('figure.pic img')];
+    imgs.forEach(img => {
+      const fail = () => img.closest('figure').classList.add('noimg');
+      if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) fail(); else img.addEventListener('error', fail, { once: true });
+    });
+    const need = {};
+    host.querySelectorAll('img[data-credit]').forEach(img => {
+      const [course, key] = img.dataset.credit.includes('/') ? img.dataset.credit.split('/') : [cid, img.dataset.credit];
+      (need[course] = need[course] || []).push([img, key]);
+    });
+    Object.entries(need).forEach(([course, list]) => {
+      fetch(`courses/${course}/img/credits.json`).then(r => r.ok ? r.json() : {}).then(cr => {
+        list.forEach(([img, key]) => {
+          const k = cr[key], cap = img.closest('figure').querySelector('figcaption');
+          if (!k || !cap) return;
+          const a = document.createElement('a'); a.className = 'credit'; a.href = k.source; a.target = '_blank'; a.rel = 'noopener';
+          a.textContent = `Şəkil: ${k.artist || 'naməlum müəllif'} · ${k.license} · Wikimedia Commons`;
+          cap.appendChild(a);
+        });
+      }).catch(() => {});
+    });
+  }
+
   function makeApi(cid) {
     return {
       done(i) {
         if (prog[cid].done[i]) return;
         prog[cid].done[i] = true; touch(cid); renderSide();
         const t = lessonEls[i] && lessonEls[i].dataset.title;
-        toast('Tamamlandı: ' + (t || 'Dərs ' + (i + 1)));
+        const all = doneCount(cid) >= byId[cid].lessons;
+        toast(all ? '🎓 Kurs bitdi: ' + byId[cid].title : 'Tamamlandı: ' + (t || 'Dərs ' + (i + 1)));
+        celebrate(all);
       },
       get: k => prog[cid].extra[k],
       set(k, v) { prog[cid].extra[k] = v; touch(cid); },
@@ -405,6 +477,7 @@
     }
     $('#home').hidden = true; $('#courseView').hidden = false;
     curCid = r.cid;
+    $('#courseView').setAttribute('style', cvars(byId[r.cid]));
     await mount(r.cid);
     if (mounted !== r.cid || curCid !== r.cid) return;
     if (r.view === 'notes') showNotes();
