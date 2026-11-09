@@ -1,8 +1,8 @@
 # Şəxsi Akademiya
 
-Şəxsi LMS (öyrənmə platforması). Kurslar: `mentiq` (Məntiq, 23 dərs), `claudecode` (Claude Code, 14 dərs), `felsefe` (Fəlsəfə, 12 dərs), `reqemsal` (Rəqəmsal transformasiya, 13 dərs), `kvant` (Kvant hesablamaları, 13 dərs), `si` (Süni intellekt, 11), `agent` (Agentic AI, 10), `caio` (Chief AI Officer, 10), `kripto` (Kriptoqrafiya, 12), `kiber` (Praktiki kibertəhlükəsizlik, 11). Ortaq məşqlər: `api.sorter(id, cfg)` və `api.order(id, cfg)` (lms.js).
+Şəxsi LMS (öyrənmə platforması). Kurslar: `mentiq` (Məntiq, 23 dərs), `claudecode` (Claude Code, 14 dərs), `felsefe` (Fəlsəfə, 12 dərs), `reqemsal` (Rəqəmsal transformasiya, 13 dərs), `kvant` (Kvant hesablamaları, 13 dərs), `si` (Süni intellekt, 11), `agent` (Agentic AI, 10), `caio` (Chief AI Officer, 10), `kripto` (Kriptoqrafiya, 12), `kiber` (Praktiki kibertəhlükəsizlik, 11), `hikmet` (Hikmət, 11), `dinler` (Dinlər, miflər və insan, 15), `fantastika` (Elmi fantastika və elm, 14), `nefs` (Nəfs, iradə və vicdan, 15). Ortaq məşqlər: `api.sorter(id, cfg)` və `api.order(id, cfg)` (lms.js).
 
-Dizayn: hər kursun `catalog.json`-da `color`, `color2` (qradiyent) və `ill` (illustrations.js-dən ikon) sahələri var. Hər dərs `<section data-ill="...">` ilə öz illüstrasiyasını alır. `.ex` blokları teqinə görə rənglənir (⚠️ qırmızı, “Addım” sarı, “Tətbiq” yaşıl, “Düşüncə təcrübəsi” bənövşəyi). Şəkillər: `tools/images.json` + “Fetch course images” workflow-u (Wikimedia Commons), `<figure class="pic"><img data-credit="ad">` müəllif və lisenziyanı avtomatik göstərir. claude.ai-da şəxsi Artifact kimi dərc olunub:
+Dizayn: hər kursun `catalog.json`-da `color`, `color2` (qradiyent) və `ill` (illustrations.js-dən ikon) sahələri var. Hər dərs `<section data-ill="...">` ilə öz illüstrasiyasını alır. `.ex` blokları teqinə görə rənglənir (⚠️ qırmızı, “Addım” sarı, “Tətbiq” yaşıl, “Düşüncə təcrübəsi” bənövşəyi). Şəkillər: `tools/images.json` + “Fetch course images” workflow-u (Wikimedia Commons), `<figure class="pic"><img src="courses/<kurs>/img/ad.jpg">`; müəllif və lisenziya `credits.json`-da saxlanılır. Avtomatik axtarış (`search:`) bəzən uyğunsuz şəkil gətirir, ona görə yüklənən şəkillərə gözlə baxmaq lazımdır. claude.ai-da şəxsi Artifact kimi dərc olunub:
 https://claude.ai/artifact/HmmZdg8oyvjiBU14uva5Kk
 
 ## Quruluş
@@ -32,7 +32,8 @@ akademiya/
      // api.onUnmount(fn)          // taymerləri dayandırmaq üçün
    });
    ```
-4. `catalog.json`-a yaz: `id, title, mark (bir simvol), description, lessons (say), parts ({"0":"I hissə"}), added`.
+4. `catalog.json`-a yaz: `id, title, mark (bir simvol), color, color2, ill, description, lessons (say), parts ({"0":"I hissə"}), added`; istəsən `paths`-dakı bir yola əlavə et.
+   Sonra: `data/keys.json` (əsas fikirlər), `data/glossary.json` (terminlər, nümunə və `en`), `data/terms.json`, `data/xlinks.json`, `data/links.json`, `data/extras.json`, `lms.js`-də `COURSE_BADGES`, və `node tools/build_index.mjs`.
 5. Yenidən dərc et (eyni Artifact URL-i ilə), yeni faylları `files` xəritəsinə əlavə et.
 
 ## İrəliləyiş və məxfilik
@@ -52,11 +53,11 @@ akademiya/
 - **İngilis qarşılıqları**: `data/glossary.json`-da `en` sahəsi və `data/terms.json` (`{t, en, c}`) — dərsdə hər termin öz kursunda, ilk işləndiyi yerdə “(english)” ilə göstərilir (`annotateTerms` in `lms.js`).
 - Şəkillərin lisenziya məlumatı `courses/<kurs>/img/credits.json`-da saxlanılır, tətbiqdə göstərilmir.
 - **Əsas fikirlər**: hər dərsin sonunda 3–4 bənd (`data/keys.json`, kurs id → dərs indeksi → bəndlər; yekun imtahanda `null`). Konspektdə də göstərilir. Lüğətdə hər terminin nümunəsi `n` sahəsindədir.
-- **Kursu sıfırla** (yan paneldə): irəliləyiş həmişə, kartlar/qeydlər/vurğular/öz kartlar/layihə seçimlə silinir. `reset` və `resetNotes` vaxt nişanları `merge()`-də köhnə (bulud) nüsxələrin irəliləyişi geri gətirməsinə imkan vermir; fayldan bərpa isə təzə sayılır.
+- **Kursu sıfırla** (yan paneldə): irəliləyiş həmişə, səhvlər və statistika, Qeydlərim (vurğular) və layihə seçimlə silinir. `reset` və `resetNotes` vaxt nişanları `merge()`-də köhnə (bulud) nüsxələrin irəliləyişi geri gətirməsinə imkan vermir; fayldan bərpa isə təzə sayılır.
 - Telefonda dərslər arasında sola/sağa sürüşdürərək keçmək olur.
 - Əlavə oxu linkləri: Actions → “Check reading links” (`tools/check_links.py`).
 - Bu vəziyyət `localStorage`-da `akademiya:me` açarında saxlanılır və yedək faylına daxildir.
-- Kurs məzmunu dəyişəndə: `node tools/build_index.mjs` (kartları və axtarış indeksini yeniləyir).
+- Kurs məzmunu, lüğət və ya əlaqələr dəyişəndə: `node tools/build_index.mjs` (sual bankını, axtarış indeksini, xəritəni və `xmap.json`-u yeniləyir). Bunu unutmaq axtarışın köhnə mətn göstərməsinə səbəb olur.
 
 ## Dərc
 

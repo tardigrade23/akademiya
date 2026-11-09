@@ -958,5 +958,311 @@
   "l": 9,
   "n": "Fırıldaqçı sosial şəbəkə paylaşımlarınızdan ad günü, ev heyvanının adı və iş yerinizi tapıb “gizli sual” cavablarını təxmin edir.",
   "en": "open-source intelligence"
+ },
+ {
+  "t": "Danninq–Kruqer effekti",
+  "d": "Bir sahədə az bilən insanın öz bacarığını çox qiymətləndirməsi.",
+  "c": "hikmet",
+  "l": 0,
+  "n": "Şahmatı təzə öyrənən biri özünü yaxşı oyunçu sayır, ustalaşdıqca isə nə qədər bilmədiyini görür.",
+  "en": "Dunning–Kruger effect"
+ },
+ {
+  "t": "Yük kultu elmi",
+  "d": "Elmin xarici görünüşünü təqlid edən, amma onun yoxlama ruhunu daşımayan iş.",
+  "c": "hikmet",
+  "l": 0,
+  "n": "Qrafikləri və terminləri olan, amma nəticəsi heç vaxt müstəqil yoxlanmamış “araşdırma”.",
+  "en": "cargo cult science"
+ },
+ {
+  "t": "Ledi Lavleysin etirazı",
+  "d": "Maşının yalnız ona necə əmr edəcəyimizi bildiyimiz işi görə biləcəyi, özünün heç nə yaratmayacağı iddiası.",
+  "c": "hikmet",
+  "l": 3,
+  "n": "“Sİ yeni heç nə yaratmır, sadəcə öyrəndiyini təkrarlayır” fikri bu etirazın müasir formasıdır.",
+  "en": "Lovelace objection"
+ },
+ {
+  "t": "Aforizm",
+  "d": "Dərin fikri bir-iki cümlədə ifadə edən qısa hikmətli söz.",
+  "c": "hikmet",
+  "l": 4,
+  "n": "Hippokratın “Həyat qısadır, sənət uzun” sözü onun “Aforizmlər” kitabının ilk cümləsidir."
+ },
+ {
+  "t": "Qudhart qanunu",
+  "d": "Göstərici hədəfə çevriləndə yaxşı göstərici olmaqdan çıxır.",
+  "c": "hikmet",
+  "l": 6,
+  "n": "Operatorlar zəngin müddətinə görə qiymətləndiriləndə problemi həll etmədən dəstəyi tez qoymağa başlayırlar.",
+  "en": "Goodhart's law"
+ },
+ {
+  "t": "Yalançı paradoksu",
+  "d": "Özünün yalan olduğunu deyən cümlənin nə doğru, nə də yalan ola bilməməsi.",
+  "c": "hikmet",
+  "l": 8,
+  "n": "“Bu cümlə yalandır.” Doğrudursa, yalandır; yalandırsa, doğrudur.",
+  "en": "liar paradox"
+ },
+ {
+  "t": "Zenon paradoksları",
+  "d": "Hərəkətin mümkünsüz olduğunu “sübut edən” qədim yunan arqumentləri.",
+  "c": "hikmet",
+  "l": 8,
+  "n": "Axilles tısbağaya çata bilməz: onun olduğu yerə çatanda tısbağa bir az irəliləyir. Cavab sonsuz cəmin sonlu ola bilməsindədir.",
+  "en": "Zeno's paradoxes"
+ },
+ {
+  "t": "Yanlış aid edilmiş sitat",
+  "d": "Məşhur şəxsə aid edilən, amma onun əsərlərində olmayan söz.",
+  "c": "hikmet",
+  "l": 9,
+  "n": "“Dəlilik eyni şeyi təkrar edib fərqli nəticə gözləməkdir” Eynşteynə aid edilir, amma onun yazılarında yoxdur.",
+  "en": "misattributed quote"
+ },
+ {
+  "t": "Dinşünaslıq",
+  "d": "Dinləri doğruluq baxımından deyil, tarixi, sosial və psixoloji baxımdan öyrənən elm.",
+  "c": "dinler",
+  "l": 0,
+  "n": "Dinşünas Buddizmin doğru olub-olmadığını yox, Asiyada necə yayıldığını və insanların həyatına necə təsir etdiyini araşdırır.",
+  "en": "religious studies"
+ },
+ {
+  "t": "Mif",
+  "d": "Dünyanın, insanın və cəmiyyətin mənasını izah edən müqəddəs hekayə.",
+  "c": "dinler",
+  "l": 1,
+  "n": "Prometeyin odu oğurlaması insanın bilik və texnika əldə etməsinin mif dilində izahıdır."
+ },
+ {
+  "t": "Animizm",
+  "d": "Təbiətdəki varlıqların ruhu olduğuna inam.",
+  "c": "dinler",
+  "l": 2,
+  "n": "Dağa, çaya və ya ağaca ruhu olan varlıq kimi müraciət etmək, ondan icazə istəmək.",
+  "en": "animism"
+ },
+ {
+  "t": "Totemizm",
+  "d": "Qəbilənin özünü müəyyən heyvan və ya bitki ilə əlaqələndirməsi.",
+  "c": "dinler",
+  "l": 2,
+  "n": "Qəbilə özünü qurdun nəsli sayır və qurdu ovlamağı qadağan edir.",
+  "en": "totemism"
+ },
+ {
+  "t": "Təktanrılıq",
+  "d": "Yalnız bir Allaha inam.",
+  "c": "dinler",
+  "l": 3,
+  "n": "Yəhudilik, Xristianlıq və İslam təktanrılı dinlərdir; Exnatonun Aton islahatı erkən cəhdlərdəndir.",
+  "en": "monotheism"
+ },
+ {
+  "t": "Karma",
+  "d": "Əməllərin nəticəsinin insanın gələcəyinə, o cümlədən gələcək həyatlarına təsiri.",
+  "c": "dinler",
+  "l": 6,
+  "n": "Hindu ənənəsinə görə bu gün edilən yaxşılıq və ya pislik gec-tez insanın özünə qayıdır."
+ },
+ {
+  "t": "Nirvana",
+  "d": "Buddizmdə arzunun və iztirabın tam sönməsi.",
+  "c": "dinler",
+  "l": 7,
+  "n": "Yanacaq qurtaranda şamın alovu sönür; arzu sönəndə iztirab da sönür."
+ },
+ {
+  "t": "Qızıl qayda",
+  "d": "Başqasına özünə istəmədiyini etməmək prinsipi.",
+  "c": "dinler",
+  "l": 12,
+  "n": "Konfutsi, Hillel, Matta İncili, hədis, “Mahabharata” və buddist mətnlərdə demək olar ki, eyni sözlərlə keçir.",
+  "en": "golden rule"
+ },
+ {
+  "t": "Ontoloji arqument",
+  "d": "Allahın varlığını yalnız “ən mükəmməl varlıq” anlayışından çıxaran arqument.",
+  "c": "dinler",
+  "l": 13,
+  "n": "Anselm: ondan böyüyü düşünülə bilməyən varlıq reallıqda da olmalıdır. Kant: “varlıq” predikat deyil.",
+  "en": "ontological argument"
+ },
+ {
+  "t": "Aqnostisizm",
+  "d": "Allahın varlığının bilinə bilməyəcəyi mövqeyi.",
+  "c": "dinler",
+  "l": 13,
+  "n": "Tomas Haksli 1869-cu ildə bu sözü yaradanda deyirdi ki, bu suala cavab verə biləcək biliyimiz yoxdur.",
+  "en": "agnosticism"
+ },
+ {
+  "t": "Sekulyarlaşma",
+  "d": "Cəmiyyətdə dinin təsirinin azalması prosesi.",
+  "c": "dinler",
+  "l": 13,
+  "n": "Bəzi Avropa ölkələrində dindarlıq azalıb, amma dünya miqyasında dindarların payı demək olar ki, dəyişməyib.",
+  "en": "secularization"
+ },
+ {
+  "t": "Klarkın üçüncü qanunu",
+  "d": "Kifayət qədər inkişaf etmiş texnologiya sehrdən fərqlənmir.",
+  "c": "fantastika",
+  "l": 0,
+  "n": "Bir əsr əvvəlki insana səslə cavab verən telefon sehr kimi görünərdi.",
+  "en": "Clarke's third law"
+ },
+ {
+  "t": "Türinq testi",
+  "d": "Maşının danışığı ilə insandan seçilib-seçilmədiyini yoxlayan test.",
+  "c": "fantastika",
+  "l": 2,
+  "n": "Hakim ekran arxasındakı iki həmsöhbətdən hansının maşın olduğunu tapa bilmirsə, maşın testdən keçir.",
+  "en": "Turing test"
+ },
+ {
+  "t": "ELIZA effekti",
+  "d": "İnsanın maşına hiss və anlayış aid etməsi.",
+  "c": "fantastika",
+  "l": 3,
+  "n": "Sadə qaydalarla işləyən söhbət proqramı ilə danışan insan onun özünü “başa düşdüyünü” hiss edir.",
+  "en": "ELIZA effect"
+ },
+ {
+  "t": "Simulyasiya fərziyyəsi",
+  "d": "Yaşadığımız dünyanın kompüter simulyasiyası ola biləcəyi fikri.",
+  "c": "fantastika",
+  "l": 4,
+  "n": "Bostrom: inkişaf etmiş sivilizasiyalar çoxlu simulyasiya qurarsa, bizim onlardan birində olmağımız ehtimalı yüksəkdir.",
+  "en": "simulation hypothesis"
+ },
+ {
+  "t": "Arxa qapı",
+  "d": "Sistemə adi təhlükəsizlik yoxlamasından yan keçən gizli giriş yolu.",
+  "c": "fantastika",
+  "l": 5,
+  "n": "“WarGames”də sistemin yaradıcısı “Joshua” parolu ilə gizli giriş saxlayıb.",
+  "en": "backdoor"
+ },
+ {
+  "t": "Baza tezliyi",
+  "d": "Bir hadisənin ümumi əhali arasında nə qədər tez-tez baş verdiyi.",
+  "c": "fantastika",
+  "l": 7,
+  "n": "Xəstəlik 10 000 nəfərdən birində olarsa, 99% dəqiq testin müsbət nəticələrinin çoxu yanlış olacaq.",
+  "en": "base rate"
+ },
+ {
+  "t": "Kəpənək effekti",
+  "d": "Başlanğıcdakı çox kiçik fərqin zamanla böyük nəticəyə gətirməsi.",
+  "c": "fantastika",
+  "l": 8,
+  "n": "Lorens hava modelinə 0,506127 əvəzinə 0,506 yazdı və iki həftəlik proqnoz tamamilə dəyişdi.",
+  "en": "butterfly effect"
+ },
+ {
+  "t": "Ümumi nisbilik",
+  "d": "Eynşteynin cazibəni məkan-zamanın əyilməsi kimi izah edən nəzəriyyəsi.",
+  "c": "fantastika",
+  "l": 9,
+  "n": "GPS peyklərindəki saatlar Yerdəkindən tez işləyir və hər gün düzəldilir.",
+  "en": "general relativity"
+ },
+ {
+  "t": "Fermi paradoksu",
+  "d": "Kainat bu qədər böyükdürsə, başqa sivilizasiyaların izinin niyə görünmədiyi sualı.",
+  "c": "fantastika",
+  "l": 10,
+  "n": "1950-ci ildə Enriko Fermi nahar zamanı soruşub: “Bəs hamı haradadır?”",
+  "en": "Fermi paradox"
+ },
+ {
+  "t": "Sapir–Uorf fərziyyəsi",
+  "d": "Danışdığımız dilin düşüncəmizə təsir etdiyi fikri.",
+  "c": "fantastika",
+  "l": 11,
+  "n": "Açıq və tünd mavi üçün ayrı sözləri olan rus dilində danışanlar bu çalarları bir az daha sürətlə ayırır.",
+  "en": "Sapir–Whorf hypothesis"
+ },
+ {
+  "t": "Seçim korluğu",
+  "d": "İnsanın etmədiyi seçimi öz seçimi kimi qəbul edib onu inamla izah etməsi.",
+  "c": "nefs",
+  "l": 1,
+  "n": "Seçmədiyi foto ona verilən insan dəyişikliyi hiss etmir və “bu fotonu niyə seçdiyini” izah edir.",
+  "en": "choice blindness"
+ },
+ {
+  "t": "Akrasiya",
+  "d": "Yaxşını bildiyi halda pisi etmək, iradə zəifliyi.",
+  "c": "nefs",
+  "l": 4,
+  "n": "Sabah imtahan olduğunu bilə-bilə gecə yarıya qədər serial izləmək.",
+  "en": "akrasia"
+ },
+ {
+  "t": "Hiperbolik endirim",
+  "d": "Yaxın mükafatı uzaq mükafatdan qeyri-mütənasib dərəcədə üstün tutmaq.",
+  "c": "nefs",
+  "l": 4,
+  "n": "Bu gün 100 manatı bir həftə sonrakı 110 manatdan üstün tutub, bir il sonrakı eyni seçimdə isə gözləməyə razı olmaq.",
+  "en": "hyperbolic discounting"
+ },
+ {
+  "t": "Kompatibilizm",
+  "d": "Determinizmlə azad iradənin bir-birinə zidd olmadığı mövqeyi.",
+  "c": "nefs",
+  "l": 5,
+  "n": "Seçiminiz səbəblərlə izah olunsa da, öz dəyərlərinizə görə seçmisinizsə, azadsınız.",
+  "en": "compatibilism"
+ },
+ {
+  "t": "Daimonion",
+  "d": "Sokratın onu yanlış addımdan saxlayan daxili səsi.",
+  "c": "nefs",
+  "l": 6,
+  "n": "Səs Sokrata heç vaxt nə edəcəyini demirdi, yalnız nəyi etməyəcəyini deyirdi."
+ },
+ {
+  "t": "Şərin bayağılığı",
+  "d": "Böyük pisliyin canavarlardan deyil, düşünmədən əmrə əməl edən adi insanlardan doğa bilməsi.",
+  "c": "nefs",
+  "l": 6,
+  "n": "Hanna Arendt bu ifadəni Eyxmanın məhkəməsindən sonra işlədib.",
+  "en": "banality of evil"
+ },
+ {
+  "t": "WEIRD",
+  "d": "Psixologiya təcrübələrinin çoxunun Qərbli, təhsilli, sənayeləşmiş, varlı və demokratik cəmiyyətlərdən olan insanlar üzərində aparılması problemi.",
+  "c": "nefs",
+  "l": 9,
+  "n": "Amerika tələbələri üzərində alınan nəticə “insan təbiəti” kimi təqdim olunur."
+ },
+ {
+  "t": "Namus mədəniyyəti",
+  "d": "Şəxsi və ailə nüfuzunun müdafiəsinin davranışı güclü idarə etdiyi mədəniyyət.",
+  "c": "nefs",
+  "l": 9,
+  "n": "Dövlətin zəif olduğu çobanlıq bölgələrində təhqirə sərt cavab vermək insanın yeganə qoruyucusu olub.",
+  "en": "culture of honor"
+ },
+ {
+  "t": "İcra niyyəti",
+  "d": "Məqsədi “əgər X olsa, Y edəcəyəm” şəklində konkret plana çevirmək.",
+  "c": "nefs",
+  "l": 11,
+  "n": "“Daha çox oxuyacağam” əvəzinə “Hər axşam şam yeməyindən sonra 20 dəqiqə kitab oxuyacağam.”",
+  "en": "implementation intention"
+ },
+ {
+  "t": "Aldadıcı dizayn",
+  "d": "İstifadəçini istəmədiyi addıma yönəldən interfeys hiylələri.",
+  "c": "nefs",
+  "l": 13,
+  "n": "Abunəyə bir kliklə yazılmaq, ləğv etmək üçün isə on addım keçmək.",
+  "en": "dark patterns"
  }
 ]
